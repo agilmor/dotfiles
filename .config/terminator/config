@@ -1,0 +1,62 @@
+[global_config]
+  close_button_on_tab = False
+  tab_position = bottom
+  inactive_color_offset = 0.49
+  borderless = True
+[keybindings]
+  close_window = <Alt>O
+  group_tab = <Alt>O
+  move_tab_right = <Alt>O
+  resize_left = <Alt>O
+  reset_clear = <Alt>O
+  go_right = <Alt>O
+  new_tab = <Alt>O
+  resize_right = <Alt>O
+  resize_down = <Alt>O
+  toggle_zoom = <Alt>O
+  scaled_zoom = <Alt>O
+  zoom_in = <Alt>O
+  group_all = <Alt>O
+  full_screen = <Alt>O
+  prev_tab = <Alt>O
+  split_vert = <Alt>O
+  ungroup_all = <Alt>O
+  ungroup_tab = <Alt>O
+  zoom_out = <Alt>O
+  go_prev = <Alt>O
+  close_term = <Alt>O
+  new_terminator = <Alt>O
+  go_left = <Alt>O
+  hide_window = <Alt>O
+  reset = <Alt>O
+  search = <Alt>O
+  go_up = <Alt>O
+  resize_up = <Alt>O
+  next_tab = <Alt>O
+  split_horiz = <Alt>O
+  zoom_normal = <Alt>O
+  go_down = <Alt>O
+  new_window = <Alt>O
+  move_tab_left = <Alt>O
+  toggle_scrollbar = <Alt>O
+[profiles]
+  [[default]]
+    scrollbar_position = hidden
+    palette = "#000000:#aa0000:#00aa00:#aa5500:#0000aa:#aa00aa:#00aaaa:#aaaaaa:#555555:#ff5555:#55ff55:#ffff55:#5555ff:#ff55ff:#55ffff:#ffffff"
+    background_image = None
+    scrollback_lines = 1000
+    use_system_font = False
+    foreground_color = "#ffffff"
+    scroll_on_output = False
+    show_titlebar = False
+    font = Monospace 8
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+      profile = default
+    [[[window0]]]
+      type = Window
+      parent = ""
+[plugins]

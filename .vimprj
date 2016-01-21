@@ -1,0 +1,25 @@
+"
+" Project configuration
+"
+
+" Build: command to be run
+"set makeprg=scons\ all
+
+" Tags: used autocomplete and code search
+"set tags =.vimprj.tag
+"set tags+=/usr/local/include/boost/.tag
+
+" Paths: file search
+"set path =include
+"set path+=modules
+"set path+=.,/usr/local/include,/usr/include
+
+" Man: documentation
+"let $MANPATH='doc/man:'
+
+" Autocmds: actions to be done in background
+"let g:myvimprj = 'true' " this line is mandatory if you add commands
+"augroup myvimprj
+"  autocmd BufWritePost * :Dispatch!
+"  autocmd BufWritePost * :Start! ctags-exuberant -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ --tag-relative=no -f .vimprj.tag include/
+"augroup END
