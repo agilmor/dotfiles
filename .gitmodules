@@ -64,3 +64,6 @@
 [submodule "src/vim"]
 	path = src/vim
 	url = https://github.com/vim/vim.git
+[submodule "src/tmux"]
+	path = src/tmux
+	url = https://github.com/tmux/tmux.git
