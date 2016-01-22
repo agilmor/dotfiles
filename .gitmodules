@@ -61,3 +61,6 @@
 [submodule ".vim/bundle/vitra"]
 	path = .vim/bundle/vitra
 	url = https://github.com/vim-scripts/vitra.git
+[submodule "src/vim"]
+	path = src/vim
+	url = https://github.com/vim/vim.git
