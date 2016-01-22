@@ -1,3 +1,63 @@
 [submodule ".vim/bundle/Vundle.vim"]
 	path = .vim/bundle/Vundle.vim
 	url = https://github.com/VundleVim/Vundle.vim.git
+[submodule ".vim/bundle/Align"]
+	path = .vim/bundle/Align
+	url = https://github.com/vim-scripts/Align.git
+[submodule ".vim/bundle/DfrankUtil"]
+	path = .vim/bundle/DfrankUtil
+	url = https://github.com/vim-scripts/DfrankUtil.git
+[submodule ".vim/bundle/OmniCppComplete"]
+	path = .vim/bundle/OmniCppComplete
+	url = https://github.com/vim-scripts/OmniCppComplete.git
+[submodule ".vim/bundle/YankRing.vim"]
+	path = .vim/bundle/YankRing.vim
+	url = https://github.com/vim-scripts/YankRing.vim.git
+[submodule ".vim/bundle/bufexplorer.zip"]
+	path = .vim/bundle/bufexplorer.zip
+	url = https://github.com/vim-scripts/bufexplorer.zip.git
+[submodule ".vim/bundle/code_complete"]
+	path = .vim/bundle/code_complete
+	url = https://github.com/mbbill/code_complete.git
+[submodule ".vim/bundle/ctrlp.vim"]
+	path = .vim/bundle/ctrlp.vim
+	url = https://github.com/vim-scripts/ctrlp.vim.git
+[submodule ".vim/bundle/matchit.zip"]
+	path = .vim/bundle/matchit.zip
+	url = https://github.com/vim-scripts/matchit.zip.git
+[submodule ".vim/bundle/nerdtree"]
+	path = .vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule ".vim/bundle/open-pdf.vim"]
+	path = .vim/bundle/open-pdf.vim
+	url = https://github.com/rhysd/open-pdf.vim.git
+[submodule ".vim/bundle/tagbar"]
+	path = .vim/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar.git
+[submodule ".vim/bundle/tracwiki"]
+	path = .vim/bundle/tracwiki
+	url = https://github.com/vim-scripts/tracwiki.git
+[submodule ".vim/bundle/undotree"]
+	path = .vim/bundle/undotree
+	url = https://github.com/mbbill/undotree.git
+[submodule ".vim/bundle/vcscommand.vim"]
+	path = .vim/bundle/vcscommand.vim
+	url = https://github.com/vim-scripts/vcscommand.vim.git
+[submodule ".vim/bundle/vim-dispatch"]
+	path = .vim/bundle/vim-dispatch
+	url = https://github.com/tpope/vim-dispatch.git
+[submodule ".vim/bundle/vim-easymotion"]
+	path = .vim/bundle/vim-easymotion
+	url = https://github.com/easymotion/vim-easymotion.git
+[submodule ".vim/bundle/vim-signature"]
+	path = .vim/bundle/vim-signature
+	url = https://github.com/kshenoy/vim-signature.git
+[submodule ".vim/bundle/vim-togglelist"]
+	path = .vim/bundle/vim-togglelist
+	url = https://github.com/milkypostman/vim-togglelist.git
+[submodule ".vim/bundle/vimprj"]
+	path = .vim/bundle/vimprj
+	url = https://github.com/vim-scripts/vimprj.git
+[submodule ".vim/bundle/vitra"]
+	path = .vim/bundle/vitra
+	url = https://github.com/vim-scripts/vitra.git
