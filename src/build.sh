@@ -1,4 +1,6 @@
 install_dir=$HOME/usr
+jobs=4
+
 cd vim
 ./configure --prefix=$install_dir --enable-luainterp=yes     \
                                   --enable-perlinterp=yes    \
@@ -6,7 +8,19 @@ cd vim
                                   --enable-python3interp=yes \
                                   --enable-tclinterp=yes     \
                                   --enable-rubyinterp=yes    \
-                                  --enable-cscope            && make && make install
+                                  --enable-cscope            && make -j$jobs install
+cd ..
 
-cd ../tmux
-./configure --prefix=$install_dir && make && make install
+cd libevent
+sh autogen.sh && ./configure --prefix=$install_dir && make -j$jobs install
+cd ..
+
+cd tmux
+sh autogen.sh && CFLAGS="-I$HOME/usr/include" LDFLAGS="-L$HOME/usr/lib" ./configure --prefix=$install_dir && make -j$jobs install
+cd ..
+
+
+echo "Add these lines to your ~/.bashrc:"
+echo "export PATH=\$HOME/usr/bin:\$PATH"
+echo "export LD_LIBRARY_PATH=\$HOME/usr/lib:\$LD_LIBRARY_PATH"
+

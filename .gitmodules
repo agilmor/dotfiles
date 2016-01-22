@@ -67,3 +67,6 @@
 [submodule "src/tmux"]
 	path = src/tmux
 	url = https://github.com/tmux/tmux.git
+[submodule "src/libevent"]
+	path = src/libevent
+	url = https://github.com/libevent/libevent.git
