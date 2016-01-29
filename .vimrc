@@ -26,6 +26,9 @@ set autoindent                           " autoindent
 set foldmethod=syntax                    " use the syntax to decide folding 
 set nofoldenable                         " disable folding by default (using tagbar is much better)
 set pastetoggle=<F1>                     " remove all auto* features when pasting from X
+set scrolloff=15                         " to scroll before first/last line
+set sidescrolloff=10                     " to scroll before first/last character in a line
+set sidescroll=1                         " to scroll a signle character horizontally
 set wildmode=longest:list                " use cmdline completion (tab) as a normal shell completion
 set completeopt=menu,longest             " preview and menuone discarted
 set noswapfile                           " swap files are annoying for the "wds" and "wdg"" commands, they open a new vim instance.
@@ -199,13 +202,6 @@ let g:yankring_window_use_horiz    = 0  " Use vertical split
 let g:yankring_window_width        = 40
 let g:yankring_replace_n_pkey = '<nul>'
 let g:yankring_replace_n_nkey = '<nul>'
-nmap c,  :<C-U>YRReplace '-1', P<cr>
-nmap c.  :<C-U>YRReplace '+1', P<cr>
-nmap y,  :<C-U>YRReplace '-1', P<cr>
-nmap y.  :<C-U>YRReplace '+1', P<cr>
-nmap r,  :<C-U>YRReplace '-1', P<cr>
-nmap r.  :<C-U>YRReplace '+1', P<cr>
-nmap sy  :YRShow<cr>
 
 " to use longest completeopt with supertab
 "let g:SuperTabLongestEnhanced = 1
@@ -314,29 +310,33 @@ au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 
 function! Smart_TabComplete()
   let line = getline('.')                         " current line
-
-  let substr = strpart(line, -1, col('.')+1)      " from the start of the current
+  let substr = strpart(line, -1, col('.'))      " from the start of the current
                                                   " line to one character right
                                                   " of the cursor
+"  return substr
   let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
   if (strlen(substr)==0)                          " nothing to match on empty string
     return "\<tab>"
   endif
+  let has_word   = strlen(substr)      !=  0 
   let has_period = match(substr, '\.') != -1      " position of period, if any
   let has_slash  = match(substr, '\/') != -1      " position of slash, if any
   let has_parent = match(substr, '(')  != -1      " position of open parenthesis, if any
-  if (!has_period && !has_slash)
-    return "\<C-X>\<C-P>"                         " existing text matching
-  elseif ( has_slash )
-    return "\<C-X>\<C-F>"                         " file matching
-  else
-    if ( has_parent )
-"        return g:completekey                     " call code_complete for arguments
+  if (has_word)
+    if     ( has_period )
+      return "\<C-X>\<C-O>"                       " omni-complete
+    elseif ( has_slash )
+      return "\<C-X>\<C-F>"                       " file completion
+    elseif ( has_parent )
+"        return g:completekey                     " arguments completion (not working?)
 "        return "\<S-Tab>"
 "       call CodeComplete() 
+      return "\<tab>"                             
     else
-        return "\<C-X>\<C-O>"                     " plugin matching
+      return "\<C-X>\<C-P>"                       " existing text completion
     endif
+  else
+      return "\<tab>"                             " no-completion, just a tab
   endif
 endfunction
 
@@ -411,6 +411,8 @@ nmap <S-Left>         v<Left>
 nmap <S-Right>        v<Right>
 nmap <S-Home>         v<Home>
 nmap <S-End>          v<End>
+nmap <S-PageUp>       v<PageUp>
+nmap <S-PageDown>     v<PageDown>
 
 vmap <S-Up>            <Up>
 vmap <S-Down>          <Down>
@@ -442,8 +444,29 @@ imap <C-S-Down>  <Esc>v<C-Down>
 imap <C-S-Left>  <Esc>v<C-Left>
 imap <C-S-Right> <Esc>v<C-Right>
 
-"ctrl+arrows movements (/todo)
-nnoremap <C-Right> W
+" scrolling
+nnoremap <C-PageUp>    <C-Y>
+nnoremap <C-PageDown>  <C-E>
+
+"ctrl+arrows movements (http://stackoverflow.com/a/6528201/5349914)
+function! <SID>GotoPattern(pattern, dir) range
+    let g:_saved_search_reg = @/
+    let l:flags = "We"
+    if a:dir == "b"
+        let l:flags .= "b"
+    endif
+    for i in range(v:count1)
+        call search(a:pattern, l:flags)
+    endfor
+    let @/ = g:_saved_search_reg
+endfunction
+
+"nnoremap <C-Right> w
+"nnoremap <C-Left>  b
+nnoremap <silent> <C-Right> :<C-U>call <SID>GotoPattern('\(^\\|\<\)[A-Za-z0-9]', 'f')<cr>
+nnoremap <silent> <C-Left>  :<C-U>call <SID>GotoPattern('\(^\\|\<\)[A-Za-z0-9]', 'b')<cr>
+vnoremap <silent> <C-Right> :<C-U>let g:_saved_search_reg=@/<cr>gv/\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
+vnoremap <silent> <C-Left>  :<C-U>let g:_saved_search_reg=@/<cr>gv?\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
 
 " <Home> go to first character (^) (/todo)
 "t_kh <Home>      ^[[1;*H
@@ -460,6 +483,7 @@ nnoremap <Delete>            i<Delete>
 "nnoremap <Return>            i<Return><Esc>
 "unmap    <Return>
 nnoremap <C-o>               o<Esc>
+"nnoremap <S-Return>          o<Esc>
 "nnoremap <C-S-o>             O<Esc>
 vnoremap <Backspace> <Delete>i
 vnoremap <Space>     <Delete>i<Space>
@@ -482,10 +506,11 @@ nnoremap <S-Tab>     <<
 "
 
 " highlight and special characters toggle
-nmap       <C-h>      :set hls!<cr>
-nmap       hh         :set hls!<cr>
+map        <C-h>      :set hls!<cr>
+map        hh         :set hls!<cr>
 nnoremap   i          :nohl<cr>i
-nnoremap   /          :set hls<cr>/
+"nnoremap   /          :set hls<cr>/
+nnoremap   /          /
 noremap    <F2>       :set list!<cr>
 
 " windows & tabs
@@ -535,14 +560,16 @@ noremap    s<PageDown> G
 noremap    sn          %
 map        sl          <Plug>(easymotion-lineanywhere)
 map        sa          <Plug>(easymotion-jumptoanywhere)
-noremap    sc          `]
-noremap    scc         `]
-noremap    sc<Up>      `[
-noremap    sc<Left>    `[
-noremap    sc<Down>    `]
-noremap    sc<Right>   `]
-noremap    sc,         g;
-noremap    sc.         g,
+" improving paste
+nmap       sy          :YRShow<cr>
+nmap       y,          :<C-U>YRReplace '-1', P<cr>
+nmap       y.          :<C-U>YRReplace '+1', P<cr>
+noremap    y<Left>     `[
+noremap    y<Right>    `]
+" changes
+noremap    sc          :changes<cr>
+noremap    c,          g;
+noremap    c.          g,
 "map        sn          <Plug>(easymotion-next)
 "map        sm          <Plug>(easymotion-prev)
 " marks
@@ -580,25 +607,18 @@ noremap    rd         "rd
 noremap    rp         "rp
 noremap    rP         "rP
 " tags/links
-noremap    sl         :tag 
-nnoremap   sll        <C-]>
-noremap    swl        :vert stag 
+noremap    sl         :tjump /<C-r><C-w><cr>
+noremap    sll        <C-]>
+noremap    swl        :vert :stjump /<C-r><C-w><cr>
 noremap    swll       :vsplit<cr><C-]>
 "noremap    stt        g<C-]>
-noremap    sl,        :tprev<cr>
-noremap    sl.        :tnext<cr>
 noremap    l,         :tprev<cr>
 noremap    l.         :tnext<cr>
-nnoremap   l           <C-]>
-nnoremap   wl          :vsplit<cr><C-]>
+noremap    l           <C-]>
+noremap    ll          <C-]>
+noremap    wl         :vsplit<cr><C-]>
 
-" to go to the end of a pasted text (maybe its better to use normal paste and `] when really needed?)
-"nnoremap   p          gp
-"vnoremap   p          gp
-"nnoremap   P          gP
-"vnoremap   P          gP
-"nnoremap   gp         `[
-
+ 
 " Folding
 nnoremap   zz         :set foldenable!<cr>
 
@@ -610,6 +630,8 @@ nnoremap   <C-u>      U
 "nnoremap   v          V
 "nnoremap   V          v
 
+" shortcuts in insert mode
+inoremap <C-n>        <C-o>n
 
 " diff mappings
 " just for current file
@@ -648,6 +670,10 @@ vnoremap r "
 imap     <C-a>           <C-x><C-o>
 "imap     <C-a>           <C-r>=CodeComplete()<cr><C-r>=SwitchRegion()<cr>
 "imap     <C-a>           <C-r>=CodeComplete()<cr>
+
+" switching to normal mode (<C-k>)
+set cedit=<C-k>
+inoremap <C-k>  <C-o>
 
 "
 " Switching header / source / test
@@ -779,6 +805,7 @@ nnoremap wn    :call NumberToggle()<cr>
 " - move to the end of paste -> done with gp
 " - ifdef
 " - folding -> outline/tagbar is better
+" - https://github.com/jimeh/tmuxifier
 " NOTES:
 " - build in background (using tmux) (vim dispatch)
 " - autocomments -> formatoptions
@@ -808,6 +835,7 @@ nnoremap wn    :call NumberToggle()<cr>
 " - ctags < cscope < gtags 
 " - integration with R Vim-R-plugin
 " - neovim
+" - vimcasts.org
 "
 "
 "
