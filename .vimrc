@@ -36,6 +36,7 @@ set autoread                             " file is reloaded if changed in a cmdl
 set undofile                             " for persistent undo
 set nolist                               " to show special characters (F2)
 set listchars=tab:>·,trail:·,eol:·       " special characters
+set whichwrap=b,s,<,>,[,]                " to move line up/down with left/right at the begin/end of a line
 set backupdir=~/.vim/tmp/
 set directory=~/.vim/tmp/
 set undodir=~/.vim/tmp/
@@ -243,6 +244,7 @@ let g:yankring_replace_n_nkey = '<nul>'
 "
 let g:vimprj_changeCurDirIfVimprjFound = 1
 "let g:vimprj_dirNameForSearch = '.project.vim'
+let g:cpp_header_ext='hpp'
 function! <SID>SetMainDefaults()
  
     set softtabstop=4
@@ -253,7 +255,8 @@ function! <SID>SetMainDefaults()
     set formatoptions=ronj      " auto create comment characters/leaders
 
     set path=.,/usr/local/include,/usr/include
-    set makeprg=make 
+    compiler gcc
+    let g:cpp_header_ext='hpp'
 
     if exists("b:dispatch")
         unlet b:dispatch
@@ -684,9 +687,11 @@ inoremap <C-k>  <C-o>
 "au BufRead,BufNewFile *.hpp 		nmap  st :exe 'tag '.expand('%:t:r').'.test'<cr>
 "au BufRead,BufNewFile *.test 		nmap  st :exe 'tag '.expand('%:t:r').'.hpp'<cr>
 
+au BufRead,BufNewFile *.h   		nmap  sh :find %:t:r.cpp<cr>
 au BufRead,BufNewFile *.hpp 		nmap  sh :find %:t:r.cpp<cr>
-au BufRead,BufNewFile *.cpp 		nmap  sh :find %:t:r.hpp<cr>
+au BufRead,BufNewFile *.cpp 		nmap  sh :find %:t:r.<c-r>=g:cpp_header_ext<cr><cr>
 
+au BufRead,BufNewFile *.h   		nmap  st :find %:t:r.test<cr>
 au BufRead,BufNewFile *.hpp 		nmap  st :find %:t:r.test<cr>
 au BufRead,BufNewFile *.test 		nmap  st :find %:t:r.hpp<cr>
 
@@ -709,6 +714,7 @@ let s:comment_map = {
     \   "ruby": '#',
     \   "conf": '#',
     \   "sh": '#',
+    \   "make": '#',
     \   "vim": '"',
     \ }
 
