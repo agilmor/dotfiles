@@ -326,10 +326,10 @@ function! Smart_TabComplete()
   let has_slash  = match(substr, '\/') != -1      " position of slash, if any
   let has_parent = match(substr, '(')  != -1      " position of open parenthesis, if any
   if (has_word)
-    if     ( has_period )
-      return "\<C-X>\<C-O>"                       " omni-complete
-    elseif ( has_slash )
+    if     ( has_slash )
       return "\<C-X>\<C-F>"                       " file completion
+    elseif ( has_period )
+      return "\<C-X>\<C-O>"                       " omni-complete
     elseif ( has_parent )
 "        return g:completekey                     " arguments completion (not working?)
 "        return "\<S-Tab>"
