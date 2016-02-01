@@ -600,13 +600,17 @@ nnoremap   sb         :BufExplorer<cr>
 noremap    sp         :vspl .vimprj<cr>
 noremap    svim       :vspl ~/.vimrc<cr>
 "set wildignore+=*/.git/*,*/.hg/*,*/.svn/*        " Linux/MacOSX
+noremap    <F5>       :source .vimprj<cr>
+noremap    <F6>       :source ~/.vimrc<cr>
 
 " undotree
 nnoremap   su         :UndotreeToggle<cr>
 " registers
 noremap    sr         :registers<cr>
 noremap    ry         "ry
-noremap    rd         "rd
+"unmap      rd
+"noremap    rd         "rd
+
 noremap    rp         "rp
 noremap    rP         "rP
 " tags/links
@@ -670,7 +674,8 @@ nnoremap r "
 vnoremap r "
 
 " autocomplete
-imap     <C-a>           <C-x><C-o>
+"unmap     <C-a>
+"imap     <C-a>           <C-x><C-o>
 "imap     <C-a>           <C-r>=CodeComplete()<cr><C-r>=SwitchRegion()<cr>
 "imap     <C-a>           <C-r>=CodeComplete()<cr>
 
@@ -690,9 +695,11 @@ inoremap <C-k>  <C-o>
 au BufRead,BufNewFile *.h   		nmap  sh :find %:t:r.cpp<cr>
 au BufRead,BufNewFile *.hpp 		nmap  sh :find %:t:r.cpp<cr>
 au BufRead,BufNewFile *.cpp 		nmap  sh :find %:t:r.<c-r>=g:cpp_header_ext<cr><cr>
+au BufRead,BufNewFile *.test 		nmap  sh :find %:t:r.<c-r>=g:cpp_header_ext<cr><cr>
 
 au BufRead,BufNewFile *.h   		nmap  st :find %:t:r.test<cr>
 au BufRead,BufNewFile *.hpp 		nmap  st :find %:t:r.test<cr>
+au BufRead,BufNewFile *.cpp 		nmap  st :find %:t:r.test<cr>
 au BufRead,BufNewFile *.test 		nmap  st :find %:t:r.hpp<cr>
 
 " Paste from clipboard not working
