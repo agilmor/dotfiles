@@ -11,6 +11,7 @@ set ruler                                " show the cursor position all the time
 set showcmd                              " show still incomplete cmdline (eg. commands in visual mode)
 set incsearch                            " show first match while typing the pattern
 set mouse=a                              " use mouse
+set ttymouse=sgr                         " to be able to use mouse on vim borders when vim is run over tmux
 set nowrap                               " avoid wrapping
 set virtualedit=onemore                  " really go to EOL (see "Cursor Position" to avoid moving left when leaving insert mode)
 set splitright                           " vsplit on right
