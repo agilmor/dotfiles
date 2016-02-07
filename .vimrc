@@ -126,6 +126,8 @@ Plugin 'kshenoy/vim-signature'       " tu visualitze marks (m?)
 "Plugin 'bling/vim-airline'          " too fancy for me? I'll give it a second chance in a while
 Plugin 'vim-scripts/YankRing.vim'
 
+Plugin 'blueyed/vim-diminactive'     " to dim the inactive window
+
 call vundle#end()                  " required
 filetype plugin indent on          " restoring
 "filetype plugin on                " To ignore plugin indent changes
