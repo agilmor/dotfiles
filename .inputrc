@@ -1,0 +1,4 @@
+$include /etc/inputrc
+
+#set editing-mode vi
+"\C-e": "\C-x\C-e"
