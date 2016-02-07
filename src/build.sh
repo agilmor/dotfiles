@@ -16,7 +16,7 @@ sh autogen.sh && ./configure --prefix=$install_dir && make -j$jobs install
 cd ..
 
 cd tmux
-sh autogen.sh && CFLAGS="-I$HOME/usr/include" LDFLAGS="-L$HOME/usr/lib" ./configure --prefix=$install_dir && make -j$jobs install
+patch -p1 < ../select-zoomed.patch && sh autogen.sh && CFLAGS="-I$HOME/usr/include" LDFLAGS="-L$HOME/usr/lib" ./configure --prefix=$install_dir && make -j$jobs install
 cd ..
 
 
