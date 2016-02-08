@@ -2,3 +2,5 @@ $include /etc/inputrc
 
 #set editing-mode vi
 "\C-e": "\C-x\C-e"
+"\e[1;6C": kill-word
+"\e[1;6D": backward-kill-word
