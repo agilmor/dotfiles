@@ -73,3 +73,6 @@
 [submodule ".vim/bundle/vim-diminactive"]
 	path = .vim/bundle/vim-diminactive
 	url = https://github.com/blueyed/vim-diminactive.git
+[submodule ".vim/bundle/ZoomWin"]
+	path = .vim/bundle/ZoomWin
+	url = https://github.com/vim-scripts/ZoomWin.git

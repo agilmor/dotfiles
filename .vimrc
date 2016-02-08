@@ -21,7 +21,7 @@ set laststatus=2                         " always see the status bar (see "Color
 set showtabline=2                        " always see the tab bar (see "Coloring" to use the bar to highlight the current mode)
 set textwidth=90                         " desired width limit
 set colorcolumn=+1                       " to see a line to the text limit (see "Coloring", line must be almost non visible)
-let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting colum (how to use textwidth var?)
+"let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting colum (how to use textwidth var?)
 set nocursorline nocursorcolumn          " cursor colum and line non visible by default
 set autoindent                           " autoindent
 set foldmethod=syntax                    " use the syntax to decide folding 
@@ -128,6 +128,7 @@ Plugin 'kshenoy/vim-signature'       " tu visualitze marks (m?)
 Plugin 'vim-scripts/YankRing.vim'
 
 Plugin 'blueyed/vim-diminactive'     " to dim the inactive window
+Plugin 'vim-scripts/ZoomWin'         " to zoom in/out a window
 
 call vundle#end()                  " required
 filetype plugin indent on          " restoring
@@ -531,7 +532,8 @@ nnoremap   w          <C-w>
 nnoremap   w,         <C-w><Left>
 nnoremap   w.         <C-w><Right>
 "nnoremap   ww         <C-w><Bar>
-nnoremap   ww         :tab split<cr>
+"nnoremap   ww         :tab split<cr>
+nnoremap   ww         :ZoomWin<cr>
 nnoremap   w<C-Right> :vertical resize +20<cr>
 nnoremap   w<C-Left>  :vertical resize -20<cr>
 nnoremap   w<C-Up>    :resize          +10<cr>
