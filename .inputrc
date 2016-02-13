@@ -4,3 +4,5 @@ $include /etc/inputrc
 "\C-e": "\C-x\C-e"
 "\e[1;6C": kill-word
 "\e[1;6D": backward-kill-word
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
