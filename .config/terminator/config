@@ -4,41 +4,45 @@
   inactive_color_offset = 0.49
   borderless = True
 [keybindings]
-  close_window = <Alt>O
-  group_tab = <Alt>O
-  move_tab_right = <Alt>O
-  resize_left = <Alt>O
-  reset_clear = <Alt>O
-  go_right = <Alt>O
-  new_tab = <Alt>O
-  resize_right = <Alt>O
-  resize_down = <Alt>O
-  toggle_zoom = <Alt>O
-  scaled_zoom = <Alt>O
-  zoom_in = <Alt>O
-  group_all = <Alt>O
-  full_screen = <Alt>O
-  prev_tab = <Alt>O
-  split_vert = <Alt>O
-  ungroup_all = <Alt>O
-  ungroup_tab = <Alt>O
-  zoom_out = <Alt>O
-  go_prev = <Alt>O
-  close_term = <Alt>O
-  new_terminator = <Alt>O
-  go_left = <Alt>O
-  hide_window = <Alt>O
-  reset = <Alt>O
-  search = <Alt>O
-  go_up = <Alt>O
-  resize_up = <Alt>O
-  next_tab = <Alt>O
-  split_horiz = <Alt>O
-  zoom_normal = <Alt>O
-  go_down = <Alt>O
-  new_window = <Alt>O
-  move_tab_left = <Alt>O
-  toggle_scrollbar = <Alt>O
+  close_window = Disabled
+  group_tab = Disabled
+  move_tab_right = Disabled
+  resize_left = Disabled
+  reset_clear = Disabled
+  go_right = Disabled
+  new_tab = Disabled
+  resize_right = Disabled
+  resize_down = Disabled
+  toggle_zoom = Disabled
+  scaled_zoom = Disabled
+  zoom_in = Disabled
+  group_all = Disabled
+  full_screen = Disabled
+  prev_tab = Disabled
+  split_vert = Disabled
+  ungroup_all = Disabled
+  ungroup_tab = Disabled
+  zoom_out = Disabled
+  go_prev = Disabled
+  close_term = Disabled
+  new_terminator = Disabled
+  go_left = Disabled
+  hide_window = Disabled
+  reset = Disabled
+  search = Disabled
+  go_up = Disabled
+  resize_up = Disabled
+  next_tab = Disabled
+  split_horiz = Disabled
+  zoom_normal = Disabled
+  go_down = Disabled
+  new_window = Disabled
+  move_tab_left = Disabled
+  toggle_scrollbar = Disabled
+  copy_selected_text = Disabled
+  cycle_next = Disabled
+  cycle_prev = Disabled
+  rotate_ccw = Disabled
 [profiles]
   [[default]]
     scrollbar_position = hidden
@@ -52,13 +56,4 @@
     scroll_on_output = False
     show_titlebar = False
     font = Monospace 8
-[layouts]
-  [[default]]
-    [[[child1]]]
-      type = Terminal
-      parent = window0
-      profile = default
-    [[[window0]]]
-      type = Window
-      parent = ""
 [plugins]
