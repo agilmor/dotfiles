@@ -19,7 +19,7 @@ set splitbelow                           " split below
 set autowrite                            " automatically save changes (build without save)
 set laststatus=2                         " always see the status bar (see "Coloring" to use the bar to highlight the current mode)
 set showtabline=2                        " always see the tab bar (see "Coloring" to use the bar to highlight the current mode)
-set textwidth=90                         " desired width limit
+set textwidth=120                         " desired width limit
 set colorcolumn=+1                       " to see a line to the text limit (see "Coloring", line must be almost non visible)
 "let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting colum (how to use textwidth var?)
 set nocursorline nocursorcolumn          " cursor colum and line non visible by default
@@ -707,9 +707,10 @@ au BufRead,BufNewFile *.hpp 		nmap  st :find %:t:r.test<cr>
 au BufRead,BufNewFile *.cpp 		nmap  st :find %:t:r.test<cr>
 au BufRead,BufNewFile *.test 		nmap  st :find %:t:r.hpp<cr>
 
-" Paste from clipboard not working
+" Direct paste from clipboard not working
 "nnoremap cp "*p 
 "set clipboard=unnamedplus " conflict with YankRing?
+set clipboard+=unnamed
 
 "
 " Commenting blocks of code
