@@ -1,8 +1,41 @@
 $include /etc/inputrc
 
-#set editing-mode vi
-"\C-e": "\C-x\C-e"
+# reload config
+"\e[15~":   re-read-init-file
+"\C-x\C-r": re-read-init-file
+
+# using / enter vi mode
+set editing-mode vi
+"\C-e": edit-and-execute-command
+"\ee":  edit-and-execute-command
+"\ev":  edit-and-execute-command
+#"\M-a": "\C-x\C-e" # \M not working?
+
+# use ctrl-arrow to move and delete
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
 "\e[1;6C": kill-word
 "\e[1;6D": backward-kill-word
-"\e[1~": beginning-of-line
-"\e[4~": end-of-line
+# use home/end to move and delete
+"\e[1~":   beginning-of-line
+"\e[4~":   end-of-line
+"\e[1;2F": kill-line
+"\e[1;2H": backward-kill-line
+# commands (see http://www.catonmat.net/download/bash-vi-editing-mode-cheat-sheet.pdf)
+#"\eu": undo
+#"\C-p": yank-nth-arg
+#"\C-p": vi-yank-arg
+
+# expand previous arguments:
+"\e\C-i":     shell-expand-line
+# !           expand keyword
+# :           expand separator
+# 0           first word
+# $           last word
+# i-j         words from i to j ($ can be used)
+# *           all except the first (!* also works) (equivalent to !:1-$)
+# s/foo/bar/  one time substitution 'foo' by 'bar'
+# gs/foo/bar/ substitute 'foo' by 'bar'
+# & or g&     repeat last substitution
+# p           only print
+#
