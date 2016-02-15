@@ -15,7 +15,7 @@ if ! shopt -oq posix; then
 fi
 
 # to change caps lock                                                                                                                                                                 │··················································
-xmodmap ~/.xmodmap
+#xmodmap ~/.xmodmap
 
 # -ixon -ixoff: remove XON/OFF to release Ctrl-s and Ctrl-q
 # -ctlecho:     to remove echo of Ctrl-c (^C)
