@@ -10,6 +10,7 @@ set editing-mode vi
 "\ee":  edit-and-execute-command
 "\ev":  edit-and-execute-command
 #"\M-a": "\C-x\C-e" # \M not working?
+"\C-l": clear-screen
 
 # use ctrl-arrow to move and delete
 "\e[1;5C": forward-word
@@ -39,3 +40,14 @@ set editing-mode vi
 # & or g&     repeat last substitution
 # p           only print
 #
+
+# Vi mode
+$if mode=vi
+    set keymap vi-command
+        # these are for vi-command mode
+        #Control-l: clear-screen
+
+    set keymap vi-insert
+        # these are for vi-insert mode
+        #Control-l: clear-screen 
+$endif
