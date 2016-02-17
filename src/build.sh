@@ -8,7 +8,8 @@ cd vim
                                   --enable-python3interp=yes \
                                   --enable-tclinterp=yes     \
                                   --enable-rubyinterp=yes    \
-                                  --enable-cscope            && make -j$jobs install
+                                  --enable-cscope            \
+                                  --with-features=huge       && make -j$jobs install
 cd ..
 
 cd libevent
