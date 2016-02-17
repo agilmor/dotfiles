@@ -483,6 +483,39 @@ nnoremap <silent> <C-Left>  :<C-U>call <SID>GotoPattern('\(^\\|\<\)[A-Za-z0-9]',
 vnoremap <silent> <C-Right> :<C-U>let g:_saved_search_reg=@/<cr>gv/\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
 vnoremap <silent> <C-Left>  :<C-U>let g:_saved_search_reg=@/<cr>gv?\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
 
+
+" Manage indents as objects
+onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
+onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
+vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
+vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
+
+function! s:IndTxtObj(inner)
+  let curline = line(".")
+  let lastline = line("$")
+  let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
+  let i = i < 0 ? 0 : i
+  if getline(".") !~ "^\\s*$"
+    let p = line(".") - 1
+    let nextblank = getline(p) =~ "^\\s*$"
+    while p > 0 && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+      -
+      let p = line(".") - 1
+      let nextblank = getline(p) =~ "^\\s*$"
+    endwhile
+    normal! 0V
+    call cursor(curline, 0)
+    let p = line(".") + 1
+    let nextblank = getline(p) =~ "^\\s*$"
+    while p <= lastline && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+      +
+      let p = line(".") + 1
+      let nextblank = getline(p) =~ "^\\s*$"
+    endwhile
+    normal! $
+  endif
+endfunction
+
 " <Home> go to first character (^) (/todo)
 "t_kh <Home>      ^[[1;*H
 nmap <Home> ^
@@ -562,11 +595,12 @@ nnoremap   wt         :tab split<cr>
 " Find (easymotion)
 map        f           <Plug>(easymotion-sn)
 map        ff          <Plug>(easymotion-sn)
+map        ss          <Plug>(easymotion-sn)
 map        fl          <Plug>(easymotion-lineanywhere)
 map        fa          <Plug>(easymotion-jumptoanywhere)
 map        sa          <Plug>(easymotion-jumptoanywhere)
-nmap       fwl         <Plug>(easymotion-overwin-line)
-nmap       fwa         <Plug>(easymotion-overwin-w)
+nmap       fwl         :DimInactiveOff<cr><Plug>(easymotion-overwin-line)
+nmap       fwa         :DimInactiveOff<cr><Plug>(easymotion-overwin-w)
 map        f,          <Plug>(easymotion-prev)
 map        f.          <Plug>(easymotion-next)
 
@@ -758,8 +792,8 @@ function! ToggleComment()
         echo "No comment leader found for filetype"
     end
 endfunction
-nmap cc :call ToggleComment()<cr>
-vmap cc :call ToggleComment()<cr>
+nmap cm :call ToggleComment()<cr>
+vmap cm :call ToggleComment()<cr>
 
 " passwds
 if filereadable(glob('~/.vimrc.pass'))
