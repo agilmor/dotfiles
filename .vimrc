@@ -127,6 +127,9 @@ Plugin 'kshenoy/vim-signature'       " tu visualitze marks (m?)
 "Plugin 'bling/vim-airline'          " too fancy for me? I'll give it a second chance in a while
 Plugin 'vim-scripts/YankRing.vim'
 
+" Languages
+Plugin 'ekalinin/Dockerfile.vim'     " dockerfile syntax
+
 Plugin 'blueyed/vim-diminactive'     " to dim the inactive window
 Plugin 'vim-scripts/ZoomWin'         " to zoom in/out a window
 
@@ -728,6 +731,7 @@ let s:comment_map = {
     \   "conf": '#',
     \   "sh": '#',
     \   "make": '#',
+    \   "Dockerfile": '#',
     \   "vim": '"',
     \ }
 
