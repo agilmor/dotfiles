@@ -397,6 +397,14 @@ if &t_Co > 2 || has("gui_running")  " Switch syntax highlighting on, when the te
     au InsertLeave * hi TabLineFill term=reverse ctermbg=Black ctermfg=White 
     au InsertLeave * hi TabLineSel  term=reverse ctermbg=Black ctermfg=White 
     au InsertLeave * hi Title       term=reverse ctermbg=Black ctermfg=White 
+
+
+"    hi link EasyMotionTarget        ErrorMsg
+"    hi link EasyMotionShade         Comment
+"    hi link EasyMotionTarget2First  MatchParen
+"    hi link EasyMotionTarget2Second MatchParen
+    hi link EasyMotionMoveHL        Search
+    
 endif
 
 "
@@ -551,9 +559,18 @@ nnoremap   -          :spl<cr>
 nnoremap   ts         :tab split<cr>
 nnoremap   wt         :tab split<cr>
 
-" Motions ("see" commands)
-map        s           :set hls<cr><Plug>(easymotion-sn)
-map        ss          :set hls<cr><Plug>(easymotion-sn)
+" Find (easymotion)
+map        f           <Plug>(easymotion-sn)
+map        ff          <Plug>(easymotion-sn)
+map        fl          <Plug>(easymotion-lineanywhere)
+map        fa          <Plug>(easymotion-jumptoanywhere)
+map        sa          <Plug>(easymotion-jumptoanywhere)
+nmap       fwl         <Plug>(easymotion-overwin-line)
+nmap       fwa         <Plug>(easymotion-overwin-w)
+map        f,          <Plug>(easymotion-prev)
+map        f.          <Plug>(easymotion-next)
+
+" See movements
 noremap    sf          gf
 noremap    stf         <C-w>gf
 noremap    svf         :vertical wincmd f<cr>
@@ -566,8 +583,6 @@ map        s<Down>     <Plug>(easymotion-j)
 noremap    s<PageUp>   gg
 noremap    s<PageDown> G
 noremap    sn          %
-map        sl          <Plug>(easymotion-lineanywhere)
-map        sa          <Plug>(easymotion-jumptoanywhere)
 " improving paste
 nmap       sy          :YRShow<cr>
 nmap       y,          :<C-U>YRReplace '-1', P<cr>
@@ -578,8 +593,6 @@ noremap    y<Right>    `]
 noremap    sc          :changes<cr>
 noremap    c,          g;
 noremap    c.          g,
-"map        sn          <Plug>(easymotion-next)
-"map        sm          <Plug>(easymotion-prev)
 " marks
 map        sm          `
 "map        smm         :SignatureToggleSigns<cr>
