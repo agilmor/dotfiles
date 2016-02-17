@@ -400,6 +400,14 @@ if &t_Co > 2 || has("gui_running")  " Switch syntax highlighting on, when the te
     au InsertLeave * hi TabLineFill term=reverse ctermbg=Black ctermfg=White 
     au InsertLeave * hi TabLineSel  term=reverse ctermbg=Black ctermfg=White 
     au InsertLeave * hi Title       term=reverse ctermbg=Black ctermfg=White 
+
+
+"    hi link EasyMotionTarget        ErrorMsg
+"    hi link EasyMotionShade         Comment
+"    hi link EasyMotionTarget2First  MatchParen
+"    hi link EasyMotionTarget2Second MatchParen
+    hi link EasyMotionMoveHL        Search
+    
 endif
 
 "
@@ -478,6 +486,39 @@ nnoremap <silent> <C-Left>  :<C-U>call <SID>GotoPattern('\(^\\|\<\)[A-Za-z0-9]',
 vnoremap <silent> <C-Right> :<C-U>let g:_saved_search_reg=@/<cr>gv/\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
 vnoremap <silent> <C-Left>  :<C-U>let g:_saved_search_reg=@/<cr>gv?\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
 
+
+" Manage indents as objects
+onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
+onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
+vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
+vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
+
+function! s:IndTxtObj(inner)
+  let curline = line(".")
+  let lastline = line("$")
+  let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
+  let i = i < 0 ? 0 : i
+  if getline(".") !~ "^\\s*$"
+    let p = line(".") - 1
+    let nextblank = getline(p) =~ "^\\s*$"
+    while p > 0 && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+      -
+      let p = line(".") - 1
+      let nextblank = getline(p) =~ "^\\s*$"
+    endwhile
+    normal! 0V
+    call cursor(curline, 0)
+    let p = line(".") + 1
+    let nextblank = getline(p) =~ "^\\s*$"
+    while p <= lastline && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+      +
+      let p = line(".") + 1
+      let nextblank = getline(p) =~ "^\\s*$"
+    endwhile
+    normal! $
+  endif
+endfunction
+
 " <Home> go to first character (^) (/todo)
 "t_kh <Home>      ^[[1;*H
 nmap <Home> ^
@@ -554,9 +595,19 @@ nnoremap   -          :spl<cr>
 nnoremap   ts         :tab split<cr>
 nnoremap   wt         :tab split<cr>
 
-" Motions ("see" commands)
-map        s           :set hls<cr><Plug>(easymotion-sn)
-map        ss          :set hls<cr><Plug>(easymotion-sn)
+" Find (easymotion)
+map        f           <Plug>(easymotion-sn)
+map        ff          <Plug>(easymotion-sn)
+map        ss          <Plug>(easymotion-sn)
+map        fl          <Plug>(easymotion-lineanywhere)
+map        fa          <Plug>(easymotion-jumptoanywhere)
+map        sa          <Plug>(easymotion-jumptoanywhere)
+nmap       fwl         :DimInactiveOff<cr><Plug>(easymotion-overwin-line)
+nmap       fwa         :DimInactiveOff<cr><Plug>(easymotion-overwin-w)
+map        f,          <Plug>(easymotion-prev)
+map        f.          <Plug>(easymotion-next)
+
+" See movements
 noremap    sf          gf
 noremap    stf         <C-w>gf
 noremap    svf         :vertical wincmd f<cr>
@@ -569,8 +620,6 @@ map        s<Down>     <Plug>(easymotion-j)
 noremap    s<PageUp>   gg
 noremap    s<PageDown> G
 noremap    sn          %
-map        sl          <Plug>(easymotion-lineanywhere)
-map        sa          <Plug>(easymotion-jumptoanywhere)
 " improving paste
 nmap       sy          :YRShow<cr>
 nmap       y,          :<C-U>YRReplace '-1', P<cr>
@@ -581,8 +630,6 @@ noremap    y<Right>    `]
 noremap    sc          :changes<cr>
 noremap    c,          g;
 noremap    c.          g,
-"map        sn          <Plug>(easymotion-next)
-"map        sm          <Plug>(easymotion-prev)
 " marks
 map        sm          `
 "map        smm         :SignatureToggleSigns<cr>
@@ -749,8 +796,8 @@ function! ToggleComment()
         echo "No comment leader found for filetype"
     end
 endfunction
-nmap cc :call ToggleComment()<cr>
-vmap cc :call ToggleComment()<cr>
+nmap cm :call ToggleComment()<cr>
+vmap cm :call ToggleComment()<cr>
 
 " passwds
 if filereadable(glob('~/.vimrc.pass'))
