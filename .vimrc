@@ -4,6 +4,7 @@
 set nocompatible                         " Use Vim settings, rather than Vi settings (much better!).
                                          " This must be first, because it changes other options as a side effect.
 
+set encoding=utf-8                       " to avoid problems woth listchars
 set backspace=indent,eol,start           " allow backspacing over everything in insert mode
 set backup                               " keep a backup file
 set history=100                          " keep 100 lines of command line history
@@ -576,8 +577,8 @@ nnoremap   w          <C-w>
 nnoremap   w,         <C-w><Left>
 nnoremap   w.         <C-w><Right>
 "nnoremap   ww         <C-w><Bar>
-"nnoremap   ww         :tab split<cr>
-nnoremap   ww         :ZoomWin<cr>
+nnoremap   ww         :tab split<cr>
+"nnoremap   ww         :ZoomWin<cr>
 nnoremap   w<C-Right> :vertical resize +20<cr>
 nnoremap   w<C-Left>  :vertical resize -20<cr>
 nnoremap   w<C-Up>    :resize          +10<cr>
@@ -595,7 +596,7 @@ nnoremap   -          :spl<cr>
 nnoremap   ts         :tab split<cr>
 nnoremap   wt         :tab split<cr>
 
-" Find (easymotion)
+" Easymotions
 map        f           <Plug>(easymotion-sn)
 map        ff          <Plug>(easymotion-sn)
 map        ss          <Plug>(easymotion-sn)
@@ -606,6 +607,43 @@ nmap       fwl         :DimInactiveOff<cr><Plug>(easymotion-overwin-line)
 nmap       fwa         :DimInactiveOff<cr><Plug>(easymotion-overwin-w)
 map        f,          <Plug>(easymotion-prev)
 map        f.          <Plug>(easymotion-next)
+map        f<Up>       <Plug>(easymotion-k)
+map        f<Down>     <Plug>(easymotion-j)
+map        f<Right>    <Plug>(easymotion-lineforward)
+map        f<Left>     <Plug>(easymotion-linebackward)
+
+nmap       yf          y<Plug>(easymotion-sn)
+nmap       yl          y<Plug>(easymotion-lineanywhere)
+nmap       ya          y<Plug>(easymotion-jumptoanywhere)
+map        y<Up>       y<Plug>(easymotion-k)
+map        y<Down>     y<Plug>(easymotion-j)
+map        y<Right>    y<Plug>(easymotion-lineforward)
+map        y<Left>     y<Plug>(easymotion-linebackward)
+
+nmap       df          d<Plug>(easymotion-sn)
+nmap       dl          d<Plug>(easymotion-lineanywhere)
+nmap       da          d<Plug>(easymotion-jumptoanywhere)
+map        d<Up>       d<Plug>(easymotion-k)
+map        d<Down>     d<Plug>(easymotion-j)
+map        d<Right>    d<Plug>(easymotion-lineforward)
+map        d<Left>     d<Plug>(easymotion-linebackward)
+
+nmap       cf          c<Plug>(easymotion-sn)
+nmap       cl          c<Plug>(easymotion-lineanywhere)
+nmap       ca          c<Plug>(easymotion-jumptoanywhere)
+map        c<Up>       c<Plug>(easymotion-k)
+map        c<Down>     c<Plug>(easymotion-j)
+map        c<Right>    c<Plug>(easymotion-lineforward)
+map        c<Left>     c<Plug>(easymotion-linebackward)
+
+nmap       vf          v<Plug>(easymotion-sn)
+nmap       vl          v<Plug>(easymotion-lineanywhere)
+nmap       va          v<Plug>(easymotion-jumptoanywhere)
+map        v<Up>       v<Plug>(easymotion-k)
+map        v<Down>     v<Plug>(easymotion-j)
+map        v<Right>    v<Plug>(easymotion-lineforward)
+map        v<Left>     v<Plug>(easymotion-linebackward)
+
 
 " See movements
 noremap    sf          gf
