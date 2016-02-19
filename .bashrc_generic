@@ -25,3 +25,6 @@ stty -ixon -ixoff -ctlecho
 vman() {
 vim -c "Man $*" -c "silent only" -c "nmap q :q!<cr>"
 }
+
+os_codename=`lsb_release -a 2>/dev/null | grep Codename | awk '{print $2}'`
+export PATH=$HOME/usr-$os_codename/bin:$PATH
