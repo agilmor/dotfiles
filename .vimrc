@@ -132,7 +132,7 @@ Plugin 'vim-scripts/YankRing.vim'
 Plugin 'ekalinin/Dockerfile.vim'     " dockerfile syntax
 
 Plugin 'blueyed/vim-diminactive'     " to dim the inactive window
-Plugin 'vim-scripts/ZoomWin'         " to zoom in/out a window
+"Plugin 'vim-scripts/ZoomWin'         " to zoom in/out a window (buggy?)
 
 call vundle#end()                  " required
 filetype plugin indent on          " restoring
