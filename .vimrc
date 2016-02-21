@@ -133,6 +133,7 @@ Plugin 'ekalinin/Dockerfile.vim'     " dockerfile syntax
 
 Plugin 'blueyed/vim-diminactive'     " to dim the inactive window
 "Plugin 'vim-scripts/ZoomWin'         " to zoom in/out a window (buggy?)
+Plugin 'tmux-plugins/vim-tmux-focus-events'
 
 call vundle#end()                  " required
 filetype plugin indent on          " restoring
