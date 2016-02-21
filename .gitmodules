@@ -79,3 +79,6 @@
 [submodule ".vim/bundle/Dockerfile.vim"]
 	path = .vim/bundle/Dockerfile.vim
 	url = https://github.com/ekalinin/Dockerfile.vim.git
+[submodule ".vim/bundle/vim-tmux-focus-events"]
+	path = .vim/bundle/vim-tmux-focus-events
+	url = https://github.com/tmux-plugins/vim-tmux-focus-events.git
