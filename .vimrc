@@ -110,6 +110,9 @@ Plugin 'matchit.zip'               " improves surroundings with more than simple
 "Plugin 'AutoClose'                " autoclosing the surroundings (not necessary with code_complete?) 
                                    " it closes the preview if line 162 (pclose) is not commented
 
+"Plugin 'tpope/vim-commentary'     " I don't like the commenting style for C/C++
+Plugin 'tomtom/tcomment_vim'       " add the comment action (gc -> cm) for motions and text objects 
+
 " Async commands
 Plugin 'tpope/vim-dispatch.git'    " background/async builds (how to use it for grep?) 
 "Plugin 'AsyncCommand'             " background/async builds (needs vim --servername)
@@ -133,7 +136,7 @@ Plugin 'ekalinin/Dockerfile.vim'     " dockerfile syntax
 
 Plugin 'blueyed/vim-diminactive'     " to dim the inactive window
 "Plugin 'vim-scripts/ZoomWin'         " to zoom in/out a window (buggy?)
-Plugin 'tmux-plugins/vim-tmux-focus-events'
+"Plugin 'tmux-plugins/vim-tmux-focus-events'
 
 call vundle#end()                  " required
 filetype plugin indent on          " restoring
@@ -177,6 +180,7 @@ let g:ctrlp_working_path_mode = 'a'
 
 " easymotion setup
 "let g:EasyMotion_move_highlight=0
+let g:EasyMotion_enter_jump_first = 1
 let g:EasyMotion_keys='asdghklqwertyuiopzxcvbnmfj' " defaults, without the last ';'
 
 " pdf automatic convertion
@@ -212,6 +216,11 @@ let g:yankring_window_use_horiz    = 0  " Use vertical split
 let g:yankring_window_width        = 40
 let g:yankring_replace_n_pkey = '<nul>'
 let g:yankring_replace_n_nkey = '<nul>'
+
+" tcomment
+let g:tcommentMapLeaderOp1 = 'cm'
+" let g:tcommentOptions = {'col': 1}
+" let g:tcommentOptions = {}
 
 " to use longest completeopt with supertab
 "let g:SuperTabLongestEnhanced = 1
@@ -469,24 +478,34 @@ nnoremap <C-PageUp>    <C-Y>
 nnoremap <C-PageDown>  <C-E>
 
 "ctrl+arrows movements (http://stackoverflow.com/a/6528201/5349914)
-function! <SID>GotoPattern(pattern, dir) range
-    let g:_saved_search_reg = @/
-    let l:flags = "We"
-    if a:dir == "b"
-        let l:flags .= "b"
-    endif
-    for i in range(v:count1)
-        call search(a:pattern, l:flags)
-    endfor
-    let @/ = g:_saved_search_reg
-endfunction
+" function! <SID>GotoPattern(pattern, dir) range
+"     let g:_saved_search_reg = @/
+"     let l:flags = "We"
+"     if a:dir == "b"
+"         let l:flags .= "b"
+"     endif
+"     for i in range(v:count1)
+"         call search(a:pattern, l:flags)
+"     endfor
+"     let @/ = g:_saved_search_reg
+" endfunction
+"
+" "nnoremap <C-Right> w
+" "nnoremap <C-Left>  b
+" nnoremap <silent> <C-Right> :<C-U>call <SID>GotoPattern('\(^\\|\<\)[A-Za-z0-9]', 'f')<cr>
+" nnoremap <silent> <C-Left>  :<C-U>call <SID>GotoPattern('\(^\\|\<\)[A-Za-z0-9]', 'b')<cr>
+" vnoremap <silent> <C-Right> :<C-U>let g:_saved_search_reg=@/<cr>gv/\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
+" vnoremap <silent> <C-Left>  :<C-U>let g:_saved_search_reg=@/<cr>gv?\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
 
-"nnoremap <C-Right> w
-"nnoremap <C-Left>  b
-nnoremap <silent> <C-Right> :<C-U>call <SID>GotoPattern('\(^\\|\<\)[A-Za-z0-9]', 'f')<cr>
-nnoremap <silent> <C-Left>  :<C-U>call <SID>GotoPattern('\(^\\|\<\)[A-Za-z0-9]', 'b')<cr>
-vnoremap <silent> <C-Right> :<C-U>let g:_saved_search_reg=@/<cr>gv/\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
-vnoremap <silent> <C-Left>  :<C-U>let g:_saved_search_reg=@/<cr>gv?\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
+map <silent> <C-Right> <Plug>(easymotion-lineforward)
+map <silent> <C-Left>  <Plug>(easymotion-linebackward)
+" map <silent> <C-Right><C-Right> <Plug>(easymotion-lineforward)<cr>
+" map <silent> <C-Left><C-Left>   <Plug>(easymotion-linebackward)<cr>
+map <silent> <C-Up>    <Plug>(easymotion-k)
+map <silent> <C-Down>  <Plug>(easymotion-j)
+
+" imap <silent> <C-Right> <C-U><Plug>(easymotion-lineforward)
+" imap <silent> <C-Left>  <C-U><Plug>(easymotion-linebackward)
 
 
 " Manage indents as objects
@@ -571,8 +590,8 @@ nnoremap   tn         :tabnew<cr>
 nnoremap   tc         :tabclose<cr>
 nnoremap   t<Right>   :tabnext<cr>
 nnoremap   t<Left>    :tabprevious<cr>
-nnoremap   <C-Down>   :tabnext<cr>
-nnoremap   <C-Up>     :tabprevious<cr>
+" nnoremap   <C-Down>   :tabnext<cr>
+" nnoremap   <C-Up>     :tabprevious<cr>
 nnoremap   tt         :exe "tabn ".g:lasttab<CR>
 nnoremap   w          <C-w>
 nnoremap   w,         <C-w><Left>
@@ -616,35 +635,48 @@ map        f<Left>     <Plug>(easymotion-linebackward)
 nmap       yf          y<Plug>(easymotion-sn)
 nmap       yl          y<Plug>(easymotion-lineanywhere)
 nmap       ya          y<Plug>(easymotion-jumptoanywhere)
-map        y<Up>       y<Plug>(easymotion-k)
-map        y<Down>     y<Plug>(easymotion-j)
-map        y<Right>    y<Plug>(easymotion-lineforward)
-map        y<Left>     y<Plug>(easymotion-linebackward)
+nmap       yo          ya
+nmap       y<Up>       y<Plug>(easymotion-k)
+nmap       y<Down>     y<Plug>(easymotion-j)
+nmap       y<Right>    y<Plug>(easymotion-lineforward)
+nmap       y<Left>     y<Plug>(easymotion-linebackward)
 
 nmap       df          d<Plug>(easymotion-sn)
 nmap       dl          d<Plug>(easymotion-lineanywhere)
 nmap       da          d<Plug>(easymotion-jumptoanywhere)
-map        d<Up>       d<Plug>(easymotion-k)
-map        d<Down>     d<Plug>(easymotion-j)
-map        d<Right>    d<Plug>(easymotion-lineforward)
-map        d<Left>     d<Plug>(easymotion-linebackward)
+nmap       do          da
+nmap       d<Up>       d<Plug>(easymotion-k)
+nmap       d<Down>     d<Plug>(easymotion-j)
+nmap       d<Right>    d<Plug>(easymotion-lineforward)
+nmap       d<Left>     d<Plug>(easymotion-linebackward)
 
 nmap       cf          c<Plug>(easymotion-sn)
 nmap       cl          c<Plug>(easymotion-lineanywhere)
 nmap       ca          c<Plug>(easymotion-jumptoanywhere)
-map        c<Up>       c<Plug>(easymotion-k)
-map        c<Down>     c<Plug>(easymotion-j)
-map        c<Right>    c<Plug>(easymotion-lineforward)
-map        c<Left>     c<Plug>(easymotion-linebackward)
+nmap       co          ca
+nmap       c<Up>       c<Plug>(easymotion-k)
+nmap       c<Down>     c<Plug>(easymotion-j)
+nmap       c<Right>    c<Plug>(easymotion-lineforward)
+nmap       c<Left>     c<Plug>(easymotion-linebackward)
 
 nmap       vf          v<Plug>(easymotion-sn)
 nmap       vl          v<Plug>(easymotion-lineanywhere)
 nmap       va          v<Plug>(easymotion-jumptoanywhere)
-map        v<Up>       v<Plug>(easymotion-k)
-map        v<Down>     v<Plug>(easymotion-j)
-map        v<Right>    v<Plug>(easymotion-lineforward)
-map        v<Left>     v<Plug>(easymotion-linebackward)
+nmap       vo          va
+nmap       v<Up>       v<Plug>(easymotion-k)
+nmap       v<Down>     v<Plug>(easymotion-j)
+nmap       v<Right>    v<Plug>(easymotion-lineforward)
+nmap       v<Left>     v<Plug>(easymotion-linebackward)
 
+nmap       cmf         cm<Plug>(easymotion-sn)
+nmap       cml         cm<Plug>(easymotion-lineanywhere)
+nmap       cma         cm<Plug>(easymotion-jumptoanywhere)
+nmap       cmo         cma
+nmap       cm<Up>      cm<Plug>(easymotion-k)
+nmap       cm<Down>    cm<Plug>(easymotion-j)
+nmap       cm<Right>   cm<Plug>(easymotion-lineforward)
+nmap       cm<Left>    cm<Plug>(easymotion-linebackward)
+nmap       cmm         cmc
 
 " See movements
 noremap    sf          gf
@@ -663,8 +695,9 @@ noremap    sn          %
 nmap       sy          :YRShow<cr>
 nmap       y,          :<C-U>YRReplace '-1', P<cr>
 nmap       y.          :<C-U>YRReplace '+1', P<cr>
-noremap    y<Left>     `[
-noremap    y<Right>    `]
+" noremap    y<Left>     `[
+" noremap    y<Right>    `]
+nnoremap   S           diw"0P
 " changes
 noremap    sc          :changes<cr>
 noremap    c,          g;
@@ -821,22 +854,23 @@ let s:comment_map = {
     \   "vim": '"',
     \ }
 
-function! ToggleComment()
-    if has_key(s:comment_map, &filetype)
-        let comment_leader = s:comment_map[&filetype]
-        if getline('.') =~ "^" . comment_leader
-            " Uncomment the line
-            execute "silent s/^" . comment_leader . "//"
-        else
-            " Comment the line
-            execute "silent s/^/" . comment_leader . "/"
-        endif
-    else
-        echo "No comment leader found for filetype"
-    end
-endfunction
-nmap cm :call ToggleComment()<cr>
-vmap cm :call ToggleComment()<cr>
+" Replaced by tcomment to have a new action to work with motions and text objects
+" function! ToggleComment()
+"     if has_key(s:comment_map, &filetype)
+"         let comment_leader = s:comment_map[&filetype]
+"         if getline('.') =~ "^" . comment_leader
+"             " Uncomment the line
+"             execute "silent s/^" . comment_leader . "//"
+"         else
+"             " Comment the line
+"             execute "silent s/^/" . comment_leader . "/"
+"         endif
+"     else
+"         echo "No comment leader found for filetype"
+"     end
+" endfunction
+" nmap cm :call ToggleComment()<cr>
+" vmap cm :call ToggleComment()<cr>
 
 " passwds
 if filereadable(glob('~/.vimrc.pass'))
