@@ -125,6 +125,7 @@ Plugin 'vim-scripts/vimprj'        " .vimprj directory is source
 " More
 Plugin 'milkypostman/vim-togglelist' " toggle quickfix list (ql with Copen for disapth)
 Plugin 'easymotion/vim-easymotion'   " best motion ever! (see the 'see' commands)
+Plugin 'haya14busa/vim-easyoperator-line' " use to easymotion lines to yank, select or delete
 Plugin 'rhysd/open-pdf.vim'          " pdfs (not very useful, but...)
 Plugin 'kshenoy/vim-signature'       " tu visualitze marks (m?)
 "Plugin 'vim-scripts/yate'           " much slower than simple :*tag
@@ -136,7 +137,7 @@ Plugin 'ekalinin/Dockerfile.vim'     " dockerfile syntax
 
 Plugin 'blueyed/vim-diminactive'     " to dim the inactive window
 "Plugin 'vim-scripts/ZoomWin'         " to zoom in/out a window (buggy?)
-"Plugin 'tmux-plugins/vim-tmux-focus-events'
+"Plugin 'tmux-plugins/vim-tmux-focus-events' " it fires some error...?
 
 call vundle#end()                  " required
 filetype plugin indent on          " restoring
@@ -219,7 +220,7 @@ let g:yankring_replace_n_nkey = '<nul>'
 
 " tcomment
 let g:tcommentMapLeaderOp1 = 'cm'
-" let g:tcommentOptions = {'col': 1}
+let g:tcommentOptions = {'col': 1}
 " let g:tcommentOptions = {}
 
 " to use longest completeopt with supertab
@@ -497,15 +498,17 @@ nnoremap <C-PageDown>  <C-E>
 " vnoremap <silent> <C-Right> :<C-U>let g:_saved_search_reg=@/<cr>gv/\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
 " vnoremap <silent> <C-Left>  :<C-U>let g:_saved_search_reg=@/<cr>gv?\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
 
-map <silent> <C-Right> <Plug>(easymotion-lineforward)
-map <silent> <C-Left>  <Plug>(easymotion-linebackward)
 " map <silent> <C-Right><C-Right> <Plug>(easymotion-lineforward)<cr>
 " map <silent> <C-Left><C-Left>   <Plug>(easymotion-linebackward)<cr>
+map <silent> <C-Right> <Plug>(easymotion-lineforward)
+map <silent> <C-Left>  <Plug>(easymotion-linebackward)
 map <silent> <C-Up>    <Plug>(easymotion-k)
 map <silent> <C-Down>  <Plug>(easymotion-j)
 
-" imap <silent> <C-Right> <C-U><Plug>(easymotion-lineforward)
-" imap <silent> <C-Left>  <C-U><Plug>(easymotion-linebackward)
+imap <silent> <C-Right> <esc><Plug>(easymotion-lineforward)
+imap <silent> <C-Left>  <esc><Plug>(easymotion-linebackward)
+imap <silent> <C-Up>    <esc><Plug>(easymotion-k)
+imap <silent> <C-Down>  <esc><Plug>(easymotion-j)
 
 
 " Manage indents as objects
@@ -616,13 +619,11 @@ nnoremap   -          :spl<cr>
 nnoremap   ts         :tab split<cr>
 nnoremap   wt         :tab split<cr>
 
-" Easymotions
+" Easymotions (replacing default search)
 map        f           <Plug>(easymotion-sn)
 map        ff          <Plug>(easymotion-sn)
-map        ss          <Plug>(easymotion-sn)
 map        fl          <Plug>(easymotion-lineanywhere)
 map        fa          <Plug>(easymotion-jumptoanywhere)
-map        sa          <Plug>(easymotion-jumptoanywhere)
 nmap       fwl         :DimInactiveOff<cr><Plug>(easymotion-overwin-line)
 nmap       fwa         :DimInactiveOff<cr><Plug>(easymotion-overwin-w)
 map        f,          <Plug>(easymotion-prev)
@@ -632,28 +633,36 @@ map        f<Down>     <Plug>(easymotion-j)
 map        f<Right>    <Plug>(easymotion-lineforward)
 map        f<Left>     <Plug>(easymotion-linebackward)
 
+map        ss          <Plug>(easymotion-sn)
+map        sa          <Plug>(easymotion-jumptoanywhere)
+" map        /           <Plug>(easymotion-sn) " commented to be able to use cnoremap
+map        N           <Plug>(easymotion-prev)
+map        n           <Plug>(easymotion-next)
+
 nmap       yf          y<Plug>(easymotion-sn)
 nmap       yl          y<Plug>(easymotion-lineanywhere)
 nmap       ya          y<Plug>(easymotion-jumptoanywhere)
-nmap       yo          ya
+nnoremap   yo          ya
 nmap       y<Up>       y<Plug>(easymotion-k)
 nmap       y<Down>     y<Plug>(easymotion-j)
 nmap       y<Right>    y<Plug>(easymotion-lineforward)
 nmap       y<Left>     y<Plug>(easymotion-linebackward)
+nmap       y2          <Plug>(easyoperator-line-yank)
 
 nmap       df          d<Plug>(easymotion-sn)
 nmap       dl          d<Plug>(easymotion-lineanywhere)
 nmap       da          d<Plug>(easymotion-jumptoanywhere)
-nmap       do          da
+nnoremap   do          da
 nmap       d<Up>       d<Plug>(easymotion-k)
 nmap       d<Down>     d<Plug>(easymotion-j)
 nmap       d<Right>    d<Plug>(easymotion-lineforward)
 nmap       d<Left>     d<Plug>(easymotion-linebackward)
+nmap       d2          <Plug>(easyoperator-line-delete)
 
 nmap       cf          c<Plug>(easymotion-sn)
 nmap       cl          c<Plug>(easymotion-lineanywhere)
 nmap       ca          c<Plug>(easymotion-jumptoanywhere)
-nmap       co          ca
+nnoremap   co          ca
 nmap       c<Up>       c<Plug>(easymotion-k)
 nmap       c<Down>     c<Plug>(easymotion-j)
 nmap       c<Right>    c<Plug>(easymotion-lineforward)
@@ -662,22 +671,32 @@ nmap       c<Left>     c<Plug>(easymotion-linebackward)
 nmap       vf          v<Plug>(easymotion-sn)
 nmap       vl          v<Plug>(easymotion-lineanywhere)
 nmap       va          v<Plug>(easymotion-jumptoanywhere)
-nmap       vo          va
+nnoremap   vo          va
 nmap       v<Up>       v<Plug>(easymotion-k)
 nmap       v<Down>     v<Plug>(easymotion-j)
 nmap       v<Right>    v<Plug>(easymotion-lineforward)
 nmap       v<Left>     v<Plug>(easymotion-linebackward)
+nmap       v2          <Plug>(easyoperator-line-select)
 
 nmap       cmf         cm<Plug>(easymotion-sn)
 nmap       cml         cm<Plug>(easymotion-lineanywhere)
 nmap       cma         cm<Plug>(easymotion-jumptoanywhere)
-nmap       cmo         cma
+nnoremap   cmo         cma
 nmap       cm<Up>      cm<Plug>(easymotion-k)
 nmap       cm<Down>    cm<Plug>(easymotion-j)
 nmap       cm<Right>   cm<Plug>(easymotion-lineforward)
 nmap       cm<Left>    cm<Plug>(easymotion-linebackward)
 nmap       cmm         cmc
 
+" on search commands
+cnoremap <C-f>y <CR>:t''<CR>
+cnoremap <C-f>s <CR>:m''<CR>
+cnoremap <C-f>d <CR>:d<CR>''
+
+nnoremap <C-f>y :t''<CR>
+nnoremap <C-f>s :m''<CR>
+nnoremap <C-f>d :d<CR>''
+    
 " See movements
 noremap    sf          gf
 noremap    stf         <C-w>gf
