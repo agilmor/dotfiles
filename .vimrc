@@ -126,6 +126,12 @@ Plugin 'vim-scripts/vimprj'        " .vimprj directory is source
 Plugin 'milkypostman/vim-togglelist' " toggle quickfix list (ql with Copen for disapth)
 Plugin 'easymotion/vim-easymotion'   " best motion ever! (see the 'see' commands)
 Plugin 'haya14busa/vim-easyoperator-line' " use to easymotion lines to yank, select or delete
+Plugin 'haya14busa/incsearch.vim' " 
+Plugin 'haya14busa/incsearch-easymotion.vim'
+Plugin 'haya14busa/incsearch-fuzzy.vim'
+
+
+
 Plugin 'rhysd/open-pdf.vim'          " pdfs (not very useful, but...)
 Plugin 'kshenoy/vim-signature'       " tu visualitze marks (m?)
 "Plugin 'vim-scripts/yate'           " much slower than simple :*tag
@@ -220,9 +226,28 @@ let g:yankring_replace_n_nkey = '<nul>'
 
 " tcomment
 let g:tcommentMapLeaderOp1 = 'cm'
-let g:tcommentOptions = {'col': 1}
+" let g:tcommentOptions = {'col': 1}
 " let g:tcommentOptions = {}
 
+" To be able to have fuzzysearch with easymotion
+function! s:incsearch_config(...) abort
+      return incsearch#util#deepextend(deepcopy({
+        \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+        \   'keymap': {
+        \     "\<CR>": '<Over>(easymotion)'
+        \   },
+        \   'is_expr': 0
+        \ }), get(a:, 1, {}))
+  endfunction
+function! s:config_easyfuzzymotion(...) abort
+  return extend(copy({
+  \   'converters': [incsearch#config#fuzzyword#converter()],
+  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
+  \   'is_expr': 0,
+  \   'is_stay': 1
+  \ }), get(a:, 1, {}))
+endfunction
 " to use longest completeopt with supertab
 "let g:SuperTabLongestEnhanced = 1
 
@@ -620,6 +645,7 @@ nnoremap   ts         :tab split<cr>
 nnoremap   wt         :tab split<cr>
 
 " Easymotions (replacing default search)
+noremap    <expr> fs          incsearch#go(<SID>config_easyfuzzymotion())
 map        f           <Plug>(easymotion-sn)
 map        ff          <Plug>(easymotion-sn)
 map        fl          <Plug>(easymotion-lineanywhere)
@@ -635,7 +661,7 @@ map        f<Left>     <Plug>(easymotion-linebackward)
 
 map        ss          <Plug>(easymotion-sn)
 map        sa          <Plug>(easymotion-jumptoanywhere)
-" map        /           <Plug>(easymotion-sn) " commented to be able to use cnoremap
+map        /           <Plug>(easymotion-sn)
 map        N           <Plug>(easymotion-prev)
 map        n           <Plug>(easymotion-next)
 
