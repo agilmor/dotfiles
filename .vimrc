@@ -227,7 +227,7 @@ let g:yankring_replace_n_nkey = '<nul>'
 
 " tcomment
 let g:tcommentMapLeaderOp1 = 'cm'
-" let g:tcommentOptions = {'col': 1}
+let g:tcommentOptions = {'col': 1}
 " let g:tcommentOptions = {}
 
 " To be able to have fuzzysearch with easymotion
