@@ -97,3 +97,6 @@
 [submodule ".vim/bundle/vim-easyoperator-line"]
 	path = .vim/bundle/vim-easyoperator-line
 	url = https://github.com/haya14busa/vim-easyoperator-line.git
+[submodule ".vim/bundle/vim-easyoperator-phrase"]
+	path = .vim/bundle/vim-easyoperator-phrase
+	url = https://github.com/haya14busa/vim-easyoperator-phrase.git
