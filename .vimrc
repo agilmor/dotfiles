@@ -124,13 +124,14 @@ Plugin 'vim-scripts/vimprj'        " .vimprj directory is source
 
 " More
 Plugin 'milkypostman/vim-togglelist' " toggle quickfix list (ql with Copen for disapth)
-Plugin 'easymotion/vim-easymotion'   " best motion ever! (see the 'see' commands)
-Plugin 'haya14busa/vim-easyoperator-line' " use to easymotion lines to yank, select or delete
-Plugin 'haya14busa/incsearch.vim' " 
-Plugin 'haya14busa/incsearch-easymotion.vim'
-Plugin 'haya14busa/incsearch-fuzzy.vim'
 
-
+" Easy motions
+Plugin 'easymotion/vim-easymotion'              " best motion ever!
+Plugin 'haya14busa/vim-easyoperator-line'       " use 2 easymotions to define a range of lines
+Plugin 'haya14busa/vim-easyoperator-phrase'     " use 2 easymotions to define a range between motions
+Plugin 'haya14busa/incsearch.vim'               " necessary dependency 
+Plugin 'haya14busa/incsearch-easymotion.vim'    " necessary dependency
+Plugin 'haya14busa/incsearch-fuzzy.vim'         " fuzzy motion
 
 Plugin 'rhysd/open-pdf.vim'          " pdfs (not very useful, but...)
 Plugin 'kshenoy/vim-signature'       " tu visualitze marks (m?)
@@ -230,6 +231,7 @@ let g:tcommentMapLeaderOp1 = 'cm'
 " let g:tcommentOptions = {}
 
 " To be able to have fuzzysearch with easymotion
+let g:EasyOperator_phrase_do_mapping = 0
 function! s:incsearch_config(...) abort
       return incsearch#util#deepextend(deepcopy({
         \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
@@ -248,6 +250,7 @@ function! s:config_easyfuzzymotion(...) abort
   \   'is_stay': 1
   \ }), get(a:, 1, {}))
 endfunction
+
 " to use longest completeopt with supertab
 "let g:SuperTabLongestEnhanced = 1
 
@@ -645,7 +648,6 @@ nnoremap   ts         :tab split<cr>
 nnoremap   wt         :tab split<cr>
 
 " Easymotions (replacing default search)
-noremap    <expr> fs          incsearch#go(<SID>config_easyfuzzymotion())
 map        f           <Plug>(easymotion-sn)
 map        ff          <Plug>(easymotion-sn)
 map        fl          <Plug>(easymotion-lineanywhere)
@@ -658,6 +660,8 @@ map        f<Up>       <Plug>(easymotion-k)
 map        f<Down>     <Plug>(easymotion-j)
 map        f<Right>    <Plug>(easymotion-lineforward)
 map        f<Left>     <Plug>(easymotion-linebackward)
+
+noremap    <expr> fs   incsearch#go(<SID>config_easyfuzzymotion())
 
 map        ss          <Plug>(easymotion-sn)
 map        sa          <Plug>(easymotion-jumptoanywhere)
@@ -673,7 +677,8 @@ nmap       y<Up>       y<Plug>(easymotion-k)
 nmap       y<Down>     y<Plug>(easymotion-j)
 nmap       y<Right>    y<Plug>(easymotion-lineforward)
 nmap       y<Left>     y<Plug>(easymotion-linebackward)
-nmap       y2          <Plug>(easyoperator-line-yank)
+nmap       yr          <Plug>(easyoperator-line-yank)
+nmap       yb           <Plug>(easyoperator-phrase-yank)
 
 nmap       df          d<Plug>(easymotion-sn)
 nmap       dl          d<Plug>(easymotion-lineanywhere)
@@ -683,7 +688,8 @@ nmap       d<Up>       d<Plug>(easymotion-k)
 nmap       d<Down>     d<Plug>(easymotion-j)
 nmap       d<Right>    d<Plug>(easymotion-lineforward)
 nmap       d<Left>     d<Plug>(easymotion-linebackward)
-nmap       d2          <Plug>(easyoperator-line-delete)
+nmap       dr          <Plug>(easyoperator-line-delete)
+nmap       db          <Plug>(easyoperator-phrase-delete)
 
 nmap       cf          c<Plug>(easymotion-sn)
 nmap       cl          c<Plug>(easymotion-lineanywhere)
@@ -702,7 +708,8 @@ nmap       v<Up>       v<Plug>(easymotion-k)
 nmap       v<Down>     v<Plug>(easymotion-j)
 nmap       v<Right>    v<Plug>(easymotion-lineforward)
 nmap       v<Left>     v<Plug>(easymotion-linebackward)
-nmap       v2          <Plug>(easyoperator-line-select)
+nmap       vr          <Plug>(easyoperator-line-select)
+nmap       vb          <Plug>(easyoperator-phrase-select)
 
 nmap       cmf         cm<Plug>(easymotion-sn)
 nmap       cml         cm<Plug>(easymotion-lineanywhere)
