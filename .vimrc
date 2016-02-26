@@ -137,7 +137,9 @@ Plugin 'rhysd/open-pdf.vim'          " pdfs (not very useful, but...)
 Plugin 'kshenoy/vim-signature'       " tu visualitze marks (m?)
 "Plugin 'vim-scripts/yate'           " much slower than simple :*tag
 "Plugin 'bling/vim-airline'          " too fancy for me? I'll give it a second chance in a while
-Plugin 'vim-scripts/YankRing.vim'
+" Plugin 'vim-scripts/YankRing.vim'  "replaced by easyclip?
+Plugin 'tpope/vim-repeat'            " needed dependency
+Plugin 'svermeulen/vim-easyclip'     " much better yank, cut, delete and rotating paste
 
 " Languages
 Plugin 'ekalinin/Dockerfile.vim'     " dockerfile syntax
@@ -218,12 +220,25 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 let g:airline#extensions#tabline#show_close_button = 0
 
 " yank ring
-let g:yankring_manage_numbered_reg = 1
-"let  g:yankring_default_menu_mode = 3
-let g:yankring_window_use_horiz    = 0  " Use vertical split
-let g:yankring_window_width        = 40
-let g:yankring_replace_n_pkey = '<nul>'
-let g:yankring_replace_n_nkey = '<nul>'
+" let g:yankring_manage_numbered_reg = 1
+" "let  g:yankring_default_menu_mode = 3
+" let g:yankring_window_use_horiz    = 0  " Use vertical split
+" let g:yankring_window_width        = 40
+" let g:yankring_replace_n_pkey = '<nul>'
+" let g:yankring_replace_n_nkey = '<nul>'
+
+" easyclip setup
+let g:EasyClipUsePasteToggleDefaults        = 0 " to be maps to use my maps
+let g:EasyClipUseCutDefaults                = 0 " to be able to use my maps
+let g:EasyClipUseSubstituteDefaults         = 0 " to be able to use my maps (not necessary)
+let g:EasyClipUseYankDefaults               = 1 " default yanks
+let g:EasyClipUsePasteDefaults              = 1 " default paste
+let g:EasyClipAlwaysMoveCursorToEndOfPaste  = 1 " to move to end of paste (ctrl-o to go back)
+let g:EasyClipAutoFormat                    = 1 " to enable auto-format (EasyClipToggleFormattedPaste to remove format)
+let g:EasyClipShareYanks                    = 0 " probably not a good option to enable...?
+let g:EasyClipCopyExplicitRegisterToDefault = 1 " paste last yanked even if it was saved to a register
+let g:EasyClipPreserveCursorPositionAfterYank = 1 " not move my cursor!
+let g:EasyClipShowYanksWidth                = 120 " we have bigger screens!
 
 " tcomment
 let g:tcommentMapLeaderOp1 = 'cm'
@@ -678,7 +693,7 @@ nmap       y<Down>     y<Plug>(easymotion-j)
 nmap       y<Right>    y<Plug>(easymotion-lineforward)
 nmap       y<Left>     y<Plug>(easymotion-linebackward)
 nmap       yr          <Plug>(easyoperator-line-yank)
-nmap       yb           <Plug>(easyoperator-phrase-yank)
+nmap       yb          <Plug>(easyoperator-phrase-yank)
 
 nmap       df          d<Plug>(easymotion-sn)
 nmap       dl          d<Plug>(easymotion-lineanywhere)
@@ -721,6 +736,27 @@ nmap       cm<Right>   cm<Plug>(easymotion-lineforward)
 nmap       cm<Left>    cm<Plug>(easymotion-linebackward)
 nmap       cmm         cmc
 
+nmap       rf          r<Plug>(easymotion-sn)
+nmap       rl          r<Plug>(easymotion-lineanywhere)
+nmap       ra          r<Plug>(easymotion-jumptoanywhere)
+" nmap <silent>  ro       <Plug>(SubstituteOverMotionMap)a
+" nmap <silent>  ro       <Plug>SubstituteOverMotionMap a
+" nnoremap <silent>  ro       <Plug>(SubstituteOverMotionMap)a
+" nmap       ro          ra
+nmap       r<Up>       r<Plug>(easymotion-k)
+nmap       r<Down>     r<Plug>(easymotion-j)
+nmap       r<Right>    r<Plug>(easymotion-lineforward)
+nmap       r<Left>     r<Plug>(easymotion-linebackward)
+
+nmap       xf          x<Plug>(easymotion-sn)
+nmap       xl          x<Plug>(easymotion-lineanywhere)
+nmap       xa          x<Plug>(easymotion-jumptoanywhere)
+" nnoremap   xo          xa
+nmap       x<Up>       x<Plug>(easymotion-k)
+nmap       x<Down>     x<Plug>(easymotion-j)
+nmap       x<Right>    x<Plug>(easymotion-lineforward)
+nmap       x<Left>     x<Plug>(easymotion-linebackward)
+
 " on search commands
 cnoremap <C-f>y <CR>:t''<CR>
 cnoremap <C-f>s <CR>:m''<CR>
@@ -743,13 +779,37 @@ map        s<Down>     <Plug>(easymotion-j)
 noremap    s<PageUp>   gg
 noremap    s<PageDown> G
 noremap    sn          %
-" improving paste
-nmap       sy          :YRShow<cr>
-nmap       y,          :<C-U>YRReplace '-1', P<cr>
-nmap       y.          :<C-U>YRReplace '+1', P<cr>
-" noremap    y<Left>     `[
-" noremap    y<Right>    `]
-nnoremap   S           diw"0P
+
+" Improving paste
+" nmap       sy          :YRShow<cr>
+" nmap       y,          :<C-U>YRReplace '-1', P<cr>
+" nmap       y.          :<C-U>YRReplace '+1', P<cr>
+" " noremap    y<Left>     `[
+" " noremap    y<Right>    `]
+" nnoremap   S           diw"0P "using easyclip?
+
+nmap       sy          :Yanks<cr>
+nmap       syy         :Yanks<cr>
+nmap       y,          <Plug>EasyClipSwapPasteForward
+nmap       y.          <Plug>EasyClipSwapPasteBackwards
+nmap       sy,         <Plug>EasyClipRotateYanksForward
+nmap       sy.         <Plug>EasyClipRotateYanksBackward
+nmap       syf         <Plug>EasyClipToggleFormattedPaste<cr>
+
+nmap       x           <Plug>MoveMotionPlug
+xmap       x           <Plug>MoveMotionXPlug
+nmap       xx          <Plug>MoveMotionLinePlug
+
+nmap       r           <Plug>SubstituteOverMotionMap
+xmap       r           <Plug>XEasyClipPaste
+nmap       rr          <Plug>SubstituteLine
+
+imap       <c-v>       <Plug>EasyClipInsertModePaste
+cmap       <c-v>       <Plug>EasyClipCommandModePaste
+
+nmap       yp :IPaste<cr>
+nmap       YP :IPasteBefore<cr>
+
 " changes
 noremap    sc          :changes<cr>
 noremap    c,          g;
@@ -786,12 +846,12 @@ noremap    <F6>       :source ~/.vimrc<cr>
 nnoremap   su         :UndotreeToggle<cr>
 " registers
 noremap    sr         :registers<cr>
-noremap    ry         "ry
+" noremap    ry         "ry
 "unmap      rd
 "noremap    rd         "rd
 
-noremap    rp         "rp
-noremap    rP         "rP
+" noremap    rp         "rp
+" noremap    rP         "rP
 " tags/links
 noremap    sl         :tjump /<C-r><C-w><cr>
 noremap    sll        <C-]>
@@ -849,8 +909,8 @@ inoremap <C-d>           <Esc>:Dispatch!<cr>
 vnoremap <C-d>           <Esc>:Dispatch!<cr>
 
 " registers
-nnoremap r "
-vnoremap r "
+nnoremap R "
+vnoremap R "
 
 " autocomplete
 "unmap     <C-a>
