@@ -154,6 +154,7 @@ Plugin 'junegunn/vim-easy-align'     " align operator
 " Plugin 'tommcdo/vim-lion'        " cannot right-align the first column?
 
 Plugin 'tpope/vim-abolish'         " adding snake/camel/mixed/upper case control in the iw and with :S
+Plugin 'tommcdo/vim-exchange'
 
 call vundle#end()                  " required
 filetype plugin indent on          " restoring
@@ -774,6 +775,15 @@ nmap       x<Up>       x<Plug>(easymotion-k)
 nmap       x<Down>     x<Plug>(easymotion-j)
 nmap       x<Right>    x<Plug>(easymotion-lineforward)
 nmap       x<Left>     x<Plug>(easymotion-linebackward)
+
+nmap       cxf          cx<Plug>(easymotion-sn)
+nmap       cxl          cx<Plug>(easymotion-lineanywhere)
+nmap       cxa          cx<Plug>(easymotion-jumptoanywhere)
+" nnoremap   cxo          cxa
+nmap       cx<Up>       cx<Plug>(easymotion-k)
+nmap       cx<Down>     cx<Plug>(easymotion-j)
+nmap       cx<Right>    cx<Plug>(easymotion-lineforward)
+nmap       cx<Left>     cx<Plug>(easymotion-linebackward)
 
 nmap       alf          al<Plug>(easymotion-sn)
 nmap       all          al<Plug>(easymotion-lineanywhere)
