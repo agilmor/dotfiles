@@ -100,3 +100,9 @@
 [submodule ".vim/bundle/vim-easyoperator-phrase"]
 	path = .vim/bundle/vim-easyoperator-phrase
 	url = https://github.com/haya14busa/vim-easyoperator-phrase.git
+[submodule ".vim/bundle/vim-easyclip"]
+	path = .vim/bundle/vim-easyclip
+	url = https://github.com/svermeulen/vim-easyclip.git
+[submodule ".vim/bundle/vim-repeat"]
+	path = .vim/bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
