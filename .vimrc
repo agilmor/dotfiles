@@ -202,6 +202,7 @@ let g:ctrlp_working_path_mode = 'a'
 "let g:EasyMotion_move_highlight=0
 let g:EasyMotion_enter_jump_first = 1
 let g:EasyMotion_keys='asdghklqwertyuiopzxcvbnmfj' " defaults, without the last ';'
+let g:EasyMotion_smartcase = 1 " case insenitive
 
 " pdf automatic convertion
 let g:pdf_convert_on_edit = 1
