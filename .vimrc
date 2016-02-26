@@ -141,6 +141,8 @@ Plugin 'kshenoy/vim-signature'       " tu visualitze marks (m?)
 Plugin 'tpope/vim-repeat'            " needed dependency
 Plugin 'svermeulen/vim-easyclip'     " much better yank, cut, delete and rotating paste
 
+Plugin 'tpope/vim-surround'          " defines surroundings as text objects (yank surroundings mean 'add' them)
+
 " Languages
 Plugin 'ekalinin/Dockerfile.vim'     " dockerfile syntax
 
@@ -694,6 +696,15 @@ nmap       y<Right>    y<Plug>(easymotion-lineforward)
 nmap       y<Left>     y<Plug>(easymotion-linebackward)
 nmap       yr          <Plug>(easyoperator-line-yank)
 nmap       yb          <Plug>(easyoperator-phrase-yank)
+
+nmap       ysf          ys<Plug>(easymotion-sn)
+nmap       ysl          ys<Plug>(easymotion-lineanywhere)
+nmap       ysa          ys<Plug>(easymotion-jumptoanywhere)
+nnoremap   yso          ysa
+nmap       ys<Up>       ys<Plug>(easymotion-k)
+nmap       ys<Down>     ys<Plug>(easymotion-j)
+nmap       ys<Right>    ys<Plug>(easymotion-lineforward)
+nmap       ys<Left>     ys<Plug>(easymotion-linebackward)
 
 nmap       df          d<Plug>(easymotion-sn)
 nmap       dl          d<Plug>(easymotion-lineanywhere)
