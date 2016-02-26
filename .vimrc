@@ -150,6 +150,8 @@ Plugin 'blueyed/vim-diminactive'     " to dim the inactive window
 "Plugin 'vim-scripts/ZoomWin'         " to zoom in/out a window (buggy?)
 "Plugin 'tmux-plugins/vim-tmux-focus-events' " it fires some error...?
 
+Plugin 'junegunn/vim-easy-align'     " align operator
+
 call vundle#end()                  " required
 filetype plugin indent on          " restoring
 "filetype plugin on                " To ignore plugin indent changes
@@ -768,6 +770,15 @@ nmap       x<Down>     x<Plug>(easymotion-j)
 nmap       x<Right>    x<Plug>(easymotion-lineforward)
 nmap       x<Left>     x<Plug>(easymotion-linebackward)
 
+nmap       alf          al<Plug>(easymotion-sn)
+nmap       all          al<Plug>(easymotion-lineanywhere)
+nmap       ala          al<Plug>(easymotion-jumptoanywhere)
+nnoremap   alo            <Plug>(EasyAlign)a
+nmap       al<Up>       al<Plug>(easymotion-k)
+nmap       al<Down>     al<Plug>(easymotion-j)
+nmap       al<Right>    al<Plug>(easymotion-lineforward)
+nmap       al<Left>     al<Plug>(easymotion-linebackward)
+
 " on search commands
 cnoremap <C-f>y <CR>:t''<CR>
 cnoremap <C-f>s <CR>:m''<CR>
@@ -820,6 +831,11 @@ cmap       <c-v>       <Plug>EasyClipCommandModePaste
 
 nmap       yp :IPaste<cr>
 nmap       YP :IPasteBefore<cr>
+
+xmap al <Plug>(EasyAlign)
+nmap al <Plug>(EasyAlign)
+
+nnoremap aa a
 
 " changes
 noremap    sc          :changes<cr>
