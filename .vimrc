@@ -151,6 +151,9 @@ Plugin 'blueyed/vim-diminactive'     " to dim the inactive window
 "Plugin 'tmux-plugins/vim-tmux-focus-events' " it fires some error...?
 
 Plugin 'junegunn/vim-easy-align'     " align operator
+" Plugin 'tommcdo/vim-lion'        " cannot right-align the first column?
+
+Plugin 'tpope/vim-abolish'         " adding snake/camel/mixed/upper case control in the iw and with :S
 
 call vundle#end()                  " required
 filetype plugin indent on          " restoring
@@ -166,7 +169,9 @@ filetype plugin indent on          " restoring
 "
 " Plugins Advanced Setup
 "
-
+" let g:lion_create_maps = 1
+" let g:lion_map_right   = 'ar'
+" let g:lion_map_left    = 'al'
 "
 " to avoid conflicts between VCSStatus and NeerdTree
 "
@@ -773,11 +778,22 @@ nmap       x<Left>     x<Plug>(easymotion-linebackward)
 nmap       alf          al<Plug>(easymotion-sn)
 nmap       all          al<Plug>(easymotion-lineanywhere)
 nmap       ala          al<Plug>(easymotion-jumptoanywhere)
-nnoremap   alo            <Plug>(EasyAlign)a
+" nnoremap   alo            <Plug>(EasyAlign)a
 nmap       al<Up>       al<Plug>(easymotion-k)
 nmap       al<Down>     al<Plug>(easymotion-j)
 nmap       al<Right>    al<Plug>(easymotion-lineforward)
 nmap       al<Left>     al<Plug>(easymotion-linebackward)
+
+" Naming convention
+" - only working for iw
+" - s: snake_case
+" - c: CamelCase
+" - m: mixedCase
+" - u: UPPER_CASE
+nmap cncs crs
+nmap cncc crm
+nmap cncm crc
+nmap cncu cru
 
 " on search commands
 cnoremap <C-f>y <CR>:t''<CR>
