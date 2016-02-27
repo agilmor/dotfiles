@@ -37,6 +37,8 @@ set noswapfile                           " swap files are annoying for the "wds"
 set autoread                             " file is reloaded if changed in a cmdline (:! whatever), very useful for "wds" and "wdg" commands
 set undofile                             " for persistent undo
 set nolist                               " to show special characters (F2)
+set ignorecase                           " to search case insesitive
+set smartcase                            " to search case insesitive, unless using an upper case
 set listchars=tab:>·,trail:·,eol:·       " special characters
 set whichwrap=b,s,<,>,[,]                " to move line up/down with left/right at the begin/end of a line
 set backupdir=~/.vim/tmp/
@@ -202,7 +204,7 @@ let g:ctrlp_working_path_mode = 'a'
 "let g:EasyMotion_move_highlight=0
 let g:EasyMotion_enter_jump_first = 1
 let g:EasyMotion_keys='asdghklqwertyuiopzxcvbnmfj' " defaults, without the last ';'
-let g:EasyMotion_smartcase = 1 " case insenitive
+" let g:EasyMotion_smartcase = 1 " case insenitive (using normal ignorecas+smartcase)
 
 " pdf automatic convertion
 let g:pdf_convert_on_edit = 1
