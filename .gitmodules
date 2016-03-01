@@ -118,3 +118,6 @@
 [submodule ".vim/bundle/vim-exchange"]
 	path = .vim/bundle/vim-exchange
 	url = https://github.com/tommcdo/vim-exchange.git
+[submodule ".vim/bundle/visualrepeat"]
+	path = .vim/bundle/visualrepeat
+	url = https://github.com/vim-scripts/visualrepeat.git
