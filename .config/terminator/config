@@ -4,10 +4,12 @@
   inactive_color_offset = 0.49
   borderless = True
 [keybindings]
+  cycle_prev = Disabled
   close_window = Disabled
   group_tab = Disabled
   move_tab_right = Disabled
   resize_left = Disabled
+  rotate_ccw = Disabled
   reset_clear = Disabled
   go_right = Disabled
   new_tab = Disabled
@@ -22,6 +24,7 @@
   split_vert = Disabled
   ungroup_all = Disabled
   ungroup_tab = Disabled
+  cycle_next = Disabled
   zoom_out = Disabled
   go_prev = Disabled
   close_term = Disabled
