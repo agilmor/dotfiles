@@ -76,3 +76,48 @@
 [submodule ".vim/bundle/ZoomWin"]
 	path = .vim/bundle/ZoomWin
 	url = https://github.com/vim-scripts/ZoomWin.git
+[submodule ".vim/bundle/Dockerfile.vim"]
+	path = .vim/bundle/Dockerfile.vim
+	url = https://github.com/ekalinin/Dockerfile.vim.git
+[submodule ".vim/bundle/vim-tmux-focus-events"]
+	path = .vim/bundle/vim-tmux-focus-events
+	url = https://github.com/tmux-plugins/vim-tmux-focus-events.git
+[submodule ".vim/bundle/incsearch-easymotion.vim"]
+	path = .vim/bundle/incsearch-easymotion.vim
+	url = https://github.com/haya14busa/incsearch-easymotion.vim.git
+[submodule ".vim/bundle/incsearch-fuzzy.vim"]
+	path = .vim/bundle/incsearch-fuzzy.vim
+	url = https://github.com/haya14busa/incsearch-fuzzy.vim.git
+[submodule ".vim/bundle/incsearch.vim"]
+	path = .vim/bundle/incsearch.vim
+	url = https://github.com/haya14busa/incsearch.vim.git
+[submodule ".vim/bundle/tcomment_vim"]
+	path = .vim/bundle/tcomment_vim
+	url = https://github.com/tomtom/tcomment_vim.git
+[submodule ".vim/bundle/vim-easyoperator-line"]
+	path = .vim/bundle/vim-easyoperator-line
+	url = https://github.com/haya14busa/vim-easyoperator-line.git
+[submodule ".vim/bundle/vim-easyoperator-phrase"]
+	path = .vim/bundle/vim-easyoperator-phrase
+	url = https://github.com/haya14busa/vim-easyoperator-phrase.git
+[submodule ".vim/bundle/vim-easyclip"]
+	path = .vim/bundle/vim-easyclip
+	url = https://github.com/svermeulen/vim-easyclip.git
+[submodule ".vim/bundle/vim-repeat"]
+	path = .vim/bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule ".vim/bundle/vim-surround"]
+	path = .vim/bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule ".vim/bundle/vim-easy-align"]
+	path = .vim/bundle/vim-easy-align
+	url = https://github.com/junegunn/vim-easy-align.git
+[submodule ".vim/bundle/vim-abolish"]
+	path = .vim/bundle/vim-abolish
+	url = https://github.com/tpope/vim-abolish.git
+[submodule ".vim/bundle/vim-exchange"]
+	path = .vim/bundle/vim-exchange
+	url = https://github.com/tommcdo/vim-exchange.git
+[submodule ".vim/bundle/visualrepeat"]
+	path = .vim/bundle/visualrepeat
+	url = https://github.com/vim-scripts/visualrepeat.git

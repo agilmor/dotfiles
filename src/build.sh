@@ -1,4 +1,5 @@
-install_dir=$HOME/usr
+os_codename=`lsb_release -a 2>/dev/null | grep Codename | awk '{print $2}'`
+install_dir=$HOME/usr-$os_codename
 jobs=4
 
 cd vim
