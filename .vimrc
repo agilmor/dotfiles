@@ -38,7 +38,7 @@ set undofile                       " for persistent undo
 set ignorecase                     " to search case insesitive
 set smartcase                      " to search case insesitive, unless using an upper case
 set listchars=tab:>·,trail:·,eol:· " special characters
-set list                           " to visualize special special characters (see 'listchars'), use <F3> to toggle
+set nolist                         " to not visualize special special characters (see 'listchars'), use <F3> to toggle
 set whichwrap=b,s,<,>,[,]          " to move line up/down with left/right at the begin/end of a line
 set nobackup                       " no backup files, we should use git/svn always, and we have the persistent undo
 set noswapfile                     " no swap files, we should use git/svn always, and we have the persistent undo
