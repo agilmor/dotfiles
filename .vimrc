@@ -81,7 +81,7 @@ Plugin 'bufexplorer.zip'                     " visualization of the buffers list
 
 " Version Control and Project Management
 Plugin 'vcscommand.vim'                      " version control git+svn together
-Plugin 'vitra'                               " trac integration (TTOpen)
+" Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
 Plugin 'Align'                               " used by vitra
 Plugin 'tracwiki'                            " used by vitra
 
