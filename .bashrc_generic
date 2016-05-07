@@ -19,7 +19,9 @@ fi
 
 # -ixon -ixoff: remove XON/OFF to release Ctrl-s and Ctrl-q
 # -ctlecho:     to remove echo of Ctrl-c (^C)
-stty -ixon -ixoff -ctlecho
+if [ -t 0 ]; then # If not running interactively, don't do anything
+    stty -ixon -ixoff -ctlecho
+fi
 
 # vman instead of man
 vman() {
