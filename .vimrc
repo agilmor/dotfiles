@@ -21,7 +21,7 @@ set autowrite                      " automatically save changes (build without s
 set laststatus=2                   " always see the status bar (see "Coloring" to use the bar to highlight the current mode)
 set showtabline=2                  " always see the tab bar (see "Coloring" to use the bar to highlight the current mode)
 set textwidth=120                  " desired width limit
-set colorcolumn=+1                 " to see a line to the text limit (see "Coloring", line must be almost non visible)
+set colorcolumn=0                  " to see a line to the text limit (see "Coloring", line must be almost non visible) (see SwitchDecorations)
 set nocursorline nocursorcolumn    " cursor colum and line non visible by default
 set autoindent                     " autoindent
 set foldmethod=syntax              " use the syntax to decide folding 
@@ -38,7 +38,7 @@ set undofile                       " for persistent undo
 set ignorecase                     " to search case insesitive
 set smartcase                      " to search case insesitive, unless using an upper case
 set listchars=tab:>·,trail:·,eol:· " special characters
-set nolist                         " to not visualize special special characters (see 'listchars'), use <F3> to toggle
+set nolist                         " to not visualize special special characters (see 'listchars'), use <F3> to toggle (see SwitchDecorations)
 set whichwrap=b,s,<,>,[,]          " to move line up/down with left/right at the begin/end of a line
 set nobackup                       " no backup files, we should use git/svn always, and we have the persistent undo
 set noswapfile                     " no swap files, we should use git/svn always, and we have the persistent undo
@@ -50,7 +50,7 @@ set grepprg=grep\ -n\ --exclude-dir=.svn\ $*\ /dev/null " to exclude svn/git res
 "                                  General options (non-set) and annoyances                                            "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting colum (how to use textwidth var?)
+"let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting colum (how to use textwidth var?) (see SwitchDecorations)
 let mapleader=','                  " maybe, because the remaps, I can just use the default...?
 runtime ftplugin/man.vim           " to be able to render man pages
 runtime ftplugin/vim.vim           " to use the vim help
@@ -532,6 +532,22 @@ endfunction
 "                                                                                                                      "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Function to enable disable decorations
+" They should be disabled by default
+let g:mydecoration=0
+function! SwitchDecorations()
+    if g:mydecoration == 1
+        set nolist
+        set colorcolumn=0
+        let g:mydecoration=0
+    else
+        set list
+        set colorcolumn=+1
+        let g:mydecoration=1
+    endif
+endfunction
+
+
 if &t_Co > 2 || has("gui_running")  
     " Also switch on highlighting the last used search pattern.
     syntax on
@@ -781,7 +797,8 @@ nnoremap <C-o>               o<Esc>
 " Highlight and special characters toggle
 "
 map        hh         :set hls!<cr>
-noremap    <F3>       :set list!<cr>
+" noremap    <F3>       :set list!<cr>
+noremap    <F3>       :call SwitchDecorations()<cr>
 
 "
 " Windows/Panes
