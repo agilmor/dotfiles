@@ -31,7 +31,7 @@ set scrolloff=15                   " to scroll before first/last line
 set sidescrolloff=10               " to scroll before first/last character in a line
 set sidescroll=1                   " to scroll a signle character horizontally
 set wildmode=longest:list          " use cmdline completion (tab) as a normal shell completion
-set completeopt=menu,longest       " preview and menuone discarted
+set completeopt=menuone,longest    " preview and menuone discarted
 set noswapfile                     " swap files are annoying for the "wds" and "wdg"" commands, they open a new vim instance.
 set autoread                       " file is reloaded if changed in a cmdline (:! whatever), very useful for "wds" and "wdg" commands
 set undofile                       " for persistent undo
@@ -111,7 +111,7 @@ Plugin 'vim-scripts/vimprj'                  " .vimprj directory is source
 " Plugin 'vim-scripts/indexer.tar.gz'        " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
 
 " More
-'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
+Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
 
 " Easy motions
 Plugin 'easymotion/vim-easymotion'           " best motion ever!
@@ -231,7 +231,7 @@ let OmniCpp_MayCompleteArrow    = 0 " autocomplete after ->
 let OmniCpp_MayCompleteScope    = 0 " autocomplete after ::
 let OmniCpp_DefaultNamespaces   = ["std", "_GLIBCXX_STD"]
 
-au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif " auto open/close the popup menu/preview windows
+" au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif " auto open/close the popup menu/preview windows
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                            EasyClip                                                                  "
@@ -616,12 +616,13 @@ function! Smart_TabComplete()
     endif
     let has_word   = strlen(substr)      !=  0 
     let has_period = match(substr, '\.') != -1    " position of period, if any
+    let has_arrow  = match(substr, '->') != -1    " position of arrow, if any
     let has_slash  = match(substr, '\/') != -1    " position of slash, if any
     let has_parent = match(substr, '(')  != -1    " position of open parenthesis, if any
     if (has_word)
         if     ( has_slash )
             return "\<C-X>\<C-F>"                 " file completion
-        elseif ( has_period )
+        elseif ( has_period || has_arrow )
             return "\<C-X>\<C-O>"                 " omni-complete
         elseif ( has_parent )
             "        return g:completekey         " arguments completion (not working?)
@@ -946,6 +947,9 @@ noremap    ,l         :tprev<cr>
 noremap    .l         :tnext<cr>
 noremap    l           <C-]>
 noremap    ll          <C-]>
+
+" show in preview
+noremap    lp          <C-w>}
 " noremap    wl         :vsplit<cr><C-]>
 
 "
