@@ -193,11 +193,6 @@ let g:NERDTreeHijackNetrw=0             " to avoid conflicts between VCSStatus a
 
 
 "
-" Tagbar
-"
-let g:tagbar_autoclose = 1              " autoclose the outline/tagbar when a selection is done
-
-"
 " OmniComplete
 "
 au BufNewFile,BufRead,BufEnter *.cpp,*.hpp,*.test set omnifunc=omni#cpp#complete#Main " select the correct omnifunc
@@ -911,9 +906,6 @@ nnoremap dM   :delmarks
 noremap  MM   mM
 noremap  mm   'M
 
-" outline/tagbar
-nnoremap so   :TagbarToggle<cr>
-
 " exploring file
 nnoremap se   :NERDTreeToggle<cr>
 
@@ -937,6 +929,47 @@ nnoremap su   :UndotreeToggle<cr>
 " registers
 noremap  sr   :registers<cr>
 
+" Deprecated
+" map      sm  `
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                           Tags (cscope, tagbar tjumps, source/header)
+"
+" - (so) tooglea local outline
+" - (ls) lists symbol ocurrences to quicklist (cscope)
+" - (lg) goes to symbol definition (global) (cscope)
+" - (lc) lists who calls this function to quicklist (cscope)
+" - (lt) lists text ocurrences to quicklist (cscope)
+" - (lf) lists file ocurrences to quicklist (cscope)
+" - (li) lists files including this to quicklist (cscope)
+" - (ld) lists function called by me to quicklist (cscope)
+" 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Tagbar (outline)
+let g:tagbar_autoclose = 1              " autoclose the outline/tagbar when a selection is done
+nnoremap so   :TagbarToggle<cr>
+
+" cscope
+" use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+" set cscopetag
+
+" check cscope for definition of a symbol before checking ctags: set to 1
+" if you want the reverse search order.
+set csto=0
+
+" all cscope results are placed in quickfix
+set cscopequickfix=s-,g-,c-,d-,i-,t-,e-
+
+nmap ls :cs find s  <C-R>=expand("<cword>")<CR><CR>sq
+nmap lg :cs find g  <C-R>=expand("<cword>")<CR><CR>
+nmap lc :cs find c  <C-R>=expand("<cword>")<CR><CR>sq
+nmap lt :cs find t  <C-R>=expand("<cword>")<CR><CR>sq
+nmap le :cs find e  <C-R>=expand("<cword>")<CR><CR>sq
+nmap lf :cs find f  <C-R>=expand("<cfile>")<CR><CR>sq
+nmap li :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>sq
+nmap ld :cs find d <C-R>=expand("<cword>")<CR><CR>sq
+
 " tags/links
 noremap    sl         :tjump /<C-r><C-w><cr>
 noremap    sll        <C-]>
@@ -948,8 +981,9 @@ noremap    .l         :tnext<cr>
 noremap    l           <C-]>
 noremap    ll          <C-]>
 
-" show in preview
-noremap    lp          <C-w>}
+
+" show in preview (list option if necessary)
+noremap    lp          <C-w>g}
 " noremap    wl         :vsplit<cr><C-]>
 
 "
@@ -966,8 +1000,8 @@ au BufRead,BufNewFile *.cpp 		nmap  st :find %:t:r.test<cr>
 au BufRead,BufNewFile *.test 		nmap  st :find %:t:r.hpp<cr>
 
 " Deprecated
-" map      sm  `
 "nnoremap   ll         :call ToggleLocationList()<cr>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Quickfix (with ToogleList.vim)
