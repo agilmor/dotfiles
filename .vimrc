@@ -111,7 +111,7 @@ Plugin 'vim-scripts/vimprj'                  " .vimprj directory is source
 " Plugin 'vim-scripts/indexer.tar.gz'        " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
 
 " More
-Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (ql with Copen for disapth)
+'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
 
 " Easy motions
 Plugin 'easymotion/vim-easymotion'           " best motion ever!
@@ -191,11 +191,6 @@ let g:tcommentOptions      = {'col': 1}  " line comments on the first column
 "
 let g:NERDTreeHijackNetrw=0             " to avoid conflicts between VCSStatus and NeerdTree
 
-"
-" ToggleList
-"
-" let g:toggle_list_copen_command='Copen' " to use Copen instead of copen when toggling...
-let g:toggle_list_copen_command='copen' " ...or keep using :copen to avoid overwriting :grep results
 
 "
 " Tagbar
@@ -764,16 +759,16 @@ nnoremap <C-PageDown>  <C-E>
 nnoremap <Backspace>         i<Backspace>
 nnoremap <Space>             i<Space>
 nnoremap <Delete>            i<Delete>
-nnoremap <Enter>             i<Enter>
 
 vnoremap <Backspace> <Delete>i
 vnoremap <Space>     <Delete>i<Space>
 vnoremap <Delete>    <Delete>i
-vnoremap <Return>    <Delete>i<Return>
 vnoremap i           <Delete>i
 
-au FileType qf,undotree,nerdtree,tagbar au BufEnter <buffer> unmap <Enter>
-au FileType qf,undotree,nerdtree,tagbar au BufLeave <buffer> nmap  <Enter> i<Enter>
+" nnoremap <Enter>             i<Enter> " I've not being able to unmap/map it for some windows
+" vnoremap <Return>    <Delete>i<Return>
+" au FileType qf,undotree,nerdtree,tagbar au BufEnter <buffer> unmap <Enter>
+" au FileType qf,undotree,nerdtree,tagbar au BufLeave <buffer> nmap  <Enter> i<Enter>
 
 nnoremap <C-o>               o<Esc>
 " nnoremap <C-O>               O<Esc>
@@ -870,9 +865,6 @@ nmap cncu cru
 " - marks
 "   - using (M) to set a mark (few times) and (m) to jump to it (more times)
 "   - using Signature plugin to list marks: (sm) for a interactive list (swm) on the windowa
-" - quickfix
-"   - jump between next/prev entry (,q .q)
-"   - jump between prev/next quickfix list (,sq .sq)
 " - file explorer (se), buffers (sb), undo tree (su), and outline pane (so)
 " - vimprj (sprj) and vimrc (svim)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -913,16 +905,10 @@ noremap  .c   g,
 nnoremap sm   :SignatureListMarks<cr>
 map      swm  :SignatureToggleSigns<cr>
 noremap  M    m
-noremap  m    `
+noremap  m    '
 nnoremap dM   :delmarks
-
-" quick fix
-nnoremap sq   :call ToggleQuickfixList()<cr>
-nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
-nnoremap ,sq  :cprev<cr>
-nnoremap .sq  :cnext<cr>
-nnoremap ,q   :colder<cr>
-nnoremap .q   :cnewer<cr>
+noremap  MM   mM
+noremap  mm   'M
 
 " outline/tagbar
 nnoremap so   :TagbarToggle<cr>
@@ -978,6 +964,34 @@ au BufRead,BufNewFile *.test 		nmap  st :find %:t:r.hpp<cr>
 " Deprecated
 " map      sm  `
 "nnoremap   ll         :call ToggleLocationList()<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                           Quickfix (with ToogleList.vim)
+" 
+" - (sq) to toggle quickfix, (sqq) to toogle and move to quick fix
+" - jump between next/prev entry (,q .q)
+" - jump between prev/next quickfix list (,sq .sq)
+" - (sqe) to create a new quickfix list from the current one, without warnings
+" 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" let g:toggle_list_copen_command='Copen' " to use Copen instead of copen when toggling...
+let g:toggle_list_copen_command='copen'   " ...or keep using :copen to avoid overwriting :grep results
+let g:toggle_list_no_mappings=1           " to be able to use ',q' (I want MY mappings! ;-)
+
+nnoremap sq   :call ToggleQuickfixList()<cr>
+nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
+nnoremap ,sq  :colder<cr>
+nnoremap .sq  :cnewer<cr>
+nnoremap ,q   :cprev<cr>
+nnoremap .q   :cnext<cr>
+
+" to remove warings entries
+" info/text lines are kept, but ,q and .q will loop on no-warning entries
+nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
+
+" this automand is not called...? not sure way...
+" autocmd QuickfixCmdPost make call setqflist(filter(getqflist(), 'v:val.type == "E"'), 'r')
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                          (VCSCommand)                                                               "
