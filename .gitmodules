@@ -121,3 +121,6 @@
 [submodule ".vim/bundle/visualrepeat"]
 	path = .vim/bundle/visualrepeat
 	url = https://github.com/vim-scripts/visualrepeat.git
+[submodule ".vim/bundle/vim-maximizer"]
+	path = .vim/bundle/vim-maximizer
+	url = https://github.com/szw/vim-maximizer.git
