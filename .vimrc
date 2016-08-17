@@ -92,6 +92,7 @@ Plugin 'matchit.zip'                         " improves surroundings with more t
 " Plugin 'AutoClose'                         " autoclosing the surroundings (not necessary with code_complete?)
                                              " it closes the preview if line 162 (pclose) is not commented
 " Plugin 'Raimondi/delimitMate'                " the expanding with <Return> fails because of the not miving cursor when InsertLeave
+Plugin 'jiangmiao/auto-pairs'                " to autoclose pairs
 
 " Plugin 'tpope/vim-commentary'              " I don't like the commenting style for C/C++, and only works for lines
 Plugin 'tomtom/tcomment_vim'                 " add the comment action (gc -> cm) for motions and text objects
@@ -255,15 +256,26 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "                                         Tab Completion, OmniCppComplete and Surrounding
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-au FileType c,cpp,perl let b:delimitMate_eol_marker = ";"
-au FileType c,cpp,perl let b:delimitMate_insert_eol_marker = 0
-let delimitMate_autoclose            = 1 " basic functionality
-let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
-let delimitMate_expand_space         = 1 " expand with <Space>
-let delimitMate_expand_inside_quotes = 1 " also expand in quotes 
-let delimitMate_jump_expansion       = 0 " 
-let delimitMate_balance_matchpairs   = 1 " to try to fix missing pairs
-let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
+" au FileType c,cpp,perl let b:delimitMate_eol_marker = ";"
+" au FileType c,cpp,perl let b:delimitMate_insert_eol_marker = 0
+" let delimitMate_autoclose            = 1 " basic functionality
+" let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
+" let delimitMate_expand_space         = 1 " expand with <Space>
+" let delimitMate_expand_inside_quotes = 1 " also expand in quotes 
+" let delimitMate_jump_expansion       = 0 " 
+" let delimitMate_balance_matchpairs   = 1 " to try to fix missing pairs
+" let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
+
+let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
+let g:AutoPairsFlyMode            = 1       " to fly several brackets when pressing the closing bracket
+let g:AutoPairsShortcutBackInsert = '<C-l>' " to disable just pressed fly bracket
+let g:AutoPairsShortcutJump       = '<C-j>' " jump to next closed pair (pressing closing pair in insert also jumps)
+let g:AutoPairsMapBS              = 1       " map <Backspace> to remove in pairs
+let g:AutoPairsMapCh              = 1       " to remove brackets in pairs
+let g:AutoPairsMapCR              = 1       " to map <Return>
+let g:AutoPairsCenterLine         = 1       " center current line after <Return>
+let g:AutoPairsMapSpace           = 1       " to map <Space>
+let g:AutoPairsMultilineClose     = 1       " to change line after closing bracket
 
 " yank surround is add surround
 map as ys
