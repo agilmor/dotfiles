@@ -254,6 +254,16 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "                                         Tab Completion, OmniCppComplete and Surrounding
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+au FileType c,cpp,perl let b:delimitMate_eol_marker = ";"
+au FileType c,cpp,perl let b:delimitMate_insert_eol_marker = 0
+let delimitMate_autoclose            = 1 " basic functionality
+let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
+let delimitMate_expand_space         = 1 " expand with <Space>
+let delimitMate_expand_inside_quotes = 1 " also expand in quotes 
+let delimitMate_jump_expansion       = 0 " 
+let delimitMate_balance_matchpairs   = 1 " to try to fix missing pairs
+let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
+
 " yank surround is add surround
 map as ys
 
@@ -884,7 +894,7 @@ nmap    DD        dd<Up>
 " - w in normal mode is the main prefix-leader <C-w>
 "   - w<Arrows> move between windows
 " - (we) to toogle zoom/expand on a window
-" - (wm) to mark a window and (ws) to swap with the marked 
+" - (wm) to mark a window and (ws) to swap with the marked (works between tabs!)
 " - w<S-Arrows> for changing layout (forcing a window/pane to be on one side)
 " - w<C-Arrows> to resize (almonst not used?)
 " - (w,) and (w.) for tab navigation
@@ -959,20 +969,24 @@ nnoremap b.   :bnext<cr>
 
 function! MarkWindowSwap()
     " marked window number
+    let g:markedTabNum = tabpagenr()
     let g:markedWinNum = winnr()
     let g:markedBufNum = bufnr("%")
 endfunction
 
 function! DoWindowSwap()
+    let curTabNum = tabpagenr()
     let curWinNum = winnr()
     let curBufNum = bufnr("%")
     " Switch focus to marked window
+    exe "tabnext " . g:markedTabNum
     exe g:markedWinNum . "wincmd w"
 
     " Load current buffer on marked window
     exe 'hide buf' curBufNum
 
     " Switch focus to current window
+    exe "tabnext " . curTabNum
     exe curWinNum . "wincmd w"
 
     " Load marked buffer on current window
