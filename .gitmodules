@@ -124,3 +124,6 @@
 [submodule ".vim/bundle/vim-maximizer"]
 	path = .vim/bundle/vim-maximizer
 	url = https://github.com/szw/vim-maximizer.git
+[submodule ".vim/bundle/auto-pairs"]
+	path = .vim/bundle/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs.git
