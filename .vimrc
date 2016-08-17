@@ -926,7 +926,7 @@ vnoremap we :MaximizerToggle!<CR>gv
 
 nnoremap wt          <C-w>T
 vnoremap wt          <C-w>Tgv
-inoremap wt     <C-o><C-w>T<CR>
+" inoremap wt     <C-o><C-w>T<CR>
 
 " Resizes
 " nnoremap we          <C-w>=
@@ -999,9 +999,32 @@ function! DoWindowSwap()
     exe 'hide buf' g:markedBufNum
 endfunction
 
+function! DoWindowJoin()
+    let curTabNum = tabpagenr()
+    let curWinNum = winnr()
+    let curBufNum = bufnr("%")
+    " Switch focus to marked window
+    exe "tabnext " . g:markedTabNum
+    exe g:markedWinNum . "wincmd w"
+
+    " Close the marked window
+    close!
+
+    " Switch focus to current window
+    exe "tabnext " . curTabNum
+    exe curWinNum . "wincmd w"
+
+    " Create a new split and load the marked window
+    exe "vsplit"
+    exe 'hide buf' g:markedBufNum
+endfunction
+
 nmap <silent> wm :call MarkWindowSwap()<CR>
 nmap <silent> ws :call DoWindowSwap()<CR>
+nmap <silent> wj :call DoWindowJoin()<CR>
 
+nnoremap wb          <C-w>T
+vnoremap wb          <C-w>Tgv
 
 " Function to enable disable decorations (they should be disabled by default)
 let g:mydecoration=0
