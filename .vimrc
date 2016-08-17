@@ -76,8 +76,8 @@ Plugin 'bufexplorer.zip'                     " visualization of the buffers list
 " Version Control and Project Management
 Plugin 'vcscommand.vim'                      " version control git+svn together
 " Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
-Plugin 'Align'                               " used by vitra
-Plugin 'tracwiki'                            " used by vitra
+" Plugin 'Align'                               " used by vitra
+" Plugin 'tracwiki'                            " used by vitra
 
 " Less typing
 " Plugin 'Valloric/YouCompleteMe'            " too requieriments to be build?
@@ -91,6 +91,7 @@ Plugin 'matchit.zip'                         " improves surroundings with more t
                                              " maybe we should use 'runtime macros/matchit.vim' instead of a plugin?
 " Plugin 'AutoClose'                         " autoclosing the surroundings (not necessary with code_complete?)
                                              " it closes the preview if line 162 (pclose) is not commented
+" Plugin 'Raimondi/delimitMate'                " the expanding with <Return> fails because of the not miving cursor when InsertLeave
 
 " Plugin 'tpope/vim-commentary'              " I don't like the commenting style for C/C++, and only works for lines
 Plugin 'tomtom/tcomment_vim'                 " add the comment action (gc -> cm) for motions and text objects
@@ -898,6 +899,7 @@ nmap    DD        dd<Up>
 " - w<S-Arrows> for changing layout (forcing a window/pane to be on one side)
 " - w<C-Arrows> to resize (almonst not used?)
 " - (w,) and (w.) for tab navigation
+" - (W;) and (W:) for tab moves
 "   - w<PageUp/Down> also for tab navigation
 " - (sb), (b,), (b.) and (sbb) for buffers navigation
 "   - (sba) see all splitted in current window
@@ -951,6 +953,10 @@ nnoremap w<pagedown> :tabnext<cr>
 nnoremap w<pageup>   :tabprevious<cr>
 nnoremap w.          :tabnext<cr>
 nnoremap w,          :tabprevious<cr>
+nnoremap w;          :-tabmove<cr>
+nnoremap w:          :+tabmove<cr>
+nnoremap W;          :-tabmove<cr>
+nnoremap W:          :+tabmove<cr>
 
 " buffer exploring
 nnoremap sb   :BufExplorer<cr>
