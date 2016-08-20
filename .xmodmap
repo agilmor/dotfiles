@@ -1,3 +1,6 @@
+! Vertical scroll inverted (swap 4 and 5)
+!pointer = 1 2 3 5 4 6 7 8 9 10 11 12
+
 ! Lock      -> Caps_Lock
 ! Caps_Lock -> Esc
 ! Esc       -> Esc

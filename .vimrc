@@ -1,4 +1,16 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                       ToDos
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 
+" - use closing brackets to jump in normal mode like in insert mode (using AutoPairs)
+" - test unnamedplus (with tmux)
+" - (sh)
+"   - in a vrtical split
+"   - don't create a new one if exists
+" - (rt) is not working?
+" - (al) with "->" delimiter (use <C-x> for generic delimiters)
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                       General options (set)                                                          "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible                   " Use Vim settings, rather than Vi settings (much better!).
@@ -268,7 +280,7 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 
 let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
 let g:AutoPairsFlyMode            = 1       " to fly several brackets when pressing the closing bracket
-let g:AutoPairsShortcutBackInsert = '<C-l>' " to disable just pressed fly bracket
+let g:AutoPairsShortcutBackInsert = '<C-l>' " to disable just pressed fly bracket (alternative: <C-v> in imode forces direct input)
 let g:AutoPairsShortcutJump       = '<C-j>' " jump to next closed pair (pressing closing pair in insert also jumps)
 let g:AutoPairsMapBS              = 1       " map <Backspace> to remove in pairs
 let g:AutoPairsMapCh              = 1       " to remove brackets in pairs
@@ -370,7 +382,11 @@ endfunction
 " Direct paste from clipboard not working
 "set clipboard=unnamedplus " conflict with YankRing?
 " set clipboard+=unnamed   " conflict ith EasyClip and unnecessary?
-set clipboard^=unnamed     " working fine now?
+" set clipboard^=unnamed     " working fine now?
+set clipboard^=unnamedplus " unamedplus is more keyboard-centric (ctrl-c)... like vim is 
+                           " but anyway, the important part is that we should match tmux:
+                           " unnamed     -> xclip -selection primary
+                           " unnamedplus -> xclip -selection clipboard
 
 "
 " EasyClip - Options
@@ -598,13 +614,15 @@ endfunction
 "     - <Down> /<Up>   to remove/add spaces after the delimiter
 "     - ** to alternate left-right alignment
 "     - 1,2... or * to specify which delimiters we want to align
-"     - <C-x> to use regular expresion as delimiter instead of single character
+"     - <C-x> to use regular expresion as delimiter instead of single character (<C-x> again to save the align)
 "     - there are extra options that can be configured with some <C- > keystrokes
 "       - :help easy-align-alignment-options-in-interactive-mode
 "
 " - aL operator is the same, but without the preview and the extra confirmation of the delimiter
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:easy_align_ignore_groups = [] " 'Comments' and 'Strings' can be aligned...
 
 xmap aL  <Plug>(EasyAlign)
 nmap aL  <Plug>(EasyAlign)
@@ -921,6 +939,11 @@ nmap    DD        dd<Up>
 
 " Leader: w is the leader key for all windows and tabs (is <C-w>)
 nnoremap w           <C-w>
+
+" To restore the previous 'view' of the buffer (keep cursor position)
+" Very-very useful (with sh)!
+au BufLeave * let b:winview = winsaveview()
+au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
 
 " Decoretions
 map        wh         :set hls!<cr>
