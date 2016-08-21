@@ -263,18 +263,29 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                         Tab Completion, OmniCppComplete and Surrounding
+"
+" - AutorPairs works with "", '', {}, [], () in insert mode
+"   - Open pairs wirtes both
+"   - Closing pairs flies to end of that closing pair 
+"   - <Space> and <Return> inside pairs expand both sides 
+" - In normal mode:
+"   - Open pairs search for previos open pair
+"   - Closing pairs search for next closing pair
+"   - s+pair flies to current open/close pair
+" - See Text Objects for next/last inner/outer pairs
+" - yank surrounding is add surround -> ys == as
+" - using omnicomplete with tags and cscope
+" - Tab is context aware:
+"   - filename if '/' if is found 
+"   - omnicomplete if '.','->' or '::' is found
+"   - arguments completion if in parenthesis
+"     - <S-Tab> to loop arguments
+"   - normal compete if none of the previous
+"   - normal tab if no word already typed
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" au FileType c,cpp,perl let b:delimitMate_eol_marker = ";"
-" au FileType c,cpp,perl let b:delimitMate_insert_eol_marker = 0
-" let delimitMate_autoclose            = 1 " basic functionality
-" let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
-" let delimitMate_expand_space         = 1 " expand with <Space>
-" let delimitMate_expand_inside_quotes = 1 " also expand in quotes 
-" let delimitMate_jump_expansion       = 0 " 
-" let delimitMate_balance_matchpairs   = 1 " to try to fix missing pairs
-" let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
-
+" AutoPairs in insert mode
 let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
 let g:AutoPairsFlyMode            = 1       " to fly several brackets when pressing the closing bracket
 let g:AutoPairsShortcutBackInsert = '<C-l>' " to disable just pressed fly bracket (alternative: <C-v> in imode forces direct input)
@@ -286,8 +297,41 @@ let g:AutoPairsCenterLine         = 1       " center current line after <Return>
 let g:AutoPairsMapSpace           = 1       " to map <Space>
 let g:AutoPairsMultilineClose     = 1       " to change line after closing bracket
 
+" Pairs navigation in normal mode
+nnoremap s( [(
+nnoremap s{ [{
+" nnoremap [ [[
+nnoremap s) ])
+nnoremap s} ]}
+" nnoremap ] ]]
+
+nnoremap ( :call JumpBracket('{', 'h')<CR>
+nnoremap { :call JumpBracket('{', 'h')<CR>
+nnoremap [ :call JumpBracket('[', 'h')<CR>
+nnoremap ) :call JumpBracket(')', 'l')<CR>
+nnoremap } :call JumpBracket('}', 'l')<CR>
+nnoremap ] :call JumpBracket(']', 'l')<CR>
+
+function! JumpBracket(key,dir)
+    if a:dir == 'l'
+        if search(a:key, 'W')
+            " force break the '.' when jump to different line
+            return "\<Right>"
+        endif
+    else
+        if search(a:key, 'bW')
+            " force break the '.' when jump to different line
+            return "\<Left>"
+        endif
+    endif
+endfunc
+
 " yank surround is add surround
 map as ys
+
+" to add missing ; at the end of the line
+nnoremap ;; A;<Esc>^
+nnoremap <Home> ^
 
 " Options
 set completeopt=menuone,longest    " preview discarted, menuone to keep as much as possible menu (to read params)
@@ -348,7 +392,16 @@ function! TabComplete()
             "        return g:completekey         " arguments completion (not working?)
             "        return "\<S-Tab>"
             "       call CodeComplete() 
-            return "\<tab>"                             
+"             return "\<tab>"
+            
+"             let code_comp = CodeComplete() . "\<C-r>=".SwitchRegion()
+"             let code_comp = CodeComplete() . SwitchRegion()
+            let code_comp = CodeComplete()
+"             let var = input(code_comp)
+            return code_comp
+"             return CodeComplete()
+"             return SwitchRegion()
+"             return CodeComplete() . "\<C-r>=".SwitchRegion()
         else
             return "\<C-X>\<C-P>"                 " existing text completion
         endif
@@ -361,6 +414,32 @@ endfunction
 " Deprecated
 "
 " au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif " auto open/close the popup menu/preview windows
+"
+" To use autopairs fly also in normal mode (not properly working?)
+" nnoremap ) v"_c)<Esc>
+" nnoremap ) i<C-R>=AutoPairsInsert('")"')<CR><Esc>
+" nmap ) i)<Esc>
+" nmap } i}<Esc>
+" nmap ] i]<Esc>
+" nmap ) :call JumpBracket(')', 'l')<CR>
+" nmap } :call JumpBracket('}', 'l')<CR>
+" nmap ] :call JumpBracket(']', 'l')<CR>
+
+" nmap ( %
+" nmap ( :call JumpBracket('(', 'h')<CR>
+" nmap { %
+" nmap [ %
+
+" au FileType c,cpp,perl let b:delimitMate_eol_marker = ";"
+" au FileType c,cpp,perl let b:delimitMate_insert_eol_marker = 0
+" let delimitMate_autoclose            = 1 " basic functionality
+" let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
+" let delimitMate_expand_space         = 1 " expand with <Space>
+" let delimitMate_expand_inside_quotes = 1 " also expand in quotes 
+" let delimitMate_jump_expansion       = 0 " 
+" let delimitMate_balance_matchpairs   = 1 " to try to fix missing pairs
+" let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                            EasyClip and Exchange
@@ -429,6 +508,9 @@ nmap ,yf   <Plug>EasyClipToggleFormattedPaste<cr>
 
 imap <C-v> <Plug>EasyClipInsertModePaste
 cmap <C-v> <Plug>EasyClipCommandModePaste
+
+inoremap <C-u> <C-v>
+" cnoremap <C-u> <C-v>
 
 nmap sy    :Yanks<cr>
 
@@ -982,6 +1064,8 @@ set wmh=0                                   " to fullly maximize in height
 set wmw=0                                   " to fullly maximize in width 
 let g:maximizer_restore_on_winleave = 1     " to force restore when leaving maximized window (tmux like)
 
+nnoremap ww :MaximizerToggle!<CR>
+vnoremap ww :MaximizerToggle!<CR>gv
 nnoremap we :MaximizerToggle!<CR>
 vnoremap we :MaximizerToggle!<CR>gv
 " inoremap we <C-o>:MaximizerToggle!<CR>
@@ -1004,7 +1088,7 @@ nnoremap w<s-down>   <c-w>J<c-p>
 " Last/Previous Window / Tab
 nnoremap ,w          <c-w>p
 nnoremap ,t          :exe "tabn ".g:lasttab<CR>
-nnoremap ww          <c-w>p
+nnoremap wp          <c-w>p
 nnoremap tt          :exe "tabn ".g:lasttab<CR>
 
 " Tabs
