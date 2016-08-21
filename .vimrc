@@ -304,7 +304,7 @@ nnoremap s) ])
 nnoremap s} ]}
 " nnoremap ] ]]
 
-nnoremap ( :call JumpBracket('{', 'h')<CR>
+nnoremap ( :call JumpBracket('(', 'h')<CR>
 nnoremap { :call JumpBracket('{', 'h')<CR>
 nnoremap [ :call JumpBracket('[', 'h')<CR>
 nnoremap ) :call JumpBracket(')', 'l')<CR>
