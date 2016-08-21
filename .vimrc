@@ -2,7 +2,6 @@
 "                                       ToDos
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 
-" - use closing brackets to jump in normal mode like in insert mode (using AutoPairs)
 " - test unnamedplus (with tmux)
 " - (rt) is not working?
 " - (al) with "->" delimiter (use <C-x> for generic delimiters)
@@ -329,9 +328,8 @@ endfunc
 " yank surround is add surround
 map as ys
 
-" to add missing ; at the end of the line
+" to add missing ; at the end of the line (and return to begin of line)
 nnoremap ;; A;<Esc>^
-nnoremap <Home> ^
 
 " Options
 set completeopt=menuone,longest    " preview discarted, menuone to keep as much as possible menu (to read params)
