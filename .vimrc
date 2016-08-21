@@ -4,9 +4,6 @@
 " 
 " - use closing brackets to jump in normal mode like in insert mode (using AutoPairs)
 " - test unnamedplus (with tmux)
-" - (sh)
-"   - in a vrtical split
-"   - don't create a new one if exists
 " - (rt) is not working?
 " - (al) with "->" delimiter (use <C-x> for generic delimiters)
 "
@@ -698,6 +695,10 @@ endfunction
 "
 " - indentations as text objects: (ii) and (ai)
 "   - so, you can (dii), (yai), (vii)...
+" - next/last inner/outer objects
+"   - cin( will change next inner ()
+"   - cil( will change last inner ()
+"   - NOTE: al doesn't conflict with align because this is a text object an align is an operator
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -705,6 +706,32 @@ onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
 onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
 vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
 vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
+
+" Motion for "next/last object". For example, "din(" would go to the next "()" pair
+" and delete its contents.
+onoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
+xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
+onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
+xnoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
+
+onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
+xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
+onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
+xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
+
+function! s:NextTextObject(motion, dir)
+    let c = nr2char(getchar())
+
+    if c ==# "b"
+        let c = "("
+    elseif c ==# "B"
+        let c = "{"
+    elseif c ==# "d"
+        let c = "["
+    endif
+
+    exe "normal! ".a:dir.c."v".a:motion.c
+endfunction
 
 function! s:IndTxtObj(inner)
     let curline = line(".")
@@ -1240,6 +1267,9 @@ endfunction
 " - (lf) lists file ocurrences to quicklist (cscope)
 " - (li) lists files including this to quicklist (cscope)
 " - (ld) lists function called by me to quicklist (cscope)
+"
+" - (sh) and (st) to switch header and test files
+"   - use g:cpp_header_ext in vimprj to specify header extesion
 " 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -1286,15 +1316,36 @@ noremap    lp          <C-w>g}
 "
 " Switching header / source / test
 "
-au BufRead,BufNewFile *.h   		nmap  sh :find %:t:r.cpp<cr>
-au BufRead,BufNewFile *.hpp 		nmap  sh :find %:t:r.cpp<cr>
-au BufRead,BufNewFile *.cpp 		nmap  sh :find %:t:r.<c-r>=g:cpp_header_ext<cr><cr>
-au BufRead,BufNewFile *.test 		nmap  sh :find %:t:r.<c-r>=g:cpp_header_ext<cr><cr>
+" au BufRead,BufNewFile *.h   		nmap  sh :find %:t:r.cpp<cr>
+" au BufRead,BufNewFile *.hpp 		nmap  sh :find %:t:r.cpp<cr>
+" au BufRead,BufNewFile *.cpp 		nmap  sh :find %:t:r.<c-r>=g:cpp_header_ext<cr><cr>
+" au BufRead,BufNewFile *.test 		nmap  sh :find %:t:r.<c-r>=g:cpp_header_ext<cr><cr>
+"
+" au BufRead,BufNewFile *.h   		nmap  st :find %:t:r.test<cr>
+" au BufRead,BufNewFile *.hpp 		nmap  st :find %:t:r.test<cr>
+" au BufRead,BufNewFile *.cpp 		nmap  st :find %:t:r.test<cr>
+" au BufRead,BufNewFile *.test 		nmap  st :find %:t:r.hpp<cr>
 
-au BufRead,BufNewFile *.h   		nmap  st :find %:t:r.test<cr>
-au BufRead,BufNewFile *.hpp 		nmap  st :find %:t:r.test<cr>
-au BufRead,BufNewFile *.cpp 		nmap  st :find %:t:r.test<cr>
-au BufRead,BufNewFile *.test 		nmap  st :find %:t:r.hpp<cr>
+au BufRead,BufNewFile,WinEnter *.h   		nmap  sh :call SeeHeader( 'cpp', 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.hpp 		nmap  sh :call SeeHeader( 'cpp', 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.cpp 		nmap  sh :call SeeHeader( g:cpp_header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.test 		nmap  sh :call SeeHeader( g:cpp_header_ext, 'l')<cr>
+
+au BufRead,BufNewFile,WinEnter *.h   		nmap  st :call SeeHeader( 'test', 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.hpp 		nmap  st :call SeeHeader( 'test', 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.cpp 		nmap  st :call SeeHeader( 'test', 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.test 		nmap  st :call SeeHeader( g:cpp_header_ext, 'l')<cr>
+
+function! SeeHeader( ext, dir )
+"     let var = input( "ext: ".a:ext." dir: ".a:dir )
+    let curr_buf = bufnr("%")
+    if a:dir != 'none'
+        exe "wincmd ".a:dir
+        exe "buf " . curr_buf
+    endif
+    exe "find %:t:r.".a:ext
+endfunction
+
 
 " Deprecated
 "nnoremap   ll         :call ToggleLocationList()<cr>
