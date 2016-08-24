@@ -127,3 +127,6 @@
 [submodule ".vim/bundle/auto-pairs"]
 	path = .vim/bundle/auto-pairs
 	url = https://github.com/jiangmiao/auto-pairs.git
+[submodule ".vim/bundle/vim-easygrep"]
+	path = .vim/bundle/vim-easygrep
+	url = https://github.com/dkprice/vim-easygrep.git
