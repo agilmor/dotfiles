@@ -113,7 +113,7 @@ Plugin 'tpope/vim-dispatch.git'              " background/async builds (how to u
 Plugin 'vim-scripts/DfrankUtil'              " needed by vimprj
 Plugin 'vim-scripts/vimprj'                  " .vimprj directory is source
 " Plugin 'vim-scripts/indexer.tar.gz'        " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
-
+Plugin 'dkprice/vim-easygrep'
 " More
 Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
 
@@ -450,6 +450,7 @@ endfunction
 " - toggle auto-format after paste (F2) or (,yf)
 " - paste on insert and command modes with <C-v> (see EMCommandLineNoreMap for search mode)
 " - see the list of available yanks (sy)
+" - AutoFormat sometimes is not good... <F2> after paste to toogle it
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -473,7 +474,7 @@ let g:EasyClipUseYankDefaults                 =   1 " default yanks are ok (y)
 let g:EasyClipUsePasteDefaults                =   1 " default paste are ok (p)
 let g:EasyClipAlwaysMoveCursorToEndOfPaste    =   1 " to move to end of paste (,j to go back)
 let g:EasyClipAutoFormat                      =   1 " to enable auto-format (EasyClipToggleFormattedPaste to remove format)
-let g:EasyClipShareYanks                      =   0 " probably not a good option to enable...?
+let g:EasyClipShareYanks                      =   1 " probably not a good option to enable...?
 let g:EasyClipCopyExplicitRegisterToDefault   =   1 " paste last yanked even if it was saved to a register
 let g:EasyClipPreserveCursorPositionAfterYank =   1 " not move my cursor!
 let g:EasyClipShowYanksWidth                  = 120 " we have bigger screens!
@@ -538,7 +539,8 @@ let g:EasyMotion_enter_jump_first = 1                            " quick selecti
 let g:EasyMotion_space_jump_first = 0                            " to be able to use space as target key
 let g:EasyMotion_use_upper        = 1                            " for better readeability
 " let g:EasyMotion_keys             = 'asdghklqwertyuiopzxcvbnmfj' " defaults, without the last ';'
-let g:EasyMotion_keys             = 'ASDFQWERTZXCVBGLOKIJMNP '   " only left hand keys, and last for the right
+" let g:EasyMotion_keys             = 'ASDFQWERTZXCVBGLOKIJMNP '   " only left hand keys, and last for the right
+let g:EasyMotion_keys             = 'asdfqwertzxcvbglokijmnp '   " only left hand keys, and last for the right
 let g:Easymotion_startofline      = 0                            " to be able to move to eol and sol
 " let g:EasyMotion_smartcase = 1                                 " case insenitive (using normal ignorecas+smartcase)
 
@@ -563,7 +565,8 @@ map  _                 <Plug>(easymotion-sn)
 map  /                 <Plug>(easymotion-sn)
 map  N                 <Plug>(easymotion-prev)
 map  n                 <Plug>(easymotion-next)
-nmap *                 yiw<Plug>(easymotion-sn)<C-v><cr><cr>
+nmap *                 viwy<Plug>(easymotion-sn)<C-v><cr><cr>
+map Oj               viwy<Plug>(easymotion-sn)<C-v><cr><cr>
 
 map  <C-Right>         <Plug>(easymotion-lineforward)
 map  <C-Left>          <Plug>(easymotion-linebackward)
@@ -768,12 +771,51 @@ function! g:vimprj#dHooks['SetDefaultOptions']['main_options'](dParams)
     call <SID>SetMainDefaults()
 endfunction
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                           EasyGrep
+"
+" - (gw) and (g*) to grep current word or only current word and listing results in quickfix
+" - (gcw) and (gc*) to grep and change current word 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:EasyGrepMode                 = 0       " 0 all files / 2 - based on files extension
+let g:EasyGrepCommand              = 1       " 0 vimgrep / 1 grep
+let g:EasyGrepRoot                 = "cwd"   " use current dir... maybe .vimprj or .git could be alternatives?
+let g:EasyGrepRecursive            = 1       " recursive files search
+let g:EasyGrepIgnoreCase           = 0       " use case
+let g:EasyGrepHidden               = 0       " not hidden
+let g:EasyGrepFilesToExclude       = "*bkp*" " files to exclude (not working with vimgrep)
+let g:EasyGrepAllOptionsInExplorer = 1       " to show all options in the menu
+let g:EasyGrepOpenWindowOnMatch    = 1       " automatically opens the quickfix window
+let g:EasyGrepWindow               = 0       " Use Quickfix (not Location)
+let g:EasyGrepEveryMatch           = 1       " disable multiple matches in same line
+let g:EasyGrepJumpToMatch          = 0       " not autojumping
+let g:EasyGrepReplaceAllPerFile    = 1       " less global replace
+
+map gw     <leader>vv
+map g*     <leader>vV
+map gOj  <leader>vV
+map grw    <leader>vr
+map gr*    <leader>vR
+map grOj <leader>vR
+map gcw    <leader>vr
+map gc*    <leader>vR
+map gcOj <leader>vR
+
+vmap gw     <leader>vv
+vmap g*     <leader>vV
+vmap gOj  <leader>vV
+vmap grw    <leader>vr
+vmap gr*    <leader>vR
+vmap grOj <leader>vR
+vmap gcw    <leader>vr
+vmap gc*    <leader>vR
+vmap gcOj <leader>vR
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Text objects
 "
-" - indentations as text objects: (ii) and (ai)
+" - indentations as text objects: (ii) and (ai) -> removed because it conflicts with for(ii=0...)
 "   - so, you can (dii), (yai), (vii)...
 " - next/last inner/outer objects
 "   - cin( will change next inner ()
@@ -782,10 +824,11 @@ endfunction
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
-onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
-vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
-vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
+" removed because it conflicts with for(ii=0...)
+" onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
+" onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
+" vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
+" vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
 
 " Motion for "next/last object". For example, "din(" would go to the next "()" pair
 " and delete its contents.
@@ -794,10 +837,11 @@ xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
 onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
 xnoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
 
-onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
-xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
-onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
-xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
+" removed because it conflicts with al (align) in visual mode
+" onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
+" xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
+" onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
+" xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
 
 function! s:NextTextObject(motion, dir)
     let c = nr2char(getchar())
@@ -859,16 +903,18 @@ au CursorMovedI * let CursorColumnI = col('.')                                  
 au InsertLeave  * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif "
 
 " mapping z to v for convenience
-map z     v
-map vv    V
-map zz    V
-map Z     V
-map <C-z> <C-v>
+nnoremap z     v
+nnoremap vv    V
+nnoremap zz    V
+nnoremap Z     V
+nnoremap <C-z> <C-v>
 
 " as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitue character)
-" using (cl) (change-letter) instead
-noremap s  <Esc>
-noremap cl s
+" in normal mode using (cl) (change-letter) instead 
+" in visual mode, to switch to select mode
+nnoremap s  <Esc>
+nnoremap cl s
+vnoremap s    <C-g>
 
 " to be able to use . in other maps but keep fast repeat
 nmap .. .
@@ -1003,8 +1049,9 @@ noremap a<Left>   I
 " noremap A<Return> O<Esc>
 noremap a<Down>   o<Esc>
 noremap a<Up>     O<Esc>
-noremap a<Return> o
-noremap A<Return> O
+" noremap a<Return> o
+" noremap A<Return> O
+noremap a<Return> i<Return><Esc>
 nmap    d<Return> dd
 nmap    D<Return> DD
 nmap    DD        dd<Up>
@@ -1106,7 +1153,7 @@ nnoremap W:          :+tabmove<cr>
 nnoremap sb   :BufExplorer<cr>
 " nnoremap sbb  :b#<cr>
 nnoremap bb   :b#<cr>
-nnoremap sba  :vertical ba<cr>
+nnoremap sab  :vertical ba<cr>
 nnoremap ,b   :bprevious<cr>
 nnoremap .b   :bnext<cr>
 nnoremap b,   :bprevious<cr>
@@ -1297,21 +1344,21 @@ noremap  ,c   g;
 noremap  .c   g,
 
 " marks
-nnoremap sm   :SignatureListMarks<cr>
-map      swm  :SignatureToggleSigns<cr>
-noremap  M    m
-noremap  m    '
-nnoremap dM   :delmarks
-noremap  MM   mM
-noremap  mm   'M
+nnoremap  sm   :SignatureListMarks<cr>
+nmap      swm  :SignatureToggleSigns<cr>
+nnoremap  M    m
+nnoremap  m    '
+nnoremap  dM   :delmarks
+nnoremap  MM   mM
+nnoremap  mm   'M
 
 " exploring file
 nnoremap se   :NERDTreeToggle<cr>
 
 " vimproj and vimrc
-noremap  sp   :vspl .vimprj<cr>
-noremap  sprj :vspl .vimprj<cr>
-noremap  svim :vspl ~/.vimrc<cr>
+noremap  sp   :wincmd l<CR>:e .vimprj<cr>
+noremap  sprj :wincmd l<CR>:e .vimprj<cr>
+noremap  svim :wincmd l<CR>:e ~/.vimrc<cr>
 
 
 " undotree
@@ -1377,7 +1424,7 @@ nmap lt :cs find t  <C-R>=expand("<cword>")<CR><CR>sq
 nmap le :cs find e  <C-R>=expand("<cword>")<CR><CR>sq
 nmap lf :cs find f  <C-R>=expand("<cfile>")<CR><CR>sq
 nmap li :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>sq
-nmap ld :cs find d <C-R>=expand("<cword>")<CR><CR>sq
+nmap ld :cs find d  <C-R>=expand("<cword>")<CR><CR>sq
 
 " tags/links
 noremap    sl         :tjump /<C-r><C-w><cr>
@@ -1438,6 +1485,7 @@ endfunction
 " 
 " - (sq) to toggle quickfix, (sqq) to toogle and move to quick fix
 " - jump between next/prev entry (,q .q)
+"   - (,,q) is used to jump to current error (for convenience, as I don't jump to it auromatically)
 " - jump between prev/next quickfix list (,sq .sq)
 " - (sqe) to create a new quickfix list from the current one, without warnings
 " 
@@ -1454,6 +1502,7 @@ nnoremap sq   :call ToggleQuickfixList()<cr>
 nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
 nnoremap ,sq  :colder<cr>
 nnoremap .sq  :cnewer<cr>
+nnoremap ,,q  :cc<cr>
 nnoremap ,q   :cprev<cr>
 nnoremap .q   :cnext<cr>
 nnoremap q,   :cprev<cr>
