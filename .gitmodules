@@ -130,3 +130,15 @@
 [submodule ".vim/bundle/vim-easygrep"]
 	path = .vim/bundle/vim-easygrep
 	url = https://github.com/dkprice/vim-easygrep.git
+[submodule ".vim/bundle/vim-expand-region"]
+	path = .vim/bundle/vim-expand-region
+	url = https://github.com/terryma/vim-expand-region.git
+[submodule ".vim/bundle/vim-textobj-entire"]
+	path = .vim/bundle/vim-textobj-entire
+	url = https://github.com/kana/vim-textobj-entire.git
+[submodule ".vim/bundle/vim-textobj-line"]
+	path = .vim/bundle/vim-textobj-line
+	url = https://github.com/kana/vim-textobj-line.git
+[submodule ".vim/bundle/vim-textobj-user"]
+	path = .vim/bundle/vim-textobj-user
+	url = https://github.com/kana/vim-textobj-user.git
