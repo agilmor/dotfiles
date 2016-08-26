@@ -56,7 +56,8 @@ set grepprg=grep\ -n\ --exclude-dir=.svn\ $*\ /dev/null " to exclude svn/git res
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting colum (how to use textwidth var?) (see SwitchDecorations)
-let mapleader='+'                  " maybe, because the remaps, I can just use the default...?
+" let mapleader='+'                  " maybe, because the remaps, I can just use the default...?
+let mapleader='¡'                  " maybe, because the remaps, I can just use the default...?
 runtime ftplugin/man.vim           " to be able to render man pages
 runtime ftplugin/vim.vim           " to use the vim help
 source $VIMRUNTIME/menu.vim        " just to have some fancy (useless?) menus with (:emenu<space><tab>)
@@ -132,6 +133,10 @@ Plugin 'kshenoy/vim-signature'               " tu visualitze marks (smm)
 " Plugin 'vim-scripts/YankRing.vim'  "replaced by easyclip?
 Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easy-clip)
 Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste
+Plugin 'terryma/vim-expand-region'
+Plugin 'kana/vim-textobj-user' 
+Plugin 'kana/vim-textobj-line'
+Plugin 'kana/vim-textobj-entire'
 
 Plugin 'tpope/vim-surround'                  " defines surroundings as text objects (yank surroundings mean 'add' them)
 
@@ -513,6 +518,9 @@ inoremap <C-u> <C-v>
 
 nmap sy    :Yanks<cr>
 
+" visual selected pasted
+noremap vp `[v`]
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                            EasyMotions
 "
@@ -776,6 +784,7 @@ endfunction
 "
 " - (gw) and (g*) to grep current word or only current word and listing results in quickfix
 " - (gcw) and (gc*) to grep and change current word 
+" - :Grep and ':Replace old new'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:EasyGrepMode                 = 0       " 0 all files / 2 - based on files extension
@@ -887,7 +896,7 @@ endfunction
 "                                           Fixing Annoyances
 "
 " - not moving cursor when leaving insert mode
-" - using (z) instead if (v) for visual mode (note that <S-Arrows> go directly to <C-v>
+" - using (zz) and (ZZ) to expand/shrink visual selection and go to select mode (note that <S-Arrows> go directly to <C-v>
 "   - also addin (zz) and (vv) instead of (V)
 " - as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitue character)
 "   - using (cl) (change-letter) instead
@@ -903,11 +912,26 @@ au CursorMovedI * let CursorColumnI = col('.')                                  
 au InsertLeave  * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif "
 
 " mapping z to v for convenience
-nnoremap z     v
-nnoremap vv    V
-nnoremap zz    V
-nnoremap Z     V
-nnoremap <C-z> <C-v>
+" nnoremap z     v
+" nnoremap vv    V
+" nnoremap zz    V
+" nnoremap Z     V
+" nnoremap <C-z> <C-v>
+map zz <Plug>(expand_region_expand)
+map ZZ <Plug>(expand_region_shrink)
+
+let g:expand_region_use_select_mode = 1 " to auto select-mode when expanding
+
+" let g:expand_region_text_objects = {'ie': 0, 
+"                                  \  'ip': 0, 
+"                                  \  'iw': 0, 
+"                                  \  'iB': 1,
+"                                  \  'il': 0,
+"                                  \  'iW': 0,
+"                                  \  'i''': 0,
+"                                  \  'ib': 1,
+"                                  \  'i]': 1,
+"                                  \  'i"': 0}
 
 " as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitue character)
 " in normal mode using (cl) (change-letter) instead 
@@ -925,6 +949,8 @@ nnoremap aa a
 
 " sudo write (never used!? I should use it more!)
 cmap w!! w !sudo tee % >/dev/null
+
+map q: :q
 
 " refresh vim files
 noremap    <F5>       :e<cr>
