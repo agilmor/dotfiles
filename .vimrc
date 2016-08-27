@@ -73,7 +73,7 @@ call vundle#begin()
 
 " Plugin Manager
 Plugin 'VundleVim/Vundle.vim'                " let Vundle manage Vundle, required
-
+Plugin 'kopischke/vim-fetch'
 " Browsing
 Plugin 'scrooloose/nerdtree.git'             " file browser (not really useful... ctrlp/unite and wildmode are better?)
 "Plugin 'ctrlp.vim'                           " I'm just not using it...?

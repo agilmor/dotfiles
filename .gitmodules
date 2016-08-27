@@ -145,3 +145,6 @@
 [submodule ".vim/bundle/vim-tmux-navigator"]
 	path = .vim/bundle/vim-tmux-navigator
 	url = https://github.com/christoomey/vim-tmux-navigator.git
+[submodule ".vim/bundle/vim-fetch"]
+	path = .vim/bundle/vim-fetch
+	url = https://github.com/kopischke/vim-fetch.git
