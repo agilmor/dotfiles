@@ -81,6 +81,7 @@ Plugin 'majutsushi/tagbar'                   " outline window (uses its own ctag
 Plugin 'mbbill/undotree'                     " visualization of the undotree as a version control (F5 -> :UndotreeToggle)
 Plugin 'bufexplorer.zip'                     " visualization of the buffers list
 " Plugin 'derekwyatt/vim-fswitch'            " (not tested, using manual setup with sh+st)
+Plugin 'christoomey/vim-tmux-navigator'
 
 " Version Control and Project Management
 Plugin 'vcscommand.vim'                      " version control git+svn together
@@ -1116,6 +1117,14 @@ nmap    DD        dd<Up>
 "   - (sb) allows to delete buffers with (d)
 " - (,w) and (,t) for previous window, tab and buffer
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <M-Left> :TmuxNavigateLeft<cr>
+nnoremap <silent> <M-Down> :TmuxNavigateDown<cr>
+nnoremap <silent> <M-Up> :TmuxNavigateUp<cr>
+nnoremap <silent> <M-Right> :TmuxNavigateRight<cr>
+" nnoremap <silent> <M-Left> :TmuxNavigatePrevious<cr>
 
 " Leader: w is the leader key for all windows and tabs (is <C-w>)
 nnoremap w           <C-w>
