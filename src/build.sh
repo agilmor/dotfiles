@@ -10,7 +10,11 @@ cd vim
                                   --enable-tclinterp=yes     \
                                   --enable-rubyinterp=yes    \
                                   --enable-cscope            \
-                                  --with-features=huge       && make -j$jobs install
+                                  --enable-gui               \
+                                  --with-x                   \
+                                  --with-features=huge       \
+                                  &&                         \
+                                  make -j$jobs install
 cd ..
 
 cd libevent
