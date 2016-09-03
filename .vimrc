@@ -4,7 +4,6 @@
 " 
 " - test unnamedplus (with tmux)
 " - (rt) is not working?
-" - (al) with "->" delimiter (use <C-x> for generic delimiters)
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                       General options (set)                                                          "
@@ -85,6 +84,7 @@ Plugin 'christoomey/vim-tmux-navigator'
 
 " Version Control and Project Management
 Plugin 'vcscommand.vim'                      " version control git+svn together
+" Plugin 'vim-scripts/ConflictMotions'       " never tried! maybe its a good option!
 " Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
 " Plugin 'Align'                               " used by vitra
 " Plugin 'tracwiki'                            " used by vitra
@@ -1559,7 +1559,23 @@ nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                          (VCSCommand)
-" for all the files in the root directori: 
+"
+" solving git conglicts (http://www.rosipov.com/blog/use-vimdiff-as-git-mergetool):
+" - git config merge.tool          vimdiff
+" - git config merge.conflictstyle diff3
+" - git config mergetool.prompt    false
+"
+" LOCAL  – this is file from the current branch
+" BASE   – common ancestor, how file looked before both changes
+" REMOTE – file you are merging into your branch
+" MERGED – merge result, this is what gets saved in the repo
+"
+" In MERGED:
+" :diffg RE  " get from REMOTE
+" :diffg BA  " get from BASE
+" :diffg LO  " get from LOCAL
+"
+" for all the files in the root directory: 
 "   1.- open a new vim with the files obtained from git/svn cmdline in tabs (swap file are annoying)
 "   2.- run vcsdiff in all tabs (why the nice <C-w><Left>]c cannot be passed to the tabdo?) 
 "   3.- edit files freely
