@@ -1,4 +1,4 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                       ToDos
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 
@@ -129,6 +129,7 @@ Plugin 'haya14busa/incsearch-fuzzy.vim'      " fuzzy motion
 
 " Plugin 'rhysd/open-pdf.vim'                " pdfs (not very useful, but...)
 Plugin 'kshenoy/vim-signature'               " tu visualitze marks (smm)
+Plugin 'Yggdroot/indentLine'                 " to visualize indentation lines (wl)
 " Plugin 'vim-scripts/yate'                  " much slower than simple :*tag
 " Plugin 'bling/vim-airline'                 " too fancy for me? I'll give it a second chance in a while...
 " Plugin 'vim-scripts/YankRing.vim'  "replaced by easyclip?
@@ -1143,6 +1144,8 @@ nnoremap   wn         :call NumberToggle()<cr>
 set wmh=0                                   " to fullly maximize in height
 set wmw=0                                   " to fullly maximize in width 
 let g:maximizer_restore_on_winleave = 1     " to force restore when leaving maximized window (tmux like)
+let g:maximizer_set_default_mapping = 0     " to be able to use <F3> for other usage
+let g:maximizer_restore_on_winleave = 1     " to autorestore if moving out of windows (good if not using too much tabs?)
 
 nnoremap ww :MaximizerToggle!<CR>
 vnoremap ww :MaximizerToggle!<CR>gv
@@ -1194,6 +1197,8 @@ nnoremap .b   :bnext<cr>
 nnoremap b,   :bprevious<cr>
 nnoremap b.   :bnext<cr>
 
+" indentation lines disabled by default (integrated with Switch decorations)
+let g:indentLine_enabled = 0
 
 "
 " Functions
@@ -1258,10 +1263,12 @@ function! SwitchDecorations()
     if g:mydecoration == 1
         set nolist
         set colorcolumn=0
+        exe "IndentLinesDisable"
         let g:mydecoration=0
     else
         set list
         set colorcolumn=+1
+        exe "IndentLinesEnable"
         let g:mydecoration=1
     endif
 endfunction
@@ -1560,7 +1567,8 @@ nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " open/close win-diff
-nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
+" nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
+nnoremap <silent> wd     :tabnew %<CR>:VCSVimDiff<cr><C-w><Left>]c
 nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff"<cr>
 nnoremap <silent> wsd    :! vim -p $(svn st <Bar> grep "M " <Bar> awk '{print $2}') -c "tabdo VCSVimDiff"<cr>
 nnoremap <silent> wdq     <C-w><Right>:q<cr>
