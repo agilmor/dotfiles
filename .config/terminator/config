@@ -43,8 +43,6 @@
   move_tab_left = Disabled
   toggle_scrollbar = Disabled
   copy_selected_text = Disabled
-  #cycle_next = Disabled
-  #cycle_prev = Disabled
 [profiles]
   [[default]]
     scrollbar_position = hidden
