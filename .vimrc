@@ -95,6 +95,8 @@ Plugin 'vcscommand.vim'                      " version control git+svn together
 " Plugin 'Rip-Rip/clang_complete'            " only works for C/C++... but works great!
 Plugin 'vim-scripts/OmniCppComplete'         " simpler, it uses ctags (not works in auto mode for unscoped vars)
 Plugin 'mbbill/code_complete'                " for arguments and snippets (CodeComplete)
+Plugin 'SirVer/ultisnips'                    " to get snippet feature
+Plugin 'honza/vim-snippets'                  " standard snippets? (my own on .vim/snippets)
 " Plugin 'vim-scripts/AutoComplPop'          " used for unescoped vars (works in automode forunscoped
 " Plugin 'ervandew/supertab'                 " to complex, homade function is simpler and enough
 Plugin 'matchit.zip'                         " improves surroundings with more than simple characters
@@ -291,6 +293,18 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+set rtp^=~/.vim/snippets/                                        " my own snippets should be preend in runtime paths
+let g:UltiSnipsSnippetsDir         = '~/.vim/snippets/UltiSnips' " my own snippets
+let g:UltiSnipsSnippetDirectories  = ['UltiSnips']               " just the default to be able to use standard packages
+let g:UltiSnipsEnableSnipMate      = 0                           " too many unknown snippets? mybe I should give them a try?
+let g:UltiSnipsExpandTrigger       = "<F10>"                     " to avoid overwriting my Tab completion (but <Tab> is actually the one I'm using!)
+let g:UltiSnipsListSnippets        = "<F11>"                     " to avoid conflcits with CodeComplete... but <S-Tab> is actually the one I'm using!)
+let g:UltiSnipsJumpForwardTrigger  = "<Tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>"
+let g:UltiSnipsEditSplit           = "vertical"                  " it should be nice if I can do it as svim or sprj....
+let g:UltiSnipsRemoveSelectModeMappings = 1                      " yes, printable characters shouldn't be mapped in select mode...
+
+
 " AutoPairs in insert mode
 let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
 let g:AutoPairsFlyMode            = 1       " to fly several brackets when pressing the closing bracket
@@ -355,21 +369,32 @@ let OmniCpp_MayCompleteScope    = 0 " autocomplete after ::
 let OmniCpp_DefaultNamespaces   = ["std", "_GLIBCXX_STD"]
 
 " CodeComplete
+let g:completekey = '<C-q>'           " code_complete: to avoid conflicts with normal omnicomplete with tab
 let g:completekey = '<S-Tab>'           " code_complete: to avoid conflicts with normal omnicomplete with tab
 " let g:completekey = '<C-a>'
-let g:rs = '·<'                         " arguments separators
-let g:re = '>·'
+let g:rs = '< '                         " arguments separators
+let g:re = ' >'
 
 "
-" Tab mappings;
-" - visual and normal mode: indentation
-" - insert mode: manual selection between normal tab, file completion, omnicomplete and existing text complete         "
+" Tab mappings to autocompletion
+" Note that indetation is done by operators < and > (with easy motions and arrows to avoid shift, see easymotions section)
 "
-vnoremap <Tab>   >gv
-vnoremap <S-Tab> <gv
-nnoremap <Tab>   >>
-nnoremap <S-Tab> <<
+" In visual mode autocompletion is only for snippets
+" In normal mode Tab enters to insert mode and call TabComplete
+" In insert mode TabComplete():
+"   - just a tab if no previous word
+"   - filename completion if has /
+"   - omnicomplete if has . or ->
+"   - CodeComplete if has (
+"   - Snippets if none of the above
+"   - Normal complete if no snippets
+"
+xnoremap <Tab>   :call UltiSnips#SaveLastVisualSelection()<CR>gvs
 inoremap <Tab>   <C-r>=TabComplete()<CR>
+nmap     <Tab>   i<C-r>=TabComplete()<CR>
+nmap     <S-Tab> :call UltiSnips#ListSnippets()<CR>
+
+" * <Esc>:call UltiSnips#ListSnippets()<CR>
 
 " Functions
 function! TabComplete()
@@ -394,21 +419,19 @@ function! TabComplete()
         elseif ( has_period || has_arrow )
             return "\<C-X>\<C-O>"                 " omni-complete
         elseif ( has_parent )
-            "        return g:completekey         " arguments completion (not working?)
-            "        return "\<S-Tab>"
-            "       call CodeComplete() 
-"             return "\<tab>"
-            
+"             return g:completekey         " arguments completion (not working?)
 "             let code_comp = CodeComplete() . "\<C-r>=".SwitchRegion()
 "             let code_comp = CodeComplete() . SwitchRegion()
             let code_comp = CodeComplete()
-"             let var = input(code_comp)
             return code_comp
-"             return CodeComplete()
-"             return SwitchRegion()
-"             return CodeComplete() . "\<C-r>=".SwitchRegion()
         else
-            return "\<C-X>\<C-P>"                 " existing text completion
+            let g:ulti_expand_or_jump_res = 0
+            call UltiSnips#ExpandSnippetOrJump()
+            if ( g:ulti_expand_or_jump_res == 0 )
+                return "\<C-X>\<C-P>"                 " existing text completion
+            else
+                return ""                           " if not a character is added to the the snipet?
+            endif
         endif
     else
         return "\<tab>"                           " no-completion, just a tab
@@ -445,6 +468,10 @@ endfunction
 " let delimitMate_balance_matchpairs   = 1 " to try to fix missing pairs
 " let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
 
+" vnoremap <Tab>   >gv
+" vnoremap <S-Tab> <gv
+" nnoremap <Tab>   >>
+" nnoremap <S-Tab> <<
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                            EasyClip and Exchange
@@ -632,8 +659,8 @@ nmap r<Down>           r<Plug>(easymotion-j)
 nmap r<Right>          r<Plug>(easymotion-lineforward)
 nmap r<Left>           r<Plug>(easymotion-linebackward)
 
-nmap v<Up>             v<Plug>(easymotion-k)
-nmap v<Down>           v<Plug>(easymotion-j)
+nmap v<Up>             V<Plug>(easymotion-k)
+nmap v<Down>           V<Plug>(easymotion-j)
 nmap v<Right>          v<Plug>(easymotion-lineforward)
 nmap v<Left>           v<Plug>(easymotion-linebackward)
 nmap vl                <Plug>(easyoperator-line-select)
@@ -654,6 +681,34 @@ nmap al<Up>            al<Plug>(easymotion-k)
 nmap al<Down>          al<Plug>(easymotion-j)
 nmap al<Right>         al<Plug>(easymotion-lineforward)
 nmap al<Left>          al<Plug>(easymotion-linebackward)
+
+" indent and format integration
+nmap ><Up>             ><Plug>(easymotion-k)
+nmap ><Down>           ><Plug>(easymotion-j)
+nmap <<Up>             <<Plug>(easymotion-k)
+nmap <<Down>           <<Plug>(easymotion-j)
+
+" just in case I keep pressing shift while in the motion...
+nmap ><S-Up>           ><Plug>(easymotion-k)
+nmap ><S-Down>         ><Plug>(easymotion-j)
+
+nmap =<Up>             =<Plug>(easymotion-k)
+nmap =<Down>           =<Plug>(easymotion-j)
+nmap =<Up>             =<Plug>(easymotion-k)
+nmap =<Down>           =<Plug>(easymotion-j)
+
+" I never know if I've to press shift in the spanish keyboard to get < or >... 
+" ...so replacing < (no shift) + Left/Right to the right < and > operators
+" and also the << and >> + Left and Right!
+nmap     <<Right>        >
+nmap     <<Left>         <
+vnoremap <<Right>        >gv
+vnoremap <<Left>         <gv
+
+nnoremap <<<Right>       >>
+nnoremap <<<Left>        <<
+nnoremap <<Right><Right> >>
+nnoremap <<Left><Left>   <<
 
 "
 " EasyMotion - AutoCommands
