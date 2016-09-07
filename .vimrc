@@ -1,4 +1,4 @@
-    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                       ToDos
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 
@@ -164,6 +164,7 @@ call vundle#end()                  " required
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                              Coloring
 "
+" Color table: http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
 " Issues
 " - should I use guicolorscheme or CSApprox?
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -192,6 +193,12 @@ if &t_Co > 2 || has("gui_running")
     highlight CursorLine term=reverse ctermbg=242 guibg=Grey40
     highlight clear ColorColumn
     highlight ColorColumn term=reverse ctermbg=242 guibg=Grey40
+
+    " Diff windows (from http://stackoverflow.com/a/17183382/5349914)
+    highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+    highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+    highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+    highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
 
     au InsertEnter * hi StatusLine  term=reverse ctermbg=Black ctermfg=Red 
     au InsertEnter * hi VertSplit   term=reverse ctermbg=Black ctermfg=Red 
@@ -1005,7 +1012,7 @@ xmap .. .
 nnoremap aa a
 
 " sudo write (never used!? I should use it more!)
-cmap w!! w !sudo tee % >/dev/null
+cmap w!! w !sudo tee %
 
 map q: :q
 
