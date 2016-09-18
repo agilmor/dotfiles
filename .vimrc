@@ -187,10 +187,11 @@ Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abol
 Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste
 
 " Text objects
-Plugin 'terryma/vim-expand-region'
-Plugin 'kana/vim-textobj-user' 
-Plugin 'kana/vim-textobj-line'
-Plugin 'kana/vim-textobj-entire'
+Plugin 'terryma/vim-expand-region'           " expand mode for visual selection
+Plugin 'kana/vim-textobj-user'               " to create custom text objects
+Plugin 'kana/vim-textobj-line'               " the (l)ine text object
+Plugin 'kana/vim-textobj-entire'             " the (e)ntire file text object
+Plugin 'wellle/targets.vim'                  " adding (n)ext and (l)ast text objects (auto detected), and arguments objects
 
 " Operators
 Plugin 'tpope/vim-surround'                  " defines surroundings as text objects (yank surroundings mean 'add' them)
@@ -1005,27 +1006,11 @@ function! MyRepeatChar(mode)
     endif
 endfunction
 
-" vnoremap i           <Delete>i
-
-" noremap a<Down>   o
-" noremap a<Up>     O
-" noremap a<Return> o<Esc>
-" noremap A<Return> O<Esc>
-" noremap A<S-Down> o<Esc>
-" noremap A<S-Up>   O<Esc>
-" noremap a<Return> o
-" noremap A<Return> O
-
-" nnoremap aa         i
-" nnoremap a<Space>   a
-
 " <S-Arrows>    : Block selection
 " zz            : Expand selection
 " z<up/down>    : line selection
 " z<left/right> : normal selection
-"
-" navigation
-" ----------
+
 " z and expand
 nmap     z     v
 nmap     Z     V
@@ -1035,16 +1020,18 @@ map      ZZ    <Plug>(expand_region_shrink)
 
 let g:expand_region_use_select_mode = 0 " 1: Select mode 0: Visual mode
 
-" let g:expand_region_text_objects = {'ie': 0, 
-"                                  \  'ip': 0, 
-"                                  \  'iw': 0, 
-"                                  \  'iB': 1,
-"                                  \  'il': 0,
-"                                  \  'iW': 0,
-"                                  \  'i''': 0,
-"                                  \  'ib': 1,
-"                                  \  'i]': 1,
-"                                  \  'i"': 0}
+" adding the (ia) text object
+let g:expand_region_text_objects = { 'ie' : 0,
+                                 \   'ip' : 0, 
+                                 \   'iw' : 0,
+                                 \   'iB' : 1,
+                                 \   'il' : 0,
+                                 \   'iW' : 0,
+                                 \   'i''': 0,
+                                 \   'ib' : 1,
+                                 \   'i]' : 1,
+                                 \   'ia' : 0,
+                                 \   'i"' : 0}
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Text objects
@@ -1059,37 +1046,10 @@ let g:expand_region_use_select_mode = 0 " 1: Select mode 0: Visual mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " removed because it conflicts with for(ii=0...)
-" onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
-" onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
-" vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
-" vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
-
-" Motion for "next/last object". For example, "din(" would go to the next "()" pair
-" and delete its contents.
-onoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
-xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
-onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
-xnoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
-
-" removed because it conflicts with al (align) in visual mode
-" onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
-" xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
-" onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
-" xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
-
-function! s:NextTextObject(motion, dir)
-    let c = nr2char(getchar())
-
-    if c ==# "b"
-        let c = "("
-    elseif c ==# "B"
-        let c = "{"
-    elseif c ==# "d"
-        let c = "["
-    endif
-
-    exe "normal! ".a:dir.c."v".a:motion.c
-endfunction
+onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
+onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
+vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
+vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
 
 function! s:IndTxtObj(inner)
     let curline = line(".")
@@ -1117,6 +1077,34 @@ function! s:IndTxtObj(inner)
     endif
 endfunction
 
+" Depcretaed due targets.vim plugin
+" Motion for "next/last object". For example, "din(" would go to the next "()" pair
+" and delete its contents.
+" onoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
+" xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
+" onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
+" xnoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
+"
+" " removed because it conflicts with al (align) in visual mode
+" onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
+" xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
+" onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
+" xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
+
+" function! s:NextTextObject(motion, dir)
+"     let c = nr2char(getchar())
+"
+"     if c ==# "b"
+"         let c = "("
+"     elseif c ==# "B"
+"         let c = "{"
+"     elseif c ==# "d"
+"         let c = "["
+"     endif
+"
+"     exe "normal! ".a:dir.c."v".a:motion.c
+" endfunction
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Miscellaneous and Annoyances
 "
