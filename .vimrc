@@ -1,12 +1,59 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                       ToDos
+"                                               Summary
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 
-" - test unnamedplus (with tmux)
-" - (rt) is not working?
 "
+" Full Operators
+" --------------
+"
+" y                : yank
+" d                : delete
+" x                : cut
+" r                : replace
+" c                : change
+" e                : exchange
+" q                : comment
+"
+" > / >>           : align
+" < <Left>/<Right> : indent left / right
+"
+" (y,d,c)s         : surrounding operators
+" 
+"
+" Semi Operators
+" --------------
+" 
+" C(u,s,c,m) : case naming convention UPPER_STYLE, snake_style, CamelStyle, mixedStyle
+"
+" Semi Text Objects
+" -----------------
+"
+" x                          : single letter/chracter
+" p                          : pasted text
+" b<Up/Down>                 : betwwen two lines (easy motions) (only yank, change and delete)
+" b<Left/Right>(char1 char2) : betwwen two chars at any line (easy motions) (only yank, change and delete)
+"
+" Moving between Modes
+" ---------------------
+"
+" ax(char)      : add 'char' before cursor
+" a<Arrows>     : go insert mode in line above, below, and begin and end of the line
+"
+" <S-Arrows>    : block selection
+" zz            : expand selection
+" z<Up/Down>    : line selection
+" z<left/Right> : normal selection
+"
+" Navigation
+" ----------
+"
+" , : previous
+" - : next
+" ; : special previous
+" _ : special next
+"
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                       General options (set)                                                          "
+"                                       General options (set)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible                   " Use Vim settings, rather than Vi settings (much better!).
                                    " This must be first, because it changes other options as a side effect.
@@ -55,8 +102,7 @@ set grepprg=grep\ -n\ --exclude-dir=.svn\ $*\ /dev/null " to exclude svn/git res
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting colum (how to use textwidth var?) (see SwitchDecorations)
-" let mapleader='+'                  " maybe, because the remaps, I can just use the default...?
-let mapleader='¡'                  " maybe, because the remaps, I can just use the default...?
+let mapleader='º'                  " maybe, because the remaps, I can just use the default...?
 runtime ftplugin/man.vim           " to be able to render man pages
 runtime ftplugin/vim.vim           " to use the vim help
 source $VIMRUNTIME/menu.vim        " just to have some fancy (useless?) menus with (:emenu<space><tab>)
@@ -72,10 +118,11 @@ call vundle#begin()
 
 " Plugin Manager
 Plugin 'VundleVim/Vundle.vim'                " let Vundle manage Vundle, required
-Plugin 'kopischke/vim-fetch'
+Plugin 'kopischke/vim-fetch'                 " to open files with :line:col suffix
+
 " Browsing
 Plugin 'scrooloose/nerdtree.git'             " file browser (not really useful... ctrlp/unite and wildmode are better?)
-"Plugin 'ctrlp.vim'                           " I'm just not using it...?
+"Plugin 'ctrlp.vim'                            " I'm just not using it...?
 Plugin 'majutsushi/tagbar'                   " outline window (uses its own ctag of current file only)
 Plugin 'mbbill/undotree'                     " visualization of the undotree as a version control (F5 -> :UndotreeToggle)
 Plugin 'bufexplorer.zip'                     " visualization of the buffers list
@@ -90,15 +137,15 @@ Plugin 'vcscommand.vim'                      " version control git+svn together
 " Plugin 'tracwiki'                            " used by vitra
 
 " Less typing
-" Plugin 'Valloric/YouCompleteMe'            " too requieriments to be build?
-" Plugin 'Shougo/neocomplete.vim'            " not semantics -> use clan_complete (see fix in advanced setup)
-" Plugin 'Rip-Rip/clang_complete'            " only works for C/C++... but works great!
+" Plugin 'Valloric/YouCompleteMe'              " too requieriments to be build?
+" Plugin 'Shougo/neocomplete.vim'              " not semantics -> use clan_complete (see fix in advanced setup)
+" Plugin 'Rip-Rip/clang_complete'              " only works for C/C++... but works great!
 Plugin 'vim-scripts/OmniCppComplete'         " simpler, it uses ctags (not works in auto mode for unscoped vars)
 Plugin 'mbbill/code_complete'                " for arguments and snippets (CodeComplete)
 Plugin 'SirVer/ultisnips'                    " to get snippet feature
 Plugin 'honza/vim-snippets'                  " standard snippets? (my own on .vim/snippets)
-" Plugin 'vim-scripts/AutoComplPop'          " used for unescoped vars (works in automode forunscoped
-" Plugin 'ervandew/supertab'                 " to complex, homade function is simpler and enough
+" Plugin 'vim-scripts/AutoComplPop'            " used for unescoped vars (works in automode forunscoped
+" Plugin 'ervandew/supertab'                   " to complex, homade function is simpler and enough
 Plugin 'matchit.zip'                         " improves surroundings with more than simple characters
                                              " maybe we should use 'runtime macros/matchit.vim' instead of a plugin?
 " Plugin 'AutoClose'                         " autoclosing the surroundings (not necessary with code_complete?)
@@ -106,18 +153,19 @@ Plugin 'matchit.zip'                         " improves surroundings with more t
 " Plugin 'Raimondi/delimitMate'                " the expanding with <Return> fails because of the not miving cursor when InsertLeave
 Plugin 'jiangmiao/auto-pairs'                " to autoclose pairs
 
-" Plugin 'tpope/vim-commentary'              " I don't like the commenting style for C/C++, and only works for lines
+" Plugin 'tpope/vim-commentary'                " I don't like the commenting style for C/C++, and only works for lines
 Plugin 'tomtom/tcomment_vim'                 " add the comment action (gc -> cm) for motions and text objects
 
 " Async commands
 Plugin 'tpope/vim-dispatch.git'              " background/async builds (how to use it for grep?)
-" Plugin 'AsyncCommand'                      " background/async builds (needs vim --servername)
+" Plugin 'AsyncCommand'                        " background/async builds (needs vim --servername)
 
 " Project management
 Plugin 'vim-scripts/DfrankUtil'              " needed by vimprj
 Plugin 'vim-scripts/vimprj'                  " .vimprj directory is source
-" Plugin 'vim-scripts/indexer.tar.gz'        " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
-Plugin 'dkprice/vim-easygrep'
+" Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
+Plugin 'dkprice/vim-easygrep'                " to search and replace for the whole project
+
 " More
 Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
 
@@ -132,39 +180,39 @@ Plugin 'haya14busa/incsearch-fuzzy.vim'      " fuzzy motion
 " Plugin 'rhysd/open-pdf.vim'                " pdfs (not very useful, but...)
 Plugin 'kshenoy/vim-signature'               " tu visualitze marks (smm)
 Plugin 'Yggdroot/indentLine'                 " to visualize indentation lines (wl)
-" Plugin 'vim-scripts/yate'                  " much slower than simple :*tag
-" Plugin 'bling/vim-airline'                 " too fancy for me? I'll give it a second chance in a while...
-" Plugin 'vim-scripts/YankRing.vim'  "replaced by easyclip?
+" Plugin 'vim-scripts/yate'                    " much slower than simple :*tag
+" Plugin 'bling/vim-airline'                   " too fancy for me? I'll give it a second chance in a while...
+" Plugin 'vim-scripts/YankRing.vim'            " replaced by easyclip?
 Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easy-clip)
 Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste
+
+" Text objects
 Plugin 'terryma/vim-expand-region'
 Plugin 'kana/vim-textobj-user' 
 Plugin 'kana/vim-textobj-line'
 Plugin 'kana/vim-textobj-entire'
 
+" Operators
 Plugin 'tpope/vim-surround'                  " defines surroundings as text objects (yank surroundings mean 'add' them)
+Plugin 'tpope/vim-abolish'                   " adding snake/camel/mixed/upper case control in the iw and with :S
+Plugin 'tommcdo/vim-exchange'                " to add the (e)xchange operator
 
 " Languages
 Plugin 'ekalinin/Dockerfile.vim'             " dockerfile syntax
 
 Plugin 'blueyed/vim-diminactive'             " to dim the inactive window
 Plugin 'szw/vim-maximizer'                   " :MaximizerToggle works nice
-" Plugin 'vim-scripts/ZoomWin'               " to zoom in/out a window (buggy?)
-" Plugin 'tmux-plugins/vim-tmux-focus-events' " it fires some error...?
+" Plugin 'tmux-plugins/vim-tmux-focus-events'  " it fires some error...?
 
 Plugin 'vim-scripts/visualrepeat'            " used easy-align
 Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
-" Plugin 'tommcdo/vim-lion'                  " cannot right-align the first column?
+" Plugin 'tommcdo/vim-lion'                    " cannot right-align the first column?
 
-Plugin 'tpope/vim-abolish'                   " adding snake/camel/mixed/upper case control in the iw and with :S
-Plugin 'tommcdo/vim-exchange'                " to add the cx operator
-
-call vundle#end()                  " required
+call vundle#end()                            " required
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                              Coloring
 "
-" Color table: http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
 " Issues
 " - should I use guicolorscheme or CSApprox?
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -183,12 +231,12 @@ if &t_Co > 2 || has("gui_running")
     highlight clear Todo                                    " Todo: Special hi
     highlight Todo term=reverse cterm=reverse gui=reverse
     highlight clear Pmenu                                   " Pmenu: used by Neocomplete/YouCompleteMe
-    "    highlight Pmenu term=reverse cterm=reverse gui=reverse
+"    highlight Pmenu term=reverse cterm=reverse gui=reverse
     highlight Pmenu term=bold    ctermfg=LightGreen ctermbg=DarkGrey 
     highlight clear MatchParen                              " MatchParen: surroundings
     highlight MatchParen term=underline cterm=underline gui=underline
 
-    "    highlight CursorColumn 
+"    highlight CursorColumn 
     highlight clear CursorLine 
     highlight CursorLine term=reverse ctermbg=242 guibg=Grey40
     highlight clear ColorColumn
@@ -211,11 +259,10 @@ if &t_Co > 2 || has("gui_running")
     au InsertLeave * hi TabLineSel  term=reverse ctermbg=Black ctermfg=White 
     au InsertLeave * hi Title       term=reverse ctermbg=Black ctermfg=White 
 
-
-    "    hi link EasyMotionTarget        ErrorMsg
-    "    hi link EasyMotionShade         Comment
-    "    hi link EasyMotionTarget2First  MatchParen
-    "    hi link EasyMotionTarget2Second MatchParen
+    hi link EasyMotionTarget        EasyMotionIncSearchDefault
+"    hi link EasyMotionShade         Comment
+"    hi link EasyMotionTarget2First  MatchParen
+"    hi link EasyMotionTarget2Second MatchParen
     hi link EasyMotionMoveHL        Search
 
 endif
@@ -255,7 +302,7 @@ au FileType c,cpp let b:match_words='\%(\<else\s\+\)\@<!\<if\>:\<else\s\+if\>:\<
 "
 " tcomment
 "
-let g:tcommentMapLeaderOp1 = 'cm'        " use 'cm' instead of 'gc'
+let g:tcommentMapLeaderOp1 = 'q'        " use 'cm' instead of 'gc'
 let g:tcommentOptions      = {'col': 1}  " line comments on the first column
 
 "
@@ -263,18 +310,16 @@ let g:tcommentOptions      = {'col': 1}  " line comments on the first column
 "
 let g:NERDTreeHijackNetrw=0             " to avoid conflicts between VCSStatus and NeerdTree
 
-
 "
 " CtrlP
 "
-let g:ctrlp_working_path_mode = 'a'     " to search on the ecurrent directory
+" let g:ctrlp_working_path_mode = 'a'     " to search on the ecurrent directory
 " let g:ctrlp_working_path_mode = 'ar'
 
 "
 " Signature
 "
 let g:SignatureEnabledAtStartup = 0  " not showing marks by default
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                         Tab Completion, OmniCppComplete and Surrounding
@@ -300,17 +345,16 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set rtp^=~/.vim/snippets/                                        " my own snippets should be preend in runtime paths
-let g:UltiSnipsSnippetsDir         = '~/.vim/snippets/UltiSnips' " my own snippets
-let g:UltiSnipsSnippetDirectories  = ['UltiSnips']               " just the default to be able to use standard packages
-let g:UltiSnipsEnableSnipMate      = 0                           " too many unknown snippets? mybe I should give them a try?
-let g:UltiSnipsExpandTrigger       = "<F10>"                     " to avoid overwriting my Tab completion (but <Tab> is actually the one I'm using!)
-let g:UltiSnipsListSnippets        = "<F11>"                     " to avoid conflcits with CodeComplete... but <S-Tab> is actually the one I'm using!)
-let g:UltiSnipsJumpForwardTrigger  = "<Tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>"
-let g:UltiSnipsEditSplit           = "vertical"                  " it should be nice if I can do it as svim or sprj....
-let g:UltiSnipsRemoveSelectModeMappings = 1                      " yes, printable characters shouldn't be mapped in select mode...
-
+set rtp^=~/.vim/snippets/                                             " my own snippets should be preend in runtime paths
+let g:UltiSnipsSnippetsDir              = '~/.vim/snippets/UltiSnips' " my own snippets
+let g:UltiSnipsSnippetDirectories       = ['UltiSnips']               " just the default to be able to use standard packages
+let g:UltiSnipsEnableSnipMate           = 0                           " too many unknown snippets? mybe I should give them a try?
+let g:UltiSnipsExpandTrigger            = "<F10>"                     " to avoid overwriting my Tab completion (but <Tab> is actually the one I'm using!)
+let g:UltiSnipsListSnippets             = "<F11>"                     " to avoid conflcits with CodeComplete... but <S-Tab> is actually the one I'm using!)
+let g:UltiSnipsJumpForwardTrigger       = "<Tab>"
+let g:UltiSnipsJumpBackwardTrigger      = "<S-Tab>"
+let g:UltiSnipsEditSplit                = "vertical"                  " it should be nice if I can do it as svim or sprj....
+let g:UltiSnipsRemoveSelectModeMappings = 1                           " yes, printable characters shouldn't be mapped in select mode...
 
 " AutoPairs in insert mode
 let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
@@ -325,12 +369,12 @@ let g:AutoPairsMapSpace           = 1       " to map <Space>
 let g:AutoPairsMultilineClose     = 1       " to change line after closing bracket
 
 " Pairs navigation in normal mode
-nnoremap s( [(
-nnoremap s{ [{
-" nnoremap [ [[
-nnoremap s) ])
-nnoremap s} ]}
-" nnoremap ] ]]
+" nnoremap s( [(
+" nnoremap s{ [{
+" " nnoremap [ [[
+" nnoremap s) ])
+" nnoremap s} ]}
+" " nnoremap ] ]]
 
 nnoremap ( :call JumpBracket('(', 'h')<CR>
 nnoremap { :call JumpBracket('{', 'h')<CR>
@@ -483,8 +527,8 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                            EasyClip and Exchange
 "
-" - three new operators: cut (x), replace (r) and exchange (cx)
-"   - (cx) doesn't work with previous yank, but two consecutive (cx) must be executed
+" - three new operators: cut (x), replace (r) and exchange (e)
+"   - (e) doesn't work with previous yank, but two consecutive (e) must be executed
 " - action after pasting: rotate yanks (,yy) (.yy) (not persistent for next pastes)
 " - action before pasting: rotate yanks (,yr) and (.yr) (persistent)
 " - interactive pasting: (yp) and (YP)
@@ -522,6 +566,17 @@ let g:EasyClipShowYanksWidth                  = 120 " we have bigger screens!
 let g:EasyOperator_phrase_do_mapping          =   0 " to be able to have fuzzysearch
 
 "
+" Exchange
+"
+let g:exchange_no_mappings = 1 " to avoid cx auto mappings
+" let g:exchange_indent = '=='   " to exchange indentation?
+
+nmap e  <Plug>(Exchange)
+xmap e  <Plug>(Exchange)
+nmap ee <Plug>(ExchangeLine)
+nmap ec <Plug>(ExchangeClear)
+
+"
 " EasyClip - Maps
 "
 nmap x     <Plug>MoveMotionPlug
@@ -533,18 +588,20 @@ xmap r     <Plug>XEasyClipPaste
 nmap rr    <Plug>SubstituteLine
 
 nmap ,y    <Plug>EasyClipSwapPasteForward
-nmap .y    <Plug>EasyClipSwapPasteBackwards
-nmap ,yy   <Plug>EasyClipSwapPasteForward
-nmap .yy   <Plug>EasyClipSwapPasteBackwards
+nmap -y    <Plug>EasyClipSwapPasteBackwards
+nmap ,p    <Plug>EasyClipSwapPasteForward
+nmap -p    <Plug>EasyClipSwapPasteBackwards
 
-nmap ,yr   <Plug>EasyClipRotateYanksForward
-nmap .yr   <Plug>EasyClipRotateYanksBackward
+nmap ,,y   <Plug>EasyClipRotateYanksForward
+nmap --y   <Plug>EasyClipRotateYanksBackward
+nmap ;y    <Plug>EasyClipRotateYanksForward
+nmap _y    <Plug>EasyClipRotateYanksBackward
 
 nmap yp    :IPaste<cr>
 nmap YP    :IPasteBefore<cr>
 
 nmap <F2>  <Plug>EasyClipToggleFormattedPaste<cr>
-nmap ,yf   <Plug>EasyClipToggleFormattedPaste<cr>
+" nmap ,yf   <Plug>EasyClipToggleFormattedPaste<cr>
 
 imap <C-v> <Plug>EasyClipInsertModePaste
 cmap <C-v> <Plug>EasyClipCommandModePaste
@@ -565,7 +622,7 @@ noremap vp `[v`]
 "   - * is added just to be able to use n/N after *
 "   - (-) is fuzzy and overwin!, (_) is not
 " - replacing <C-Arrows> (word motions) (also in insert mode)
-" - fast access to easymotions with arrows also for v, x, r, cm, al/L and cx
+" - fast access to easymotions with arrows also for v, x, r, cm, al/L and e
 " - (yl),(dl),(vl) and (yr),(dr),(vr) to yank, delete and select lines or ranges from different positions than cursor
 "
 " Issues:
@@ -585,7 +642,7 @@ let g:EasyMotion_use_upper        = 1                            " for better re
 " let g:EasyMotion_keys             = 'asdghklqwertyuiopzxcvbnmfj' " defaults, without the last ';'
 " let g:EasyMotion_keys             = 'ASDFQWERTZXCVBGLOKIJMNP '   " only left hand keys, and last for the right
 let g:EasyMotion_keys             = 'asdfqwertzxcvbglokijmnp '   " only left hand keys, and last for the right
-let g:Easymotion_startofline      = 0                            " to be able to move to eol and sol
+let g:EasyMotion_startofline      = 0                            " to be able to move to eol and sol
 " let g:EasyMotion_smartcase = 1                                 " case insenitive (using normal ignorecas+smartcase)
 
 "
@@ -594,121 +651,81 @@ let g:Easymotion_startofline      = 0                            " to be able to
 map  t                 <Plug>(easymotion-bd-t)
 map  f                 <Plug>(easymotion-bd-f)
 
-map  b                 <Plug>(easymotion-bd-w)
-map  bb                <Plug>(easymotion-bd-w)
-map  b<Right>          <Plug>(easymotion-w)
-map  b<Left>           <Plug>(easymotion-b)
+" map  b                 <Plug>(easymotion-bd-w)
+" map  bb                <Plug>(easymotion-bd-w)
+" map  b<Right>          <Plug>(easymotion-w)
+" map  b<Left>           <Plug>(easymotion-b)
+"
+" map  e                 <Plug>(easymotion-bd-e)
+" map  ee                <Plug>(easymotion-bd-e)
+" map  e<Right>          <Plug>(easymotion-e)
+" map  e<Left>           <Plug>(easymotion-ge)
 
-map  e                 <Plug>(easymotion-bd-e)
-map  ee                <Plug>(easymotion-bd-e)
-map  e<Right>          <Plug>(easymotion-e)
-map  e<Left>           <Plug>(easymotion-ge)
-
-map  <expr> -          incsearch#go(<SID>config_easyfuzzymotion())
-map  _                 <Plug>(easymotion-sn)
+" map  <expr> -          incsearch#go(<SID>config_easyfuzzymotion())
+" map  _                 <Plug>(easymotion-sn)
 map  /                 <Plug>(easymotion-sn)
+map  Oo              <Plug>(easymotion-sn)
+map  --                <Plug>(easymotion-sn)
+map  ç                 <Plug>(easymotion-sn)
 map  N                 <Plug>(easymotion-prev)
 map  n                 <Plug>(easymotion-next)
-nmap *                 viwy<Plug>(easymotion-sn)<C-v><cr><cr>
-map Oj               viwy<Plug>(easymotion-sn)<C-v><cr><cr>
+
+" fixing * and # to be able to use n and N
+nmap *                 viwy<Plug>(easymotion-sn)<C-v><cr><Esc><Plug>(easymotion-next)
+nmap Oj              viwy<Plug>(easymotion-sn)<C-v><cr><Esc><Plug>(easymotion-next)
+nmap +                 viwy<Plug>(easymotion-sn)<C-v><cr><Esc><Plug>(easymotion-prev)<Plug>(easymotion-prev)
+nmap Ok              viwy<Plug>(easymotion-sn)<C-v><cr><Esc><Plug>(easymotion-prev)<Plug>(easymotion-prev)
+" nnoremap +             #
+" nmap *                 viwy<Plug>(easymotion-sn)<C-v><cr><cr>
+" map Oj               viwy<Plug>(easymotion-sn)<C-v><cr><cr>
 
 map  <C-Right>         <Plug>(easymotion-lineforward)
 map  <C-Left>          <Plug>(easymotion-linebackward)
 map  <C-Up>            <Plug>(easymotion-k)
 map  <C-Down>          <Plug>(easymotion-j)
-map  <C-Up><C-Up>      <Plug>(easymotion-k)
-map  <C-Down><C-Down>  <Plug>(easymotion-j)
-map  <C-Up><C-Left>    <Plug>(easymotion-sol-k)
-map  <C-Down><C-Left>  <Plug>(easymotion-sol-j)
-map  <C-Up><C-Right>   <Plug>(easymotion-eol-k)
-map  <C-Down><C-Right> <Plug>(easymotion-eol-j)
+
+omap <Right>           <Plug>(easymotion-lineforward)
+omap <Left>            <Plug>(easymotion-linebackward)
+omap <Up>              <Plug>(easymotion-k)
+omap <Down>            <Plug>(easymotion-j)
 
 imap <C-Right>         <Esc><Plug>(easymotion-lineforward)
 imap <C-Left>          <Esc><Plug>(easymotion-linebackward)
-imap <C-Up><C-Up>      <Esc><Plug>(easymotion-k)
-imap <C-Down><C-Down>  <Esc><Plug>(easymotion-j)
-imap <C-Up><C-Left>    <Esc><Plug>(easymotion-sol-k)
-imap <C-Down><C-Left>  <Esc><Plug>(easymotion-sol-j)
-imap <C-Up><C-Right>   <Esc><Plug>(easymotion-eol-k)
-imap <C-Down><C-Right> <Esc><Plug>(easymotion-eol-j)
+imap <C-Up>            <Esc><Plug>(easymotion-k)
+imap <C-Down>          <Esc><Plug>(easymotion-j)
 
-nmap y<Up>             y<Plug>(easymotion-k)
-nmap y<Down>           y<Plug>(easymotion-j)
-nmap y<Right>          y<Plug>(easymotion-lineforward)
-nmap y<Left>           y<Plug>(easymotion-linebackward)
-nmap yl                <Plug>(easyoperator-line-yank)
-nmap yr                <Plug>(easyoperator-phrase-yank)
+nmap yb<Up>            <Plug>(easyoperator-line-yank)
+nmap yb<Down>          <Plug>(easyoperator-line-yank)
+nmap ybb               <Plug>(easyoperator-line-yank)
+nmap yb<Left>          <Plug>(easyoperator-phrase-yank)
+nmap yb<Right>         <Plug>(easyoperator-phrase-yank)
 
-nmap d<Up>             d<Plug>(easymotion-k)
-nmap d<Down>           d<Plug>(easymotion-j)
-nmap d<Right>          d<Plug>(easymotion-lineforward)
-nmap d<Left>           d<Plug>(easymotion-linebackward)
-nmap dl                <Plug>(easyoperator-line-delete)
-nmap dr                <Plug>(easyoperator-phrase-delete)
-
-nmap c<Up>             c<Plug>(easymotion-k)
-nmap c<Down>           c<Plug>(easymotion-j)
-nmap c<Right>          c<Plug>(easymotion-lineforward)
-nmap c<Left>           c<Plug>(easymotion-linebackward)
-
-nmap x<Up>             x<Plug>(easymotion-k)
-nmap x<Down>           x<Plug>(easymotion-j)
-nmap x<Right>          x<Plug>(easymotion-lineforward)
-nmap x<Left>           x<Plug>(easymotion-linebackward)
-
-nmap cx<Up>            cx<Plug>(easymotion-k)
-nmap cx<Down>          cx<Plug>(easymotion-j)
-nmap cx<Right>         cx<Plug>(easymotion-lineforward)
-nmap cx<Left>          cx<Plug>(easymotion-linebackward)
-
-nmap r<Up>             r<Plug>(easymotion-k)
-nmap r<Down>           r<Plug>(easymotion-j)
-nmap r<Right>          r<Plug>(easymotion-lineforward)
-nmap r<Left>           r<Plug>(easymotion-linebackward)
+nmap db<Up>            <Plug>(easyoperator-line-delete)
+nmap db<Down>          <Plug>(easyoperator-line-delete)
+nmap dbb               <Plug>(easyoperator-line-delete)
+nmap db<Left>          <Plug>(easyoperator-phrase-delete)
+nmap db<Right>         <Plug>(easyoperator-phrase-delete)
 
 nmap v<Up>             V<Plug>(easymotion-k)
 nmap v<Down>           V<Plug>(easymotion-j)
 nmap v<Right>          v<Plug>(easymotion-lineforward)
 nmap v<Left>           v<Plug>(easymotion-linebackward)
-nmap vl                <Plug>(easyoperator-line-select)
-nmap vr                <Plug>(easyoperator-phrase-select)
+nmap vb<Up>            <Plug>(easyoperator-line-select)
+nmap vb<Down>          <Plug>(easyoperator-line-select)
+nmap vbb               <Plug>(easyoperator-line-select)
+nmap vb<Left>          <Plug>(easyoperator-phrase-select)
+nmap vb<Right>         <Plug>(easyoperator-phrase-select)
 
-nmap cm<Up>            cm<Plug>(easymotion-k)
-nmap cm<Down>          cm<Plug>(easymotion-j)
-nmap cm<Right>         cm<Plug>(easymotion-lineforward)
-nmap cm<Left>          cm<Plug>(easymotion-linebackward)
-nmap cmm               cmc
+nmap qq               qc
 
-nmap aL<Up>            aL<Plug>(easymotion-k)
-nmap aL<Down>          aL<Plug>(easymotion-j)
-nmap aL<Right>         aL<Plug>(easymotion-lineforward)
-nmap aL<Left>          aL<Plug>(easymotion-linebackward)
-
-nmap al<Up>            al<Plug>(easymotion-k)
-nmap al<Down>          al<Plug>(easymotion-j)
-nmap al<Right>         al<Plug>(easymotion-lineforward)
-nmap al<Left>          al<Plug>(easymotion-linebackward)
-
-" indent and format integration
-nmap ><Up>             ><Plug>(easymotion-k)
-nmap ><Down>           ><Plug>(easymotion-j)
-nmap <<Up>             <<Plug>(easymotion-k)
-nmap <<Down>           <<Plug>(easymotion-j)
-
-" just in case I keep pressing shift while in the motion...
-nmap ><S-Up>           ><Plug>(easymotion-k)
-nmap ><S-Down>         ><Plug>(easymotion-j)
-
-nmap =<Up>             =<Plug>(easymotion-k)
-nmap =<Down>           =<Plug>(easymotion-j)
-nmap =<Up>             =<Plug>(easymotion-k)
-nmap =<Down>           =<Plug>(easymotion-j)
+" nmap =<Up>             =<Plug>(easymotion-k)
+" nmap =<Down>           =<Plug>(easymotion-j)
 
 " I never know if I've to press shift in the spanish keyboard to get < or >... 
 " ...so replacing < (no shift) + Left/Right to the right < and > operators
 " and also the << and >> + Left and Right!
-nmap     <<Right>        >
-nmap     <<Left>         <
+nnoremap <<Right>        >
+nnoremap <<Left>         <
 vnoremap <<Right>        >gv
 vnoremap <<Left>         <gv
 
@@ -776,11 +793,11 @@ endfunction
 
 let g:easy_align_ignore_groups = [] " 'Comments' and 'Strings' can be aligned...
 
-xmap aL  <Plug>(EasyAlign)
-nmap aL  <Plug>(EasyAlign)
+xmap >>  <Plug>(EasyAlign)
+nmap >>  <Plug>(EasyAlign)
 
-xmap al <Plug>(LiveEasyAlign)
-nmap al <Plug>(LiveEasyAlign)
+xmap > <Plug>(LiveEasyAlign)
+nmap > <Plug>(LiveEasyAlign)
 
 " Examples: select visually, then:
 " al::
@@ -886,6 +903,150 @@ vmap gc*    <leader>vR
 vmap gcOj <leader>vR
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                           Moving between Modes
+"
+" - using (zz) and (ZZ) to expand/shrink visual selection (note that <S-Arrows> go directly to <C-v>
+"   - also using (z) instead of (v)
+" - as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitue character)
+"   - using (cx) (change-character) instead
+" 
+" - <S+Arrows> to go directly to visual block (<C-v>)
+"   - as this is the prefered method to go to Visual, remapping z Z <C-Z> as v V <C-V> for convenience in visual mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"shift+arrow selection
+nmap <S-Up>           <C-v><Up>
+nmap <S-Down>         <C-v><Down>
+nmap <S-Left>         <C-v><Left>
+nmap <S-Right>        <C-v><Right>
+nmap <S-Home>         <C-v><Home>
+nmap <S-End>          <C-v><End>
+nmap <S-PageUp>       <C-v><PageUp>
+nmap <S-PageDown>     <C-v><PageDown>
+
+vmap <S-Up>                <Up>
+vmap <S-Down>              <Down>
+vmap <S-Left>              <Left>
+vmap <S-Right>             <Right>
+vmap <S-Home>              <Home>
+vmap <S-End>               <End>
+
+imap <S-Up>      <Esc><C-v><Up>
+imap <S-Down>    <Esc><C-v><Down>
+imap <S-Left>    <Esc><C-v><Left>
+imap <S-Right>   <Esc><C-v><Right>
+imap <S-Home>    <Esc><C-v><Home>
+imap <S-End>     <Esc><C-v><End>
+
+"ctrl+shift+arrow selection
+nmap <C-S-Up>         <C-v><C-Up>
+nmap <C-S-Down>       <C-v><C-Down>
+nmap <C-S-Left>       <C-v><C-Left>
+nmap <C-S-Right>      <C-v><C-Right>
+
+vmap <C-S-Up>              <C-Up>
+vmap <C-S-Down>            <C-Down>
+vmap <C-S-Left>            <C-Left>
+vmap <C-S-Right>           <C-Right>
+
+imap <C-S-Up>    <Esc><C-v><C-Up>
+imap <C-S-Down>  <Esc><C-v><C-Down>
+imap <C-S-Left>  <Esc><C-v><C-Left>
+imap <C-S-Right> <Esc><C-v><C-Right>
+
+" as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitue character)
+" in visual mode, to switch to select mode
+nnoremap s      <Esc>
+vnoremap <C-s>  <C-g>
+snoremap <C-s>  <C-g>
+" vnoremap s  <C-g>
+
+nnoremap ax<Up>      O<Esc>
+nnoremap ax<Down>    o<Esc>
+nnoremap ax<Left>    i<Space><Esc>
+nnoremap ax<Right>   a<Space><Esc>
+
+nnoremap ax          :<c-u>call MyRepeatChar("i")<CR>
+nnoremap ax<Return>  :<c-u>call MyRepeatChar("i")<CR><CR>^
+nnoremap AX          :<c-u>call MyRepeatChar("a")<CR>
+nnoremap AX<Return>  :<c-u>call MyRepeatChar("a")<CR><CR>^
+
+nnoremap a<Up>       O
+nnoremap a<Down>     o
+nnoremap a<Left>     I
+nnoremap a<Right>    A
+
+nmap     DD          dd<Up>
+
+nnoremap <Backspace> i<Backspace>
+nnoremap <Space>     i<Space>
+nnoremap <Delete>    i<Delete>
+
+vnoremap <Backspace> <Delete>i
+vnoremap <Space>     <Delete>i<Space>
+vnoremap <Delete>    <Delete>i
+
+nnoremap yx          vy
+nnoremap dx          x
+nnoremap cx          s
+nmap     rx          v<Plug>XEasyClipPaste
+nnoremap Cx          ~
+nnoremap CX          ~
+nmap     ex          v<Plug>(Exchange)
+nmap     asx         vS
+nmap     ysx         vS
+
+function! MyRepeatChar(mode)
+    let schar = nr2char(getchar())
+    let chars = repeat(schar, v:count1)
+    exe "normal ".a:mode.chars
+    if a:mode == 'ia'
+        call cursor(0, col('.')+1)
+    endif
+endfunction
+
+" vnoremap i           <Delete>i
+
+" noremap a<Down>   o
+" noremap a<Up>     O
+" noremap a<Return> o<Esc>
+" noremap A<Return> O<Esc>
+" noremap A<S-Down> o<Esc>
+" noremap A<S-Up>   O<Esc>
+" noremap a<Return> o
+" noremap A<Return> O
+
+" nnoremap aa         i
+" nnoremap a<Space>   a
+
+" <S-Arrows>    : Block selection
+" zz            : Expand selection
+" z<up/down>    : line selection
+" z<left/right> : normal selection
+"
+" navigation
+" ----------
+" z and expand
+nmap     z     v
+nmap     Z     V
+nnoremap <C-z> <C-v>
+map      zz    <Plug>(expand_region_expand)
+map      ZZ    <Plug>(expand_region_shrink)
+
+let g:expand_region_use_select_mode = 0 " 1: Select mode 0: Visual mode
+
+" let g:expand_region_text_objects = {'ie': 0, 
+"                                  \  'ip': 0, 
+"                                  \  'iw': 0, 
+"                                  \  'iB': 1,
+"                                  \  'il': 0,
+"                                  \  'iW': 0,
+"                                  \  'i''': 0,
+"                                  \  'ib': 1,
+"                                  \  'i]': 1,
+"                                  \  'i"': 0}
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Text objects
 "
 " - indentations as text objects: (ii) and (ai) -> removed because it conflicts with for(ii=0...)
@@ -957,13 +1118,10 @@ function! s:IndTxtObj(inner)
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                           Fixing Annoyances
+"                                           Miscellaneous and Annoyances
 "
 " - not moving cursor when leaving insert mode
-" - using (zz) and (ZZ) to expand/shrink visual selection and go to select mode (note that <S-Arrows> go directly to <C-v>
-"   - also addin (zz) and (vv) instead of (V)
-" - as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitue character)
-"   - using (cl) (change-letter) instead
+" - (u) to undo and (U) to redo
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -975,44 +1133,12 @@ au InsertEnter  * let CursorColumnI = col('.')                                  
 au CursorMovedI * let CursorColumnI = col('.')                                      " leaving the insert mode
 au InsertLeave  * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif "
 
+"
 " mapping z to v for convenience
-" nnoremap z     v
-" nnoremap vv    V
-" nnoremap zz    V
-" nnoremap Z     V
-" nnoremap <C-z> <C-v>
-map zz <Plug>(expand_region_expand)
-map ZZ <Plug>(expand_region_shrink)
-
-let g:expand_region_use_select_mode = 1 " to auto select-mode when expanding
-
-" let g:expand_region_text_objects = {'ie': 0, 
-"                                  \  'ip': 0, 
-"                                  \  'iw': 0, 
-"                                  \  'iB': 1,
-"                                  \  'il': 0,
-"                                  \  'iW': 0,
-"                                  \  'i''': 0,
-"                                  \  'ib': 1,
-"                                  \  'i]': 1,
-"                                  \  'i"': 0}
-
-" as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitue character)
-" in normal mode using (cl) (change-letter) instead 
-" in visual mode, to switch to select mode
-nnoremap s  <Esc>
-nnoremap cl s
-vnoremap s    <C-g>
-
-" to be able to use . in other maps but keep fast repeat
-nmap .. .
-vmap .. .
-xmap .. .
-" to quickly add (delay added by the 'al'ign maps/operator
-nnoremap aa a
+"
 
 " sudo write (never used!? I should use it more!)
-cmap w!! w !sudo tee %
+cmap W!! w !sudo tee % >/dev/null
 
 map q: :q
 
@@ -1021,9 +1147,7 @@ noremap    <F5>       :e<cr>
 noremap    <F6>       :source ~/.vimrc<cr>
 
 " move between brackets
-nmap  k   %
-map   sn  %
-map   br  %
+nmap  b   %
 
 "
 " ge
@@ -1065,90 +1189,14 @@ set cedit=<C-k>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                           Arrows and special keys (home, end, delete, backspace and return)
 "
-" - <S+Arrows> to go directly to visual block (<C-v>)
-"   - as this is the prefered method to go to Visual, remapping z Z <C-Z> as v V <C-V> for convenience in visual mode
 " - scrolling with <C-PageUp/Down>
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"shift+arrow selection
-nmap <S-Up>           <C-v><Up>
-nmap <S-Down>         <C-v><Down>
-nmap <S-Left>         <C-v><Left>
-nmap <S-Right>        <C-v><Right>
-nmap <S-Home>         <C-v><Home>
-nmap <S-End>          <C-v><End>
-nmap <S-PageUp>       <C-v><PageUp>
-nmap <S-PageDown>     <C-v><PageDown>
-
-vmap <S-Up>                <Up>
-vmap <S-Down>              <Down>
-vmap <S-Left>              <Left>
-vmap <S-Right>             <Right>
-vmap <S-Home>              <Home>
-vmap <S-End>               <End>
-
-imap <S-Up>      <Esc><C-v><Up>
-imap <S-Down>    <Esc><C-v><Down>
-imap <S-Left>    <Esc><C-v><Left>
-imap <S-Right>   <Esc><C-v><Right>
-imap <S-Home>    <Esc><C-v><Home>
-imap <S-End>     <Esc><C-v><End>
-
-"ctrl+shift+arrow selection
-nmap <C-S-Up>         <C-v><C-Up>
-nmap <C-S-Down>       <C-v><C-Down>
-nmap <C-S-Left>       <C-v><C-Left>
-nmap <C-S-Right>      <C-v><C-Right>
-
-vmap <C-S-Up>              <C-Up>
-vmap <C-S-Down>            <C-Down>
-vmap <C-S-Left>            <C-Left>
-vmap <C-S-Right>           <C-Right>
-
-imap <C-S-Up>    <Esc><C-v><C-Up>
-imap <C-S-Down>  <Esc><C-v><C-Down>
-imap <C-S-Left>  <Esc><C-v><C-Left>
-imap <C-S-Right> <Esc><C-v><C-Right>
-
 "
 " scrolling
 "
 nnoremap <C-PageUp>    <C-Y>
 nnoremap <C-PageDown>  <C-E>
-
-"
-" Go to insert mode directly
-"
-" - <Enter> goes to insert mode directly, except in some windows
-"
-nnoremap <Backspace>         i<Backspace>
-nnoremap <Space>             i<Space>
-nnoremap <Delete>            i<Delete>
-
-vnoremap <Backspace> <Delete>i
-vnoremap <Space>     <Delete>i<Space>
-vnoremap <Delete>    <Delete>i
-" vnoremap i           <Delete>i
-
-" Adding at begin/end and previous/next lines
-noremap a<Right>  A
-noremap a<Left>   I
-" noremap a<Down>   o
-" noremap a<Up>     O
-" noremap a<Return> o<Esc>
-" noremap A<Return> O<Esc>
-noremap a<Down>   o<Esc>
-noremap a<Up>     O<Esc>
-" noremap a<Return> o
-" noremap A<Return> O
-noremap a<Return> i<Return><Esc>
-nmap    d<Return> dd
-nmap    D<Return> DD
-nmap    DD        dd<Up>
-
-" noremap A<S-Down> o<Esc>
-" noremap A<S-Up>   O<Esc>
-
 
 "
 " Deprecated
@@ -1242,12 +1290,12 @@ nnoremap wc          :tabclose<cr>
 
 nnoremap w<pagedown> :tabnext<cr>
 nnoremap w<pageup>   :tabprevious<cr>
-nnoremap w.          :tabnext<cr>
+nnoremap w-          :tabnext<cr>
 nnoremap w,          :tabprevious<cr>
 nnoremap w;          :-tabmove<cr>
-nnoremap w:          :+tabmove<cr>
+nnoremap w_          :+tabmove<cr>
 nnoremap W;          :-tabmove<cr>
-nnoremap W:          :+tabmove<cr>
+nnoremap W_          :+tabmove<cr>
 
 " buffer exploring
 nnoremap sb   :BufExplorer<cr>
@@ -1255,9 +1303,9 @@ nnoremap sb   :BufExplorer<cr>
 nnoremap bb   :b#<cr>
 nnoremap sab  :vertical ba<cr>
 nnoremap ,b   :bprevious<cr>
-nnoremap .b   :bnext<cr>
+nnoremap -b   :bnext<cr>
 nnoremap b,   :bprevious<cr>
-nnoremap b.   :bnext<cr>
+nnoremap b-   :bnext<cr>
 
 " indentation lines disabled by default (integrated with Switch decorations)
 let g:indentLine_enabled = 0
@@ -1387,7 +1435,7 @@ au TabLeave * let g:lasttab = tabpagenr() " last active tab
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                               Abolish - Naming convention and Search/Replace
 "
-" - adding the pseudo-operator cnc{style} (change-naming-convention)
+" - adding the pseudo-operator C{style} (change-naming-convention)
 "   - it's not an actual operator:
 "     - it doesn't accept any motion/object, only works inner-word
 "     - it only works in normal mode
@@ -1405,22 +1453,18 @@ au TabLeave * let g:lasttab = tabpagenr() " last active tab
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nmap cncs crs
-nmap cncc crm
-nmap cncm crc
-nmap cncu cru
-
-nmap cns crs
-nmap cnc crm
-nmap cnm crc
-nmap cnu cru
+nmap     Cs crs
+nmap     Cc crm
+nmap     Cm crc
+nmap     Cu cru
+xnoremap C  ~
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                   See and Jump
 "
 " - see into files (sf), into a tab (stf) or in a vsplit (svf)
 " - jumps (sj) (,j) (.j)
-" - changes (sc) (,c) (.c)
+" - changes (sc) (,c) (-c)
 " - marks
 "   - using (M) to set a mark (few times) and (m) to jump to it (more times)
 "   - using Signature plugin to list marks: (sm) for a interactive list (swm) on the windowa
@@ -1436,16 +1480,14 @@ noremap  svf  :vertical wincmd f<cr>
 " nnoremap sj   :jumps<cr>
 nmap     sj  :call GotoJump()<CR>
 nnoremap ,j  <C-o>
-nnoremap .j  <C-i>
+nnoremap -j  <C-i>
 nnoremap ,s  <C-o>
-nnoremap .s  <C-i>
-nnoremap ,ss <C-o>
-nnoremap .ss <C-i>
+nnoremap -s  <C-i>
 
 " changes
 noremap  sc   :changes<cr>
 noremap  ,c   g;
-noremap  .c   g,
+noremap  -c   g,
 
 " marks
 nnoremap  sm   :SignatureListMarks<cr>
@@ -1537,7 +1579,7 @@ noremap    swl        :vert :stjump /<C-r><C-w><cr>
 noremap    swll       :vsplit<cr><C-]>
 "noremap    stt        g<C-]>
 noremap    ,l         :tprev<cr>
-noremap    .l         :tnext<cr>
+noremap    -l         :tnext<cr>
 noremap    l           <C-]>
 noremap    ll          <C-]>
 
@@ -1588,7 +1630,7 @@ endfunction
 "                                           Quickfix (with ToogleList.vim)
 " 
 " - (sq) to toggle quickfix, (sqq) to toogle and move to quick fix
-" - jump between next/prev entry (,q .q)
+" - jump between next/prev entry (,q -q)
 "   - (,,q) is used to jump to current error (for convenience, as I don't jump to it auromatically)
 " - jump between prev/next quickfix list (,sq .sq)
 " - (sqe) to create a new quickfix list from the current one, without warnings
@@ -1603,14 +1645,16 @@ let g:toggle_list_copen_command='copen'   " ...or keep using :copen to avoid ove
 let g:toggle_list_no_mappings=1           " to be able to use ',q' (I want MY mappings! ;-)
 
 nnoremap sq   :call ToggleQuickfixList()<cr>
-nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
-nnoremap ,sq  :colder<cr>
-nnoremap .sq  :cnewer<cr>
+" nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
+" nnoremap ,sq  :colder<cr>
+" nnoremap .sq  :cnewer<cr>
 nnoremap ,,q  :cc<cr>
 nnoremap ,q   :cprev<cr>
-nnoremap .q   :cnext<cr>
-nnoremap q,   :cprev<cr>
-nnoremap q.   :cnext<cr>
+nnoremap -q   :cnext<cr>
+nnoremap ;q   :colder<cr>
+nnoremap _q   :cnewer<cr>
+" nnoremap q,   :cprev<cr>
+" nnoremap q-   :cnext<cr>
 
 " to remove warings entries
 " info/text lines are kept, but ,q and .q will loop on no-warning entries
@@ -1660,10 +1704,9 @@ nnoremap          wdc     :tabnew .<cr>:VCSCommit<cr>i
 " get: all current diff
 " get-line: 
 nnoremap <silent> do     V:diffget<cr>
-nnoremap <silent> dl     V:diffget<cr>
 nnoremap <silent> dg     :diffget<cr>
 nnoremap          ,d     ]c
-nnoremap          .d     [c
+nnoremap          -d     [c
 
 " nnoremap <silent> swd    :VCSVimDiff<cr><C-w><Left>]c
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
@@ -1681,7 +1724,7 @@ nnoremap          .d     [c
 " nnoremap          wdr     :VCSRevert<cr>
 " nnoremap          wda     :VCSAdd<cr>
 " nnoremap          wdc     :tabnew .<cr>:VCSCommit<cr>i
-" nnoremap          wd.     ]c
+" nnoremap          wd-     ]c
 " nnoremap          wd,     [c
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1942,7 +1985,7 @@ endif
 " Improving paste
 " nmap       sy          :YRShow<cr>
 " nmap       y,          :<C-U>YRReplace '-1', P<cr>
-" nmap       y.          :<C-U>YRReplace '+1', P<cr>
+" nmap       y-          :<C-U>YRReplace '+1', P<cr>
 " " noremap    y<Left>     `[
 " " noremap    y<Right>    `]
 " nnoremap   S           diw"0P "using easyclip?
