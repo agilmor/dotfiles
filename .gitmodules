@@ -157,3 +157,6 @@
 [submodule ".vim/bundle/vim-snippets"]
 	path = .vim/bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets.git
+[submodule ".vim/bundle/targets.vim"]
+	path = .vim/bundle/targets.vim
+	url = https://github.com/wellle/targets.vim.git
