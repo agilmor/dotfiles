@@ -27,10 +27,10 @@
 " Semi Text Objects
 " -----------------
 "
-" x                          : single letter/chracter
+" x                          : single letter/character
 " p                          : pasted text
-" b<Up/Down>                 : betwwen two lines (easy motions) (only yank, change and delete)
-" b<Left/Right>(char1 char2) : betwwen two chars at any line (easy motions) (only yank, change and delete)
+" b<Up/Down>                 : between two lines (easy motions) (only yank, change and delete)
+" b<Left/Right>(char1 char2) : between two chars at any line (easy motions) (only yank, change and delete)
 "
 " Moving between Modes
 " ---------------------
@@ -58,7 +58,7 @@
 set nocompatible                   " Use Vim settings, rather than Vi settings (much better!).
                                    " This must be first, because it changes other options as a side effect.
 
-set encoding=utf-8                 " to avoid problems woth listchars
+set encoding=utf-8                 " to avoid problems with listchars
 set backspace=indent,eol,start     " allow backspacing over everything in insert mode
 set history=100                    " keep 100 lines of command line history
 set ruler                          " show the cursor position all the time
@@ -75,19 +75,20 @@ set laststatus=2                   " always see the status bar (see "Coloring" t
 set showtabline=2                  " always see the tab bar (see "Coloring" to use the bar to highlight the current mode)
 set textwidth=120                  " desired width limit
 set colorcolumn=0                  " to see a line to the text limit (see "Coloring", SwitchDecorations) (disabled)
-set nocursorline nocursorcolumn    " cursor colum and line non visible by default
+set nocursorline nocursorcolumn    " cursor column and line non visible by default
 set autoindent                     " autoindent
 set foldmethod=syntax              " use the syntax to decide folding 
 set nofoldenable                   " disable folding by default (using tagbar is much better)
 set pastetoggle=<F1>               " remove all auto* features when pasting from X
 set scrolloff=10                   " to scroll before first/last line
 set sidescrolloff=10               " to scroll before first/last character in a line
-set sidescroll=1                   " to scroll a signle character horizontally
+set sidescroll=1                   " to scroll a single character horizontally
 set wildmode=longest:list          " use cmdline completion (tab) as a normal shell completion
+set complete+=kspell               " to be able to use autocomplete with the spell dictionary, only when set spell is enabled
 set autoread                       " file is reloaded if changed in a cmdline (:! whatever), very useful for "wds" and "wdg" commands
 set undofile                       " for persistent undo
-set ignorecase                     " to search case insesitive
-set smartcase                      " to search case insesitive, unless using an upper case
+set ignorecase                     " to search case insensitive
+set smartcase                      " to search case insensitive, unless using an upper case
 set listchars=tab:>·,trail:·,eol:· " special characters
 set nolist                         " to not visualize special special characters (see 'listchars'), use <F3> to toggle (see SwitchDecorations)
 set whichwrap=b,s,<,>,[,]          " to move line up/down with left/right at the begin/end of a line
@@ -101,7 +102,7 @@ set grepprg=grep\ -n\ --exclude-dir=.svn\ $*\ /dev/null " to exclude svn/git res
 "                                  General options (non-set)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting colum (how to use textwidth var?) (see SwitchDecorations)
+"let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting column (how to use textwidth var?) (see SwitchDecorations)
 let mapleader='º'                  " maybe, because the remaps, I can just use the default...?
 runtime ftplugin/man.vim           " to be able to render man pages
 runtime ftplugin/vim.vim           " to use the vim help
@@ -137,7 +138,7 @@ Plugin 'vcscommand.vim'                      " version control git+svn together
 " Plugin 'tracwiki'                            " used by vitra
 
 " Less typing
-" Plugin 'Valloric/YouCompleteMe'              " too requieriments to be build?
+" Plugin 'Valloric/YouCompleteMe'              " too requirements to be build?
 " Plugin 'Shougo/neocomplete.vim'              " not semantics -> use clan_complete (see fix in advanced setup)
 " Plugin 'Rip-Rip/clang_complete'              " only works for C/C++... but works great!
 Plugin 'vim-scripts/OmniCppComplete'         " simpler, it uses ctags (not works in auto mode for unscoped vars)
@@ -178,7 +179,7 @@ Plugin 'haya14busa/incsearch-easymotion.vim' " necessary dependency
 Plugin 'haya14busa/incsearch-fuzzy.vim'      " fuzzy motion
 
 " Plugin 'rhysd/open-pdf.vim'                " pdfs (not very useful, but...)
-Plugin 'kshenoy/vim-signature'               " tu visualitze marks (smm)
+Plugin 'kshenoy/vim-signature'               " tu visualize marks (smm)
 Plugin 'Yggdroot/indentLine'                 " to visualize indentation lines (wl)
 " Plugin 'vim-scripts/yate'                    " much slower than simple :*tag
 " Plugin 'bling/vim-airline'                   " too fancy for me? I'll give it a second chance in a while...
@@ -314,7 +315,7 @@ let g:NERDTreeHijackNetrw=0             " to avoid conflicts between VCSStatus a
 "
 " CtrlP
 "
-" let g:ctrlp_working_path_mode = 'a'     " to search on the ecurrent directory
+" let g:ctrlp_working_path_mode = 'a'     " to search on the current directory
 " let g:ctrlp_working_path_mode = 'ar'
 
 "
@@ -330,7 +331,7 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "   - Closing pairs flies to end of that closing pair 
 "   - <Space> and <Return> inside pairs expand both sides 
 " - In normal mode:
-"   - Open pairs search for previos open pair
+"   - Open pairs search for previews open pair
 "   - Closing pairs search for next closing pair
 "   - s+pair flies to current open/close pair
 " - See Text Objects for next/last inner/outer pairs
@@ -346,12 +347,12 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set rtp^=~/.vim/snippets/                                             " my own snippets should be preend in runtime paths
+set rtp^=~/.vim/snippets/                                             " my own snippets should be preened in runtime paths
 let g:UltiSnipsSnippetsDir              = '~/.vim/snippets/UltiSnips' " my own snippets
 let g:UltiSnipsSnippetDirectories       = ['UltiSnips']               " just the default to be able to use standard packages
-let g:UltiSnipsEnableSnipMate           = 0                           " too many unknown snippets? mybe I should give them a try?
+let g:UltiSnipsEnableSnipMate           = 0                           " too many unknown snippets? maybe I should give them a try?
 let g:UltiSnipsExpandTrigger            = "<F10>"                     " to avoid overwriting my Tab completion (but <Tab> is actually the one I'm using!)
-let g:UltiSnipsListSnippets             = "<F11>"                     " to avoid conflcits with CodeComplete... but <S-Tab> is actually the one I'm using!)
+let g:UltiSnipsListSnippets             = "<F11>"                     " to avoid conflicts with CodeComplete... but <S-Tab> is actually the one I'm using!)
 let g:UltiSnipsJumpForwardTrigger       = "<Tab>"
 let g:UltiSnipsJumpBackwardTrigger      = "<S-Tab>"
 let g:UltiSnipsEditSplit                = "vertical"                  " it should be nice if I can do it as svim or sprj....
@@ -405,7 +406,7 @@ map as ys
 nnoremap ;; A;<Esc>^
 
 " Options
-set completeopt=menuone,longest    " preview discarted, menuone to keep as much as possible menu (to read params)
+set completeopt=menuone,longest    " preview discarded, menuone to keep as much as possible menu (to read params)
 
 " Automands: select the correct omnifunc
 au BufNewFile,BufRead,BufEnter *.cpp,*.hpp,*.test set omnifunc=omni#cpp#complete#Main
@@ -429,7 +430,7 @@ let g:re = ' >'
 
 "
 " Tab mappings to autocompletion
-" Note that indetation is done by operators < and > (with easy motions and arrows to avoid shift, see easymotions section)
+" Note that indentation is done by operators < and > (with easy motions and arrows to avoid shift, see easymotions section)
 "
 " In visual mode autocompletion is only for snippets
 " In normal mode Tab enters to insert mode and call TabComplete
@@ -480,7 +481,8 @@ function! TabComplete()
             let g:ulti_expand_or_jump_res = 0
             call UltiSnips#ExpandSnippetOrJump()
             if ( g:ulti_expand_or_jump_res == 0 )
-                return "\<C-X>\<C-P>"                 " existing text completion
+"                 return "\<C-X>\<C-P>"                 " existing text completion
+                return "\<C-P>"                  " existing text completion (not using <c-x> to be able to use spell completion when spell is enabled)
             else
                 return ""                           " if not a character is added to the the snipet?
             endif
@@ -630,7 +632,7 @@ noremap vp `[v`]
 " - lineforward is not inclusive?
 " - ge includes the current char and the target
 " - fuzzy search only works on the visible scrren
-" - new * doesn't always go to the next (if not in present in the screen), it needs an extra n keytroke
+" - new * doesn't always go to the next (if not in present in the screen), it needs an extra n keystroke
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -639,12 +641,12 @@ noremap vp `[v`]
 "
 let g:EasyMotion_enter_jump_first = 1                            " quick selection
 let g:EasyMotion_space_jump_first = 0                            " to be able to use space as target key
-let g:EasyMotion_use_upper        = 1                            " for better readeability
+let g:EasyMotion_use_upper        = 1                            " for better readability
 " let g:EasyMotion_keys             = 'asdghklqwertyuiopzxcvbnmfj' " defaults, without the last ';'
 " let g:EasyMotion_keys             = 'ASDFQWERTZXCVBGLOKIJMNP '   " only left hand keys, and last for the right
 let g:EasyMotion_keys             = 'asdfqwertzxcvbglokijmnp '   " only left hand keys, and last for the right
 let g:EasyMotion_startofline      = 0                            " to be able to move to eol and sol
-" let g:EasyMotion_smartcase = 1                                 " case insenitive (using normal ignorecas+smartcase)
+" let g:EasyMotion_smartcase = 1                                 " case insensitive (using normal ignorecase+smartcase)
 
 "
 " EasyMotion - Maps
@@ -784,7 +786,7 @@ endfunction
 "     - <Down> /<Up>   to remove/add spaces after the delimiter
 "     - ** to alternate left-right alignment
 "     - 1,2... or * to specify which delimiters we want to align
-"     - <C-x> to use regular expresion as delimiter instead of single character (<C-x> again to save the align)
+"     - <C-x> to use regular expression as delimiter instead of single character (<C-x> again to save the align)
 "     - there are extra options that can be configured with some <C- > keystrokes
 "       - :help easy-align-alignment-options-in-interactive-mode
 "
@@ -822,12 +824,12 @@ let g:vimprj_changeCurDirIfVimprjFound = 1  " always change the current dir to t
 let g:cpp_header_ext='hpp'                  " each project can define its headers extension (.h or .hpp)
 
 "
-" Reload .vimprj just after writing ist
+" Reload .vimprj just after writing it
 "
 autocmd BufWritePost .vimprj source .vimprj
 
 "
-" Function to define the dafult options 
+" Function to define the default options 
 " Called when leaving a project, and now
 "
 function! <SID>SetMainDefaults()
@@ -908,11 +910,11 @@ vmap gcOj <leader>vR
 "
 " - using (zz) and (ZZ) to expand/shrink visual selection (note that <S-Arrows> go directly to <C-v>
 "   - also using (z) instead of (v)
-" - as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitue character)
+" - as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitute character)
 "   - using (cx) (change-character) instead
 " 
 " - <S+Arrows> to go directly to visual block (<C-v>)
-"   - as this is the prefered method to go to Visual, remapping z Z <C-Z> as v V <C-V> for convenience in visual mode
+"   - as this is the preferred method to go to Visual, remapping z Z <C-Z> as v V <C-V> for convenience in visual mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "shift+arrow selection
@@ -955,7 +957,7 @@ imap <C-S-Down>  <Esc><C-v><C-Down>
 imap <C-S-Left>  <Esc><C-v><C-Left>
 imap <C-S-Right> <Esc><C-v><C-Right>
 
-" as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitue character)
+" as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitute character)
 " in visual mode, to switch to select mode
 nnoremap s      <Esc>
 vnoremap <C-s>  <C-g>
@@ -1137,6 +1139,11 @@ noremap    <F6>       :source ~/.vimrc<cr>
 " move between brackets
 nmap  b   %
 
+" spell (see dictionary)
+nnoremap sa z=
+nnoremap ,a [s
+nnoremap -a ]s
+
 "
 " ge
 "
@@ -1152,7 +1159,7 @@ onoremap ge :<c-u><c-r>=MyCustomGE()<cr><cr>
 noremap    s<PageUp>   gg
 noremap    s<PageDown> G
 
-" Undos (i'm very lazzy and I never use the original U concept (line undo))
+" Undos (I'm very lazy and I never use the original U concept (line undo))
 nnoremap   U          <C-r>
 nnoremap   <C-u>      U
 
@@ -1172,7 +1179,7 @@ set cedit=<C-k>
 
 " Deprecated
 
-" au VimEnter * vertical ba " to open all buffer when entering vim (conflcits with wgd)
+" au VimEnter * vertical ba " to open all buffer when entering vim (conflicts with wgd)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                           Arrows and special keys (home, end, delete, backspace and return)
@@ -1204,10 +1211,10 @@ nnoremap <C-PageDown>  <C-E>
 "
 " - w in normal mode is the main prefix-leader <C-w>
 "   - w<Arrows> move between windows
-" - (we) to toogle zoom/expand on a window
+" - (we) to toggle zoom/expand on a window
 " - (wm) to mark a window and (ws) to swap with the marked (works between tabs!)
 " - w<S-Arrows> for changing layout (forcing a window/pane to be on one side)
-" - w<C-Arrows> to resize (almonst not used?)
+" - w<C-Arrows> to resize (almost not used?)
 " - (w,) and (w.) for tab navigation
 " - (W;) and (W:) for tab moves
 "   - w<PageUp/Down> also for tab navigation
@@ -1239,8 +1246,8 @@ noremap    <F3>       :call SwitchDecorations()<cr>
 nnoremap   wn         :call NumberToggle()<cr>
 
 " Maximize (ww) and 'Tabize' (wt)
-set wmh=0                                   " to fullly maximize in height
-set wmw=0                                   " to fullly maximize in width 
+set wmh=0                                   " to fully maximize in height
+set wmw=0                                   " to fully maximize in width 
 let g:maximizer_restore_on_winleave = 1     " to force restore when leaving maximized window (tmux like)
 let g:maximizer_set_default_mapping = 0     " to be able to use <F3> for other usage
 let g:maximizer_restore_on_winleave = 1     " to autorestore if moving out of windows (good if not using too much tabs?)
@@ -1455,7 +1462,7 @@ xnoremap C  ~
 " - changes (sc) (,c) (-c)
 " - marks
 "   - using (M) to set a mark (few times) and (m) to jump to it (more times)
-"   - using Signature plugin to list marks: (sm) for a interactive list (swm) on the windowa
+"   - using Signature plugin to list marks: (sm) for a interactive list (swm) on the windows
 " - file explorer (se), buffers (sb), undo tree (su), and outline pane (so)
 " - vimprj (sprj) and vimrc (svim)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1522,17 +1529,17 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Tags (cscope, tagbar tjumps, source/header)
 "
-" - (so) tooglea local outline
-" - (ls) lists symbol ocurrences to quicklist (cscope)
+" - (so) toggle local outline
+" - (ls) lists symbol occurrences to quicklist (cscope)
 " - (lg) goes to symbol definition (global) (cscope)
 " - (lc) lists who calls this function to quicklist (cscope)
-" - (lt) lists text ocurrences to quicklist (cscope)
-" - (lf) lists file ocurrences to quicklist (cscope)
+" - (lt) lists text occurrences to quicklist (cscope)
+" - (lf) lists file occurrences to quicklist (cscope)
 " - (li) lists files including this to quicklist (cscope)
 " - (ld) lists function called by me to quicklist (cscope)
 "
 " - (sh) and (st) to switch header and test files
-"   - use g:cpp_header_ext in vimprj to specify header extesion
+"   - use g:cpp_header_ext in vimprj to specify header extension
 " 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -1619,7 +1626,7 @@ endfunction
 " 
 " - (sq) to toggle quickfix, (sqq) to toogle and move to quick fix
 " - jump between next/prev entry (,q -q)
-"   - (,,q) is used to jump to current error (for convenience, as I don't jump to it auromatically)
+"   - (,,q) is used to jump to current error (for convenience, as I don't jump to it automatically)
 " - jump between prev/next quickfix list (,sq .sq)
 " - (sqe) to create a new quickfix list from the current one, without warnings
 " 
