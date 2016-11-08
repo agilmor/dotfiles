@@ -17,11 +17,11 @@
 " < <Left>/<Right> : indent left / right
 "
 " (y,d,c)s         : surrounding operators
-" 
+"
 "
 " Semi Operators
 " --------------
-" 
+"
 " C(u,s,c,m) : case naming convention UPPER_STYLE, snake_style, CamelStyle, mixedStyle
 "
 " Semi Text Objects
@@ -77,7 +77,7 @@ set textwidth=120                  " desired width limit
 set colorcolumn=0                  " to see a line to the text limit (see "Coloring", SwitchDecorations) (disabled)
 set nocursorline nocursorcolumn    " cursor column and line non visible by default
 set autoindent                     " autoindent
-set foldmethod=syntax              " use the syntax to decide folding 
+set foldmethod=syntax              " use the syntax to decide folding
 set nofoldenable                   " disable folding by default (using tagbar is much better)
 set pastetoggle=<F1>               " remove all auto* features when pasting from X
 set scrolloff=10                   " to scroll before first/last line
@@ -95,7 +95,7 @@ set whichwrap=b,s,<,>,[,]          " to move line up/down with left/right at the
 set nobackup                       " no backup files, we should use git/svn always, and we have the persistent undo
 set noswapfile                     " no swap files, we should use git/svn always, and we have the persistent undo
 set undodir=~/.vim/tmp/            " location of the undo directory
-"set keywordprg=                   " used by 'K' (man -s), 
+"set keywordprg=                   " used by 'K' (man -s),
 set grepprg=grep\ -n\ --exclude-dir=.svn\ $*\ /dev/null " to exclude svn/git results from search results
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -204,6 +204,7 @@ Plugin 'ekalinin/Dockerfile.vim'             " dockerfile syntax
 
 Plugin 'blueyed/vim-diminactive'             " to dim the inactive window
 Plugin 'szw/vim-maximizer'                   " :MaximizerToggle works nice
+Plugin 'ntpeters/vim-better-whitespace'      "
 " Plugin 'tmux-plugins/vim-tmux-focus-events'  " it fires some error...?
 
 Plugin 'vim-scripts/visualrepeat'            " used easy-align
@@ -219,7 +220,7 @@ call vundle#end()                            " required
 " - should I use guicolorscheme or CSApprox?
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if &t_Co > 2 || has("gui_running")  
+if &t_Co > 2 || has("gui_running")
     " Also switch on highlighting the last used search pattern.
     syntax on
 
@@ -234,12 +235,12 @@ if &t_Co > 2 || has("gui_running")
     highlight Todo term=reverse cterm=reverse gui=reverse
     highlight clear Pmenu                                   " Pmenu: used by Neocomplete/YouCompleteMe
 "    highlight Pmenu term=reverse cterm=reverse gui=reverse
-    highlight Pmenu term=bold    ctermfg=LightGreen ctermbg=DarkGrey 
+    highlight Pmenu term=bold    ctermfg=LightGreen ctermbg=DarkGrey
     highlight clear MatchParen                              " MatchParen: surroundings
     highlight MatchParen term=underline cterm=underline gui=underline
 
-"    highlight CursorColumn 
-    highlight clear CursorLine 
+"    highlight CursorColumn
+    highlight clear CursorLine
     highlight CursorLine term=reverse ctermbg=242 guibg=Grey40
     highlight clear ColorColumn
     highlight ColorColumn term=reverse ctermbg=242 guibg=Grey40
@@ -250,16 +251,16 @@ if &t_Co > 2 || has("gui_running")
     highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
     highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
 
-    au InsertEnter * hi StatusLine  term=reverse ctermbg=Black ctermfg=Red 
-    au InsertEnter * hi VertSplit   term=reverse ctermbg=Black ctermfg=Red 
-    au InsertEnter * hi TabLineFill term=reverse ctermbg=Black ctermfg=Red 
-    au InsertEnter * hi TabLineSel  term=reverse ctermbg=Black ctermfg=Red 
-    au InsertEnter * hi Title       term=reverse ctermbg=Black ctermfg=Red 
-    au InsertLeave * hi StatusLine  term=reverse ctermbg=Black ctermfg=White 
-    au InsertLeave * hi VertSplit   term=reverse ctermbg=Black ctermfg=White 
-    au InsertLeave * hi TabLineFill term=reverse ctermbg=Black ctermfg=White 
-    au InsertLeave * hi TabLineSel  term=reverse ctermbg=Black ctermfg=White 
-    au InsertLeave * hi Title       term=reverse ctermbg=Black ctermfg=White 
+    au InsertEnter * hi StatusLine  term=reverse ctermbg=Black ctermfg=Red
+    au InsertEnter * hi VertSplit   term=reverse ctermbg=Black ctermfg=Red
+    au InsertEnter * hi TabLineFill term=reverse ctermbg=Black ctermfg=Red
+    au InsertEnter * hi TabLineSel  term=reverse ctermbg=Black ctermfg=Red
+    au InsertEnter * hi Title       term=reverse ctermbg=Black ctermfg=Red
+    au InsertLeave * hi StatusLine  term=reverse ctermbg=Black ctermfg=White
+    au InsertLeave * hi VertSplit   term=reverse ctermbg=Black ctermfg=White
+    au InsertLeave * hi TabLineFill term=reverse ctermbg=Black ctermfg=White
+    au InsertLeave * hi TabLineSel  term=reverse ctermbg=Black ctermfg=White
+    au InsertLeave * hi Title       term=reverse ctermbg=Black ctermfg=White
 
     hi link EasyMotionTarget        EasyMotionIncSearchDefault
 "    hi link EasyMotionShade         Comment
@@ -284,7 +285,7 @@ filetype plugin indent on " Enable file type detection.
 "
 " Known extensions
 "
-au BufRead,BufNewFile .vimprj		set filetype=vim 
+au BufRead,BufNewFile .vimprj		set filetype=vim
 au BufRead,BufNewFile *.build		set filetype=python
 au BufRead,BufNewFile *.scons		set filetype=python
 au BufRead,BufNewFile *onstruct     set filetype=python
@@ -300,6 +301,9 @@ au FileType c,cpp let b:match_words='\%(\<else\s\+\)\@<!\<if\>:\<else\s\+if\>:\<
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                        Plugins configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" better-whitespace
+let g:better_whitespace_enabled = 0
 
 "
 " tcomment
@@ -328,8 +332,8 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "
 " - AutorPairs works with "", '', {}, [], () in insert mode
 "   - Open pairs wirtes both
-"   - Closing pairs flies to end of that closing pair 
-"   - <Space> and <Return> inside pairs expand both sides 
+"   - Closing pairs flies to end of that closing pair
+"   - <Space> and <Return> inside pairs expand both sides
 " - In normal mode:
 "   - Open pairs search for previews open pair
 "   - Closing pairs search for next closing pair
@@ -338,7 +342,7 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 " - yank surrounding is add surround -> ys == as
 " - using omnicomplete with tags and cscope
 " - Tab is context aware:
-"   - filename if '/' if is found 
+"   - filename if '/' if is found
 "   - omnicomplete if '.','->' or '::' is found
 "   - arguments completion if in parenthesis
 "     - <S-Tab> to loop arguments
@@ -461,7 +465,7 @@ function! TabComplete()
     if (strlen(substr)==0)                        " nothing to match on empty string
         return "\<tab>"
     endif
-    let has_word   = strlen(substr)      !=  0 
+    let has_word   = strlen(substr)      !=  0
     let has_period = match(substr, '\.') != -1    " position of period, if any
     let has_arrow  = match(substr, '->') != -1    " position of arrow, if any
     let has_slash  = match(substr, '\/') != -1    " position of slash, if any
@@ -517,8 +521,8 @@ endfunction
 " let delimitMate_autoclose            = 1 " basic functionality
 " let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
 " let delimitMate_expand_space         = 1 " expand with <Space>
-" let delimitMate_expand_inside_quotes = 1 " also expand in quotes 
-" let delimitMate_jump_expansion       = 0 " 
+" let delimitMate_expand_inside_quotes = 1 " also expand in quotes
+" let delimitMate_jump_expansion       = 0 "
 " let delimitMate_balance_matchpairs   = 1 " to try to fix missing pairs
 " let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
 
@@ -546,7 +550,7 @@ endfunction
 "set clipboard=unnamedplus " conflict with YankRing?
 " set clipboard+=unnamed   " conflict ith EasyClip and unnecessary?
 " set clipboard^=unnamed     " working fine now?
-set clipboard^=unnamedplus " unamedplus is more keyboard-centric (ctrl-c)... like vim is 
+set clipboard^=unnamedplus " unamedplus is more keyboard-centric (ctrl-c)... like vim is
                            " but anyway, the important part is that we should match tmux:
                            " unnamed     -> xclip -selection primary
                            " unnamedplus -> xclip -selection clipboard
@@ -724,7 +728,7 @@ nmap qq               qc
 " nmap =<Up>             =<Plug>(easymotion-k)
 " nmap =<Down>           =<Plug>(easymotion-j)
 
-" I never know if I've to press shift in the spanish keyboard to get < or >... 
+" I never know if I've to press shift in the spanish keyboard to get < or >...
 " ...so replacing < (no shift) + Left/Right to the right < and > operators
 " and also the << and >> + Left and Right!
 nnoremap <<Right>        >
@@ -829,7 +833,7 @@ let g:cpp_header_ext='hpp'                  " each project can define its header
 autocmd BufWritePost .vimprj source .vimprj
 
 "
-" Function to define the default options 
+" Function to define the default options
 " Called when leaving a project, and now
 "
 function! <SID>SetMainDefaults()
@@ -867,7 +871,7 @@ endfunction
 "                                           EasyGrep
 "
 " - (gw) and (g*) to grep current word or only current word and listing results in quickfix
-" - (gcw) and (gc*) to grep and change current word 
+" - (gcw) and (gc*) to grep and change current word
 " - :Grep and ':Replace old new'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -912,7 +916,7 @@ vmap gcOj <leader>vR
 "   - also using (z) instead of (v)
 " - as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitute character)
 "   - using (cx) (change-character) instead
-" 
+"
 " - <S+Arrows> to go directly to visual block (<C-v>)
 "   - as this is the preferred method to go to Visual, remapping z Z <C-Z> as v V <C-V> for convenience in visual mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1024,7 +1028,7 @@ let g:expand_region_use_select_mode = 0 " 1: Select mode 0: Visual mode
 
 " adding the (ia) text object
 let g:expand_region_text_objects = { 'ie' : 0,
-                                 \   'ip' : 0, 
+                                 \   'ip' : 0,
                                  \   'iw' : 0,
                                  \   'iB' : 1,
                                  \   'il' : 0,
@@ -1118,8 +1122,8 @@ endfunction
 "
 " Not moving cursor when leaving insert mode
 "
-let CursorColumnI = 0                                                               " 
-au InsertEnter  * let CursorColumnI = col('.')                                      " Code to avoid moving left when 
+let CursorColumnI = 0                                                               "
+au InsertEnter  * let CursorColumnI = col('.')                                      " Code to avoid moving left when
 au CursorMovedI * let CursorColumnI = col('.')                                      " leaving the insert mode
 au InsertLeave  * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif "
 
@@ -1166,14 +1170,14 @@ nnoremap   <C-u>      U
 
 " registers
 " - not using registers thanks to EasyClip (YankRing)
-" - (r) is used as 'replace' by EasyClip  
+" - (r) is used as 'replace' by EasyClip
 nnoremap R "
 vnoremap R "
 
 
 " <C-k> used to:
 " - open edition in command line (never used?)
-" - single normal mode command while in insert mode  
+" - single normal mode command while in insert mode
 inoremap <C-k>  <C-o>
 set cedit=<C-k>
 
@@ -1247,7 +1251,7 @@ nnoremap   wn         :call NumberToggle()<cr>
 
 " Maximize (ww) and 'Tabize' (wt)
 set wmh=0                                   " to fully maximize in height
-set wmw=0                                   " to fully maximize in width 
+set wmw=0                                   " to fully maximize in width
 let g:maximizer_restore_on_winleave = 1     " to force restore when leaving maximized window (tmux like)
 let g:maximizer_set_default_mapping = 0     " to be able to use <F3> for other usage
 let g:maximizer_restore_on_winleave = 1     " to autorestore if moving out of windows (good if not using too much tabs?)
@@ -1369,11 +1373,15 @@ function! SwitchDecorations()
         set nolist
         set colorcolumn=0
         exe "IndentLinesDisable"
+        exe "DisableWhitespace"
+        let g:better_whitespace_enabled = 0
         let g:mydecoration=0
     else
         set list
         set colorcolumn=+1
         exe "IndentLinesEnable"
+        let g:better_whitespace_enabled = 1
+        exe "EnableWhitespace"
         let g:mydecoration=1
     endif
 endfunction
@@ -1393,7 +1401,7 @@ function! NumberToggle()
 endfunc
 
 " last used tab
-let g:lasttab = 1                         " Code to be able to go to 
+let g:lasttab = 1                         " Code to be able to go to
 au TabLeave * let g:lasttab = tabpagenr() " last active tab
 
 
@@ -1424,7 +1432,7 @@ au TabLeave * let g:lasttab = tabpagenr() " last active tab
 "     "Switch to dest and shuffle source->dest
 "     exe curNum . "wincmd w"
 "     "Hide and open so that we aren't prompted and keep history
-"     exe 'hide buf' markedBuf 
+"     exe 'hide buf' markedBuf
 " endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1540,7 +1548,7 @@ endfunction
 "
 " - (sh) and (st) to switch header and test files
 "   - use g:cpp_header_ext in vimprj to specify header extension
-" 
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Tagbar (outline)
@@ -1623,13 +1631,13 @@ endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Quickfix (with ToogleList.vim)
-" 
+"
 " - (sq) to toggle quickfix, (sqq) to toogle and move to quick fix
 " - jump between next/prev entry (,q -q)
 "   - (,,q) is used to jump to current error (for convenience, as I don't jump to it automatically)
 " - jump between prev/next quickfix list (,sq .sq)
 " - (sqe) to create a new quickfix list from the current one, without warnings
-" 
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " forcing quickfix to be full width
@@ -1676,9 +1684,9 @@ nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 " :diffg BA  " get from BASE
 " :diffg LO  " get from LOCAL
 "
-" for all the files in the root directory: 
+" for all the files in the root directory:
 "   1.- open a new vim with the files obtained from git/svn cmdline in tabs (swap file are annoying)
-"   2.- run vcsdiff in all tabs (why the nice <C-w><Left>]c cannot be passed to the tabdo?) 
+"   2.- run vcsdiff in all tabs (why the nice <C-w><Left>]c cannot be passed to the tabdo?)
 "   3.- edit files freely
 "   4.- once edition it's done the forked vim is closed, we return to the original vim and we refresh all our tabs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1697,7 +1705,7 @@ nnoremap          wda     :VCSAdd<cr>
 nnoremap          wdc     :tabnew .<cr>:VCSCommit<cr>i
 
 " get: all current diff
-" get-line: 
+" get-line:
 nnoremap <silent> do     V:diffget<cr>
 nnoremap <silent> dg     :diffget<cr>
 nnoremap          ,d     ]c
@@ -1705,9 +1713,9 @@ nnoremap          -d     [c
 
 " nnoremap <silent> swd    :VCSVimDiff<cr><C-w><Left>]c
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
-" " for all the files in the root directori: 
+" " for all the files in the root directori:
 " "   1.- open a new vim with the files obtained from git/svn cmdline in tabs (swap file are annoying)
-" "   2.- run vcsdiff in all tabs (why the nice <C-w><Left>]c cannot be passed to the tabdo?) 
+" "   2.- run vcsdiff in all tabs (why the nice <C-w><Left>]c cannot be passed to the tabdo?)
 " "   3.- edit files freely
 " "   4.- once edition it's done the forked vim is closed, we return to the original vim and we refresh all our tabs
 " nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff"<cr>
@@ -1913,7 +1921,7 @@ endif
 
 "
 " to use TAB for autocomplete
-" 
+"
 "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
 "    \ <SID>check_back_space() ? "\<TAB>" :
 "    \ neocomplete#start_manual_complete()
@@ -1950,10 +1958,10 @@ endif
 " " Airline
 " let g:airline_section_y = ''
 " "let g:airline#extensions#branch#use_vcscommand = 1
-" let g:airline#extensions#tagbar#flags = 's' 
-" let g:airline#extensions#wordcount#enabled = 1 
+" let g:airline#extensions#tagbar#flags = 's'
+" let g:airline#extensions#wordcount#enabled = 1
 " let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#tab_nr_type = 1 
+" let g:airline#extensions#tabline#tab_nr_type = 1
 " let g:airline#extensions#tabline#buffer_idx_mode = 1
 " nmap <leader>1 <Plug>AirlineSelectTab1
 " nmap <leader>2 <Plug>AirlineSelectTab2
@@ -1992,7 +2000,7 @@ endif
 " - jumps vs buffers (how to use the lists?) (bufexplorer?)
 " - ctrl-i == tab
 " - ctrl-s/q?
-" - autoindent/format with gw or gq (numbered list) 
+" - autoindent/format with gw or gq (numbered list)
 " - words delimiters (for ctrl+right/left)
 " - move to the end of paste -> done with gp
 " - ifdef
@@ -2021,10 +2029,10 @@ endif
 " - why after . cursor is moved?
 " - VimOrganizer for emcas org files?
 " - use lmake and lgrep to have several concurrent list? (ie. use location list instead of quickfix list?
-"     - this has sense if we add the "project" concept on vim, and we tie each list to a "project"... 
+"     - this has sense if we add the "project" concept on vim, and we tie each list to a "project"...
 " - I should use ~/.ctags file?
 " - marks are shown at startup?
-" - ctags < cscope < gtags 
+" - ctags < cscope < gtags
 " - integration with R Vim-R-plugin
 " - neovim
 " - vimcasts.org
