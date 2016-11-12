@@ -166,3 +166,6 @@
 [submodule ".vim/bundle/vim-textobj-variable-segment"]
 	path = .vim/bundle/vim-textobj-variable-segment
 	url = https://github.com/Julian/vim-textobj-variable-segment.git
+[submodule ".vim/bundle/vim-signify"]
+	path = .vim/bundle/vim-signify
+	url = https://github.com/mhinz/vim-signify.git
