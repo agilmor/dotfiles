@@ -25,6 +25,14 @@
 "
 " C(u,s,c,m) : case naming convention UPPER_STYLE, snake_style, CamelStyle, mixedStyle
 "
+" Text Objects
+" ------------
+" al/il : whole line, with or without trailing and leading white spaces
+" ae/ie : whole file, with or without trailing and leading empty lines
+" aa/ia : funtion arguments, with or without argument separator to next one (auto-seek)
+" Aa/Ia : funtion arguments, with or without argument separators and whitespaces (auto-seek)
+" a,/i, : elements in a list, with or separators
+" 
 " Semi Text Objects
 " -----------------
 "
@@ -211,7 +219,8 @@ Plugin 'terryma/vim-expand-region'           " expand mode for visual selection
 Plugin 'kana/vim-textobj-user'               " to create custom text objects
 Plugin 'kana/vim-textobj-line'               " the (l)ine text object
 Plugin 'kana/vim-textobj-entire'             " the (e)ntire file text object
-Plugin 'wellle/targets.vim'                  " adding (n)ext and (l)ast text objects (auto detected), and arguments objects
+Plugin 'wellle/targets.vim'                  " arguments objects and a lot of objects!! also auto seek ()(n)ext and (l)ast text objects
+Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments
 
 " Operators
 Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste operators
