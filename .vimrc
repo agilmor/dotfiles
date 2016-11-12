@@ -175,6 +175,7 @@ Plugin 'vim-scripts/vimprj'                  " .vimprj directory is source
 Plugin 'dkprice/vim-easygrep'                " to search and replace for the whole project
 Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
 Plugin 'vcscommand.vim'                      " version control git+svn together
+Plugin 'mhinz/vim-signify'                   " decorations for git+svn together
 " Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
 " Plugin 'vim-scripts/ConflictMotions'         " never tried! maybe its a good option!
 " Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
@@ -860,9 +861,12 @@ nmap > <Plug>(LiveEasyAlign)
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                               VimPrj
+"                                               VimPrj and VCS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
+let g:signify_disable_by_default = 1 " Use :SignifyToggle
+let g:signify_sign_change        = 'M'
+
 
 let g:vimprj_changeCurDirIfVimprjFound = 1  " always change the current dir to the dir where the .vimprj file is
 let g:cpp_header_ext='hpp'                  " each project can define its headers extension (.h or .hpp)
@@ -1438,6 +1442,8 @@ function! SwitchDecorations()
         exe "LeadingSpaceDisable"
         exe "DisableWhitespace"
         let g:better_whitespace_enabled = 0
+        exe "SignifyToggleHighlight"
+        exe "SignifyDisable"
         let g:mydecoration=0
     else
         set list
@@ -1446,6 +1452,8 @@ function! SwitchDecorations()
         exe "LeadingSpaceEnable"
         let g:better_whitespace_enabled = 1
         exe "EnableWhitespace"
+        exe "SignifyToggleHighlight"
+        exe "SignifyEnable"
         let g:mydecoration=1
     endif
 endfunction
