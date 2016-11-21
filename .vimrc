@@ -235,6 +235,9 @@ Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
 " Plugin 'vim-scripts/YankRing.vim'            " replaced by easyclip?
 " Plugin 'tommcdo/vim-lion'                    " cannot right-align the first column?
 
+" Extras
+Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (m+<arrows>)
+
 " File plugins
 Plugin 'ekalinin/Dockerfile.vim'             " dockerfile syntax
 " Plugin 'rhysd/open-pdf.vim'                  " pdfs (not very useful, but...)
@@ -1828,6 +1831,14 @@ vnoremap <C-b>           <Esc>:Make<cr>
 "                                               Extras
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
+
+
+vmap  <expr>  m<left>   DVB_Drag('left')                     
+vmap  <expr>  m<right>  DVB_Drag('right')                    
+vmap  <expr>  m<down>   DVB_Drag('down')                     
+vmap  <expr>  m<up>     DVB_Drag('up')                       
+" vmap  <expr>  D        DVB_Duplicate()                      
+
 
 " passwds
 if filereadable(glob('~/.vimrc.pass'))
