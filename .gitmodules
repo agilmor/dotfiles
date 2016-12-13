@@ -172,3 +172,6 @@
 [submodule ".vim/bundle/dragvisuals.vim"]
 	path = .vim/bundle/dragvisuals.vim
 	url = https://github.com/shinokada/dragvisuals.vim.git
+[submodule ".tmux/plugins/tpm"]
+	path = .tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
