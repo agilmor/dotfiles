@@ -860,7 +860,7 @@
         <action name="Raise"/>
       </action>
     </keybind>
-<!--
+    <!--
     <keybind key="W-A-W">
       <action name="MoveToEdge">
         <direction>east</direction>
@@ -885,6 +885,54 @@
           <width client="no">100%</width>
           <height client="no"> 50%</height>
         </action>
+      </keybind>
+      <keybind key="W-q">
+          <action name="MoveResizeTo">
+              <width client="no">60%</width>
+              <height client="no">70%</height>
+              <y>0</y>
+              <x>0</x>
+          </action>
+      </keybind>
+      <keybind key="W-a">
+          <action name="MoveResizeTo">
+              <width client="no">60%</width>
+              <height client="no">100%</height>
+              <y>-0</y>
+              <x>0</x>
+          </action>
+      </keybind>
+      <keybind key="W-z">
+          <action name="MoveResizeTo">
+              <width client="no">60%</width>
+              <height client="no">30%</height>
+              <y>-0</y>
+              <x>0</x>
+          </action>
+      </keybind>
+      <keybind key="W-e">
+          <action name="MoveResizeTo">
+              <width client="no">40%</width>
+              <height client="no">85%</height>
+              <y>0</y>
+              <x>-0</x>
+          </action>
+      </keybind>
+      <keybind key="W-d">
+          <action name="MoveResizeTo">
+              <width client="no">40%</width>
+              <height client="no">100%</height>
+              <y>-0</y>
+              <x>-0</x>
+          </action>
+      </keybind>
+      <keybind key="W-c">
+          <action name="MoveResizeTo">
+              <width client="no">40%</width>
+              <height client="no">15%</height>
+              <y>-0</y>
+              <x>-0</x>
+          </action>
       </keybind>
       <keybind key="w">
         <action name="MoveResizeTo">
