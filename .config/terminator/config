@@ -42,7 +42,6 @@
   new_window = Disabled
   move_tab_left = Disabled
   toggle_scrollbar = Disabled
-  copy_selected_text = Disabled
 [profiles]
   [[default]]
     scrollbar_position = hidden
@@ -55,5 +54,13 @@
     use_custom_command = True
     scroll_on_output = False
     show_titlebar = False
-    font = Monospace 8
+    font = DejaVu Sans Mono 8
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+    [[[window0]]]
+      type = Window
+      parent = ""
 [plugins]
