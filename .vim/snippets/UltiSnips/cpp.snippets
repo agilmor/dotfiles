@@ -1,0 +1,81 @@
+extends c
+
+# snippet "\(s"
+# snippet \(
+# snippet "( "
+snippet par
+( ${0:${VISUAL}} )
+endsnippet
+
+snippet for
+for( ${1:std::size_t} ${2:ii} = 0; $2 < ${3:end}; ++$2 )
+{
+	$0
+}
+endsnippet
+
+snippet if
+if( ${1:true} )
+{
+	${0:${VISUAL:\/\/code}}
+}
+endsnippet
+
+snippet class
+class ${1:MyClass}
+{
+public: // typedefs
+
+pubilc:
+	$1();
+
+	virtual
+	~$1();
+
+private: // members
+	$0
+};
+endsnippet
+
+snippet classd
+class ${1:MyClass} : public ${2:Base}
+{
+public: // typedefs
+	typedef $2 Base;
+
+pubilc:
+	$1();
+
+	$1( $2 const& cpy );
+
+	virtual
+	~$1();
+
+private: // members
+	$0
+};
+endsnippet
+
+snippet classi
+${1:MyClass}::$1()
+:   $2
+{$3}
+
+$1::~$1()
+{$0}
+endsnippet
+
+snippet classdi
+${1:MyClass}::$1()
+:   ${2:Base},
+	$3
+{$4}
+
+$1::$1( $2 const& cpy )
+:   $2( cpy ),
+	$3
+{$5}
+
+$1::~$1()
+{$0}
+endsnippet
