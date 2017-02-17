@@ -269,6 +269,7 @@ au BufRead,BufNewFile *.scons   set filetype=python
 au BufRead,BufNewFile *onstruct set filetype=python
 au BufRead,BufNewFile *.hpp     set filetype=cpp.doxygen
 au BufRead,BufNewFile *.test    set filetype=cpp.doxygen
+au BufRead,BufNewFile *.launch  set filetype=xml
 
 "
 " Matchit is not working properly on my setup for C/C++?
