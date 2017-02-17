@@ -594,92 +594,88 @@
       <action name="raise"/>
     </keybind>
     <keybind key="W-C-Up">
-      <action name="MoveResizeTo">
-        <monitor>1</monitor>
+      <action name="MoveRelative">
+        <y>-1</y>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-C-Down">
-      <action name="MoveResizeTo">
-        <monitor>2</monitor>
+      <action name="MoveRelative">
+        <y>+1</y>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-C-Left">
-      <action name="MoveResizeTo">
-        <monitor>2</monitor>
+      <action name="MoveRelative">
+        <x>-1</x>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-C-Right">
-      <action name="MoveResizeTo">
-        <monitor>3</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
-    </keybind>
-    <keybind key="W-A-Up">
-      <action name="MoveResizeTo">
-        <monitor>1</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
-    </keybind>
-    <keybind key="W-A-Down">
-      <action name="MoveResizeTo">
-        <monitor>2</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
-    </keybind>
-    <keybind key="W-A-Left">
-      <action name="MoveResizeTo">
-        <monitor>2</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
-    </keybind>
-    <keybind key="W-A-Right">
-      <action name="MoveResizeTo">
-        <monitor>3</monitor>
+      <action name="MoveRelative">
+        <x>+1</x>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-S-C-Up">
-      <action name="Maximize"/>  
-      <action name="MoveResizeTo">
-        <monitor>1</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveRelative">
+            <y>-10</y>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
     <keybind key="W-S-C-Down">
-      <action name="Maximize"/>  
-      <action name="MoveResizeTo">
-        <monitor>2</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveRelative">
+            <y>+10</y>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
     <keybind key="W-S-C-Left">
-      <action name="Maximize"/>  
-      <action name="MoveResizeTo">
-        <monitor>2</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveRelative">
+            <x>-10</x>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
     <keybind key="W-S-C-Right">
-      <action name="Maximize"/>  
-      <action name="MoveResizeTo">
-        <monitor>3</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveRelative">
+            <x>+10</x>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
+    </keybind>
+    <keybind key="W-A-Up">
+        <action name="MoveResizeTo">
+            <monitor>1</monitor>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
+    </keybind>
+    <keybind key="W-A-Down">
+        <action name="MoveResizeTo">
+            <monitor>2</monitor>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
+    </keybind>
+    <keybind key="W-A-Left">
+        <action name="MoveResizeTo">
+            <monitor>2</monitor>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
+    </keybind>
+    <keybind key="W-A-Right">
+        <action name="MoveResizeTo">
+            <monitor>3</monitor>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
     <keybind key="W-S-A-Up">
       <action name="Maximize"/>  
