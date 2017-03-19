@@ -10,6 +10,7 @@ xinput set-prop 13 292 1 1                 # Synaptics Two-Finger Scrolling (292
 
 setxkbmap -option caps:escape       # To use CapsLock as Escape (see /usr/share/X11/xkb/rules/xorg.lst for more options)
 unclutter -idle 1 -jitter 2 -root & # To hide the mouse
+compton &                           # Starting compton
 
 # Load the default screenlayout
 if [ -f ~/.screenlayout/default.sh ]; then
