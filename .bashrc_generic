@@ -44,6 +44,9 @@ export PATH=$HOME/usr-$os_codename/bin:$PATH
 
 export EDITOR='vim -X'
 
+# Alias
+alias ll='ls -lh'
+alias la='ls -lha'
 
 #
 # Git Prompt
