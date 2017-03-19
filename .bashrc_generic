@@ -84,9 +84,9 @@ function _git_prompt() {
         if [[ "$git_status" =~ nothing\ to\ commit ]]; then
           local ansi=$GREEN
         elif [[ "$git_status" =~ nothing\ added\ to\ commit\ but\ untracked\ files\ present ]]; then
-          local ansi=$RED
-        else
           local ansi=$YELLOW
+        else
+          local ansi=$RED
         fi
         if [[ "$git_status" =~ On\ branch\ ([^[:space:]]+) ]]; then
           branch=${BASH_REMATCH[1]}
