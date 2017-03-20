@@ -42,6 +42,18 @@
   new_window = Disabled
   move_tab_left = Disabled
   toggle_scrollbar = Disabled
+  broadcast_all = Disabled
+  broadcast_group = Disabled
+  broadcast_off = Disabled
+  copy = Disabled
+  edit_tab_title = Disabled
+  edit_terminal_title = Disabled
+  edit_window_title = Disabled
+  go_next = Disabled
+  help = Disabled
+  insert_number = Disabled
+  insert_padded = Disabled
+  layout_launcher = Disabled
 [profiles]
   [[default]]
     scrollbar_position = hidden
