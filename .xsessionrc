@@ -25,6 +25,13 @@ unclutter -idle 1 -jitter 2 -root & # To hide the mouse
 compton &                           # To dimm the unfocus windows
 
 #
+# Terminator sessions
+#
+# terminator --title monitor --maximise --execute ssh -p 2222 agil@imatge.upc.edu -t ssh root@s1 -t tmux attach -t monitor &
+# terminator --title mail    --maximise --execute ssh -p 2222 agil@imatge.upc.edu -t DISPLAY=:1067 tmux attach -t monitor &
+# terminator --title mail    --maximise --execute tmuxinator start local &
+
+#
 # Screenlayout
 #
 if [ -f ~/.screenlayout/default.sh ]; then
