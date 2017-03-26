@@ -1,4 +1,5 @@
-#  sudo apt-get install python-dev gcc g++ make cmake scons build-essential libncurses5-dev libevent-dev libpango1.0-dev xclip compton
+#  sudo apt-get build-dep vim-gtk
+#  sudo apt-get install python-dev gcc g++ make cmake scons build-essential libncurses5-dev libevent-dev libpango1.0-dev xclip compton 
 os_codename=`lsb_release -a 2>/dev/null | grep Codename | awk '{print $2}'`
 install_dir=$HOME/usr-$os_codename
 jobs=4
