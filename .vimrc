@@ -1,6 +1,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                               Summary
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 "
 " Full Operators
 " --------------
@@ -13,35 +14,42 @@
 " e                : exchange
 " q                : comment
 "
-" > / >>           : align
+" > / >>           : align (C-x for generic separator)
 " < <Left>/<Right> : indent left / right
 "
 " (y,d,c)s         : surrounding operators
-" 
+"
 "
 " Semi Operators
 " --------------
-" 
+"
 " C(u,s,c,m) : case naming convention UPPER_STYLE, snake_style, CamelStyle, mixedStyle
 "
+" Text Objects
+" ------------
+" al/il : whole line, with or without trailing and leading white spaces
+" ae/ie : whole file, with or without trailing and leading empty lines
+" aa/ia : funtion arguments, with or without argument separator to next one (auto-seek)
+" Aa/Ia : funtion arguments, with or without argument separators and whitespaces (auto-seek)
+" a,/i, : elements in a list, with or separators
+" 
 " Semi Text Objects
 " -----------------
 "
 " x                          : single letter/character
-" p                          : pasted text
 " b<Up/Down>                 : between two lines (easy motions) (only yank, change and delete)
 " b<Left/Right>(char1 char2) : between two chars at any line (easy motions) (only yank, change and delete)
 "
-" Moving between Modes
-" ---------------------
+" Switching Modes
+" ---------------
 "
-" ax(char)      : add 'char' before cursor
-" a<Arrows>     : go insert mode in line above, below, and begin and end of the line
+" ax(char/arros) : add single 'char' before cursor, add a single line up or down, or add space before or after current pos
+" a<Arrows>      : go insert mode in line above, below, and begin and end of the line
 "
-" <S-Arrows>    : block selection
-" zz            : expand selection
-" z<Up/Down>    : line selection
-" z<left/Right> : normal selection
+" <S-Arrows>     : block selection
+" zz             : expand selection
+" z<Up/Down>     : line selection
+" z<left/Right>  : normal selection
 "
 " Navigation
 " ----------
@@ -51,10 +59,29 @@
 " ; : special previous
 " _ : special next
 "
-
+" Browsing
+" --------
+" - FO : fold open all
+" - FC : fold close all
+" - FF : fold toogle current 
+"
+" <F> Keys
+" --------
+" - F1 : paste mode for new pastes  (pastetoggle)
+" - F2 : paste mode for just pasted (EasyClipToggleFormattedPaste)
+" - F3 : window decorations         (SwitchDecorations)
+" - F4 : toggle autopairs           (AutoPairsToggle)
+" - F5 : refresh file
+" - F6 : refresh vimrc 
+"
+" - F10/11 : to disable default maps of UltiSnips (ExpandTrigger / ListSnippets) 
+"
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                       General options (set)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
+
 set nocompatible                   " Use Vim settings, rather than Vi settings (much better!).
                                    " This must be first, because it changes other options as a side effect.
 
@@ -77,7 +104,7 @@ set textwidth=120                  " desired width limit
 set colorcolumn=0                  " to see a line to the text limit (see "Coloring", SwitchDecorations) (disabled)
 set nocursorline nocursorcolumn    " cursor column and line non visible by default
 set autoindent                     " autoindent
-set foldmethod=syntax              " use the syntax to decide folding 
+set foldmethod=syntax              " use the syntax to decide folding
 set nofoldenable                   " disable folding by default (using tagbar is much better)
 set pastetoggle=<F1>               " remove all auto* features when pasting from X
 set scrolloff=10                   " to scroll before first/last line
@@ -95,131 +122,170 @@ set whichwrap=b,s,<,>,[,]          " to move line up/down with left/right at the
 set nobackup                       " no backup files, we should use git/svn always, and we have the persistent undo
 set noswapfile                     " no swap files, we should use git/svn always, and we have the persistent undo
 set undodir=~/.vim/tmp/            " location of the undo directory
-"set keywordprg=                   " used by 'K' (man -s), 
+" set keywordprg=                    " used by 'K' (man -s),
 set grepprg=grep\ -n\ --exclude-dir=.svn\ $*\ /dev/null " to exclude svn/git results from search results
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                  General options (non-set)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
-"let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting column (how to use textwidth var?) (see SwitchDecorations)
 let mapleader='º'                  " maybe, because the remaps, I can just use the default...?
 runtime ftplugin/man.vim           " to be able to render man pages
 runtime ftplugin/vim.vim           " to use the vim help
 source $VIMRUNTIME/menu.vim        " just to have some fancy (useless?) menus with (:emenu<space><tab>)
 
+"let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting column (how to use textwidth var?) (see SwitchDecorations)
+
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                        Plugins list (vundle)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 filetype off                                 " required by vundle
-
 set rtp+=~/.vim/bundle/Vundle.vim            " set the runtime path to include Vundle and initialize
 call vundle#begin()
 
 " Plugin Manager
 Plugin 'VundleVim/Vundle.vim'                " let Vundle manage Vundle, required
-Plugin 'kopischke/vim-fetch'                 " to open files with :line:col suffix
+
+" Core features
+Plugin 'tpope/vim-dispatch.git'              " background/async builds (how to use it for grep?)
+Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easy-clip)
+Plugin 'vim-scripts/visualrepeat'            " used by easy-align
+" Plugin 'tmux-plugins/vim-tmux-focus-events'  " it fires some error...?
+" Plugin 'AsyncCommand'                        " background/async builds (needs vim --servername)
 
 " Browsing
+Plugin 'szw/vim-maximizer'                   " :MaximizerToggle works nice
 Plugin 'scrooloose/nerdtree.git'             " file browser (not really useful... ctrlp/unite and wildmode are better?)
-"Plugin 'ctrlp.vim'                            " I'm just not using it...?
 Plugin 'majutsushi/tagbar'                   " outline window (uses its own ctag of current file only)
 Plugin 'mbbill/undotree'                     " visualization of the undotree as a version control (F5 -> :UndotreeToggle)
 Plugin 'bufexplorer.zip'                     " visualization of the buffers list
-" Plugin 'derekwyatt/vim-fswitch'            " (not tested, using manual setup with sh+st)
-Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'christoomey/vim-tmux-navigator'      " same keys to move between panes on tmux and vim (only on 'local' vim)
+Plugin 'kopischke/vim-fetch'                 " to open files with :line:col suffix
+" Plugin 'ctrlp.vim'                           " I'm just not using it...?
+" Plugin 'derekwyatt/vim-fswitch'              " (not tested, using manual setup with sh+st)
 
 " Version Control and Project Management
+Plugin 'vim-scripts/DfrankUtil'              " needed by vimprj
+Plugin 'vim-scripts/vimprj'                  " .vimprj directory is source
+Plugin 'dkprice/vim-easygrep'                " to search and replace for the whole project
+Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
 Plugin 'vcscommand.vim'                      " version control git+svn together
-" Plugin 'vim-scripts/ConflictMotions'       " never tried! maybe its a good option!
+Plugin 'mhinz/vim-signify'                   " decorations for git+svn together
+" Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
+" Plugin 'vim-scripts/ConflictMotions'         " never tried! maybe its a good option!
 " Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
 " Plugin 'Align'                               " used by vitra
 " Plugin 'tracwiki'                            " used by vitra
 
-" Less typing
-" Plugin 'Valloric/YouCompleteMe'              " too requirements to be build?
-" Plugin 'Shougo/neocomplete.vim'              " not semantics -> use clan_complete (see fix in advanced setup)
-" Plugin 'Rip-Rip/clang_complete'              " only works for C/C++... but works great!
+" Auto completion
 Plugin 'vim-scripts/OmniCppComplete'         " simpler, it uses ctags (not works in auto mode for unscoped vars)
 Plugin 'mbbill/code_complete'                " for arguments and snippets (CodeComplete)
 Plugin 'SirVer/ultisnips'                    " to get snippet feature
 Plugin 'honza/vim-snippets'                  " standard snippets? (my own on .vim/snippets)
-" Plugin 'vim-scripts/AutoComplPop'            " used for unescoped vars (works in automode forunscoped
-" Plugin 'ervandew/supertab'                   " to complex, homade function is simpler and enough
 Plugin 'matchit.zip'                         " improves surroundings with more than simple characters
                                              " maybe we should use 'runtime macros/matchit.vim' instead of a plugin?
-" Plugin 'AutoClose'                         " autoclosing the surroundings (not necessary with code_complete?)
-                                             " it closes the preview if line 162 (pclose) is not commented
-" Plugin 'Raimondi/delimitMate'                " the expanding with <Return> fails because of the not miving cursor when InsertLeave
 Plugin 'jiangmiao/auto-pairs'                " to autoclose pairs
-
-" Plugin 'tpope/vim-commentary'                " I don't like the commenting style for C/C++, and only works for lines
-Plugin 'tomtom/tcomment_vim'                 " add the comment action (gc -> cm) for motions and text objects
-
-" Async commands
-Plugin 'tpope/vim-dispatch.git'              " background/async builds (how to use it for grep?)
-" Plugin 'AsyncCommand'                        " background/async builds (needs vim --servername)
-
-" Project management
-Plugin 'vim-scripts/DfrankUtil'              " needed by vimprj
-Plugin 'vim-scripts/vimprj'                  " .vimprj directory is source
-" Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
-Plugin 'dkprice/vim-easygrep'                " to search and replace for the whole project
-
-" More
-Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
+" Plugin 'Valloric/YouCompleteMe'              " too requirements to be build?
+" Plugin 'Shougo/neocomplete.vim'              " not semantics -> use clan_complete (see fix in advanced setup)
+" Plugin 'Rip-Rip/clang_complete'              " only works for C/C++... but works great!
+" Plugin 'vim-scripts/AutoComplPop'            " used for unescoped vars (works in automode forunscoped
+" Plugin 'ervandew/supertab'                   " to complex, homade function is simpler and enough
+" Plugin 'AutoClose'                           " autoclosing the surroundings (not necessary with code_complete?)
+                                               " it closes the preview if line 162 (pclose) is not commented
+" Plugin 'Raimondi/delimitMate'                " the expanding with <Return> fails because of the not miving cursor when InsertLeave
 
 " Easy motions
-Plugin 'easymotion/vim-easymotion'           " best motion ever!
+Plugin 'easymotion/vim-easymotion'           " best motions ever!
 Plugin 'haya14busa/vim-easyoperator-line'    " use 2 easymotions to define a range of lines (y,d,v operators only)
 Plugin 'haya14busa/vim-easyoperator-phrase'  " use 2 easymotions to define a range between chars (y,d,v only)
 Plugin 'haya14busa/incsearch.vim'            " necessary dependency
 Plugin 'haya14busa/incsearch-easymotion.vim' " necessary dependency
 Plugin 'haya14busa/incsearch-fuzzy.vim'      " fuzzy motion
 
-" Plugin 'rhysd/open-pdf.vim'                " pdfs (not very useful, but...)
-Plugin 'kshenoy/vim-signature'               " tu visualize marks (smm)
+" Window decorations
+Plugin 'kshenoy/vim-signature'               " to visualize marks (smm)
 Plugin 'Yggdroot/indentLine'                 " to visualize indentation lines (wl)
-" Plugin 'vim-scripts/yate'                    " much slower than simple :*tag
+Plugin 'blueyed/vim-diminactive'             " to dim the inactive window
+Plugin 'ntpeters/vim-better-whitespace'      " visualize and remove (:StripWhitespace) trailing whitespace 
+" Plugin 'nathanaelkane/vim-indent-guides'     " visualize vertical indent lines (Yggdroot/indentLine seems better?)
 " Plugin 'bling/vim-airline'                   " too fancy for me? I'll give it a second chance in a while...
-" Plugin 'vim-scripts/YankRing.vim'            " replaced by easyclip?
-Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easy-clip)
-Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste
 
 " Text objects
 Plugin 'terryma/vim-expand-region'           " expand mode for visual selection
 Plugin 'kana/vim-textobj-user'               " to create custom text objects
 Plugin 'kana/vim-textobj-line'               " the (l)ine text object
 Plugin 'kana/vim-textobj-entire'             " the (e)ntire file text object
-Plugin 'wellle/targets.vim'                  " adding (n)ext and (l)ast text objects (auto detected), and arguments objects
+Plugin 'wellle/targets.vim'                  " arguments objects and a lot of objects!! also auto seek ()(n)ext and (l)ast text objects
+Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments
 
 " Operators
+Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste operators
 Plugin 'tpope/vim-surround'                  " defines surroundings as text objects (yank surroundings mean 'add' them)
 Plugin 'tpope/vim-abolish'                   " adding snake/camel/mixed/upper case control in the iw and with :S
 Plugin 'tommcdo/vim-exchange'                " to add the (e)xchange operator
-
-" Languages
-Plugin 'ekalinin/Dockerfile.vim'             " dockerfile syntax
-
-Plugin 'blueyed/vim-diminactive'             " to dim the inactive window
-Plugin 'szw/vim-maximizer'                   " :MaximizerToggle works nice
-" Plugin 'tmux-plugins/vim-tmux-focus-events'  " it fires some error...?
-
-Plugin 'vim-scripts/visualrepeat'            " used easy-align
+Plugin 'tomtom/tcomment_vim'                 " add the comment action (gc -> cm) for motions and text objects
 Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
+" Plugin 'tpope/vim-commentary'                " I don't like the commenting style for C/C++, and only works for lines
+" Plugin 'vim-scripts/yate'                    " much slower than simple :*tag
+" Plugin 'vim-scripts/YankRing.vim'            " replaced by easyclip?
 " Plugin 'tommcdo/vim-lion'                    " cannot right-align the first column?
+
+" Extras
+Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (m+<arrows>)
+
+" File plugins
+Plugin 'ekalinin/Dockerfile.vim'             " dockerfile syntax
+" Plugin 'rhysd/open-pdf.vim'                  " pdfs (not very useful, but...)
 
 call vundle#end()                            " required
 
+" }}}
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                        File Types
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
+
+filetype plugin indent on " Enable file type detection.
+                          " Use the default filetype settings, so that mail gets 'tw' set to 72,
+                          " 'cindent' is on in C files, etc.
+                          " Also load indent files, to automatically do language-dependent indenting.
+
+au FileType help wincmd L              " forcing help to be vertical splitted
+au FileType man  wincmd L              " forcing man to be vertical splitted
+
+au FileType vim  set foldmethod=marker " using markers in vim files
+
+"
+" Known extensions
+"
+au BufRead,BufNewFile .vimprj   set filetype=vim
+au BufRead,BufNewFile *.build   set filetype=python
+au BufRead,BufNewFile *.scons   set filetype=python
+au BufRead,BufNewFile *onstruct set filetype=python
+au BufRead,BufNewFile *.hpp     set filetype=cpp.doxygen
+au BufRead,BufNewFile *.test    set filetype=cpp.doxygen
+au BufRead,BufNewFile *.launch  set filetype=xml
+
+"
+" Matchit is not working properly on my setup for C/C++?
+" (should be in share/.../ftplugin/c.vim)
+"
+au FileType c,cpp let b:match_words='\%(\<else\s\+\)\@<!\<if\>:\<else\s\+if\>:\<else\%(\s\+if\)\@!\>,\<switch\>:\<case\>:\<default\>'
+
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                              Coloring
 "
 " Issues
 " - should I use guicolorscheme or CSApprox?
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-if &t_Co > 2 || has("gui_running")  
+" {{{
+if &t_Co > 2 || has("gui_running")
     " Also switch on highlighting the last used search pattern.
     syntax on
 
@@ -234,12 +300,12 @@ if &t_Co > 2 || has("gui_running")
     highlight Todo term=reverse cterm=reverse gui=reverse
     highlight clear Pmenu                                   " Pmenu: used by Neocomplete/YouCompleteMe
 "    highlight Pmenu term=reverse cterm=reverse gui=reverse
-    highlight Pmenu term=bold    ctermfg=LightGreen ctermbg=DarkGrey 
+    highlight Pmenu term=bold    ctermfg=LightGreen ctermbg=DarkGrey
     highlight clear MatchParen                              " MatchParen: surroundings
     highlight MatchParen term=underline cterm=underline gui=underline
 
-"    highlight CursorColumn 
-    highlight clear CursorLine 
+"    highlight CursorColumn
+    highlight clear CursorLine
     highlight CursorLine term=reverse ctermbg=242 guibg=Grey40
     highlight clear ColorColumn
     highlight ColorColumn term=reverse ctermbg=242 guibg=Grey40
@@ -250,16 +316,16 @@ if &t_Co > 2 || has("gui_running")
     highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
     highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
 
-    au InsertEnter * hi StatusLine  term=reverse ctermbg=Black ctermfg=Red 
-    au InsertEnter * hi VertSplit   term=reverse ctermbg=Black ctermfg=Red 
-    au InsertEnter * hi TabLineFill term=reverse ctermbg=Black ctermfg=Red 
-    au InsertEnter * hi TabLineSel  term=reverse ctermbg=Black ctermfg=Red 
-    au InsertEnter * hi Title       term=reverse ctermbg=Black ctermfg=Red 
-    au InsertLeave * hi StatusLine  term=reverse ctermbg=Black ctermfg=White 
-    au InsertLeave * hi VertSplit   term=reverse ctermbg=Black ctermfg=White 
-    au InsertLeave * hi TabLineFill term=reverse ctermbg=Black ctermfg=White 
-    au InsertLeave * hi TabLineSel  term=reverse ctermbg=Black ctermfg=White 
-    au InsertLeave * hi Title       term=reverse ctermbg=Black ctermfg=White 
+    au InsertEnter * hi StatusLine  term=reverse ctermbg=Black ctermfg=Red
+    au InsertEnter * hi VertSplit   term=reverse ctermbg=Black ctermfg=Red
+    au InsertEnter * hi TabLineFill term=reverse ctermbg=Black ctermfg=Red
+    au InsertEnter * hi TabLineSel  term=reverse ctermbg=Black ctermfg=Red
+    au InsertEnter * hi Title       term=reverse ctermbg=Black ctermfg=Red
+    au InsertLeave * hi StatusLine  term=reverse ctermbg=Black ctermfg=White
+    au InsertLeave * hi VertSplit   term=reverse ctermbg=Black ctermfg=White
+    au InsertLeave * hi TabLineFill term=reverse ctermbg=Black ctermfg=White
+    au InsertLeave * hi TabLineSel  term=reverse ctermbg=Black ctermfg=White
+    au InsertLeave * hi Title       term=reverse ctermbg=Black ctermfg=White
 
     hi link EasyMotionTarget        EasyMotionIncSearchDefault
 "    hi link EasyMotionShade         Comment
@@ -267,44 +333,31 @@ if &t_Co > 2 || has("gui_running")
 "    hi link EasyMotionTarget2Second MatchParen
     hi link EasyMotionMoveHL        Search
 
+    let g:indent_guides_auto_colors = 0
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=darkgrey
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=lightgrey
 endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                        File Types
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-au FileType help wincmd L " forcing help to be vertical splitted
-au FileType man  wincmd L " forcing man to be vertical splitted
-
-filetype plugin indent on " Enable file type detection.
-                          " Use the default filetype settings, so that mail gets 'tw' set to 72,
-                          " 'cindent' is on in C files, etc.
-                          " Also load indent files, to automatically do language-dependent indenting.
-
-"
-" Known extensions
-"
-au BufRead,BufNewFile .vimprj		set filetype=vim 
-au BufRead,BufNewFile *.build		set filetype=python
-au BufRead,BufNewFile *.scons		set filetype=python
-au BufRead,BufNewFile *onstruct     set filetype=python
-au BufRead,BufNewFile *.hpp 		set filetype=cpp.doxygen
-au BufRead,BufNewFile *.test		set filetype=cpp.doxygen
-
-"
-" Matchit is not working properly on my setup for C/C++?
-" (should be in share/.../ftplugin/c.vim)
-"
-au FileType c,cpp let b:match_words='\%(\<else\s\+\)\@<!\<if\>:\<else\s\+if\>:\<else\%(\s\+if\)\@!\>,\<switch\>:\<case\>:\<default\>'
-
+"}}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                        Plugins configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
+
+" better-whitespace
+let g:better_whitespace_enabled = 0
+
+" indent guides
+let g:indent_guides_guide_size            = 1
+let g:indent_guides_space_guides          = 1
+let g:indent_guides_tab_guides            = 0
+let g:indent_guides_enable_on_vim_startup = 0
+let g:indent_guides_default_mapping       = 0
 
 "
 " tcomment
 "
-let g:tcommentMapLeaderOp1 = 'q'        " use 'cm' instead of 'gc'
+let g:tcommentMapLeaderOp1 = 'q'         " use 'cm' instead of 'gc'
 let g:tcommentOptions      = {'col': 1}  " line comments on the first column
 
 "
@@ -313,23 +366,24 @@ let g:tcommentOptions      = {'col': 1}  " line comments on the first column
 let g:NERDTreeHijackNetrw=0             " to avoid conflicts between VCSStatus and NeerdTree
 
 "
+" Signature
+"
+let g:SignatureEnabledAtStartup = 0  " not showing marks by default
+
+"
 " CtrlP
 "
 " let g:ctrlp_working_path_mode = 'a'     " to search on the current directory
 " let g:ctrlp_working_path_mode = 'ar'
 
-"
-" Signature
-"
-let g:SignatureEnabledAtStartup = 0  " not showing marks by default
-
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                         Tab Completion, OmniCppComplete and Surrounding
 "
 " - AutorPairs works with "", '', {}, [], () in insert mode
 "   - Open pairs wirtes both
-"   - Closing pairs flies to end of that closing pair 
-"   - <Space> and <Return> inside pairs expand both sides 
+"   - Closing pairs flies to end of that closing pair
+"   - <Space> and <Return> inside pairs expand both sides
 " - In normal mode:
 "   - Open pairs search for previews open pair
 "   - Closing pairs search for next closing pair
@@ -338,7 +392,7 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 " - yank surrounding is add surround -> ys == as
 " - using omnicomplete with tags and cscope
 " - Tab is context aware:
-"   - filename if '/' if is found 
+"   - filename if '/' if is found
 "   - omnicomplete if '.','->' or '::' is found
 "   - arguments completion if in parenthesis
 "     - <S-Tab> to loop arguments
@@ -346,7 +400,9 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "   - normal tab if no word already typed
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
+" UltiSnips
 set rtp^=~/.vim/snippets/                                             " my own snippets should be preened in runtime paths
 let g:UltiSnipsSnippetsDir              = '~/.vim/snippets/UltiSnips' " my own snippets
 let g:UltiSnipsSnippetDirectories       = ['UltiSnips']               " just the default to be able to use standard packages
@@ -422,7 +478,7 @@ let OmniCpp_MayCompleteScope    = 0 " autocomplete after ::
 let OmniCpp_DefaultNamespaces   = ["std", "_GLIBCXX_STD"]
 
 " CodeComplete
-let g:completekey = '<C-q>'           " code_complete: to avoid conflicts with normal omnicomplete with tab
+let g:completekey = '<C-q>'             " code_complete: to avoid conflicts with normal omnicomplete with tab
 let g:completekey = '<S-Tab>'           " code_complete: to avoid conflicts with normal omnicomplete with tab
 " let g:completekey = '<C-a>'
 let g:rs = '< '                         " arguments separators
@@ -461,7 +517,7 @@ function! TabComplete()
     if (strlen(substr)==0)                        " nothing to match on empty string
         return "\<tab>"
     endif
-    let has_word   = strlen(substr)      !=  0 
+    let has_word   = strlen(substr)      !=  0
     let has_period = match(substr, '\.') != -1    " position of period, if any
     let has_arrow  = match(substr, '->') != -1    " position of arrow, if any
     let has_slash  = match(substr, '\/') != -1    " position of slash, if any
@@ -517,8 +573,8 @@ endfunction
 " let delimitMate_autoclose            = 1 " basic functionality
 " let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
 " let delimitMate_expand_space         = 1 " expand with <Space>
-" let delimitMate_expand_inside_quotes = 1 " also expand in quotes 
-" let delimitMate_jump_expansion       = 0 " 
+" let delimitMate_expand_inside_quotes = 1 " also expand in quotes
+" let delimitMate_jump_expansion       = 0 "
 " let delimitMate_balance_matchpairs   = 1 " to try to fix missing pairs
 " let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
 
@@ -527,6 +583,7 @@ endfunction
 " nnoremap <Tab>   >>
 " nnoremap <S-Tab> <<
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                            EasyClip and Exchange
 "
@@ -541,21 +598,21 @@ endfunction
 " - AutoFormat sometimes is not good... <F2> after paste to toogle it
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 " Direct paste from clipboard not working
-"set clipboard=unnamedplus " conflict with YankRing?
-" set clipboard+=unnamed   " conflict ith EasyClip and unnecessary?
-" set clipboard^=unnamed     " working fine now?
-set clipboard^=unnamedplus " unamedplus is more keyboard-centric (ctrl-c)... like vim is 
+set clipboard^=unnamedplus " unamedplus is more keyboard-centric (ctrl-c)... like vim is
                            " but anyway, the important part is that we should match tmux:
                            " unnamed     -> xclip -selection primary
                            " unnamedplus -> xclip -selection clipboard
+" set clipboard=unnamedplus  " conflict with YankRing?
+" set clipboard+=unnamed     " conflict ith EasyClip and unnecessary?
 
 "
 " EasyClip - Options
 "
 let g:EasyClipUseGlobalPasteToggle            =   0 " to be able to use my maps (<F1>)
-let g:EasyClipUsePasteToggleDefaults          =   0 " to be able to use my maps (,y and .y)
+let g:EasyClipUsePasteToggleDefaults          =   0 " to be able to use my maps (,y and -y)
 let g:EasyClipUseCutDefaults                  =   0 " to be able to use my maps (x)
 let g:EasyClipUseSubstituteDefaults           =   0 " to be able to use my maps (r)
 let g:EasyClipUseYankDefaults                 =   1 " default yanks are ok (y)
@@ -617,6 +674,7 @@ nmap sy    :Yanks<cr>
 " visual selected pasted
 noremap vp `[v`]
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                            EasyMotions
 "
@@ -635,6 +693,7 @@ noremap vp `[v`]
 " - new * doesn't always go to the next (if not in present in the screen), it needs an extra n keystroke
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 "
 " EasyMotion - Options
@@ -724,7 +783,7 @@ nmap qq               qc
 " nmap =<Up>             =<Plug>(easymotion-k)
 " nmap =<Down>           =<Plug>(easymotion-j)
 
-" I never know if I've to press shift in the spanish keyboard to get < or >... 
+" I never know if I've to press shift in the spanish keyboard to get < or >...
 " ...so replacing < (no shift) + Left/Right to the right < and > operators
 " and also the << and >> + Left and Right!
 nnoremap <<Right>        >
@@ -777,6 +836,7 @@ endfunction
 " nmap       fwl         :DimInactiveOff<cr><Plug>(easymotion-overwin-line)
 " nmap       fwa         :DimInactiveOff<cr><Plug>(easymotion-overwin-w)
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                   EasyAlign
 " - new al{opts}{delimiter} operator
@@ -793,6 +853,7 @@ endfunction
 " - aL operator is the same, but without the preview and the extra confirmation of the delimiter
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 let g:easy_align_ignore_groups = [] " 'Comments' and 'Strings' can be aligned...
 
@@ -802,23 +863,14 @@ nmap >>  <Plug>(EasyAlign)
 xmap > <Plug>(LiveEasyAlign)
 nmap > <Plug>(LiveEasyAlign)
 
-" Examples: select visually, then:
-" al::
-" aL:
-" al:<Return>:<Return>
-" al:<Right>:<Left>
-"
-" first: test1
-" second: test2
-" nth: testn
-"
-" first: test1
-" second: test2
-" nth: testn
+" }}}
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                               VimPrj and VCS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
+let g:signify_disable_by_default = 1 " Use :SignifyToggle
+let g:signify_sign_change        = 'M'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                               VimPrj
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:vimprj_changeCurDirIfVimprjFound = 1  " always change the current dir to the dir where the .vimprj file is
 let g:cpp_header_ext='hpp'                  " each project can define its headers extension (.h or .hpp)
@@ -829,7 +881,7 @@ let g:cpp_header_ext='hpp'                  " each project can define its header
 autocmd BufWritePost .vimprj source .vimprj
 
 "
-" Function to define the default options 
+" Function to define the default options
 " Called when leaving a project, and now
 "
 function! <SID>SetMainDefaults()
@@ -863,13 +915,15 @@ function! g:vimprj#dHooks['SetDefaultOptions']['main_options'](dParams)
     call <SID>SetMainDefaults()
 endfunction
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           EasyGrep
 "
 " - (gw) and (g*) to grep current word or only current word and listing results in quickfix
-" - (gcw) and (gc*) to grep and change current word 
+" - (gcw) and (gc*) to grep and change current word
 " - :Grep and ':Replace old new'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 let g:EasyGrepMode                 = 0       " 0 all files / 2 - based on files extension
 let g:EasyGrepCommand              = 1       " 0 vimgrep / 1 grep
@@ -905,6 +959,7 @@ vmap gcw    <leader>vr
 vmap gc*    <leader>vR
 vmap gcOj <leader>vR
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Moving between Modes
 "
@@ -912,10 +967,11 @@ vmap gcOj <leader>vR
 "   - also using (z) instead of (v)
 " - as I use (s) in several places as 'see whatever' prefix, I'm disabling (s) (substitute character)
 "   - using (cx) (change-character) instead
-" 
+"
 " - <S+Arrows> to go directly to visual block (<C-v>)
 "   - as this is the preferred method to go to Visual, remapping z Z <C-Z> as v V <C-V> for convenience in visual mode
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 "shift+arrow selection
 nmap <S-Up>           <C-v><Up>
@@ -1003,7 +1059,7 @@ function! MyRepeatChar(mode)
     let schar = nr2char(getchar())
     let chars = repeat(schar, v:count1)
     exe "normal ".a:mode.chars
-    if a:mode == 'ia'
+    if a:mode == 'i'
         call cursor(0, col('.')+1)
     endif
 endfunction
@@ -1024,7 +1080,7 @@ let g:expand_region_use_select_mode = 0 " 1: Select mode 0: Visual mode
 
 " adding the (ia) text object
 let g:expand_region_text_objects = { 'ie' : 0,
-                                 \   'ip' : 0, 
+                                 \   'ip' : 0,
                                  \   'iw' : 0,
                                  \   'iB' : 1,
                                  \   'il' : 0,
@@ -1035,6 +1091,7 @@ let g:expand_region_text_objects = { 'ie' : 0,
                                  \   'ia' : 0,
                                  \   'i"' : 0}
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Text objects
 "
@@ -1046,6 +1103,7 @@ let g:expand_region_text_objects = { 'ie' : 0,
 "   - NOTE: al doesn't conflict with align because this is a text object an align is an operator
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 " removed because it conflicts with for(ii=0...)
 onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
@@ -1106,7 +1164,8 @@ endfunction
 "
 "     exe "normal! ".a:dir.c."v".a:motion.c
 " endfunction
-"
+
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Miscellaneous and Annoyances
 "
@@ -1114,12 +1173,13 @@ endfunction
 " - (u) to undo and (U) to redo
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 "
 " Not moving cursor when leaving insert mode
 "
-let CursorColumnI = 0                                                               " 
-au InsertEnter  * let CursorColumnI = col('.')                                      " Code to avoid moving left when 
+let CursorColumnI = 0                                                               "
+au InsertEnter  * let CursorColumnI = col('.')                                      " Code to avoid moving left when
 au CursorMovedI * let CursorColumnI = col('.')                                      " leaving the insert mode
 au InsertLeave  * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif "
 
@@ -1163,17 +1223,16 @@ noremap    s<PageDown> G
 nnoremap   U          <C-r>
 nnoremap   <C-u>      U
 
-
 " registers
 " - not using registers thanks to EasyClip (YankRing)
-" - (r) is used as 'replace' by EasyClip  
+" - (r) is used as 'replace' by EasyClip
 nnoremap R "
 vnoremap R "
 
 
 " <C-k> used to:
 " - open edition in command line (never used?)
-" - single normal mode command while in insert mode  
+" - single normal mode command while in insert mode
 inoremap <C-k>  <C-o>
 set cedit=<C-k>
 
@@ -1181,12 +1240,14 @@ set cedit=<C-k>
 
 " au VimEnter * vertical ba " to open all buffer when entering vim (conflicts with wgd)
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                           Arrows and special keys (home, end, delete, backspace and return)
 "
 " - scrolling with <C-PageUp/Down>
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 "
 " scrolling
 "
@@ -1206,6 +1267,7 @@ nnoremap <C-PageDown>  <C-E>
 " nnoremap <C-S-o>             O<Esc>
 " nnoremap <C-O>               O<Esc>
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Windows, Tabs and Buffers
 "
@@ -1223,6 +1285,7 @@ nnoremap <C-PageDown>  <C-E>
 "   - (sb) allows to delete buffers with (d)
 " - (,w) and (,t) for previous window, tab and buffer
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 let g:tmux_navigator_no_mappings = 1
 
@@ -1247,7 +1310,7 @@ nnoremap   wn         :call NumberToggle()<cr>
 
 " Maximize (ww) and 'Tabize' (wt)
 set wmh=0                                   " to fully maximize in height
-set wmw=0                                   " to fully maximize in width 
+set wmw=0                                   " to fully maximize in width
 let g:maximizer_restore_on_winleave = 1     " to force restore when leaving maximized window (tmux like)
 let g:maximizer_set_default_mapping = 0     " to be able to use <F3> for other usage
 let g:maximizer_restore_on_winleave = 1     " to autorestore if moving out of windows (good if not using too much tabs?)
@@ -1256,7 +1319,6 @@ nnoremap ww :MaximizerToggle!<CR>
 vnoremap ww :MaximizerToggle!<CR>gv
 nnoremap we :MaximizerToggle!<CR>
 vnoremap we :MaximizerToggle!<CR>gv
-" inoremap we <C-o>:MaximizerToggle!<CR>
 
 nnoremap wt          <C-w>T
 vnoremap wt          <C-w>Tgv
@@ -1303,7 +1365,19 @@ nnoremap b,   :bprevious<cr>
 nnoremap b-   :bnext<cr>
 
 " indentation lines disabled by default (integrated with Switch decorations)
-let g:indentLine_enabled = 0
+let g:indentLine_enabled              = 0
+let g:indentLine_leadingSpaceEnabled  = 0
+let g:indentLine_char                 = "|"
+let g:indentLine_first_char           = "|"
+let g:indentLine_indentLevel          = 10
+let g:indentLine_showFirstIndentLevel = 1
+
+" folding
+nnoremap FF za
+nnoremap FO zR
+nnoremap FC zM
+nnoremap Fo zr
+nnoremap Fc zm
 
 "
 " Functions
@@ -1369,11 +1443,21 @@ function! SwitchDecorations()
         set nolist
         set colorcolumn=0
         exe "IndentLinesDisable"
+        exe "LeadingSpaceDisable"
+        exe "DisableWhitespace"
+        let g:better_whitespace_enabled = 0
+        exe "SignifyToggleHighlight"
+        exe "SignifyDisable"
         let g:mydecoration=0
     else
         set list
         set colorcolumn=+1
         exe "IndentLinesEnable"
+        exe "LeadingSpaceEnable"
+        let g:better_whitespace_enabled = 1
+        exe "EnableWhitespace"
+        exe "SignifyToggleHighlight"
+        exe "SignifyEnable"
         let g:mydecoration=1
     endif
 endfunction
@@ -1393,7 +1477,7 @@ function! NumberToggle()
 endfunc
 
 " last used tab
-let g:lasttab = 1                         " Code to be able to go to 
+let g:lasttab = 1                         " Code to be able to go to
 au TabLeave * let g:lasttab = tabpagenr() " last active tab
 
 
@@ -1424,9 +1508,10 @@ au TabLeave * let g:lasttab = tabpagenr() " last active tab
 "     "Switch to dest and shuffle source->dest
 "     exe curNum . "wincmd w"
 "     "Hide and open so that we aren't prompted and keep history
-"     exe 'hide buf' markedBuf 
+"     exe 'hide buf' markedBuf
 " endfunction
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                               Abolish - Naming convention and Search/Replace
 "
@@ -1447,6 +1532,7 @@ au TabLeave * let g:lasttab = tabpagenr() " last active tab
 " - adding the :Abolish command to create abbreviations to be automatically replaced while typing (never used)
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 nmap     Cs crs
 nmap     Cc crm
@@ -1454,6 +1540,7 @@ nmap     Cm crc
 nmap     Cu cru
 xnoremap C  ~
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                   See and Jump
 "
@@ -1466,6 +1553,7 @@ xnoremap C  ~
 " - file explorer (se), buffers (sb), undo tree (su), and outline pane (so)
 " - vimprj (sprj) and vimrc (svim)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 " open files
 noremap  sf   gf
@@ -1526,6 +1614,7 @@ endfunction
 " Deprecated
 " map      sm  `
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Tags (cscope, tagbar tjumps, source/header)
 "
@@ -1540,8 +1629,9 @@ endfunction
 "
 " - (sh) and (st) to switch header and test files
 "   - use g:cpp_header_ext in vimprj to specify header extension
-" 
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 " Tagbar (outline)
 let g:tagbar_autoclose = 1              " autoclose the outline/tagbar when a selection is done
@@ -1578,7 +1668,6 @@ noremap    -l         :tnext<cr>
 noremap    l           <C-]>
 noremap    ll          <C-]>
 
-
 " show in preview (list option if necessary)
 noremap    lp          <C-w>g}
 " noremap    wl         :vsplit<cr><C-]>
@@ -1596,15 +1685,15 @@ noremap    lp          <C-w>g}
 " au BufRead,BufNewFile *.cpp 		nmap  st :find %:t:r.test<cr>
 " au BufRead,BufNewFile *.test 		nmap  st :find %:t:r.hpp<cr>
 
-au BufRead,BufNewFile,WinEnter *.h   		nmap  sh :call SeeHeader( 'cpp', 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.hpp 		nmap  sh :call SeeHeader( 'cpp', 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.cpp 		nmap  sh :call SeeHeader( g:cpp_header_ext, 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.test 		nmap  sh :call SeeHeader( g:cpp_header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.h    nmap sh :call SeeHeader( 'cpp', 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.hpp  nmap sh :call SeeHeader( 'cpp', 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.cpp  nmap sh :call SeeHeader( g:cpp_header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.test nmap sh :call SeeHeader( g:cpp_header_ext, 'l')<cr>
 
-au BufRead,BufNewFile,WinEnter *.h   		nmap  st :call SeeHeader( 'test', 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.hpp 		nmap  st :call SeeHeader( 'test', 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.cpp 		nmap  st :call SeeHeader( 'test', 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.test 		nmap  st :call SeeHeader( g:cpp_header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.h    nmap st :call SeeHeader( 'test', 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.hpp  nmap st :call SeeHeader( 'test', 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.cpp  nmap st :call SeeHeader( 'test', 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.test nmap st :call SeeHeader( g:cpp_header_ext, 'l')<cr>
 
 function! SeeHeader( ext, dir )
 "     let var = input( "ext: ".a:ext." dir: ".a:dir )
@@ -1616,28 +1705,28 @@ function! SeeHeader( ext, dir )
     exe "find %:t:r.".a:ext
 endfunction
 
-
 " Deprecated
 "nnoremap   ll         :call ToggleLocationList()<cr>
 
-
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Quickfix (with ToogleList.vim)
-" 
+"
 " - (sq) to toggle quickfix, (sqq) to toogle and move to quick fix
 " - jump between next/prev entry (,q -q)
 "   - (,,q) is used to jump to current error (for convenience, as I don't jump to it automatically)
 " - jump between prev/next quickfix list (,sq .sq)
 " - (sqe) to create a new quickfix list from the current one, without warnings
-" 
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 " forcing quickfix to be full width
 au FileType qf   wincmd J
 
-" let g:toggle_list_copen_command='Copen' " to use Copen instead of copen when toggling...
-let g:toggle_list_copen_command='copen'   " ...or keep using :copen to avoid overwriting :grep results
-let g:toggle_list_no_mappings=1           " to be able to use ',q' (I want MY mappings! ;-)
+" let g:toggle_list_copen_command = 'Copen'    " to use Copen instead of copen when toggling...
+let g:toggle_list_copen_command   = 'copen'  " ...or keep using :copen to avoid overwriting :grep results
+let g:toggle_list_no_mappings     = 1        " to be able to use ',q' (I want MY mappings! ;-)
 
 nnoremap sq   :call ToggleQuickfixList()<cr>
 " nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
@@ -1658,6 +1747,7 @@ nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 " this automand is not called...? not sure way...
 " autocmd QuickfixCmdPost make call setqflist(filter(getqflist(), 'v:val.type == "E"'), 'r')
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                          (VCSCommand)
 "
@@ -1676,12 +1766,13 @@ nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 " :diffg BA  " get from BASE
 " :diffg LO  " get from LOCAL
 "
-" for all the files in the root directory: 
+" for all the files in the root directory:
 "   1.- open a new vim with the files obtained from git/svn cmdline in tabs (swap file are annoying)
-"   2.- run vcsdiff in all tabs (why the nice <C-w><Left>]c cannot be passed to the tabdo?) 
+"   2.- run vcsdiff in all tabs (why the nice <C-w><Left>]c cannot be passed to the tabdo?)
 "   3.- edit files freely
 "   4.- once edition it's done the forked vim is closed, we return to the original vim and we refresh all our tabs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
 
 " open/close win-diff
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
@@ -1697,7 +1788,7 @@ nnoremap          wda     :VCSAdd<cr>
 nnoremap          wdc     :tabnew .<cr>:VCSCommit<cr>i
 
 " get: all current diff
-" get-line: 
+" get-line:
 nnoremap <silent> do     V:diffget<cr>
 nnoremap <silent> dg     :diffget<cr>
 nnoremap          ,d     ]c
@@ -1705,9 +1796,9 @@ nnoremap          -d     [c
 
 " nnoremap <silent> swd    :VCSVimDiff<cr><C-w><Left>]c
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
-" " for all the files in the root directori: 
+" " for all the files in the root directori:
 " "   1.- open a new vim with the files obtained from git/svn cmdline in tabs (swap file are annoying)
-" "   2.- run vcsdiff in all tabs (why the nice <C-w><Left>]c cannot be passed to the tabdo?) 
+" "   2.- run vcsdiff in all tabs (why the nice <C-w><Left>]c cannot be passed to the tabdo?)
 " "   3.- edit files freely
 " "   4.- once edition it's done the forked vim is closed, we return to the original vim and we refresh all our tabs
 " nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff"<cr>
@@ -1722,9 +1813,12 @@ nnoremap          -d     [c
 " nnoremap          wd-     ]c
 " nnoremap          wd,     [c
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                       Dispatch / Build
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
+
 " build directly from any mode
 nnoremap <C-b>                :Make<cr>
 inoremap <C-b>           <Esc>:Make<cr>
@@ -1733,9 +1827,18 @@ vnoremap <C-b>           <Esc>:Make<cr>
 " inoremap <C-d>           <Esc>:Dispatch!<cr>
 " vnoremap <C-d>           <Esc>:Dispatch!<cr>
 
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                               Extras
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
+
+
+vmap  <expr>  m<left>   DVB_Drag('left')                     
+vmap  <expr>  m<right>  DVB_Drag('right')                    
+vmap  <expr>  m<down>   DVB_Drag('down')                     
+vmap  <expr>  m<up>     DVB_Drag('up')                       
+" vmap  <expr>  D        DVB_Duplicate()                      
 
 
 " passwds
@@ -1745,340 +1848,4 @@ if filereadable(glob('~/.vimrc.pass'))
 "    echo "Not loading vimrc.pass"
 endif
 
-
-
-
-
-
-
-
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                        Deprecated Setup                                                              "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" function! ToggleYCMComplete()
-"     if g:ycm_auto_trigger == 1
-"         let g:ycm_auto_trigger = 0
-"         let g:ycm_show_diagnostics_ui=0
-"     else
-"         let g:ycm_auto_trigger = 1
-"         let g:ycm_show_diagnostics_ui=1
-"     endif
-" endfunction
-" nmap ycm :call ToggleYCMComplete()<cr>
-
-" never used?
-" function! ToggleOmniCppComplete()
-"     if g:OmniCpp_MayCompleteDot == 1
-"         let g:OmniCpp_MayCompleteDot   = 0
-"         let g:OmniCpp_MayCompleteArrow = 0
-"         let g:OmniCpp_MayCompleteScope = 0
-" "        execute "AcpDisable"
-"     else
-"         let g:OmniCpp_MayCompleteDot   = 1
-"         let g:OmniCpp_MayCompleteArrow = 1
-"         let g:OmniCpp_MayCompleteScope = 1
-" "        execute "AcpEnable"
-"     endif
-" endfunction
-" nmap ba :call ToggleOmniCppComplete()<cr>
-"
-"call ToggleOmniCppComplete()  " disable autocomplete by default
-
-"
-" Commenting blocks of code (replaced by tcomment)
-"
-" let s:comment_map = {
-"     \   "c": '\/\/',
-"     \   "cpp": '\/\/',
-"     \   "cpp.doxygen": '\/\/',
-"     \   "go": '\/\/',
-"     \   "java": '\/\/',
-"     \   "javascript": '\/\/',
-"     \   "php": '\/\/',
-"     \   "python": '#',
-"     \   "ruby": '#',
-"     \   "conf": '#',
-"     \   "sh": '#',
-"     \   "make": '#',
-"     \   "Dockerfile": '#',
-"     \   "vim": '"',
-"     \ }
-"
-" Replaced by tcomment to have a new action to work with motions and text objects
-" function! ToggleComment()
-"     if has_key(s:comment_map, &filetype)
-"         let comment_leader = s:comment_map[&filetype]
-"         if getline('.') =~ "^" . comment_leader
-"             " Uncomment the line
-"             execute "silent s/^" . comment_leader . "//"
-"         else
-"             " Comment the line
-"             execute "silent s/^/" . comment_leader . "/"
-"         endif
-"     else
-"         echo "No comment leader found for filetype"
-"     end
-" endfunction
-" nmap cm :call ToggleComment()<cr>
-" vmap cm :call ToggleComment()<cr>
-
-" autocomplete
-"unmap     <C-a>
-"imap     <C-a>           <C-x><C-o>
-"imap     <C-a>           <C-r>=CodeComplete()<cr><C-r>=SwitchRegion()<cr>
-"imap     <C-a>           <C-r>=CodeComplete()<cr>
-
-" Folding
-" nnoremap   zz         :set foldenable!<cr>
-
-" noremap    <F5>       :source .vimprj<cr>
-
-"set wildignore+=*/.git/*,*/.hg/*,*/.svn/*        " Linux/MacOSX
-
-" noremap    s<Left>     ^
-" noremap    s<Right>    $<Right>
-" map        s<Up>       <Plug>(easymotion-k)
-" map        s<Down>     <Plug>(easymotion-j)
-
-
-" on search commands (too hard to me?)
-" cnoremap <C-f>y <CR>:t''<CR>
-" cnoremap <C-f>s <CR>:m''<CR>
-" cnoremap <C-f>d <CR>:d<CR>''
-"
-" nnoremap <C-f>y :t''<CR>
-" nnoremap <C-f>s :m''<CR>
-" nnoremap <C-f>d :d<CR>''
-
-" nnoremap   i          :nohl<cr>i
-"nnoremap   /          :set hls<cr>/
-" nnoremap   /          /
-
-" <Home> go to first character (^) (/todo)
-"t_kh <Home>      ^[[1;*H
-" nmap <Home> ^
-"imap <Home> ^
-" nmap 0      ^
-" vmap 0      ^
-
-"ctrl+arrows movements (http://stackoverflow.com/a/6528201/5349914)
-" function! <SID>GotoPattern(pattern, dir) range
-"     let g:_saved_search_reg = @/
-"     let l:flags = "We"
-"     if a:dir == "b"
-"         let l:flags .= "b"
-"     endif
-"     for i in range(v:count1)
-"         call search(a:pattern, l:flags)
-"     endfor
-"     let @/ = g:_saved_search_reg
-" endfunction
-"
-" "nnoremap <C-Right> w
-" "nnoremap <C-Left>  b
-" nnoremap <silent> <C-Right> :<C-U>call <SID>GotoPattern('\(^\\|\<\)[A-Za-z0-9]', 'f')<cr>
-" nnoremap <silent> <C-Left>  :<C-U>call <SID>GotoPattern('\(^\\|\<\)[A-Za-z0-9]', 'b')<cr>
-" vnoremap <silent> <C-Right> :<C-U>let g:_saved_search_reg=@/<cr>gv/\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
-" vnoremap <silent> <C-Left>  :<C-U>let g:_saved_search_reg=@/<cr>gv?\(^\\|\<\)[A-Za-z0-9]<cr>:<C-U>let @/=g:_saved_search_reg<cr>gv
-
-" map <silent> <C-Right><C-Right> <Plug>(easymotion-lineforward)<cr>
-" map <silent> <C-Left><C-Left>   <Plug>(easymotion-linebackward)<cr>
-
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
-"    \ <SID>check_back_space() ? "\<TAB>" :
-"    \ CTRL-X CTRL-O
-"function! s:check_back_space() "{{{
-"let col = col('.') - 1
-"return !col || getline('.')[col - 1]  =~ '\s'
-"endfunction"}}}
-
-"function! SuperCleverTab()
-"    if strpart(getline('.'), 0, col('.') - 1) =~ '^\s*$'
-"        return "\<Tab>"
-"    else
-"        if &omnifunc != ''
-"            return "\<C-X>\<C-O>"
-"        elseif &dictionary != ''
-"            return "\<C-K>"
-"        else
-"            return "\<C-N>"
-"        endif
-"    endif
-"endfunction
-"
-"inoremap <Tab> <C-R>=SuperCleverTab()<cr>
-
-"
-" to use TAB for autocomplete
-" 
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
-"    \ <SID>check_back_space() ? "\<TAB>" :
-"    \ neocomplete#start_manual_complete()
-"function! s:check_back_space() "{{{
-"let col = col('.') - 1
-"return !col || getline('.')[col - 1]  =~ '\s'
-"endfunction"}}}
-
-" to use longest completeopt with supertab
-"let g:SuperTabLongestEnhanced = 1
-
-" the (exuberant-)ctags command
-"ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ -f cpp cpp_src
-
-"
-" To avoid conflicts between neocomplete and clang_complete
-"
-"if !exists('g:neocomplete#force_omni_input_patterns')
-"  let g:neocomplete#force_omni_input_patterns = {}
-"endif
-"let g:neocomplete#force_omni_input_patterns.c =
-"      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-"let g:neocomplete#force_omni_input_patterns.cpp =
-"      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-"let g:neocomplete#force_omni_input_patterns.objc =
-"      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
-"let g:neocomplete#force_omni_input_patterns.objcpp =
-"      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
-"let g:clang_complete_auto = 0
-"let g:clang_auto_select = 0
-"let g:clang_default_keymappings = 0
-""let g:clang_use_library = 1
-
-" " Airline
-" let g:airline_section_y = ''
-" "let g:airline#extensions#branch#use_vcscommand = 1
-" let g:airline#extensions#tagbar#flags = 's' 
-" let g:airline#extensions#wordcount#enabled = 1 
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#tab_nr_type = 1 
-" let g:airline#extensions#tabline#buffer_idx_mode = 1
-" nmap <leader>1 <Plug>AirlineSelectTab1
-" nmap <leader>2 <Plug>AirlineSelectTab2
-" nmap <leader>3 <Plug>AirlineSelectTab3
-" nmap <leader>4 <Plug>AirlineSelectTab4
-" nmap <leader>5 <Plug>AirlineSelectTab5
-" nmap <leader>6 <Plug>AirlineSelectTab6
-" nmap <leader>7 <Plug>AirlineSelectTab7
-" nmap <leader>8 <Plug>AirlineSelectTab8
-" nmap <leader>9 <Plug>AirlineSelectTab9
-" let g:airline#extensions#tabline#show_close_button = 0
-
-" yank ring
-" let g:yankring_manage_numbered_reg = 1
-" "let  g:yankring_default_menu_mode = 3
-" let g:yankring_window_use_horiz    = 0  " Use vertical split
-" let g:yankring_window_width        = 40
-" let g:yankring_replace_n_pkey = '<nul>'
-" let g:yankring_replace_n_nkey = '<nul>'
-
-" Remove any trailing whitespace that is in the file
-"autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
-
-" Improving paste
-" nmap       sy          :YRShow<cr>
-" nmap       y,          :<C-U>YRReplace '-1', P<cr>
-" nmap       y-          :<C-U>YRReplace '+1', P<cr>
-" " noremap    y<Left>     `[
-" " noremap    y<Right>    `]
-" nnoremap   S           diw"0P "using easyclip?
-
-" TODOs
-" - browse/search (ctrlp/unite)
-" - nerdtree + git + svn
-" - surround?
-" - jumps vs buffers (how to use the lists?) (bufexplorer?)
-" - ctrl-i == tab
-" - ctrl-s/q?
-" - autoindent/format with gw or gq (numbered list) 
-" - words delimiters (for ctrl+right/left)
-" - move to the end of paste -> done with gp
-" - ifdef
-" - folding -> outline/tagbar is better
-" - https://github.com/jimeh/tmuxifier
-" NOTES:
-" - build in background (using tmux) (vim dispatch)
-" - autocomments -> formatoptions
-" - autocomplete
-"   - test it on ImagePlus
-"   - test neocomplete + snippets
-"   - test VimCompletesMe (and ctags/exuberant tags?)
-"   - gccsense?
-" - line numbers (wn toggles)
-" - change colors in insert mode -> InsertEnter InsertLeave autocmds
-" - spell
-" - surrounds % -> gs / gvs (hi MatchParen)
-" - gdb?
-" - wildmode -> like a shell
-" - align code with Tabular(ize), and use t* as remaps
-" - autoclose surroundings (AutoClose)
-" - outline: tagbar -> autoclose option?
-" - using marks (vim-signature vs gm)
-" - refactor
-" - ctags, indexer (autocomplte)
-" - why after . cursor is moved?
-" - VimOrganizer for emcas org files?
-" - use lmake and lgrep to have several concurrent list? (ie. use location list instead of quickfix list?
-"     - this has sense if we add the "project" concept on vim, and we tie each list to a "project"... 
-" - I should use ~/.ctags file?
-" - marks are shown at startup?
-" - ctags < cscope < gtags 
-" - integration with R Vim-R-plugin
-" - neovim
-" - vimcasts.org
-"
-"
-"
-" Vimium
-"# Home/End/PageUp/PageDown not working?
-"
-"# unmaps
-"unmap t
-"
-"# arrow keys
-"map <Up> scrollUp
-"map <Down> scrollDown
-"map <Right> nextTab
-"map <Left> previousTab
-"map <A-Left> moveTabLeft
-"map <A-Right> moveTabRight
-"map <A-Up> firstTab
-"map <A-Down> lastTab
-"map <S-Left> moveTabLeft
-"map <S-Right> moveTabRight
-"
-"map s<Up> scrollToTop
-"map s<Down> scrollToBottom
-"
-"# links selection
-"map sa LinkHints.activateMode
-"map L LinkHints.activateMode
-"map l LinkHints.activateModeToOpenInNewTab
-"map <A-l> LinkHints.activateModeWithQueue
-"
-"# marks
-"map sm Marks.activateGotoMode
-"map , goBack
-"map . goForward
-"map s, goPrevious
-"map s. goNext
-"
-"# search
-"map <C-p> Vomnibar.activate
-"#map sw Vomnibar.activate
-"map sw Vomnibar.activateInNewTab
-"map st Vomnibar.activateTabSelection
-"map ss enterFindMode
-"
-"map su Vomnibar.activateEditUrl
-"map sU Vomnibar.activateEditUrlInNewTab
-"
-"# tabs
-"map q removeTab
-"map Q restoreTab
-"map tp togglePinTab
-"map tr restoreTab
-"map u restoreTab
-"map tn createTab
+" }}}

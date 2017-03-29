@@ -1,11 +1,12 @@
 $include /etc/inputrc
 
+# using / enter vi mode
+set editing-mode vi
+
 # reload config
 "\e[15~":   re-read-init-file
 "\C-x\C-r": re-read-init-file
 
-# using / enter vi mode
-set editing-mode vi
 "\C-e": edit-and-execute-command
 "\ee":  edit-and-execute-command
 "\ev":  edit-and-execute-command
@@ -22,6 +23,10 @@ set editing-mode vi
 "\e[4~":   end-of-line
 "\e[1;2F": kill-line
 "\e[1;2H": backward-kill-line
+
+# Add a comment to the beginning of the line
+"\C-q": insert-comment
+
 # commands (see http://www.catonmat.net/download/bash-vi-editing-mode-cheat-sheet.pdf)
 #"\eu": undo
 #"\C-p": yank-nth-arg
