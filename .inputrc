@@ -1,11 +1,12 @@
 $include /etc/inputrc
 
+# using / enter vi mode
+set editing-mode vi
+
 # reload config
 "\e[15~":   re-read-init-file
 "\C-x\C-r": re-read-init-file
 
-# using / enter vi mode
-set editing-mode vi
 "\C-e": edit-and-execute-command
 "\ee":  edit-and-execute-command
 "\ev":  edit-and-execute-command
