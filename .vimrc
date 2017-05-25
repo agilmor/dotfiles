@@ -1756,6 +1756,8 @@ nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 " - git config merge.conflictstyle diff3
 " - git config mergetool.prompt    false
 "
+" Then use "git mergetool [filename]"
+"
 " LOCAL  – this is file from the current branch
 " BASE   – common ancestor, how file looked before both changes
 " REMOTE – file you are merging into your branch
