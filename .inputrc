@@ -5,7 +5,8 @@ $include /etc/inputrc
 "\C-x\C-r": re-read-init-file
 
 # using / enter vi mode
-set editing-mode vi
+set editing-mode           vi
+set completion-ignore-case on
 "\C-e": edit-and-execute-command
 "\ee":  edit-and-execute-command
 "\ev":  edit-and-execute-command
