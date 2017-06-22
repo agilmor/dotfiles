@@ -221,7 +221,8 @@ Plugin 'kana/vim-textobj-user'               " to create custom text objects
 Plugin 'kana/vim-textobj-line'               " the (l)ine text object
 Plugin 'kana/vim-textobj-entire'             " the (e)ntire file text object
 Plugin 'wellle/targets.vim'                  " arguments objects and a lot of objects!! also auto seek ()(n)ext and (l)ast text objects
-Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments
+Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments (iv/av)
+Plugin 'glts/vim-textobj-comment'            " commented text as an object text (ac/ic)
 
 " Operators
 Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste operators
@@ -237,6 +238,8 @@ Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
 
 " Extras
 Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (m+<arrows>)
+" Plugin 'm42e/vim-gcov-marker'                " test coverage
+" Plugin 'vim-scripts/gcov.vim'                " test coverage
 
 " File plugins
 Plugin 'ekalinin/Dockerfile.vim'             " dockerfile syntax
@@ -1104,6 +1107,16 @@ let g:expand_region_text_objects = { 'ie' : 0,
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
+
+" textobj-comment: (aq) (iq) (aQ)
+let g:textobj_comment_no_default_key_mappings = 1
+xmap aq <Plug>(textobj-comment-a)
+omap aq <Plug>(textobj-comment-a)
+xmap iq <Plug>(textobj-comment-i)
+omap iq <Plug>(textobj-comment-i)
+xmap aQ <Plug>(textobj-comment-big-a)
+omap aQ <Plug>(textobj-comment-big-a)
+
 
 " removed because it conflicts with for(ii=0...)
 onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
