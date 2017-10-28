@@ -155,6 +155,7 @@ Plugin 'VundleVim/Vundle.vim'                " let Vundle manage Vundle, require
 Plugin 'tpope/vim-dispatch.git'              " background/async builds (how to use it for grep?)
 Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easy-clip)
 Plugin 'vim-scripts/visualrepeat'            " used by easy-align
+Plugin '907th/vim-auto-save'                 " auto save
 " Plugin 'tmux-plugins/vim-tmux-focus-events'  " it fires some error...?
 " Plugin 'AsyncCommand'                        " background/async builds (needs vim --servername)
 
@@ -372,6 +373,18 @@ let g:NERDTreeHijackNetrw=0             " to avoid conflicts between VCSStatus a
 " Signature
 "
 let g:SignatureEnabledAtStartup = 0  " not showing marks by default
+
+"
+" Auto Save (:AutoSaveToggle)
+"
+let g:auto_save                   = 1                               " enable AutoSave on Vim startup
+let g:auto_save_silent            = 0                               " display the auto-save notification
+let g:auto_save_write_all_buffers = 1                               " write all open buffers as if you would use :wa
+" let g:auto_save_postsave_hook     = 'TagsGenerate'                  " this will run :TagsGenerate after each save
+" let g:auto_save_presave_hook      = 'call AbortIfNotGitDirectory()' " this will run AbortIfNotGitDirectory function before each save
+let g:auto_save_events            = ["CursorHold"]                  " other possible events: InsertLeave, TextChanged, TextChangedI, 
+                                                                    "                        CursorHold, CursorHoldI, CompleteDone
+
 
 "
 " CtrlP
