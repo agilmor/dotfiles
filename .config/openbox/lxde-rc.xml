@@ -667,21 +667,21 @@
     </keybind>
     <keybind key="W-A-Down">
       <action name="MoveResizeTo">
-        <monitor>3</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-A-Left">
       <action name="MoveResizeTo">
-        <monitor>3</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-A-Right">
       <action name="MoveResizeTo">
-        <monitor>2</monitor>
+        <monitor>3</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
@@ -689,7 +689,7 @@
     <keybind key="W-S-A-Up">
       <action name="Maximize"/>
       <action name="MoveResizeTo">
-        <monitor>3</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
@@ -697,7 +697,7 @@
     <keybind key="W-S-A-Down">
       <action name="Maximize"/>
       <action name="MoveResizeTo">
-        <monitor>2</monitor>
+        <monitor>3</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
@@ -705,7 +705,7 @@
     <keybind key="W-S-A-Left">
       <action name="Maximize"/>
       <action name="MoveResizeTo">
-        <monitor>2</monitor>
+        <monitor>3</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
@@ -729,7 +729,7 @@
     <keybind key="W-C-A-Down">
       <action name="Maximize"/>
       <action name="MoveResizeTo">
-        <monitor>3</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
@@ -737,7 +737,7 @@
     <keybind key="W-C-A-Left">
       <action name="Maximize"/>
       <action name="MoveResizeTo">
-        <monitor>3</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
@@ -745,7 +745,7 @@
     <keybind key="W-C-A-Right">
       <action name="Maximize"/>
       <action name="MoveResizeTo">
-        <monitor>2</monitor>
+        <monitor>3</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
@@ -753,7 +753,7 @@
     <keybind key="W-C-A-Return">
       <action name="Maximize"/>
       <action name="MoveResizeTo">
-        <monitor>3</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
@@ -807,7 +807,7 @@
     <keybind key="W-KP_0">
       <action name="Maximize"/>
       <action name="MoveResizeTo">
-        <monitor>2</monitor>
+        <monitor>3</monitor>
       </action>
       <action name="Raise"/>
     </keybind>
@@ -817,7 +817,7 @@
         <height client="no">100%</height>
         <y>0</y>
         <x>0</x>
-        <monitor>3</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="Raise"/>
     </keybind>
@@ -827,7 +827,7 @@
         <height client="no">10%</height>
         <y>-0</y>
         <x>0</x>
-        <monitor>2</monitor>
+        <monitor>3</monitor>
       </action>
       <action name="Raise"/>
     </keybind>
@@ -837,7 +837,7 @@
         <height client="no">90%</height>
         <y>-10%</y>
         <x>0</x>
-        <monitor>2</monitor>
+        <monitor>3</monitor>
       </action>
       <action name="Raise"/>
     </keybind>
@@ -909,7 +909,7 @@
         <height client="no">100%</height>
         <y>-0</y>
         <x>0</x>
-        <monitor>3</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="Raise"/>
     </keybind>
