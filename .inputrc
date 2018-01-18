@@ -1,7 +1,8 @@
 $include /etc/inputrc
 
 # using / enter vi mode
-set editing-mode vi
+set editing-mode           vi
+set completion-ignore-case on
 
 # reload config
 "\e[15~":   re-read-init-file
