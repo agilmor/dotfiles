@@ -69,6 +69,7 @@
 " --------
 " - F1 : paste mode for new pastes  (pastetoggle)
 " - F2 : paste mode for just pasted (EasyClipToggleFormattedPaste)
+" - F12: toggle paste autoformat    (g:EasyClipAutoFormat)
 " - F3 : window decorations         (SwitchDecorations)
 " - F4 : toggle autopairs           (AutoPairsToggle)
 " - F5 : refresh file
@@ -155,6 +156,7 @@ Plugin 'VundleVim/Vundle.vim'                " let Vundle manage Vundle, require
 Plugin 'tpope/vim-dispatch.git'              " background/async builds (how to use it for grep?)
 Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easy-clip)
 Plugin 'vim-scripts/visualrepeat'            " used by easy-align
+Plugin '907th/vim-auto-save'                 " auto save
 " Plugin 'tmux-plugins/vim-tmux-focus-events'  " it fires some error...?
 " Plugin 'AsyncCommand'                        " background/async builds (needs vim --servername)
 
@@ -221,7 +223,8 @@ Plugin 'kana/vim-textobj-user'               " to create custom text objects
 Plugin 'kana/vim-textobj-line'               " the (l)ine text object
 Plugin 'kana/vim-textobj-entire'             " the (e)ntire file text object
 Plugin 'wellle/targets.vim'                  " arguments objects and a lot of objects!! also auto seek ()(n)ext and (l)ast text objects
-Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments
+Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments (iv/av)
+Plugin 'glts/vim-textobj-comment'            " commented text as an object text (ac/ic)
 
 " Operators
 Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste operators
@@ -237,6 +240,8 @@ Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
 
 " Extras
 Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (m+<arrows>)
+" Plugin 'm42e/vim-gcov-marker'                " test coverage
+" Plugin 'vim-scripts/gcov.vim'                " test coverage
 
 " File plugins
 Plugin 'ekalinin/Dockerfile.vim'             " dockerfile syntax
@@ -369,6 +374,18 @@ let g:NERDTreeHijackNetrw=0             " to avoid conflicts between VCSStatus a
 " Signature
 "
 let g:SignatureEnabledAtStartup = 0  " not showing marks by default
+
+"
+" Auto Save (:AutoSaveToggle)
+"
+let g:auto_save                   = 1                               " enable AutoSave on Vim startup
+let g:auto_save_silent            = 0                               " display the auto-save notification
+let g:auto_save_write_all_buffers = 1                               " write all open buffers as if you would use :wa
+" let g:auto_save_postsave_hook     = 'TagsGenerate'                  " this will run :TagsGenerate after each save
+" let g:auto_save_presave_hook      = 'call AbortIfNotGitDirectory()' " this will run AbortIfNotGitDirectory function before each save
+let g:auto_save_events            = ["CursorHold"]                  " other possible events: InsertLeave, TextChanged, TextChangedI, 
+                                                                    "                        CursorHold, CursorHoldI, CompleteDone
+
 
 "
 " CtrlP
@@ -618,7 +635,7 @@ let g:EasyClipUseSubstituteDefaults           =   0 " to be able to use my maps 
 let g:EasyClipUseYankDefaults                 =   1 " default yanks are ok (y)
 let g:EasyClipUsePasteDefaults                =   1 " default paste are ok (p)
 let g:EasyClipAlwaysMoveCursorToEndOfPaste    =   1 " to move to end of paste (,j to go back)
-let g:EasyClipAutoFormat                      =   1 " to enable auto-format (EasyClipToggleFormattedPaste to remove format)
+let g:EasyClipAutoFormat                      =   1 " to enable auto-format (EasyClipToggleFormattedPaste to remove format) (<F12> to toggle this variable)
 let g:EasyClipShareYanks                      =   1 " probably not a good option to enable...?
 let g:EasyClipCopyExplicitRegisterToDefault   =   1 " paste last yanked even if it was saved to a register
 let g:EasyClipPreserveCursorPositionAfterYank =   1 " not move my cursor!
@@ -662,6 +679,16 @@ nmap YP    :IPasteBefore<cr>
 
 nmap <F2>  <Plug>EasyClipToggleFormattedPaste<cr>
 " nmap ,yf   <Plug>EasyClipToggleFormattedPaste<cr>
+
+function! ToggleAutoFormat()
+    if g:EasyClipAutoFormat == '1'
+        let g:EasyClipAutoFormat = '0'
+    else
+        let g:EasyClipAutoFormat = '1'
+    endif
+endfunction
+
+nmap <F12> :call ToggleAutoFormat()<CR>
 
 imap <C-v> <Plug>EasyClipInsertModePaste
 cmap <C-v> <Plug>EasyClipCommandModePaste
@@ -1104,6 +1131,16 @@ let g:expand_region_text_objects = { 'ie' : 0,
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
+
+" textobj-comment: (aq) (iq) (aQ)
+let g:textobj_comment_no_default_key_mappings = 1
+xmap aq <Plug>(textobj-comment-a)
+omap aq <Plug>(textobj-comment-a)
+xmap iq <Plug>(textobj-comment-i)
+omap iq <Plug>(textobj-comment-i)
+xmap aQ <Plug>(textobj-comment-big-a)
+omap aQ <Plug>(textobj-comment-big-a)
+
 
 " removed because it conflicts with for(ii=0...)
 onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
@@ -1755,6 +1792,8 @@ nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 " - git config merge.tool          vimdiff
 " - git config merge.conflictstyle diff3
 " - git config mergetool.prompt    false
+"
+" Then use "git mergetool [filename]"
 "
 " LOCAL  – this is file from the current branch
 " BASE   – common ancestor, how file looked before both changes
