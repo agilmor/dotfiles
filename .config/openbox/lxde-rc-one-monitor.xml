@@ -183,15 +183,10 @@
         <command>sudo pm-suspend</command>
       </action>
     </keybind>
-    <!--     <keybind key="XF86PowerDown"> -->
-    <!--         <action name="Execute"> -->
-    <!--             <command>xeyes</command> -->
-    <!--         </action> -->
-    <!--     </keybind> -->
     <keybind key="XF86PowerOff">
-      <action name="Execute">
-        <command>sudo pm-suspend</command>
-      </action>
+        <action name="Execute">
+            <command>sudo pm-suspend</command>
+        </action>
     </keybind>
     <keybind key="XF86AudioLowerVolume">
       <action name="Execute">
@@ -199,7 +194,7 @@
           <enabled>true</enabled>
           <name>amixer</name>
         </startupnotify>
-        <command>amixer sset Master 5%- unmute</command>
+        <command>amixer -c 0 set Master 5%- unmute</command>
       </action>
     </keybind>
     <keybind key="XF86AudioRaiseVolume">
@@ -208,7 +203,7 @@
           <enabled>true</enabled>
           <name>amixer</name>
         </startupnotify>
-        <command>amixer sset Master 5%+ unmute</command>
+        <command>amixer -c 0 set Master 5%+ unmute</command>
       </action>
     </keybind>
     <keybind key="XF86AudioMute">
@@ -226,7 +221,7 @@
           <enabled>true</enabled>
           <name>amixer</name>
         </startupnotify>
-        <command>amixer sset Master 3%- unmute</command>
+        <command>amixer -c 0 set Master 3%- unmute</command>
       </action>
     </keybind>
     <keybind key="W-F12">
@@ -235,7 +230,7 @@
           <enabled>true</enabled>
           <name>amixer</name>
         </startupnotify>
-        <command>amixer sset Master 3%+ unmute</command>
+        <command>amixer -c 0 set Master 3%+ unmute</command>
       </action>
     </keybind>
     <keybind key="W-F10">
@@ -252,16 +247,12 @@
     </keybind>
     <keybind key="W-q">
       <action name="Execute">
-        <!--
-               <command>xscreensaver-command -lock</command>
-          <command>xset dpms force suspend</command>
-          -->
-        <command>power-display-off</command>
+          <command>power-display-off</command>
       </action>
     </keybind>
     <keybind key="W-x">
       <action name="Execute">
-        <command>xpra attach --sharing ssh:agil@imatge.upc.edu:2232:1067</command>
+        <command>xpra attach ssh:agil@imatge.upc.edu:2221:1067</command>
       </action>
     </keybind>
     <keybind key="W-c">
@@ -336,63 +327,6 @@
         <menu>client-list-combined-menu</menu>
       </action>
     </keybind>
-    <!--
-    <keybind key="W-0">
-      <action name="Desktop">
-        <desktop>last</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_1">
-      <action name="Desktop">
-        <desktop>1</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_2">
-      <action name="Desktop">
-        <desktop>2</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_3">
-      <action name="Desktop">
-        <desktop>3</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_4">
-      <action name="Desktop">
-        <desktop>4</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_5">
-      <action name="Desktop">
-        <desktop>5</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_6">
-      <action name="Desktop">
-        <desktop>6</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_7">
-      <action name="Desktop">
-        <desktop>7</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_8">
-      <action name="Desktop">
-        <desktop>8</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_9">
-      <action name="Desktop">
-        <desktop>9</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_0">
-      <action name="ShowMenu">
-        <menu>client-list-combined-menu</menu>
-      </action>
-    </keybind>
--->
     <keybind key="W-n">
       <action name="AddDesktop">
         <where>last</where>
@@ -546,6 +480,7 @@
       <action name="ToggleOmnipresent">
       </action>
     </keybind>
+
     <keybind key="W-Up">
       <!--<action name="DirectionalCycleWindows">-->
       <action name="DirectionalTargetWindow">
@@ -631,95 +566,97 @@
       <action name="raise"/>
     </keybind>
     <keybind key="W-S-C-Up">
-      <action name="MoveRelative">
-        <y>-10</y>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveRelative">
+            <y>-10</y>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
     <keybind key="W-S-C-Down">
-      <action name="MoveRelative">
-        <y>+10</y>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveRelative">
+            <y>+10</y>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
     <keybind key="W-S-C-Left">
-      <action name="MoveRelative">
-        <x>-10</x>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveRelative">
+            <x>-10</x>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
     <keybind key="W-S-C-Right">
-      <action name="MoveRelative">
-        <x>+10</x>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveRelative">
+            <x>+10</x>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
+
     <keybind key="W-A-Up">
-      <action name="MoveResizeTo">
-        <monitor>1</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveResizeTo">
+            <monitor>1</monitor>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
     <keybind key="W-A-Down">
-      <action name="MoveResizeTo">
-        <monitor>2</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveResizeTo">
+            <monitor>2</monitor>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
     <keybind key="W-A-Left">
-      <action name="MoveResizeTo">
-        <monitor>2</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveResizeTo">
+            <monitor>2</monitor>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
     <keybind key="W-A-Right">
-      <action name="MoveResizeTo">
-        <monitor>3</monitor>
-      </action>
-      <action name="focus"/>
-      <action name="raise"/>
+        <action name="MoveResizeTo">
+            <monitor>1</monitor>
+        </action>
+        <action name="focus"/>
+        <action name="raise"/>
     </keybind>
+
     <keybind key="W-S-A-Up">
-      <action name="Maximize"/>
+      <action name="Maximize"/>  
       <action name="MoveResizeTo">
-        <monitor>2</monitor>
+        <monitor>1</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-S-A-Down">
-      <action name="Maximize"/>
+      <action name="Maximize"/>  
       <action name="MoveResizeTo">
-        <monitor>3</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-S-A-Left">
-      <action name="Maximize"/>
+      <action name="Maximize"/>  
       <action name="MoveResizeTo">
-        <monitor>3</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-S-A-Right">
-      <action name="Maximize"/>
+      <action name="Maximize"/>  
       <action name="MoveResizeTo">
-        <monitor>1</monitor>
+        <monitor>2</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-C-A-Up">
-      <action name="Maximize"/>
+      <action name="Maximize"/>  
       <action name="MoveResizeTo">
         <monitor>1</monitor>
       </action>
@@ -727,7 +664,7 @@
       <action name="raise"/>
     </keybind>
     <keybind key="W-C-A-Down">
-      <action name="Maximize"/>
+      <action name="Maximize"/>  
       <action name="MoveResizeTo">
         <monitor>2</monitor>
       </action>
@@ -735,7 +672,7 @@
       <action name="raise"/>
     </keybind>
     <keybind key="W-C-A-Left">
-      <action name="Maximize"/>
+      <action name="Maximize"/>  
       <action name="MoveResizeTo">
         <monitor>2</monitor>
       </action>
@@ -743,21 +680,22 @@
       <action name="raise"/>
     </keybind>
     <keybind key="W-C-A-Right">
-      <action name="Maximize"/>
+      <action name="Maximize"/>  
       <action name="MoveResizeTo">
-        <monitor>3</monitor>
+        <monitor>1</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
     <keybind key="W-C-A-Return">
-      <action name="Maximize"/>
+      <action name="Maximize"/>  
       <action name="MoveResizeTo">
         <monitor>2</monitor>
       </action>
       <action name="focus"/>
       <action name="raise"/>
     </keybind>
+
     <keybind key="W-KP_Enter">
       <action name="Raise"/>
       <action name="ToggleMaximizeFull">
@@ -782,137 +720,117 @@
         <action name="Raise"/>
       </action>
     </keybind>
-    <!--
-    <keybind key="W-A-W">
-      <action name="MoveToEdge">
-        <direction>east</direction>
-      </action>
-      <action name="GrowToEdge">
-        <direction>west</direction>
-      </action>
-    </keybind>
--->
-    <!--
-    <keybind key="W-A-W">
-      <keybind key="Right">
-        <action name="ResizeRelative">
-          <right>1</right>
-        </action>
+      <keybind key="W-BackSpace">
+          <action name="Iconify"/>  
       </keybind>
-    </keybind>
--->
-    <keybind key="W-BackSpace">
-      <action name="Iconify"/>
-    </keybind>
-    <keybind key="W-KP_0">
-      <action name="Maximize"/>
-      <action name="MoveResizeTo">
-        <monitor>3</monitor>
-      </action>
-      <action name="Raise"/>
-    </keybind>
-    <keybind key="W-KP_1">
-      <action name="MoveResizeTo">
-        <width client="no">100%</width>
-        <height client="no">100%</height>
-        <y>0</y>
-        <x>0</x>
-        <monitor>2</monitor>
-      </action>
-      <action name="Raise"/>
-    </keybind>
-    <keybind key="W-KP_2">
-      <action name="MoveResizeTo">
-        <width client="no">100%</width>
-        <height client="no">10%</height>
-        <y>-0</y>
-        <x>0</x>
-        <monitor>3</monitor>
-      </action>
-      <action name="Raise"/>
-    </keybind>
-    <keybind key="W-KP_3">
-      <action name="MoveResizeTo">
-        <width client="no">100%</width>
-        <height client="no">90%</height>
-        <y>-10%</y>
-        <x>0</x>
-        <monitor>3</monitor>
-      </action>
-      <action name="Raise"/>
-    </keybind>
-    <keybind key="W-KP_4">
-      <action name="MoveResizeTo">
-        <width client="no">50%</width>
-        <height client="no">50%</height>
-        <y>-0</y>
-        <x>0</x>
-        <monitor>1</monitor>
-      </action>
-      <action name="Raise"/>
-    </keybind>
-    <keybind key="W-KP_5">
-      <action name="MoveResizeTo">
-        <width client="no">50%</width>
-        <height client="no">40%</height>
-        <y>-0</y>
-        <x>-0</x>
-        <monitor>1</monitor>
-      </action>
-      <action name="ToggleOmnipresent"/>
-      <action name="Raise"/>
-    </keybind>
-    <keybind key="W-KP_6">
-      <action name="MoveResizeTo">
-        <width client="no">50%</width>
-        <height client="no">40%</height>
-        <y>-0</y>
-        <x>-0</x>
-        <monitor>1</monitor>
-      </action>
-      <action name="Raise"/>
-    </keybind>
-    <keybind key="W-KP_7">
-      <action name="MoveResizeTo">
-        <width client="no">50%</width>
-        <height client="no">50%</height>
-        <y>0</y>
-        <x>0</x>
-        <monitor>1</monitor>
-      </action>
-      <action name="Raise"/>
-    </keybind>
-    <keybind key="W-KP_8">
-        <action name="MoveResizeTo">
-            <width client="no">50%</width>
-            <height client="no">100%</height>
-            <y>0</y>
-            <x>-0</x>
-            <monitor>1</monitor>
-        </action>
-        <action name="ToggleOmnipresent"/>
-        <action name="Raise"/>
-    </keybind>
-    <keybind key="W-KP_9">
-      <action name="MoveResizeTo">
-        <width client="no">50%</width>
-        <height client="no">60%</height>
-        <y>0</y>
-        <x>-0</x>
-        <monitor>1</monitor>
-      </action>
-      <action name="Raise"/>
-    </keybind>
-    <keybind key="W-KP_Delete">
-      <action name="MoveResizeTo">
-        <width client="no">100%</width>
-        <height client="no">100%</height>
-        <y>-0</y>
-        <x>0</x>
-        <monitor>2</monitor>
-      </action>
-      <action name="Raise"/>
-    </keybind>
+
+      <keybind key="W-KP_0">
+          <action name="Maximize"/>  
+          <action name="MoveResizeTo">
+              <monitor>2</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
+      <keybind key="W-KP_1">
+          <action name="MoveResizeTo">
+              <width client="no">60%</width>
+              <height client="no">100%</height>
+              <y>0</y>
+              <x>0</x>
+              <monitor>1</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
+      <keybind key="W-KP_2">
+          <action name="MoveResizeTo">
+              <width client="no">40%</width>
+              <height client="no">10%</height>
+              <y>-0</y>
+              <x>-0</x>
+              <monitor>1</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
+      <keybind key="W-KP_3">
+          <action name="MoveResizeTo">
+              <width client="no">40%</width>
+              <height client="no">90%</height>
+              <y>0</y>
+              <x>-0</x>
+              <monitor>1</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
+      <keybind key="W-KP_4">
+          <action name="MoveResizeTo">
+              <width client="no">100%</width>
+              <height client="no">50%</height>
+              <y>-0</y>
+              <x>0</x>
+              <monitor>2</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
+      <keybind key="W-KP_5">
+          <action name="MoveResizeTo">
+              <width client="no">50%</width>
+              <height client="no">40%</height>
+              <y>-10%</y>
+              <x>0</x>
+              <monitor>1</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
+      <keybind key="W-KP_6">
+          <action name="MoveResizeTo">
+              <width client="no">50%</width>
+              <height client="no">40%</height>
+              <y>-10%</y>
+              <x>-0</x>
+              <monitor>1</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
+      <keybind key="W-KP_7">
+          <action name="MoveResizeTo">
+              <width client="no">100%</width>
+              <height client="no">50%</height>
+              <y>0</y>
+              <x>0</x>
+              <monitor>2</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
+      <keybind key="W-KP_8">
+          <action name="MoveResizeTo">
+              <width client="no">50%</width>
+              <height client="no">50%</height>
+              <y>0</y>
+              <x>0</x>
+              <monitor>1</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
+      <keybind key="W-KP_9">
+          <action name="MoveResizeTo">
+              <width client="no">50%</width>
+              <height client="no">50%</height>
+              <y>0</y>
+              <x>-0</x>
+              <monitor>1</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
+      <keybind key="W-KP_Delete">
+          <action name="MoveResizeTo">
+              <width client="no">100%</width>
+              <height client="no">90%</height>
+              <y>0</y>
+              <x>0</x>
+              <monitor>1</monitor>
+          </action>
+          <action name="Raise"/>
+      </keybind>
     <keybind key="W-w">
       <keybind key="W-w">
         <action name="MoveResizeTo">
@@ -921,52 +839,52 @@
         </action>
       </keybind>
       <keybind key="W-q">
-        <action name="MoveResizeTo">
-          <width client="no">60%</width>
-          <height client="no">70%</height>
-          <y>0</y>
-          <x>0</x>
-        </action>
+          <action name="MoveResizeTo">
+              <width client="no">60%</width>
+              <height client="no">70%</height>
+              <y>0</y>
+              <x>0</x>
+          </action>
       </keybind>
       <keybind key="W-a">
-        <action name="MoveResizeTo">
-          <width client="no">60%</width>
-          <height client="no">100%</height>
-          <y>-0</y>
-          <x>0</x>
-        </action>
+          <action name="MoveResizeTo">
+              <width client="no">60%</width>
+              <height client="no">100%</height>
+              <y>-0</y>
+              <x>0</x>
+          </action>
       </keybind>
       <keybind key="W-z">
-        <action name="MoveResizeTo">
-          <width client="no">60%</width>
-          <height client="no">30%</height>
-          <y>-0</y>
-          <x>0</x>
-        </action>
+          <action name="MoveResizeTo">
+              <width client="no">60%</width>
+              <height client="no">30%</height>
+              <y>-0</y>
+              <x>0</x>
+          </action>
       </keybind>
       <keybind key="W-e">
-        <action name="MoveResizeTo">
-          <width client="no">40%</width>
-          <height client="no">85%</height>
-          <y>0</y>
-          <x>-0</x>
-        </action>
+          <action name="MoveResizeTo">
+              <width client="no">40%</width>
+              <height client="no">85%</height>
+              <y>0</y>
+              <x>-0</x>
+          </action>
       </keybind>
       <keybind key="W-d">
-        <action name="MoveResizeTo">
-          <width client="no">40%</width>
-          <height client="no">100%</height>
-          <y>-0</y>
-          <x>-0</x>
-        </action>
+          <action name="MoveResizeTo">
+              <width client="no">40%</width>
+              <height client="no">100%</height>
+              <y>-0</y>
+              <x>-0</x>
+          </action>
       </keybind>
       <keybind key="W-c">
-        <action name="MoveResizeTo">
-          <width client="no">40%</width>
-          <height client="no">15%</height>
-          <y>-0</y>
-          <x>-0</x>
-        </action>
+          <action name="MoveResizeTo">
+              <width client="no">40%</width>
+              <height client="no">15%</height>
+              <y>-0</y>
+              <x>-0</x>
+          </action>
       </keybind>
       <keybind key="w">
         <action name="MoveResizeTo">
@@ -1694,9 +1612,5 @@
 
   # end of the example
 -->
- <application name="terminator">
-     <focus>yes</focus>
- </application>
-
   </applications>
 </openbox_config>
