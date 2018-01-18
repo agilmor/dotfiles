@@ -69,6 +69,7 @@
 " --------
 " - F1 : paste mode for new pastes  (pastetoggle)
 " - F2 : paste mode for just pasted (EasyClipToggleFormattedPaste)
+" - F12: toggle paste autoformat    (g:EasyClipAutoFormat)
 " - F3 : window decorations         (SwitchDecorations)
 " - F4 : toggle autopairs           (AutoPairsToggle)
 " - F5 : refresh file
@@ -634,7 +635,7 @@ let g:EasyClipUseSubstituteDefaults           =   0 " to be able to use my maps 
 let g:EasyClipUseYankDefaults                 =   1 " default yanks are ok (y)
 let g:EasyClipUsePasteDefaults                =   1 " default paste are ok (p)
 let g:EasyClipAlwaysMoveCursorToEndOfPaste    =   1 " to move to end of paste (,j to go back)
-let g:EasyClipAutoFormat                      =   1 " to enable auto-format (EasyClipToggleFormattedPaste to remove format)
+let g:EasyClipAutoFormat                      =   1 " to enable auto-format (EasyClipToggleFormattedPaste to remove format) (<F12> to toggle this variable)
 let g:EasyClipShareYanks                      =   1 " probably not a good option to enable...?
 let g:EasyClipCopyExplicitRegisterToDefault   =   1 " paste last yanked even if it was saved to a register
 let g:EasyClipPreserveCursorPositionAfterYank =   1 " not move my cursor!
@@ -678,6 +679,16 @@ nmap YP    :IPasteBefore<cr>
 
 nmap <F2>  <Plug>EasyClipToggleFormattedPaste<cr>
 " nmap ,yf   <Plug>EasyClipToggleFormattedPaste<cr>
+
+function! ToggleAutoFormat()
+    if g:EasyClipAutoFormat == '1'
+        let g:EasyClipAutoFormat = '0'
+    else
+        let g:EasyClipAutoFormat = '1'
+    endif
+endfunction
+
+nmap <F12> :call ToggleAutoFormat()<CR>
 
 imap <C-v> <Plug>EasyClipInsertModePaste
 cmap <C-v> <Plug>EasyClipCommandModePaste
