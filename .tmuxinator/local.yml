@@ -41,4 +41,15 @@ windows:
               - xpra attach ssh:agil@imatge.upc.edu:2221:1067
           - xpra-log:
               - ssh -p2221 agil@imatge.upc.edu -t tail -f /run/user/1067/xpra/:1067.log
+  - xpra-imatge:
+      layout: even-horizontal
+      # Synchronize all panes of this window, can be enabled before or after the pane commands run.
+      # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
+      # synchronize: after
+      panes:
+          - xpra-app:
+              - xpra attach ssh:imatge@imatge.upc.edu:2221:1069
+          - xpra-log:
+              - ssh -p2221 imatge@imatge.upc.edu -t tail -f /run/user/108/xpra/:1069.log
+
 
