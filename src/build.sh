@@ -27,7 +27,8 @@ cd tmux
 sh autogen.sh && CFLAGS="-I$HOME/usr/include" LDFLAGS="-L$HOME/usr/lib" ./configure --prefix=$install_dir && make -j$jobs install
 cd ..
 
-go get -u github.com/odeke-em/drive/cmd/drive
+#go get -u github.com/odeke-em/drive/cmd/drive
+go get -u github.com/ncw/rclone
 
 echo "Add these lines to your ~/.bashrc:"
 echo "export PATH=\$HOME/usr/bin:\$PATH"
