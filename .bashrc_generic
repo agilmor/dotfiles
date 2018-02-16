@@ -123,3 +123,49 @@ function report_status() {
 
 # export PS2="\[$NC\]> "
 export PROMPT_COMMAND='_status=$(report_status);export PS1="${_status}$(_virtualenv_prompt)$(_git_prompt)${_PS1}";unset _status;'
+
+
+#
+# Rclone helpers
+#
+rclone-pull() {
+    rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
+    rclone_path=`echo ${PWD/#$HOME\/$rclone_remote/}`;
+
+    cmd=`echo rclone sync \"$rclone_remote:$rclone_path\" ./`;
+    echo $cmd;
+    rclone sync "$rclone_remote:$rclone_path" ./ --dry-run;
+    echo "Overwriting LOCAL files. Sure?";
+    read sure;
+    if [ "$sure" = "y"  ]; then
+        rclone sync "$rclone_remote:$rclone_path" ./ -v;
+    else
+        echo "Aborted";
+    fi;
+}
+
+rclone-push() {
+    rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
+    rclone_path=`echo ${PWD/#$HOME\/$rclone_remote/}`;
+
+    cmd=`echo rclone sync \"$rclone_remote:$rclone_path\" ./`;
+    echo $cmd;
+    rclone sync ./ "$rclone_remote:$rclone_path" --dry-run;
+    echo "Overwriting REMOTE files. Sure?";
+    read sure;
+    if [ "$sure" = "y"  ]; then
+        rclone sync ./ "$rclone_remote:$rclone_path" -v;
+    else
+        echo "Aborted";
+    fi;
+}
+
+rclone-status() {
+    rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
+    rclone_path=`echo ${PWD/#$HOME\/$rclone_remote/}`;
+
+    cmd=`echo rclone check \"$rclone_remote:$rclone_path\" ./`;
+    echo $cmd;
+    rclone check ./ "$rclone_remote:$rclone_path" --ignore-size;
+}
+
