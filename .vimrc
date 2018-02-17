@@ -24,15 +24,18 @@
 " --------------
 "
 " C(u,s,c,m) : case naming convention UPPER_STYLE, snake_style, CamelStyle, mixedStyle
+" d<Space>   : remove trailing whitespaces on current line or the visual selected lines (:StripWhitespace)
+" <<Arrows>  : in Visual moves/drags the selection following the arrows (dragvisuals)
 "
 " Text Objects
 " ------------
+"
 " al/il : whole line, with or without trailing and leading white spaces
 " ae/ie : whole file, with or without trailing and leading empty lines
 " aa/ia : funtion arguments, with or without argument separator to next one (auto-seek)
 " Aa/Ia : funtion arguments, with or without argument separators and whitespaces (auto-seek)
 " a,/i, : elements in a list, with or separators
-" 
+"
 " Semi Text Objects
 " -----------------
 "
@@ -63,19 +66,20 @@
 " --------
 " - FO : fold open all
 " - FC : fold close all
-" - FF : fold toogle current 
+" - FF : fold toogle current
 "
 " <F> Keys
 " --------
-" - F1 : paste mode for new pastes  (pastetoggle)
-" - F2 : paste mode for just pasted (EasyClipToggleFormattedPaste)
-" - F12: toggle paste autoformat    (g:EasyClipAutoFormat)
-" - F3 : window decorations         (SwitchDecorations)
-" - F4 : toggle autopairs           (AutoPairsToggle)
-" - F5 : refresh file
-" - F6 : refresh vimrc 
-"
-" - F10/11 : to disable default maps of UltiSnips (ExpandTrigger / ListSnippets) 
+" - F1            : paste mode for new pastes  (pastetoggle)
+" - F2  / ñp      : paste mode for just pasted (EasyClipToggleFormattedPaste)
+" - F12 / ÑP      : toggle paste autoformat    (g:EasyClipAutoFormat)
+" - F3  / ñd      : window decorations         (SwitchDecorations)
+" - F4            : toggle autopairs           (AutoPairsToggle)
+" - F5            : refresh file
+" - F6            : refresh vimrc
+" - F7 / ñs       : toggle autosave            (AutoSaveToggle)
+" - F8 / ñ<Space> : toggle whitestaces         (ToggleWhitespace)
+" - F10/11        : to disable default maps of UltiSnips (ExpandTrigger / ListSnippets)
 "
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -117,7 +121,7 @@ set autoread                       " file is reloaded if changed in a cmdline (:
 set undofile                       " for persistent undo
 set ignorecase                     " to search case insensitive
 set smartcase                      " to search case insensitive, unless using an upper case
-set listchars=tab:>·,trail:·,eol:· " special characters
+set listchars=tab:>·,eol:·         " special characters (using vim-better-whitespace instead of "trail:·")
 set nolist                         " to not visualize special special characters (see 'listchars'), use <F3> to toggle (see SwitchDecorations)
 set whichwrap=b,s,<,>,[,]          " to move line up/down with left/right at the begin/end of a line
 set nobackup                       " no backup files, we should use git/svn always, and we have the persistent undo
@@ -213,7 +217,7 @@ Plugin 'haya14busa/incsearch-fuzzy.vim'      " fuzzy motion
 Plugin 'kshenoy/vim-signature'               " to visualize marks (smm)
 Plugin 'Yggdroot/indentLine'                 " to visualize indentation lines (wl)
 Plugin 'blueyed/vim-diminactive'             " to dim the inactive window
-Plugin 'ntpeters/vim-better-whitespace'      " visualize and remove (:StripWhitespace) trailing whitespace 
+Plugin 'ntpeters/vim-better-whitespace'      " visualize and remove (ToggleWhitespace and StripWhitespace) trailing whitespace
 " Plugin 'nathanaelkane/vim-indent-guides'     " visualize vertical indent lines (Yggdroot/indentLine seems better?)
 " Plugin 'bling/vim-airline'                   " too fancy for me? I'll give it a second chance in a while...
 
@@ -239,7 +243,7 @@ Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
 " Plugin 'tommcdo/vim-lion'                    " cannot right-align the first column?
 
 " Extras
-Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (m+<arrows>)
+Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (<+<arrows>)
 " Plugin 'm42e/vim-gcov-marker'                " test coverage
 " Plugin 'vim-scripts/gcov.vim'                " test coverage
 
@@ -316,10 +320,11 @@ if &t_Co > 2 || has("gui_running")
     highlight ColorColumn term=reverse ctermbg=242 guibg=Grey40
 
     " Diff windows (from http://stackoverflow.com/a/17183382/5349914)
-    highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-    highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-    highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-    highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+    highlight DiffAdd         cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+    highlight DiffDelete      cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+    highlight DiffChange      cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+    highlight DiffText        cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+    highlight ExtraWhitespace ctermbg=Red
 
     au InsertEnter * hi StatusLine  term=reverse ctermbg=Black ctermfg=Red
     au InsertEnter * hi VertSplit   term=reverse ctermbg=Black ctermfg=Red
@@ -331,6 +336,7 @@ if &t_Co > 2 || has("gui_running")
     au InsertLeave * hi TabLineFill term=reverse ctermbg=Black ctermfg=White
     au InsertLeave * hi TabLineSel  term=reverse ctermbg=Black ctermfg=White
     au InsertLeave * hi Title       term=reverse ctermbg=Black ctermfg=White
+
 
     hi link EasyMotionTarget        EasyMotionIncSearchDefault
 "    hi link EasyMotionShade         Comment
@@ -350,7 +356,13 @@ endif
 " {{{
 
 " better-whitespace
-let g:better_whitespace_enabled = 0
+let g:better_whitespace_enabled = 1
+let g:better_whitespace_verbosity=1
+nmap d<Space> :.StripWhitespace<CR>
+vmap d<Space> :StripWhitespace<CR>
+
+nmap <F8>     :ToggleWhitespace<CR>
+nmap ñ<Space> :ToggleWhitespace<CR>
 
 " indent guides
 let g:indent_guides_guide_size            = 1
@@ -378,12 +390,14 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "
 " Auto Save (:AutoSaveToggle)
 "
-let g:auto_save                   = 1                               " enable AutoSave on Vim startup
+nmap <F7> :AutoSaveToggle<CR>
+nmap ñs   :AutoSaveToggle<CR>
+let g:auto_save                   = 0                               " enable AutoSave on Vim startup
 let g:auto_save_silent            = 0                               " display the auto-save notification
 let g:auto_save_write_all_buffers = 1                               " write all open buffers as if you would use :wa
 " let g:auto_save_postsave_hook     = 'TagsGenerate'                  " this will run :TagsGenerate after each save
 " let g:auto_save_presave_hook      = 'call AbortIfNotGitDirectory()' " this will run AbortIfNotGitDirectory function before each save
-let g:auto_save_events            = ["CursorHold"]                  " other possible events: InsertLeave, TextChanged, TextChangedI, 
+let g:auto_save_events            = ["CursorHold"]                  " other possible events: InsertLeave, TextChanged, TextChangedI,
                                                                     "                        CursorHold, CursorHoldI, CompleteDone
 
 
@@ -433,7 +447,7 @@ let g:UltiSnipsRemoveSelectModeMappings = 1                           " yes, pri
 
 " AutoPairs in insert mode
 let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
-let g:AutoPairsFlyMode            = 1       " to fly several brackets when pressing the closing bracket
+let g:AutoPairsFlyMode            = 0       " to fly several brackets when pressing the closing bracket
 let g:AutoPairsShortcutBackInsert = '<C-l>' " to disable just pressed fly bracket (alternative: <C-v> in imode forces direct input)
 let g:AutoPairsShortcutJump       = '<C-j>' " jump to next closed pair (pressing closing pair in insert also jumps)
 let g:AutoPairsMapBS              = 1       " map <Backspace> to remove in pairs
@@ -678,6 +692,7 @@ nmap yp    :IPaste<cr>
 nmap YP    :IPasteBefore<cr>
 
 nmap <F2>  <Plug>EasyClipToggleFormattedPaste<cr>
+nmap ñp  <Plug>EasyClipToggleFormattedPaste<cr>
 " nmap ,yf   <Plug>EasyClipToggleFormattedPaste<cr>
 
 function! ToggleAutoFormat()
@@ -689,6 +704,7 @@ function! ToggleAutoFormat()
 endfunction
 
 nmap <F12> :call ToggleAutoFormat()<CR>
+nmap ÑP    :call ToggleAutoFormat()<CR>
 
 imap <C-v> <Plug>EasyClipInsertModePaste
 cmap <C-v> <Plug>EasyClipCommandModePaste
@@ -1343,6 +1359,7 @@ au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
 " Decoretions
 map        wh         :set hls!<cr>
 noremap    <F3>       :call SwitchDecorations()<cr>
+noremap    ñd         :call SwitchDecorations()<cr>
 nnoremap   wn         :call NumberToggle()<cr>
 
 " Maximize (ww) and 'Tabize' (wt)
@@ -1482,7 +1499,7 @@ function! SwitchDecorations()
         exe "IndentLinesDisable"
         exe "LeadingSpaceDisable"
         exe "DisableWhitespace"
-        let g:better_whitespace_enabled = 0
+"         let g:better_whitespace_enabled = 0
         exe "SignifyToggleHighlight"
         exe "SignifyDisable"
         let g:mydecoration=0
@@ -1491,7 +1508,7 @@ function! SwitchDecorations()
         set colorcolumn=+1
         exe "IndentLinesEnable"
         exe "LeadingSpaceEnable"
-        let g:better_whitespace_enabled = 1
+"         let g:better_whitespace_enabled = 1
         exe "EnableWhitespace"
         exe "SignifyToggleHighlight"
         exe "SignifyEnable"
@@ -1872,13 +1889,12 @@ vnoremap <C-b>           <Esc>:Make<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
-
-vmap  <expr>  m<left>   DVB_Drag('left')                     
-vmap  <expr>  m<right>  DVB_Drag('right')                    
-vmap  <expr>  m<down>   DVB_Drag('down')                     
-vmap  <expr>  m<up>     DVB_Drag('up')                       
-" vmap  <expr>  D        DVB_Duplicate()                      
-
+" Drag visual blocs
+vmap  <expr>  <<left>   DVB_Drag('left')
+vmap  <expr>  <<right>  DVB_Drag('right')
+vmap  <expr>  <<down>   DVB_Drag('down')
+vmap  <expr>  <<up>     DVB_Drag('up')
+vmap  <expr>  <p        DVB_Duplicate()
 
 " passwds
 if filereadable(glob('~/.vimrc.pass'))
