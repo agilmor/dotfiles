@@ -31,11 +31,21 @@ root: ~/
 # post: tmux -CC attach -t local
 
 windows:
+  - drive: 
+      layout: even-horizontal
+      panes:
+        - agil:
+          - cd ~/gdrive-agil
+          - rclone-status
+        - happy:
+          - cd ~/gdrive-happy
+          - rclone-status
   - admin:
       layout: even-horizontal
       panes:
         - apt:
           - sudo apt-get update
+          - cd ~/.dotfiles
         - dmesg:
           - sudo su
           - cd
@@ -51,14 +61,14 @@ windows:
         - xpra attach ssh:imatge@imatge.upc.edu:2221:1069
         - ssh -p2221 imatge@imatge.upc.edu -t tail -f /run/user/108/xpra/:1069.log
   - cgroups: 
-        layout: main-vertical
-        panes:
-            - tasks:
-                - sudo su
-                - cd
-                - echo 4G > /sys/fs/cgroup/memory/chrome/agil/memory.limit_in_bytes
-            - echo:
-                - sudo su
-                - cd
-                - watch -n 10 --no-title "cat /sys/fs/cgroup/memory/chrome/agil/tasks | wc -l; cat /sys/fs/cgroup/memory/chrome/agil/memory.limit_in_bytes; cat /sys/fs/cgroup/memory/chrome/agil/memory.usage_in_bytes"
+      layout: even-horizontal
+      panes:
+        - tasks:
+          - sudo -i
+          - cd
+          - echo 4G > /sys/fs/cgroup/memory/chrome/agil/memory.limit_in_bytes
+        - echo:
+          - sudo su
+          - cd
+          - watch -n 10 --no-title "cat /sys/fs/cgroup/memory/chrome/agil/tasks | wc -l; cat /sys/fs/cgroup/memory/chrome/agil/memory.limit_in_bytes; cat /sys/fs/cgroup/memory/chrome/agil/memory.usage_in_bytes"
 
