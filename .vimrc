@@ -23,9 +23,10 @@
 " Semi Operators
 " --------------
 "
-" C(u,s,c,m) : case naming convention UPPER_STYLE, snake_style, CamelStyle, mixedStyle
-" d<Space>   : remove trailing whitespaces on current line or the visual selected lines (:StripWhitespace)
-" <<Arrows>  : in Visual moves/drags the selection following the arrows (dragvisuals)
+" g(c)w / g(c)* : grep (and change) current word / only current word
+" C(u,s,c,m)    : case naming convention UPPER_STYLE, snake_style, CamelStyle, mixedStyle
+" d<Space>      : remove trailing whitespaces on current line or the visual selected lines (:StripWhitespace)
+" <<Arrows>     : in Visual moves/drags the selection following the arrows (dragvisuals)
 "
 " Text Objects
 " ------------
@@ -235,7 +236,7 @@ Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and
 Plugin 'tpope/vim-surround'                  " defines surroundings as text objects (yank surroundings mean 'add' them)
 Plugin 'tpope/vim-abolish'                   " adding snake/camel/mixed/upper case control in the iw and with :S
 Plugin 'tommcdo/vim-exchange'                " to add the (e)xchange operator
-Plugin 'tomtom/tcomment_vim'                 " add the comment action (gc -> cm) for motions and text objects
+Plugin 'tomtom/tcomment_vim'                 " add the comment action (q) for motions and text objects
 Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
 " Plugin 'tpope/vim-commentary'                " I don't like the commenting style for C/C++, and only works for lines
 " Plugin 'vim-scripts/yate'                    " much slower than simple :*tag
@@ -374,7 +375,7 @@ let g:indent_guides_default_mapping       = 0
 "
 " tcomment
 "
-let g:tcommentMapLeaderOp1 = 'q'         " use 'cm' instead of 'gc'
+let g:tcommentMapLeaderOp1 = 'q'         " use 'q' for the comment action
 let g:tcommentOptions      = {'col': 1}  " line comments on the first column
 
 "
@@ -965,6 +966,7 @@ endfunction
 " - (gw) and (g*) to grep current word or only current word and listing results in quickfix
 " - (gcw) and (gc*) to grep and change current word
 " - :Grep and ':Replace old new'
+" - (go) and (ñg) :GrepOptions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
@@ -1001,6 +1003,10 @@ vmap grOj <leader>vR
 vmap gcw    <leader>vr
 vmap gc*    <leader>vR
 vmap gcOj <leader>vR
+
+nmap go     :GrepOptions<CR>
+nmap ñg     :GrepOptions<CR>
+nmap ñgi    <Leader>vyi
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1228,6 +1234,10 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
+" windows save
+nmap <C-s> :w<CR>
+imap <C-s> <Esc>:w<CR>
+
 "
 " Not moving cursor when leaving insert mode
 "
@@ -1236,14 +1246,11 @@ au InsertEnter  * let CursorColumnI = col('.')                                  
 au CursorMovedI * let CursorColumnI = col('.')                                      " leaving the insert mode
 au InsertLeave  * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif "
 
-"
-" mapping z to v for convenience
-"
-
 " sudo write (never used!? I should use it more!)
 cmap W!! w !sudo tee % >/dev/null
 
-map q: :q
+" I will not use Ex-Mode! (typo trying the previous quickfix)
+map Q <nop>
 
 " refresh vim files
 noremap    <F5>       :e<cr>
@@ -1282,12 +1289,17 @@ nnoremap   <C-u>      U
 nnoremap R "
 vnoremap R "
 
-
 " <C-k> used to:
 " - open edition in command line (never used?)
 " - single normal mode command while in insert mode
 inoremap <C-k>  <C-o>
+nnoremap <C-k> q:
+cnoremap ñ <C-k>
 set cedit=<C-k>
+
+" Command line window remaped to avoid my typo
+map q: :q
+noremap ñ: q:
 
 " Deprecated
 
@@ -1398,6 +1410,8 @@ nnoremap tt          :exe "tabn ".g:lasttab<CR>
 " Tabs
 nnoremap wo          :tabnew<cr>
 nnoremap wc          :tabclose<cr>
+nnoremap wto         :tabnew<cr>
+nnoremap wtq         :tabclose<cr>
 
 nnoremap w<pagedown> :tabnext<cr>
 nnoremap w<pageup>   :tabprevious<cr>
@@ -1791,6 +1805,8 @@ nnoremap ,q   :cprev<cr>
 nnoremap -q   :cnext<cr>
 nnoremap ;q   :colder<cr>
 nnoremap _q   :cnewer<cr>
+nnoremap ;Q   :colder<cr>
+nnoremap _Q   :cnewer<cr>
 " nnoremap q,   :cprev<cr>
 " nnoremap q-   :cnext<cr>
 
