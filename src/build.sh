@@ -29,6 +29,7 @@ cd ..
 
 #go get -u github.com/odeke-em/drive/cmd/drive
 go get -u github.com/ncw/rclone
+rsync -av $install_dir/src/github.com/ncw/rclone/rclone.1 $install_dir/share/man/man1/
 
 echo "Add these lines to your ~/.bashrc:"
 echo "export PATH=\$HOME/usr/bin:\$PATH"
