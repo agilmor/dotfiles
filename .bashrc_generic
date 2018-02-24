@@ -25,7 +25,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# to change caps lock                                                                                                                                                                 │··················································
+# to change caps lock
 #xmodmap ~/.xmodmap
 
 # -ixon -ixoff: remove XON/OFF to release Ctrl-s and Ctrl-q
@@ -48,6 +48,8 @@ export EDITOR='vim -X'
 # Alias
 alias ll='ls -lh'
 alias la='ls -lha'
+
+alias eduroam='sudo wpa_supplicant -Dwext -iwlp2s0 -c /home/agil/.cat_installer/cat_installer.conf'
 
 #
 # Git Prompt
@@ -129,43 +131,80 @@ export PROMPT_COMMAND='_status=$(report_status);export PS1="${_status}$(_virtual
 # Rclone helpers
 #
 rclone-pull() {
+    rclone_filter="";
+    local_path=`realpath "./${1}"`
+    rclone_path=${local_path}
     rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
-    rclone_path=`echo ${PWD/#$HOME\/$rclone_remote/}`;
 
-    cmd=`echo rclone sync \"$rclone_remote:$rclone_path\" ./`;
+    if [ -f "${local_path}" ]; then
+        local_path=`dirname ${local_path}`
+    else
+        rclone_filter=${HOME}/${rclone_remote}/.rclone.filter
+        if [ -e ${rclone_filter} ]; then
+            rclone_filter=" --filter-from ${rclone_filter}"
+        fi
+    fi
+    rclone_path=`echo ${rclone_path/#$HOME\/$rclone_remote/}`;
+
+    cmd=`echo rclone sync \"${rclone_remote}:${rclone_path}\" ${local_path} --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
     echo $cmd;
-    rclone sync "$rclone_remote:$rclone_path" ./ --dry-run;
+
+    rclone           sync  "${rclone_remote}:${rclone_path}"  ${local_path} --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} --dry-run ;
     echo "Overwriting LOCAL files. Sure?";
     read sure;
     if [ "$sure" = "y"  ]; then
-        rclone sync "$rclone_remote:$rclone_path" ./ -v;
+        rclone       sync "${rclone_remote}:${rclone_path}"   ${local_path} --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} -v;
     else
         echo "Aborted";
     fi;
 }
 
 rclone-push() {
+    rclone_filter="";
+    local_path=`realpath "./${1}"`
     rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
-    rclone_path=`echo ${PWD/#$HOME\/$rclone_remote/}`;
 
-    cmd=`echo rclone sync \"$rclone_remote:$rclone_path\" ./`;
+    if [ -f "${local_path}" ]; then
+        rclone_path=`dirname ${local_path}`
+    else
+        rclone_path=${local_path}
+        rclone_filter=${HOME}/${rclone_remote}/.rclone.filter
+        if [ -e ${rclone_filter} ]; then
+            rclone_filter=" --filter-from ${rclone_filter}"
+        fi
+    fi
+    rclone_path=`echo ${rclone_path/#$HOME\/$rclone_remote/}/`;
+
+    cmd=`echo rclone sync ${local_path} \"${rclone_remote}:${rclone_path}\" --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
     echo $cmd;
-    rclone sync ./ "$rclone_remote:$rclone_path" --dry-run;
+    rclone           sync ${local_path}  "${rclone_remote}:${rclone_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} --dry-run;
     echo "Overwriting REMOTE files. Sure?";
     read sure;
     if [ "$sure" = "y"  ]; then
-        rclone sync ./ "$rclone_remote:$rclone_path" -v;
+        rclone       sync ${local_path}  "${rclone_remote}:${rclone_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} -v;
     else
         echo "Aborted";
     fi;
 }
 
 rclone-status() {
+    rclone_filter="";
+    local_path=`realpath "./${1}"`
     rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
-    rclone_path=`echo ${PWD/#$HOME\/$rclone_remote/}`;
 
-    cmd=`echo rclone check \"$rclone_remote:$rclone_path\" ./`;
+    if [ -f "${local_path}" ]; then
+        rclone_path=`dirname ${local_path}`
+    else
+        rclone_path=${local_path}
+        rclone_filter=${HOME}/${rclone_remote}/.rclone.filter
+        if [ -e ${rclone_filter} ]; then
+            rclone_filter=" --filter-from ${rclone_filter}"
+        fi
+    fi
+    rclone_path=`echo ${rclone_path/#$HOME\/$rclone_remote/}/`;
+
+    cmd=`echo rclone check ${local_path} \"${rclone_remote}:${rclone_path}\" --ignore-size --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
     echo $cmd;
-    rclone check ./ "$rclone_remote:$rclone_path" --ignore-size;
+    rclone           check ${local_path}  "${rclone_remote}:${rclone_path}"  --ignore-size --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2};
 }
 
