@@ -133,7 +133,7 @@ export PROMPT_COMMAND='_status=$(report_status);export PS1="${_status}$(_virtual
 rclone-pull() {
     rclone_filter="";
     local_path=`realpath "./${1}"`
-    rclone_path=${local_path}
+    rclone_path="${local_path}"
     rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
     rclone_path=`echo ${rclone_path/#$HOME\/$rclone_remote/}`;
 
@@ -149,7 +149,7 @@ rclone-pull() {
     fi
 
     if [ "${is_file}" == 1 ]; then
-        local_path=`dirname ${local_path}`
+        local_path=`dirname "${local_path}"`
     else
         rclone_filter=${HOME}/${rclone_remote}/.rclone.filter
         if [ -e ${rclone_filter} ]; then
@@ -178,9 +178,9 @@ rclone-push() {
     rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
 
     if [ -f "${local_path}" ]; then
-        rclone_path=`dirname ${local_path}`
+        rclone_path=`dirname "${local_path}"`
     else
-        rclone_path=${local_path}
+        rclone_path="${local_path}"
         rclone_filter=${HOME}/${rclone_remote}/.rclone.filter
         if [ -e ${rclone_filter} ]; then
             rclone_filter=" --filter-from ${rclone_filter}"
@@ -190,13 +190,13 @@ rclone-push() {
     fi
     rclone_path=`echo ${rclone_path/#$HOME\/$rclone_remote/}/`;
 
-    cmd=`echo rclone sync ${local_path} \"${rclone_remote}:${rclone_path}\" --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
+    cmd=`echo rclone sync \"${local_path}\" \"${rclone_remote}:${rclone_path}\" --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
     echo $cmd;
-    rclone           sync ${local_path}  "${rclone_remote}:${rclone_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} --dry-run;
+    rclone           sync  "${local_path}"   "${rclone_remote}:${rclone_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} --dry-run;
     echo "Overwriting REMOTE files. Sure?";
     read sure;
     if [ "$sure" = "y"  ]; then
-        rclone       sync ${local_path}  "${rclone_remote}:${rclone_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} -v;
+        rclone       sync  "${local_path}"   "${rclone_remote}:${rclone_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} -v;
     else
         echo "Aborted";
     fi;
@@ -208,9 +208,9 @@ rclone-status() {
     rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
 
     if [ -f "${local_path}" ]; then
-        rclone_path=`dirname ${local_path}`
+        rclone_path=`dirname "${local_path}"`
     else
-        rclone_path=${local_path}
+        rclone_path="${local_path}"
         rclone_filter=${HOME}/${rclone_remote}/.rclone.filter
         if [ -e ${rclone_filter} ]; then
             rclone_filter=" --filter-from ${rclone_filter}"
@@ -220,8 +220,8 @@ rclone-status() {
     fi
     rclone_path=`echo ${rclone_path/#$HOME\/$rclone_remote/}/`;
 
-    cmd=`echo rclone check ${local_path} \"${rclone_remote}:${rclone_path}\" --ignore-size --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
+    cmd=`echo rclone check \"${local_path}\" \"${rclone_remote}:${rclone_path}\" --ignore-size --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
     echo $cmd;
-    rclone           check ${local_path}  "${rclone_remote}:${rclone_path}"  --ignore-size --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2};
+    rclone           check  "${local_path}"   "${rclone_remote}:${rclone_path}"  --ignore-size --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2};
 }
 
