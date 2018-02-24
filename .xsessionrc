@@ -20,12 +20,6 @@ setxkbmap -option caps:escape       # Use CapsLock as Escape
 setxkbmap -option numpad:microsoft  # Be able to use Shift with Numpad as arrows (home/end)
 
 #
-# Daemons for better visualization
-#
-unclutter -idle 1 -jitter 2 -root & # To hide the mouse
-compton &                           # To dimm the unfocus windows
-
-#
 # Terminator sessions
 #
 # terminator --title monitor --maximise --execute ssh -p 2222 agil@imatge.upc.edu -t ssh root@s1 -t tmux attach -t monitor &
@@ -43,4 +37,10 @@ fi
 # Touch screen
 #
 xsetwacom set "ELAN Touchscreen" MapToOutput eDP-1
-xinput disable "ELAN Touchscreen" # duw hwd problems... :-(
+xinput disable "ELAN Touchscreen" # due hwd problems... :-(
+
+#
+# Daemons for better visualization
+#
+unclutter -idle 1 -jitter 2 -root & # To hide the mouse
+compton &                           # To dimm the unfocus windows
