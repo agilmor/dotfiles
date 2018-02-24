@@ -488,7 +488,9 @@ function! JumpBracket(key,dir)
 endfunc
 
 " yank surround is add surround
-map as ys
+nmap as ys
+vmap as S
+vmap  s S
 
 " to add missing ; at the end of the line (and return to begin of line)
 nnoremap ;; A;<Esc>^
