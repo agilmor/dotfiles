@@ -143,8 +143,10 @@ rclone-pull() {
         if [ -d "${local_path}" ]; then
             is_file=0
         else
-            echo "Getting remote size..."
-            is_file=`rclone size "${rclone_remote}:${rclone_path}" | grep objects | sed 's/Total objects: //'`
+#             echo "Getting remote size..."
+#             is_file=`rclone size "${rclone_remote}:${rclone_path}" | grep objects | sed 's/Total objects: //'`
+            rclone rmdir "${rclone_remote}:${rclone_path}" --dry-run
+            is_file=$?
         fi
     fi
 
@@ -159,14 +161,14 @@ rclone-pull() {
         fi
     fi
 
-    cmd=`echo rclone sync \"${rclone_remote}:${rclone_path}\" ${local_path} --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
+    cmd=`echo rclone sync \"${rclone_remote}:${rclone_path}\" \"${local_path}\" --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
     echo $cmd;
 
-    rclone           sync  "${rclone_remote}:${rclone_path}"  ${local_path} --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} --dry-run ;
+    rclone           sync  "${rclone_remote}:${rclone_path}"   "${local_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} --dry-run ;
     echo "Overwriting LOCAL files. Sure?";
     read sure;
     if [ "$sure" = "y"  ]; then
-        rclone       sync "${rclone_remote}:${rclone_path}"   ${local_path} --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} -v;
+        rclone       sync "${rclone_remote}:${rclone_path}"    "${local_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} -v;
     else
         echo "Aborted";
     fi;
