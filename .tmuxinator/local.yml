@@ -31,7 +31,7 @@ root: ~/
 # post: tmux -CC attach -t local
 
 windows:
-  - drive: 
+  - drive:
       layout: even-horizontal
       panes:
         - agil:
@@ -60,7 +60,11 @@ windows:
       panes:
         - xpra attach ssh:imatge@imatge.upc.edu:2221:1069
         - ssh -p2221 imatge@imatge.upc.edu -t tail -f /run/user/108/xpra/:1069.log
-  - cgroups: 
+  - vpn:
+      layout: even-horizontal
+      panes:
+          - sudo openvpn --config ~/.vpn/tsc.ovpn
+  - cgroups:
       layout: even-horizontal
       panes:
         - tasks:
