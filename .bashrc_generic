@@ -25,7 +25,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# to change caps lock                                                                                                                                                                 │··················································
+# to change caps lock
 #xmodmap ~/.xmodmap
 
 # -ixon -ixoff: remove XON/OFF to release Ctrl-s and Ctrl-q
@@ -41,12 +41,15 @@ vim -c "Man $*" -c "silent only" -c "nmap q :q!<cr>"
 
 os_codename=`lsb_release -a 2>/dev/null | grep Codename | awk '{print $2}'`
 export PATH=$HOME/usr-$os_codename/bin:$PATH
+export GOPATH=$HOME/usr-$os_codename
 
 export EDITOR='vim -X'
 
 # Alias
 alias ll='ls -lh'
 alias la='ls -lha'
+
+alias eduroam='sudo wpa_supplicant -Dwext -iwlp2s0 -c /home/agil/.cat_installer/cat_installer.conf'
 
 #
 # Git Prompt
@@ -122,3 +125,105 @@ function report_status() {
 
 # export PS2="\[$NC\]> "
 export PROMPT_COMMAND='_status=$(report_status);export PS1="${_status}$(_virtualenv_prompt)$(_git_prompt)${_PS1}";unset _status;'
+
+
+#
+# Rclone helpers
+#
+rclone-pull() {
+    rclone_filter="";
+    local_path=`realpath "./${1}"`
+    rclone_path="${local_path}"
+    rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
+    rclone_path=`echo ${rclone_path/#$HOME\/$rclone_remote/}`;
+
+    if [ -f "${local_path}" ]; then
+        is_file=1
+    else
+        if [ -d "${local_path}" ]; then
+            is_file=0
+        else
+#             echo "Getting remote size..."
+#             is_file=`rclone size "${rclone_remote}:${rclone_path}" | grep objects | sed 's/Total objects: //'`
+            rclone rmdir "${rclone_remote}:${rclone_path}" --dry-run
+            is_file=$?
+        fi
+    fi
+
+    if [ "${is_file}" == 1 ]; then
+        local_path=`dirname "${local_path}"`
+    else
+        rclone_filter=${HOME}/${rclone_remote}/.rclone.filter
+        if [ -e ${rclone_filter} ]; then
+            rclone_filter=" --filter-from ${rclone_filter}"
+        else
+            rclone_filter=""
+        fi
+    fi
+
+    cmd=`echo rclone sync \"${rclone_remote}:${rclone_path}\" \"${local_path}\" --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
+    echo $cmd;
+
+    rclone           sync  "${rclone_remote}:${rclone_path}"   "${local_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} --dry-run ;
+    echo "Overwriting LOCAL files. Sure?";
+    read sure;
+    if [ "$sure" = "y"  ]; then
+        rclone       sync "${rclone_remote}:${rclone_path}"    "${local_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} -v;
+    else
+        echo "Aborted";
+    fi;
+}
+
+rclone-push() {
+    rclone_filter="";
+    local_path=`realpath "./${1}"`
+    rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
+
+    if [ -f "${local_path}" ]; then
+        rclone_path=`dirname "${local_path}"`
+    else
+        rclone_path="${local_path}"
+        rclone_filter=${HOME}/${rclone_remote}/.rclone.filter
+        if [ -e ${rclone_filter} ]; then
+            rclone_filter=" --filter-from ${rclone_filter}"
+        else
+            rclone_filter=""
+        fi
+    fi
+    rclone_path=`echo ${rclone_path/#$HOME\/$rclone_remote/}/`;
+
+    cmd=`echo rclone sync \"${local_path}\" \"${rclone_remote}:${rclone_path}\" --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
+    echo $cmd;
+    rclone           sync  "${local_path}"   "${rclone_remote}:${rclone_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} --dry-run;
+    echo "Overwriting REMOTE files. Sure?";
+    read sure;
+    if [ "$sure" = "y"  ]; then
+        rclone       sync  "${local_path}"   "${rclone_remote}:${rclone_path}"  --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2} -v;
+    else
+        echo "Aborted";
+    fi;
+}
+
+rclone-status() {
+    rclone_filter="";
+    local_path=`realpath "./${1}"`
+    rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
+
+    if [ -f "${local_path}" ]; then
+        rclone_path=`dirname "${local_path}"`
+    else
+        rclone_path="${local_path}"
+        rclone_filter=${HOME}/${rclone_remote}/.rclone.filter
+        if [ -e ${rclone_filter} ]; then
+            rclone_filter=" --filter-from ${rclone_filter}"
+        else
+            rclone_filter=""
+        fi
+    fi
+    rclone_path=`echo ${rclone_path/#$HOME\/$rclone_remote/}/`;
+
+    cmd=`echo rclone check \"${local_path}\" \"${rclone_remote}:${rclone_path}\" --ignore-size --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2}`;
+    echo $cmd;
+    rclone           check  "${local_path}"   "${rclone_remote}:${rclone_path}"  --ignore-size --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2};
+}
+
