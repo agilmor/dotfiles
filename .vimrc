@@ -33,13 +33,12 @@
 "
 " av/iv : a segment of a Variable name in UPPER_STYLE, snake_style, CamelStyle or mixedStyle
 " af/if : a Function (doesn't work in functions inside a class?)
-" aa/ia : funtion Arguments, with or without argument separator (auto-seek and [count]+ai+,-+obj)
-" at/it : object in a <Tag>obj</Tag> (auto-seek and [count]+ai+nl+obj)
-" a,/i, : elements in a list, with or separators (auto-seek and [count]+ai+nl+obj)
-" an/in : the next obj that matches last search (n)
-" aN/iN : the previous obj that matches last search (N)
+" aa/ia : funtion Arguments, with or without argument separator (auto-seek and [count]+ai+nN+obj)
+" at/it : object in a <Tag>obj</Tag> (auto-seek and [count]+ai+nN+obj)
+" a,/i, : elements in a list, with or separators (auto-seek and [count]+ai+nN+obj)
 " al/il : whole Line, with or without trailing and leading white spaces
 " ae/ie : Entire file, with or without trailing and leading empty lines
+" ip    : Last pasted as text-obj
 "
 " Semi Text Objects
 " -----------------
@@ -235,14 +234,12 @@ Plugin 'kana/vim-textobj-line'               " a (l)ine
 Plugin 'kana/vim-textobj-entire'             " a (e)ntire file
 Plugin 'kana/vim-textobj-function'           " a (f)unction
 Plugin 'kana/vim-textobj-indent'             " a group of similar (i)ndented lines
-Plugin 'kana/vim-textobj-lastpat'            " the obj that matches (n) and (N) searches (last pattern searched)
+" Plugin 'kana/vim-textobj-lastpat'            " the obj that matches (n) and (N) searches (last pattern searched)
 Plugin 'wellle/targets.vim'                  " arguments objects and a lot of objects!! also auto seek ()(n)ext and (l)ast text objects
 Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments (iv/av)
 Plugin 'glts/vim-textobj-comment'            " commented text as an object text (ac/ic)
+Plugin 'saaguero/vim-textobj-pastedtext'     " last (ip)asted text becomes a text-obj
 " Plugin 'deathlyfrantic/vim-textobj-blanklines' " a group of blank lines
-
-
-
 
 " Operators
 Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste operators
@@ -1188,17 +1185,20 @@ omap aQ <Plug>(textobj-comment-big-a)
 
 " tagets.vin config
 let g:targets_aiAI = 'aIAi' " to ignore whitespaces with 'i' and add them with 'I'
-let g:targets_nl   = '-,'   " to be able to use il/al for 'lines'
+let g:targets_nl   = 'nN'   " to be able to use il/al for 'lines'
 
-let g:textobj_lastpat_no_default_key_mappings = 1
-xmap aN <Plug>(textobj-lastpat-N)
-omap aN <Plug>(textobj-lastpat-N)
-xmap iN <Plug>(textobj-lastpat-N)
-omap iN <Plug>(textobj-lastpat-N)
-xmap an <Plug>(textobj-lastpat-n)
-omap an <Plug>(textobj-lastpat-n)
-xmap in <Plug>(textobj-lastpat-n)
-omap in <Plug>(textobj-lastpat-n)
+let g:pastedtext_select_key = 'ip' " using ip instead of gb as last pasted text-obj
+
+" lastpat config:  removed as not used and forces with targets.vim to use (,-) instead of nN
+" let g:textobj_lastpat_no_default_key_mappings = 1
+" xmap aN <Plug>(textobj-lastpat-N)
+" omap aN <Plug>(textobj-lastpat-N)
+" xmap iN <Plug>(textobj-lastpat-N)
+" omap iN <Plug>(textobj-lastpat-N)
+" xmap an <Plug>(textobj-lastpat-n)
+" omap an <Plug>(textobj-lastpat-n)
+" xmap in <Plug>(textobj-lastpat-n)
+" omap in <Plug>(textobj-lastpat-n)
 
 
 " removed because it conflicts with for(ii=0...) -> because using a plugin!

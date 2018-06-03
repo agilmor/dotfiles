@@ -202,3 +202,6 @@
 [submodule ".vim/bundle/vim-textobj-lastpat"]
 	path = .vim/bundle/vim-textobj-lastpat
 	url = https://github.com/kana/vim-textobj-lastpat.git
+[submodule ".vim/bundle/vim-textobj-pastedtext"]
+	path = .vim/bundle/vim-textobj-pastedtext
+	url = https://github.com/saaguero/vim-textobj-pastedtext.git
