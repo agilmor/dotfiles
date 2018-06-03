@@ -36,6 +36,7 @@
 " aa/ia : funtion Arguments, with or without argument separator (auto-seek and [count]+ai+nN+obj)
 " at/it : object in a <Tag>obj</Tag> (auto-seek and [count]+ai+nN+obj)
 " a,/i, : elements in a list, with or separators (auto-seek and [count]+ai+nN+obj)
+" au/iu : URIs as textobj
 " al/il : whole Line, with or without trailing and leading white spaces
 " ae/ie : Entire file, with or without trailing and leading empty lines
 " ip    : Last pasted as text-obj
@@ -239,6 +240,7 @@ Plugin 'wellle/targets.vim'                  " arguments objects and a lot of ob
 Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments (iv/av)
 Plugin 'glts/vim-textobj-comment'            " commented text as an object text (ac/ic)
 Plugin 'saaguero/vim-textobj-pastedtext'     " last (ip)asted text becomes a text-obj
+Plugin 'jceb/vim-textobj-uri'                " (u)RIs as textobj
 " Plugin 'deathlyfrantic/vim-textobj-blanklines' " a group of blank lines
 
 " Operators

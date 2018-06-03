@@ -205,3 +205,6 @@
 [submodule ".vim/bundle/vim-textobj-pastedtext"]
 	path = .vim/bundle/vim-textobj-pastedtext
 	url = https://github.com/saaguero/vim-textobj-pastedtext.git
+[submodule ".vim/bundle/vim-textobj-uri"]
+	path = .vim/bundle/vim-textobj-uri
+	url = https://github.com/jceb/vim-textobj-uri.git
