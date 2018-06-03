@@ -171,7 +171,7 @@ Plugin '907th/vim-auto-save'                 " auto save
 Plugin 'szw/vim-maximizer'                   " :MaximizerToggle works nice
 Plugin 'scrooloose/nerdtree.git'             " file browser (not really useful... ctrlp/unite and wildmode are better?)
 Plugin 'majutsushi/tagbar'                   " outline window (uses its own ctag of current file only)
-Plugin 'mbbill/undotree'                     " visualization of the undotree as a version control (F5 -> :UndotreeToggle)
+Plugin 'mbbill/undotree'                     " visualization of the undotree as a version control
 Plugin 'bufexplorer.zip'                     " visualization of the buffers list
 Plugin 'christoomey/vim-tmux-navigator'      " same keys to move between panes on tmux and vim (only on 'local' vim)
 Plugin 'kopischke/vim-fetch'                 " to open files with :line:col suffix
@@ -1252,9 +1252,12 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
-" windows save
+" save file with Ctrl-S
 nmap <C-s> :w<CR>
 imap <C-s> <Esc>:w<CR>
+
+" recover a closed splitted window like in a web browser Ctrl+Shift+T
+nmap <C-S-t> :vs<bar>:b#<CR>
 
 "
 " Not moving cursor when leaving insert mode
