@@ -26,7 +26,7 @@
 " g(c)w / g(c)* : grep (and change) current word / only current word
 " C(u,s,c,m)    : case naming convention UPPER_STYLE, snake_style, CamelStyle, mixedStyle
 " d<Space>      : remove trailing whitespaces on current line or the visual selected lines (:StripWhitespace)
-" <<Arrows>     : in Visual moves/drags the selection following the arrows (dragvisuals)
+" z<Arrows>     : in Visual moves/drags the selection following the arrows (dragvisuals)
 "
 " Text Objects
 " ------------
@@ -843,8 +843,8 @@ vnoremap <<Right>        >gv
 vnoremap <<Left>         <gv
 
 nnoremap <<<Right>       >>
-nnoremap <<<Left>        <<
 nnoremap <<Right><Right> >>
+nnoremap <<<Left>        <<
 nnoremap <<Left><Left>   <<
 
 "
@@ -1815,9 +1815,13 @@ let g:toggle_list_copen_command   = 'copen'  " ...or keep using :copen to avoid 
 let g:toggle_list_no_mappings     = 1        " to be able to use ',q' (I want MY mappings! ;-)
 
 nnoremap sq   :call ToggleQuickfixList()<cr>
-" nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
+nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
 " nnoremap ,sq  :colder<cr>
 " nnoremap .sq  :cnewer<cr>
+" to remove warings entries
+" info/text lines are kept, but ,q and .q will loop on no-warning entries
+nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
+
 nnoremap ,,q  :cc<cr>
 nnoremap ,q   :cprev<cr>
 nnoremap -q   :cnext<cr>
@@ -1827,10 +1831,6 @@ nnoremap ;Q   :colder<cr>
 nnoremap _Q   :cnewer<cr>
 " nnoremap q,   :cprev<cr>
 " nnoremap q-   :cnext<cr>
-
-" to remove warings entries
-" info/text lines are kept, but ,q and .q will loop on no-warning entries
-nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 
 " this automand is not called...? not sure way...
 " autocmd QuickfixCmdPost make call setqflist(filter(getqflist(), 'v:val.type == "E"'), 'r')
@@ -1924,11 +1924,11 @@ vnoremap <C-b>           <Esc>:Make<cr>
 " {{{
 
 " Drag visual blocs
-vmap  <expr>  <<left>   DVB_Drag('left')
-vmap  <expr>  <<right>  DVB_Drag('right')
-vmap  <expr>  <<down>   DVB_Drag('down')
-vmap  <expr>  <<up>     DVB_Drag('up')
-vmap  <expr>  <p        DVB_Duplicate()
+vmap  <expr>  z<left>   DVB_Drag('left')
+vmap  <expr>  z<right>  DVB_Drag('right')
+vmap  <expr>  z<down>   DVB_Drag('down')
+vmap  <expr>  z<up>     DVB_Drag('up')
+vmap  <expr>  zp        DVB_Duplicate()
 
 " passwds
 if filereadable(glob('~/.vimrc.pass'))
