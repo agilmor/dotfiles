@@ -183,6 +183,8 @@ Plugin 'dkprice/vim-easygrep'                " to search and replace for the who
 Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
 Plugin 'vcscommand.vim'                      " version control git+svn together
 Plugin 'mhinz/vim-signify'                   " decorations for git+svn together
+Plugin 'xolox/vim-misc'                      " needed by vim-session
+Plugin 'xolox/vim-session'                   " save / restore sessions
 " Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
 " Plugin 'vim-scripts/ConflictMotions'         " never tried! maybe its a good option!
 " Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
@@ -911,7 +913,7 @@ nmap > <Plug>(LiveEasyAlign)
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                               VimPrj and VCS
+"                                               VimPrj, Sessions and VCS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 let g:signify_disable_by_default = 1 " Use :SignifyToggle
@@ -925,6 +927,14 @@ let g:cpp_header_ext='hpp'                  " each project can define its header
 " Reload .vimprj just after writing it
 "
 autocmd BufWritePost .vimprj source .vimprj
+
+set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize " save everything
+let g:session_directory         = '~/.vim-sessions'                         " to save sessions locally, out of dotfiles
+let g:session_autoload          = 'prompt'                                  " used when starting vim without anyfile
+let g:session_autosave          = 'yes'                                     " is a session is open and vim closes
+let g:session_autosave_periodic = 1                                         " save the session every minute (only if one is open, right?)
+let g:session_autosave_silent   = 0                                         " should be 1, but I still want to see how the plugin works...
+let g:session_command_aliases   = 1                                         " all commands have the alias 'Session*' (useful for <Tab> completion)
 
 "
 " Function to define the default options

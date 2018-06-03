@@ -1,5 +1,6 @@
 #  sudo apt-get build-dep vim-gtk
 #  sudo apt-get install python-dev gcc g++ make automake cmake scons build-essential libncurses5-dev libevent-dev libpango1.0-dev xclip compton golang
+#  sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev    libgtk2.0-dev libatk1.0-dev libbonoboui2-dev    libcairo2-dev libx11-dev libxpm-dev libxt-dev # for +clientserver of vim
 os_codename=`lsb_release -a 2>/dev/null | grep Codename | awk '{print $2}'`
 install_dir=$HOME/usr-$os_codename
 jobs=4
