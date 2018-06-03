@@ -232,9 +232,14 @@ Plugin 'kana/vim-textobj-user'               " to create custom text objects
 Plugin 'kana/vim-textobj-line'               " a (l)ine
 Plugin 'kana/vim-textobj-entire'             " a (e)ntire file
 Plugin 'kana/vim-textobj-function'           " a (f)unction
+Plugin 'kana/vim-textobj-indent'             " a group of similar (i)ndented lines
 Plugin 'wellle/targets.vim'                  " arguments objects and a lot of objects!! also auto seek ()(n)ext and (l)ast text objects
 Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments (iv/av)
 Plugin 'glts/vim-textobj-comment'            " commented text as an object text (ac/ic)
+" Plugin 'deathlyfrantic/vim-textobj-blanklines' " a group of blank lines
+
+
+
 
 " Operators
 Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste operators
@@ -1182,37 +1187,37 @@ omap aQ <Plug>(textobj-comment-big-a)
 let g:targets_aiAI = 'aIAi' " to ignore whitespaces with 'i' and add them with 'I'
 let g:targets_nl   = 'nN'   " to be able to use il/al for 'lines'
 
-" removed because it conflicts with for(ii=0...)
-onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
-onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
-vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
-vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
-
-function! s:IndTxtObj(inner)
-    let curline = line(".")
-    let lastline = line("$")
-    let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
-    let i = i < 0 ? 0 : i
-    if getline(".") !~ "^\\s*$"
-        let p = line(".") - 1
-        let nextblank = getline(p) =~ "^\\s*$"
-        while p > 0 && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
-            -
-            let p = line(".") - 1
-            let nextblank = getline(p) =~ "^\\s*$"
-        endwhile
-        normal! 0V
-        call cursor(curline, 0)
-        let p = line(".") + 1
-        let nextblank = getline(p) =~ "^\\s*$"
-        while p <= lastline && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
-            +
-            let p = line(".") + 1
-            let nextblank = getline(p) =~ "^\\s*$"
-        endwhile
-        normal! $
-    endif
-endfunction
+" removed because it conflicts with for(ii=0...) -> because using a plugin!
+" onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
+" onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
+" vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
+" vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
+"
+" function! s:IndTxtObj(inner)
+"     let curline = line(".")
+"     let lastline = line("$")
+"     let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
+"     let i = i < 0 ? 0 : i
+"     if getline(".") !~ "^\\s*$"
+"         let p = line(".") - 1
+"         let nextblank = getline(p) =~ "^\\s*$"
+"         while p > 0 && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+"             -
+"             let p = line(".") - 1
+"             let nextblank = getline(p) =~ "^\\s*$"
+"         endwhile
+"         normal! 0V
+"         call cursor(curline, 0)
+"         let p = line(".") + 1
+"         let nextblank = getline(p) =~ "^\\s*$"
+"         while p <= lastline && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+"             +
+"             let p = line(".") + 1
+"             let nextblank = getline(p) =~ "^\\s*$"
+"         endwhile
+"         normal! $
+"     endif
+" endfunction
 
 " Depcretaed due targets.vim plugin
 " Motion for "next/last object". For example, "din(" would go to the next "()" pair
