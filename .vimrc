@@ -32,9 +32,10 @@
 " ------------
 "
 " av/iv : a segment of a Variable name in UPPER_STYLE, snake_style, CamelStyle or mixedStyle
-" aa/ia : funtion Arguments, with or without argument separator to next one (auto-seek)
-" at/it : object in a <Tag>obj</Tag> (auto-seek)
-" a,/i, : elements in a list, with or separators, more one | two | three
+" af/if : a Function (doesn't work in functions inside a class?)
+" aa/ia : funtion Arguments, with or without argument separator (auto-seek and [count]+ai+nN+obj)
+" at/it : object in a <Tag>obj</Tag> (auto-seek and [count]+ai+nl+obj)
+" a,/i, : elements in a list, with or separators (auto-seek and [count]+ai+nl+obj)
 " al/il : whole Line, with or without trailing and leading white spaces
 " ae/ie : Entire file, with or without trailing and leading empty lines
 "
@@ -228,8 +229,9 @@ Plugin 'ntpeters/vim-better-whitespace'      " visualize and remove (ToggleWhite
 " Text objects
 Plugin 'terryma/vim-expand-region'           " expand mode for visual selection
 Plugin 'kana/vim-textobj-user'               " to create custom text objects
-Plugin 'kana/vim-textobj-line'               " the (l)ine text object
-Plugin 'kana/vim-textobj-entire'             " the (e)ntire file text object
+Plugin 'kana/vim-textobj-line'               " a (l)ine
+Plugin 'kana/vim-textobj-entire'             " a (e)ntire file
+Plugin 'kana/vim-textobj-function'           " a (f)unction
 Plugin 'wellle/targets.vim'                  " arguments objects and a lot of objects!! also auto seek ()(n)ext and (l)ast text objects
 Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments (iv/av)
 Plugin 'glts/vim-textobj-comment'            " commented text as an object text (ac/ic)
@@ -760,7 +762,7 @@ let g:EasyMotion_startofline      = 0                            " to be able to
 " EasyMotion - Maps
 "
 map  t                 <Plug>(easymotion-bd-t)
-map  f                 <Plug>(easymotion-bd-f)
+map  T                 <Plug>(easymotion-bd-f)
 
 " map  b                 <Plug>(easymotion-bd-w)
 " map  bb                <Plug>(easymotion-bd-w)
@@ -1178,6 +1180,7 @@ omap aQ <Plug>(textobj-comment-big-a)
 
 " tagets.vin config
 let g:targets_aiAI = 'aIAi' " to ignore whitespaces with 'i' and add them with 'I'
+let g:targets_nl   = 'nN'   " to be able to use il/al for 'lines'
 
 " removed because it conflicts with for(ii=0...)
 onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
