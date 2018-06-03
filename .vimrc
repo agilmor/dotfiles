@@ -31,11 +31,12 @@
 " Text Objects
 " ------------
 "
-" al/il : whole line, with or without trailing and leading white spaces
-" ae/ie : whole file, with or without trailing and leading empty lines
-" aa/ia : funtion arguments, with or without argument separator to next one (auto-seek)
-" Aa/Ia : funtion arguments, with or without argument separators and whitespaces (auto-seek)
-" a,/i, : elements in a list, with or separators
+" av/iv : a segment of a Variable name in UPPER_STYLE, snake_style, CamelStyle or mixedStyle
+" aa/ia : funtion Arguments, with or without argument separator to next one (auto-seek)
+" at/it : object in a <Tag>obj</Tag> (auto-seek)
+" a,/i, : elements in a list, with or separators, more one | two | three
+" al/il : whole Line, with or without trailing and leading white spaces
+" ae/ie : Entire file, with or without trailing and leading empty lines
 "
 " Semi Text Objects
 " -----------------
@@ -362,7 +363,7 @@ endif
 let g:better_whitespace_enabled = 1
 let g:better_whitespace_verbosity=1
 nmap d<Space> :.StripWhitespace<CR>
-vmap d<Space> :StripWhitespace<CR>
+" vmap d<Space> :StripWhitespace<CR> " removed to faster delete in visual mode
 
 nmap <F8>     :ToggleWhitespace<CR>
 nmap ñ<Space> :ToggleWhitespace<CR>
@@ -789,8 +790,8 @@ nmap Ok              viwy<Plug>(easymotion-sn)<C-v><cr><Esc><Plug>(easymotion-p
 " nmap *                 viwy<Plug>(easymotion-sn)<C-v><cr><cr>
 " map Oj               viwy<Plug>(easymotion-sn)<C-v><cr><cr>
 
-map  <C-Right>         <Plug>(easymotion-lineforward)
-map  <C-Left>          <Plug>(easymotion-linebackward)
+" map  <C-Right>         <Plug>(easymotion-lineforward)
+" map  <C-Left>          <Plug>(easymotion-linebackward)
 map  <C-Up>            <Plug>(easymotion-k)
 map  <C-Down>          <Plug>(easymotion-j)
 
@@ -799,8 +800,8 @@ omap <Left>            <Plug>(easymotion-linebackward)
 omap <Up>              <Plug>(easymotion-k)
 omap <Down>            <Plug>(easymotion-j)
 
-imap <C-Right>         <Esc><Plug>(easymotion-lineforward)
-imap <C-Left>          <Esc><Plug>(easymotion-linebackward)
+" imap <C-Right>         <Esc><Plug>(easymotion-lineforward)
+" imap <C-Left>          <Esc><Plug>(easymotion-linebackward)
 imap <C-Up>            <Esc><Plug>(easymotion-k)
 imap <C-Down>          <Esc><Plug>(easymotion-j)
 
@@ -1175,6 +1176,8 @@ omap iq <Plug>(textobj-comment-i)
 xmap aQ <Plug>(textobj-comment-big-a)
 omap aQ <Plug>(textobj-comment-big-a)
 
+" tagets.vin config
+let g:targets_aiAI = 'aIAi' " to ignore whitespaces with 'i' and add them with 'I'
 
 " removed because it conflicts with for(ii=0...)
 onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
