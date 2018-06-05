@@ -677,10 +677,11 @@ let g:EasyOperator_phrase_do_mapping          =   0 " to be able to have fuzzyse
 let g:exchange_no_mappings = 1 " to avoid cx auto mappings
 " let g:exchange_indent = '=='   " to exchange indentation?
 
-nmap e  <Plug>(Exchange)
-xmap e  <Plug>(Exchange)
-nmap ee <Plug>(ExchangeLine)
-nmap ec <Plug>(ExchangeClear)
+nmap e      <Plug>(Exchange)
+xmap e      <Plug>(Exchange)
+nmap ee     <Plug>(ExchangeLine)
+nmap ec     <Plug>(ExchangeClear)
+nmap e<Esc> <Plug>(ExchangeClear)
 
 "
 " EasyClip - Maps
