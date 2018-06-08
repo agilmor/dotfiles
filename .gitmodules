@@ -187,3 +187,24 @@
 [submodule ".vim/bundle/vim-auto-save"]
 	path = .vim/bundle/vim-auto-save
 	url = https://github.com/907th/vim-auto-save.git
+[submodule ".vim/bundle/vim-misc"]
+	path = .vim/bundle/vim-misc
+	url = https://github.com/xolox/vim-misc.git
+[submodule ".vim/bundle/vim-session"]
+	path = .vim/bundle/vim-session
+	url = https://github.com/xolox/vim-session.git
+[submodule ".vim/bundle/vim-textobj-function"]
+	path = .vim/bundle/vim-textobj-function
+	url = https://github.com/kana/vim-textobj-function.git
+[submodule ".vim/bundle/vim-textobj-indent"]
+	path = .vim/bundle/vim-textobj-indent
+	url = https://github.com/kana/vim-textobj-indent.git
+[submodule ".vim/bundle/vim-textobj-lastpat"]
+	path = .vim/bundle/vim-textobj-lastpat
+	url = https://github.com/kana/vim-textobj-lastpat.git
+[submodule ".vim/bundle/vim-textobj-pastedtext"]
+	path = .vim/bundle/vim-textobj-pastedtext
+	url = https://github.com/saaguero/vim-textobj-pastedtext.git
+[submodule ".vim/bundle/vim-textobj-uri"]
+	path = .vim/bundle/vim-textobj-uri
+	url = https://github.com/jceb/vim-textobj-uri.git
