@@ -1892,9 +1892,9 @@ nnoremap _Q   :cnewer<cr>
 " open/close win-diff
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
 nnoremap <silent> wd     :tabnew %<CR>:VCSVimDiff<cr><C-w><Left>]c
-nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff"<cr>
+nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff" -c "tabdo wincmd h"<cr>
 nnoremap <silent> wsd    :! vim -p $(svn st <Bar> grep "M " <Bar> awk '{print $2}') -c "tabdo VCSVimDiff"<cr>
-nnoremap <silent> wdq     <C-w><Right>:q<cr>
+nnoremap <silent> wdq     <C-w><Right>:bd<cr>:wq<cr>
 
 " win-diff commands: status, revert, add, commit
 nnoremap <silent> wds     :VCSStatus .<cr>
@@ -1906,8 +1906,19 @@ nnoremap          wdc     :tabnew .<cr>:VCSCommit<cr>i
 " get-line:
 nnoremap <silent> do     V:diffget<cr>
 nnoremap <silent> dg     :diffget<cr>
-nnoremap          ,d     ]c
-nnoremap          -d     [c
+nnoremap          ,d     [c
+nnoremap          -d     ]c
+
+"
+" Up    : Previous change (up)
+" Down  : Next change (Down)
+" Left  : Restoring original version (also works on line just under the diff)
+" Right : Restoring original version, only 1 line
+"
+nnoremap          wd<Up>    [c
+nnoremap          wd<Down>  ]c
+nnoremap <silent> wd<Right> V:diffget<cr>
+nnoremap <silent> wd<Left>  :diffget<cr>
 
 " nnoremap <silent> swd    :VCSVimDiff<cr><C-w><Left>]c
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
