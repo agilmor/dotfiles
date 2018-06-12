@@ -4,27 +4,32 @@
 [submodule ".vim/bundle/Align"]
 	path = .vim/bundle/Align
 	url = https://github.com/vim-scripts/Align.git
+    ignore = untracked
 [submodule ".vim/bundle/DfrankUtil"]
 	path = .vim/bundle/DfrankUtil
 	url = https://github.com/vim-scripts/DfrankUtil.git
 [submodule ".vim/bundle/OmniCppComplete"]
 	path = .vim/bundle/OmniCppComplete
 	url = https://github.com/vim-scripts/OmniCppComplete.git
+    ignore = untracked
 [submodule ".vim/bundle/YankRing.vim"]
 	path = .vim/bundle/YankRing.vim
 	url = https://github.com/vim-scripts/YankRing.vim.git
 [submodule ".vim/bundle/bufexplorer.zip"]
 	path = .vim/bundle/bufexplorer.zip
 	url = https://github.com/vim-scripts/bufexplorer.zip.git
+    ignore = untracked
 [submodule ".vim/bundle/code_complete"]
 	path = .vim/bundle/code_complete
 	url = https://github.com/mbbill/code_complete.git
 [submodule ".vim/bundle/ctrlp.vim"]
 	path = .vim/bundle/ctrlp.vim
 	url = https://github.com/vim-scripts/ctrlp.vim.git
+    ignore = untracked
 [submodule ".vim/bundle/matchit.zip"]
 	path = .vim/bundle/matchit.zip
 	url = https://github.com/vim-scripts/matchit.zip.git
+    ignore = untracked
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
@@ -43,6 +48,7 @@
 [submodule ".vim/bundle/vcscommand.vim"]
 	path = .vim/bundle/vcscommand.vim
 	url = https://github.com/vim-scripts/vcscommand.vim.git
+    ignore = untracked
 [submodule ".vim/bundle/vim-dispatch"]
 	path = .vim/bundle/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
@@ -58,6 +64,7 @@
 [submodule ".vim/bundle/vimprj"]
 	path = .vim/bundle/vimprj
 	url = https://github.com/vim-scripts/vimprj.git
+    ignore = untracked
 [submodule ".vim/bundle/vitra"]
 	path = .vim/bundle/vitra
 	url = https://github.com/vim-scripts/vitra.git
@@ -97,9 +104,11 @@
 [submodule ".vim/bundle/vim-easyoperator-line"]
 	path = .vim/bundle/vim-easyoperator-line
 	url = https://github.com/haya14busa/vim-easyoperator-line.git
+    ignore = untracked
 [submodule ".vim/bundle/vim-easyoperator-phrase"]
 	path = .vim/bundle/vim-easyoperator-phrase
 	url = https://github.com/haya14busa/vim-easyoperator-phrase.git
+    ignore = untracked
 [submodule ".vim/bundle/vim-easyclip"]
 	path = .vim/bundle/vim-easyclip
 	url = https://github.com/svermeulen/vim-easyclip.git
@@ -121,6 +130,7 @@
 [submodule ".vim/bundle/visualrepeat"]
 	path = .vim/bundle/visualrepeat
 	url = https://github.com/vim-scripts/visualrepeat.git
+    ignore = untracked
 [submodule ".vim/bundle/vim-maximizer"]
 	path = .vim/bundle/vim-maximizer
 	url = https://github.com/szw/vim-maximizer.git
@@ -133,21 +143,26 @@
 [submodule ".vim/bundle/vim-expand-region"]
 	path = .vim/bundle/vim-expand-region
 	url = https://github.com/terryma/vim-expand-region.git
+    ignore = untracked
 [submodule ".vim/bundle/vim-textobj-entire"]
 	path = .vim/bundle/vim-textobj-entire
 	url = https://github.com/kana/vim-textobj-entire.git
+    ignore = untracked
 [submodule ".vim/bundle/vim-textobj-line"]
 	path = .vim/bundle/vim-textobj-line
 	url = https://github.com/kana/vim-textobj-line.git
+    ignore = untracked
 [submodule ".vim/bundle/vim-textobj-user"]
 	path = .vim/bundle/vim-textobj-user
 	url = https://github.com/kana/vim-textobj-user.git
+    ignore = untracked
 [submodule ".vim/bundle/vim-tmux-navigator"]
 	path = .vim/bundle/vim-tmux-navigator
 	url = https://github.com/christoomey/vim-tmux-navigator.git
 [submodule ".vim/bundle/vim-fetch"]
 	path = .vim/bundle/vim-fetch
 	url = https://github.com/kopischke/vim-fetch.git
+    ignore = untracked
 [submodule ".vim/bundle/indentLine"]
 	path = .vim/bundle/indentLine
 	url = https://github.com/Yggdroot/indentLine.git
