@@ -1475,6 +1475,19 @@ nnoremap -b   :bnext<cr>
 nnoremap b,   :bprevious<cr>
 nnoremap b-   :bnext<cr>
 
+let g:bufExplorerDefaultHelp=1              " Show default help.
+let g:bufExplorerDetailedHelp=0             " Do not show detailed help.
+let g:bufExplorerDisableDefaultKeyMapping=0 " Do not disable mapping.
+let g:bufExplorerFindActive=1               " Go to active window.
+let g:bufExplorerReverseSort=0              " Do not sort in reverse order.
+let g:bufExplorerShowDirectories=1          " Show directories.
+let g:bufExplorerShowNoName=0               " Do not 'No Name' buffers.
+let g:bufExplorerShowRelativePath=1         " Show relative paths.
+let g:bufExplorerShowTabBuffer=0            " No.
+let g:bufExplorerShowUnlisted=0             " Do not show unlisted buffers.
+let g:bufExplorerSortBy='mru'               " Sort by most recently used ('extension''fullpath''name''number').
+let g:bufExplorerVertSize=0                 " New split windows size set by Vim.
+
 " indentation lines disabled by default (integrated with Switch decorations)
 let g:indentLine_enabled              = 0
 let g:indentLine_leadingSpaceEnabled  = 0
