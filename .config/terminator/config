@@ -2,13 +2,13 @@
   close_button_on_tab = False
   tab_position = bottom
   inactive_color_offset = 0.49
-  borderless = True
 [keybindings]
   cycle_prev = Disabled
   close_window = Disabled
   group_tab = Disabled
   move_tab_right = Disabled
   resize_left = Disabled
+  broadcast_all = Disabled
   rotate_ccw = Disabled
   reset_clear = Disabled
   go_right = Disabled
@@ -23,13 +23,18 @@
   prev_tab = Disabled
   split_vert = Disabled
   ungroup_all = Disabled
+  broadcast_off = Disabled
   ungroup_tab = Disabled
-  cycle_next = Disabled
+  insert_number = Disabled
+  insert_padded = Disabled
   zoom_out = Disabled
+  broadcast_group = Disabled
   go_prev = Disabled
   close_term = Disabled
   new_terminator = Disabled
+  go_next = Disabled
   go_left = Disabled
+  copy = Disabled
   hide_window = Disabled
   reset = Disabled
   search = Disabled
@@ -40,20 +45,10 @@
   zoom_normal = Disabled
   go_down = Disabled
   new_window = Disabled
+  edit_window_title = Disabled
+  cycle_next = Disabled
   move_tab_left = Disabled
   toggle_scrollbar = Disabled
-  broadcast_all = Disabled
-  broadcast_group = Disabled
-  broadcast_off = Disabled
-  copy = Disabled
-  edit_tab_title = Disabled
-  edit_terminal_title = Disabled
-  edit_window_title = Disabled
-  go_next = Disabled
-  help = Disabled
-  insert_number = Disabled
-  insert_padded = Disabled
-  layout_launcher = Disabled
 [profiles]
   [[default]]
     scrollbar_position = hidden
@@ -66,7 +61,7 @@
     use_custom_command = True
     scroll_on_output = False
     show_titlebar = False
-    font = DejaVu Sans Mono 8
+    font = DejaVu Sans Mono 9
 [layouts]
   [[default]]
     [[[child1]]]
