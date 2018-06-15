@@ -189,6 +189,7 @@ Plugin 'vcscommand.vim'                      " version control git+svn together
 Plugin 'mhinz/vim-signify'                   " decorations for git+svn together
 Plugin 'xolox/vim-misc'                      " needed by vim-session
 Plugin 'xolox/vim-session'                   " save / restore sessions
+Plugin 'tpope/vim-fugitive'                  " version control git
 " Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
 " Plugin 'vim-scripts/ConflictMotions'         " never tried! maybe its a good option!
 " Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
