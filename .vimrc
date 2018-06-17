@@ -1007,6 +1007,7 @@ let g:EasyGrepWindow               = 0       " Use Quickfix (not Location)
 let g:EasyGrepEveryMatch           = 1       " disable multiple matches in same line
 let g:EasyGrepJumpToMatch          = 0       " not autojumping
 let g:EasyGrepReplaceAllPerFile    = 1       " less global replace
+let g:EasyGrepReplaceWindowMode    = 2       " not open tab or splits (autowrite modified file when switching to anothe file)
 
 map gw     <leader>vv
 map g*     <leader>vV
