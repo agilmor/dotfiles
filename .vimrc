@@ -189,6 +189,7 @@ Plugin 'vcscommand.vim'                      " version control git+svn together
 Plugin 'mhinz/vim-signify'                   " decorations for git+svn together
 Plugin 'xolox/vim-misc'                      " needed by vim-session
 Plugin 'xolox/vim-session'                   " save / restore sessions
+Plugin 'tpope/vim-fugitive'                  " version control git
 " Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
 " Plugin 'vim-scripts/ConflictMotions'         " never tried! maybe its a good option!
 " Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
@@ -1006,6 +1007,7 @@ let g:EasyGrepWindow               = 0       " Use Quickfix (not Location)
 let g:EasyGrepEveryMatch           = 1       " disable multiple matches in same line
 let g:EasyGrepJumpToMatch          = 0       " not autojumping
 let g:EasyGrepReplaceAllPerFile    = 1       " less global replace
+let g:EasyGrepReplaceWindowMode    = 2       " not open tab or splits (autowrite modified file when switching to anothe file)
 
 map gw     <leader>vv
 map g*     <leader>vV
