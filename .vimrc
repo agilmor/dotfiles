@@ -26,16 +26,20 @@
 " g(c)w / g(c)* : grep (and change) current word / only current word
 " C(u,s,c,m)    : case naming convention UPPER_STYLE, snake_style, CamelStyle, mixedStyle
 " d<Space>      : remove trailing whitespaces on current line or the visual selected lines (:StripWhitespace)
-" <<Arrows>     : in Visual moves/drags the selection following the arrows (dragvisuals)
+" z<Arrows>     : in Visual moves/drags the selection following the arrows (dragvisuals)
 "
 " Text Objects
 " ------------
 "
-" al/il : whole line, with or without trailing and leading white spaces
-" ae/ie : whole file, with or without trailing and leading empty lines
-" aa/ia : funtion arguments, with or without argument separator to next one (auto-seek)
-" Aa/Ia : funtion arguments, with or without argument separators and whitespaces (auto-seek)
-" a,/i, : elements in a list, with or separators
+" av/iv : a segment of a Variable name in UPPER_STYLE, snake_style, CamelStyle or mixedStyle
+" af/if : a Function (doesn't work in functions inside a class?)
+" aa/ia : funtion Arguments, with or without argument separator (auto-seek and [count]+ai+nN+obj)
+" at/it : object in a <Tag>obj</Tag> (auto-seek and [count]+ai+nN+obj)
+" a,/i, : elements in a list, with or separators (auto-seek and [count]+ai+nN+obj)
+" au/iu : URIs as textobj
+" al/il : whole Line, with or without trailing and leading white spaces
+" ae/ie : Entire file, with or without trailing and leading empty lines
+" ip    : Last pasted as text-obj
 "
 " Semi Text Objects
 " -----------------
@@ -169,7 +173,7 @@ Plugin '907th/vim-auto-save'                 " auto save
 Plugin 'szw/vim-maximizer'                   " :MaximizerToggle works nice
 Plugin 'scrooloose/nerdtree.git'             " file browser (not really useful... ctrlp/unite and wildmode are better?)
 Plugin 'majutsushi/tagbar'                   " outline window (uses its own ctag of current file only)
-Plugin 'mbbill/undotree'                     " visualization of the undotree as a version control (F5 -> :UndotreeToggle)
+Plugin 'mbbill/undotree'                     " visualization of the undotree as a version control
 Plugin 'bufexplorer.zip'                     " visualization of the buffers list
 Plugin 'christoomey/vim-tmux-navigator'      " same keys to move between panes on tmux and vim (only on 'local' vim)
 Plugin 'kopischke/vim-fetch'                 " to open files with :line:col suffix
@@ -183,6 +187,9 @@ Plugin 'dkprice/vim-easygrep'                " to search and replace for the who
 Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
 Plugin 'vcscommand.vim'                      " version control git+svn together
 Plugin 'mhinz/vim-signify'                   " decorations for git+svn together
+Plugin 'xolox/vim-misc'                      " needed by vim-session
+Plugin 'xolox/vim-session'                   " save / restore sessions
+Plugin 'tpope/vim-fugitive'                  " version control git
 " Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
 " Plugin 'vim-scripts/ConflictMotions'         " never tried! maybe its a good option!
 " Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
@@ -225,11 +232,17 @@ Plugin 'ntpeters/vim-better-whitespace'      " visualize and remove (ToggleWhite
 " Text objects
 Plugin 'terryma/vim-expand-region'           " expand mode for visual selection
 Plugin 'kana/vim-textobj-user'               " to create custom text objects
-Plugin 'kana/vim-textobj-line'               " the (l)ine text object
-Plugin 'kana/vim-textobj-entire'             " the (e)ntire file text object
+Plugin 'kana/vim-textobj-line'               " a (l)ine
+Plugin 'kana/vim-textobj-entire'             " a (e)ntire file
+Plugin 'kana/vim-textobj-function'           " a (f)unction
+Plugin 'kana/vim-textobj-indent'             " a group of similar (i)ndented lines
+" Plugin 'kana/vim-textobj-lastpat'            " the obj that matches (n) and (N) searches (last pattern searched)
 Plugin 'wellle/targets.vim'                  " arguments objects and a lot of objects!! also auto seek ()(n)ext and (l)ast text objects
 Plugin 'Julian/vim-textobj-variable-segment' " snake_case, CamelCase, mixedCase and UPPER_CASE segments (iv/av)
 Plugin 'glts/vim-textobj-comment'            " commented text as an object text (ac/ic)
+Plugin 'saaguero/vim-textobj-pastedtext'     " last (ip)asted text becomes a text-obj
+Plugin 'jceb/vim-textobj-uri'                " (u)RIs as textobj
+" Plugin 'deathlyfrantic/vim-textobj-blanklines' " a group of blank lines
 
 " Operators
 Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste operators
@@ -360,7 +373,7 @@ endif
 let g:better_whitespace_enabled = 1
 let g:better_whitespace_verbosity=1
 nmap d<Space> :.StripWhitespace<CR>
-vmap d<Space> :StripWhitespace<CR>
+" vmap d<Space> :StripWhitespace<CR> " removed to faster delete in visual mode
 
 nmap <F8>     :ToggleWhitespace<CR>
 nmap ñ<Space> :ToggleWhitespace<CR>
@@ -665,10 +678,11 @@ let g:EasyOperator_phrase_do_mapping          =   0 " to be able to have fuzzyse
 let g:exchange_no_mappings = 1 " to avoid cx auto mappings
 " let g:exchange_indent = '=='   " to exchange indentation?
 
-nmap e  <Plug>(Exchange)
-xmap e  <Plug>(Exchange)
-nmap ee <Plug>(ExchangeLine)
-nmap ec <Plug>(ExchangeClear)
+nmap e      <Plug>(Exchange)
+xmap e      <Plug>(Exchange)
+nmap ee     <Plug>(ExchangeLine)
+nmap ec     <Plug>(ExchangeClear)
+nmap e<Esc> <Plug>(ExchangeClear)
 
 "
 " EasyClip - Maps
@@ -757,7 +771,7 @@ let g:EasyMotion_startofline      = 0                            " to be able to
 " EasyMotion - Maps
 "
 map  t                 <Plug>(easymotion-bd-t)
-map  f                 <Plug>(easymotion-bd-f)
+map  T                 <Plug>(easymotion-bd-f)
 
 " map  b                 <Plug>(easymotion-bd-w)
 " map  bb                <Plug>(easymotion-bd-w)
@@ -787,8 +801,8 @@ nmap Ok              viwy<Plug>(easymotion-sn)<C-v><cr><Esc><Plug>(easymotion-p
 " nmap *                 viwy<Plug>(easymotion-sn)<C-v><cr><cr>
 " map Oj               viwy<Plug>(easymotion-sn)<C-v><cr><cr>
 
-map  <C-Right>         <Plug>(easymotion-lineforward)
-map  <C-Left>          <Plug>(easymotion-linebackward)
+" map  <C-Right>         <Plug>(easymotion-lineforward)
+" map  <C-Left>          <Plug>(easymotion-linebackward)
 map  <C-Up>            <Plug>(easymotion-k)
 map  <C-Down>          <Plug>(easymotion-j)
 
@@ -797,8 +811,8 @@ omap <Left>            <Plug>(easymotion-linebackward)
 omap <Up>              <Plug>(easymotion-k)
 omap <Down>            <Plug>(easymotion-j)
 
-imap <C-Right>         <Esc><Plug>(easymotion-lineforward)
-imap <C-Left>          <Esc><Plug>(easymotion-linebackward)
+" imap <C-Right>         <Esc><Plug>(easymotion-lineforward)
+" imap <C-Left>          <Esc><Plug>(easymotion-linebackward)
 imap <C-Up>            <Esc><Plug>(easymotion-k)
 imap <C-Down>          <Esc><Plug>(easymotion-j)
 
@@ -838,8 +852,8 @@ vnoremap <<Right>        >gv
 vnoremap <<Left>         <gv
 
 nnoremap <<<Right>       >>
-nnoremap <<<Left>        <<
 nnoremap <<Right><Right> >>
+nnoremap <<<Left>        <<
 nnoremap <<Left><Left>   <<
 
 "
@@ -911,7 +925,7 @@ nmap > <Plug>(LiveEasyAlign)
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                               VimPrj and VCS
+"                                               VimPrj, Sessions and VCS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 let g:signify_disable_by_default = 1 " Use :SignifyToggle
@@ -925,6 +939,14 @@ let g:cpp_header_ext='hpp'                  " each project can define its header
 " Reload .vimprj just after writing it
 "
 autocmd BufWritePost .vimprj source .vimprj
+
+set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize " save everything
+let g:session_directory         = '~/.vim-sessions'                         " to save sessions locally, out of dotfiles
+let g:session_autoload          = 'prompt'                                  " used when starting vim without anyfile
+let g:session_autosave          = 'yes'                                     " is a session is open and vim closes
+let g:session_autosave_periodic = 1                                         " save the session every minute (only if one is open, right?)
+let g:session_autosave_silent   = 0                                         " should be 1, but I still want to see how the plugin works...
+let g:session_command_aliases   = 1                                         " all commands have the alias 'Session*' (useful for <Tab> completion)
 
 "
 " Function to define the default options
@@ -985,6 +1007,7 @@ let g:EasyGrepWindow               = 0       " Use Quickfix (not Location)
 let g:EasyGrepEveryMatch           = 1       " disable multiple matches in same line
 let g:EasyGrepJumpToMatch          = 0       " not autojumping
 let g:EasyGrepReplaceAllPerFile    = 1       " less global replace
+let g:EasyGrepReplaceWindowMode    = 2       " not open tab or splits (autowrite modified file when switching to anothe file)
 
 map gw     <leader>vv
 map g*     <leader>vV
@@ -1165,38 +1188,55 @@ omap iq <Plug>(textobj-comment-i)
 xmap aQ <Plug>(textobj-comment-big-a)
 omap aQ <Plug>(textobj-comment-big-a)
 
+" tagets.vin config
+let g:targets_aiAI = 'aIAi' " to ignore whitespaces with 'i' and add them with 'I'
+let g:targets_nl   = 'nN'   " to be able to use il/al for 'lines'
 
-" removed because it conflicts with for(ii=0...)
-onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
-onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
-vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
-vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
+let g:pastedtext_select_key = 'ip' " using ip instead of gb as last pasted text-obj
 
-function! s:IndTxtObj(inner)
-    let curline = line(".")
-    let lastline = line("$")
-    let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
-    let i = i < 0 ? 0 : i
-    if getline(".") !~ "^\\s*$"
-        let p = line(".") - 1
-        let nextblank = getline(p) =~ "^\\s*$"
-        while p > 0 && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
-            -
-            let p = line(".") - 1
-            let nextblank = getline(p) =~ "^\\s*$"
-        endwhile
-        normal! 0V
-        call cursor(curline, 0)
-        let p = line(".") + 1
-        let nextblank = getline(p) =~ "^\\s*$"
-        while p <= lastline && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
-            +
-            let p = line(".") + 1
-            let nextblank = getline(p) =~ "^\\s*$"
-        endwhile
-        normal! $
-    endif
-endfunction
+" lastpat config:  removed as not used and forces with targets.vim to use (,-) instead of nN
+" let g:textobj_lastpat_no_default_key_mappings = 1
+" xmap aN <Plug>(textobj-lastpat-N)
+" omap aN <Plug>(textobj-lastpat-N)
+" xmap iN <Plug>(textobj-lastpat-N)
+" omap iN <Plug>(textobj-lastpat-N)
+" xmap an <Plug>(textobj-lastpat-n)
+" omap an <Plug>(textobj-lastpat-n)
+" xmap in <Plug>(textobj-lastpat-n)
+" omap in <Plug>(textobj-lastpat-n)
+
+
+" removed because it conflicts with for(ii=0...) -> because using a plugin!
+" onoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR>
+" onoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR>
+" vnoremap <silent>ai :<C-U>cal <SID>IndTxtObj(0)<CR><Esc>gv
+" vnoremap <silent>ii :<C-U>cal <SID>IndTxtObj(1)<CR><Esc>gv
+"
+" function! s:IndTxtObj(inner)
+"     let curline = line(".")
+"     let lastline = line("$")
+"     let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
+"     let i = i < 0 ? 0 : i
+"     if getline(".") !~ "^\\s*$"
+"         let p = line(".") - 1
+"         let nextblank = getline(p) =~ "^\\s*$"
+"         while p > 0 && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+"             -
+"             let p = line(".") - 1
+"             let nextblank = getline(p) =~ "^\\s*$"
+"         endwhile
+"         normal! 0V
+"         call cursor(curline, 0)
+"         let p = line(".") + 1
+"         let nextblank = getline(p) =~ "^\\s*$"
+"         while p <= lastline && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
+"             +
+"             let p = line(".") + 1
+"             let nextblank = getline(p) =~ "^\\s*$"
+"         endwhile
+"         normal! $
+"     endif
+" endfunction
 
 " Depcretaed due targets.vim plugin
 " Motion for "next/last object". For example, "din(" would go to the next "()" pair
@@ -1236,9 +1276,12 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
-" windows save
+" save file with Ctrl-S
 nmap <C-s> :w<CR>
 imap <C-s> <Esc>:w<CR>
+
+" recover a closed splitted window like in a web browser Ctrl+Shift+T
+nmap <C-S-t> :vs<bar>:b#<CR>
 
 "
 " Not moving cursor when leaving insert mode
@@ -1433,6 +1476,19 @@ nnoremap ,b   :bprevious<cr>
 nnoremap -b   :bnext<cr>
 nnoremap b,   :bprevious<cr>
 nnoremap b-   :bnext<cr>
+
+let g:bufExplorerDefaultHelp=1              " Show default help.
+let g:bufExplorerDetailedHelp=0             " Do not show detailed help.
+let g:bufExplorerDisableDefaultKeyMapping=0 " Do not disable mapping.
+let g:bufExplorerFindActive=1               " Go to active window.
+let g:bufExplorerReverseSort=0              " Do not sort in reverse order.
+let g:bufExplorerShowDirectories=1          " Show directories.
+let g:bufExplorerShowNoName=0               " Do not 'No Name' buffers.
+let g:bufExplorerShowRelativePath=1         " Show relative paths.
+let g:bufExplorerShowTabBuffer=0            " No.
+let g:bufExplorerShowUnlisted=0             " Do not show unlisted buffers.
+let g:bufExplorerSortBy='mru'               " Sort by most recently used ('extension''fullpath''name''number').
+let g:bufExplorerVertSize=0                 " New split windows size set by Vim.
 
 " indentation lines disabled by default (integrated with Switch decorations)
 let g:indentLine_enabled              = 0
@@ -1799,9 +1855,13 @@ let g:toggle_list_copen_command   = 'copen'  " ...or keep using :copen to avoid 
 let g:toggle_list_no_mappings     = 1        " to be able to use ',q' (I want MY mappings! ;-)
 
 nnoremap sq   :call ToggleQuickfixList()<cr>
-" nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
+nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
 " nnoremap ,sq  :colder<cr>
 " nnoremap .sq  :cnewer<cr>
+" to remove warings entries
+" info/text lines are kept, but ,q and .q will loop on no-warning entries
+nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
+
 nnoremap ,,q  :cc<cr>
 nnoremap ,q   :cprev<cr>
 nnoremap -q   :cnext<cr>
@@ -1811,10 +1871,6 @@ nnoremap ;Q   :colder<cr>
 nnoremap _Q   :cnewer<cr>
 " nnoremap q,   :cprev<cr>
 " nnoremap q-   :cnext<cr>
-
-" to remove warings entries
-" info/text lines are kept, but ,q and .q will loop on no-warning entries
-nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 
 " this automand is not called...? not sure way...
 " autocmd QuickfixCmdPost make call setqflist(filter(getqflist(), 'v:val.type == "E"'), 'r')
@@ -1851,9 +1907,9 @@ nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 " open/close win-diff
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
 nnoremap <silent> wd     :tabnew %<CR>:VCSVimDiff<cr><C-w><Left>]c
-nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff"<cr>
+nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff" -c "tabdo wincmd h"<cr>
 nnoremap <silent> wsd    :! vim -p $(svn st <Bar> grep "M " <Bar> awk '{print $2}') -c "tabdo VCSVimDiff"<cr>
-nnoremap <silent> wdq     <C-w><Right>:q<cr>
+nnoremap <silent> wdq     <C-w><Right>:bd<cr>:wq<cr>
 
 " win-diff commands: status, revert, add, commit
 nnoremap <silent> wds     :VCSStatus .<cr>
@@ -1865,8 +1921,19 @@ nnoremap          wdc     :tabnew .<cr>:VCSCommit<cr>i
 " get-line:
 nnoremap <silent> do     V:diffget<cr>
 nnoremap <silent> dg     :diffget<cr>
-nnoremap          ,d     ]c
-nnoremap          -d     [c
+nnoremap          ,d     [c
+nnoremap          -d     ]c
+
+"
+" Up    : Previous change (up)
+" Down  : Next change (Down)
+" Left  : Restoring original version (also works on line just under the diff)
+" Right : Restoring original version, only 1 line
+"
+nnoremap          wd<Up>    [c
+nnoremap          wd<Down>  ]c
+nnoremap <silent> wd<Right> V:diffget<cr>
+nnoremap <silent> wd<Left>  :diffget<cr>
 
 " nnoremap <silent> swd    :VCSVimDiff<cr><C-w><Left>]c
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
@@ -1908,11 +1975,11 @@ vnoremap <C-b>           <Esc>:Make<cr>
 " {{{
 
 " Drag visual blocs
-vmap  <expr>  <<left>   DVB_Drag('left')
-vmap  <expr>  <<right>  DVB_Drag('right')
-vmap  <expr>  <<down>   DVB_Drag('down')
-vmap  <expr>  <<up>     DVB_Drag('up')
-vmap  <expr>  <p        DVB_Duplicate()
+vmap  <expr>  z<left>   DVB_Drag('left')
+vmap  <expr>  z<right>  DVB_Drag('right')
+vmap  <expr>  z<down>   DVB_Drag('down')
+vmap  <expr>  z<up>     DVB_Drag('up')
+vmap  <expr>  zp        DVB_Duplicate()
 
 " passwds
 if filereadable(glob('~/.vimrc.pass'))
