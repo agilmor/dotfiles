@@ -20,13 +20,17 @@ cd vim
                                   make -j$jobs install
 cd ..
 
+cd ../.vim/bundle/YouCompleteMe
+./install.py --clang-completer
+cd -
+
 cd libevent
 sh autogen.sh && ./configure --prefix=$install_dir && make -j$jobs install
-cd ..
+cd -
 
 cd tmux
 sh autogen.sh && CFLAGS="-I$HOME/usr/include" LDFLAGS="-L$HOME/usr/lib" ./configure --prefix=$install_dir && make -j$jobs install
-cd ..
+cd -
 
 #go get -u github.com/odeke-em/drive/cmd/drive
 go get -u github.com/ncw/rclone
