@@ -200,6 +200,7 @@ Plugin 'tpope/vim-fugitive'                  " version control git
 Plugin 'Valloric/YouCompleteMe'              " A complete autocomplete plugin (based on compilation databases for clang)
 Plugin 'SirVer/ultisnips'                    " to get snippet feature
 Plugin 'honza/vim-snippets'                  " standard snippets? (my own on .vim/snippets)
+Plugin 'agilmor/delimitMate'                 " better autoclose of pairs (fork to aviod problems with the non-default cursor position when leaving insert mode)
 Plugin 'matchit.zip'                         " improves surroundings with more than simple characters
                                              " maybe we should use 'runtime macros/matchit.vim' instead of a plugin?
 " Plugin 'jiangmiao/auto-pairs'                " (annoying and snippets and surroundings is a better higher level approach) to autoclose pairs
@@ -211,7 +212,6 @@ Plugin 'matchit.zip'                         " improves surroundings with more t
 " Plugin 'ervandew/supertab'                   " (moving to YCM) to complex, homade function is simpler and enough
 " Plugin 'AutoClose'                           " autoclosing the surroundings (not necessary with code_complete?)
                                                " it closes the preview if line 162 (pclose) is not commented
-" Plugin 'Raimondi/delimitMate'                " the expanding with <Return> fails because of the not miving cursor when InsertLeave
 
 " Easy motions
 Plugin 'easymotion/vim-easymotion'           " best motions ever!
@@ -490,17 +490,15 @@ let g:UltiSnipsRemoveSelectModeMappings = 1                           " yes, pri
 
 nmap <Insert> O<F11>
 
-" AutoPairs in insert mode
-let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
-let g:AutoPairsFlyMode            = 0       " to fly several brackets when pressing the closing bracket
-let g:AutoPairsShortcutBackInsert = '<C-l>' " to disable just pressed fly bracket (alternative: <C-v> in imode forces direct input)
-let g:AutoPairsShortcutJump       = '<C-j>' " jump to next closed pair (pressing closing pair in insert also jumps)
-let g:AutoPairsMapBS              = 1       " map <Backspace> to remove in pairs
-let g:AutoPairsMapCh              = 1       " to remove brackets in pairs
-let g:AutoPairsMapCR              = 1       " to map <Return>
-let g:AutoPairsCenterLine         = 1       " center current line after <Return>
-let g:AutoPairsMapSpace           = 1       " to map <Space>
-let g:AutoPairsMultilineClose     = 1       " to change line after closing bracket
+let delimitMate_autoclose            = 1 " basic functionality
+let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
+let delimitMate_expand_space         = 1 " expand with <Space>
+let delimitMate_expand_inside_quotes = 1 " also expand in quotes
+let delimitMate_jump_expansion       = 0 " better use my JumpBracket
+let delimitMate_balance_matchpairs   = 1 " non-sense if autoclose if disabled
+let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
+" au FileType c,cpp,perl let b:delimitMate_eol_marker = ";"       " not smart enought..
+" au FileType c,cpp,perl let b:delimitMate_insert_eol_marker = 1
 
 " Pairs navigation in normal mode
 " nnoremap s( [(
@@ -647,20 +645,23 @@ let g:re = ' >'
 " nmap { %
 " nmap [ %
 
-" au FileType c,cpp,perl let b:delimitMate_eol_marker = ";"
-" au FileType c,cpp,perl let b:delimitMate_insert_eol_marker = 0
-" let delimitMate_autoclose            = 1 " basic functionality
-" let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
-" let delimitMate_expand_space         = 1 " expand with <Space>
-" let delimitMate_expand_inside_quotes = 1 " also expand in quotes
-" let delimitMate_jump_expansion       = 0 "
-" let delimitMate_balance_matchpairs   = 1 " to try to fix missing pairs
-" let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
 
 " vnoremap <Tab>   >gv
 " vnoremap <S-Tab> <gv
 " nnoremap <Tab>   >>
 " nnoremap <S-Tab> <<
+
+" AutoPairs in insert mode
+" let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
+" let g:AutoPairsFlyMode            = 0       " to fly several brackets when pressing the closing bracket
+" let g:AutoPairsShortcutBackInsert = '<C-l>' " to disable just pressed fly bracket (alternative: <C-v> in imode forces direct input)
+" let g:AutoPairsShortcutJump       = '<C-j>' " jump to next closed pair (pressing closing pair in insert also jumps)
+" let g:AutoPairsMapBS              = 1       " map <Backspace> to remove in pairs
+" let g:AutoPairsMapCh              = 1       " to remove brackets in pairs
+" let g:AutoPairsMapCR              = 1       " to map <Return>
+" let g:AutoPairsCenterLine         = 1       " center current line after <Return>
+" let g:AutoPairsMapSpace           = 1       " to map <Space>
+" let g:AutoPairsMultilineClose     = 1       " to change line after closing bracket
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1143,13 +1144,15 @@ nnoremap a<Right>    A
 
 nmap     DD          dd<Up>
 
-nnoremap <Backspace> i<Backspace>
-nnoremap <Space>     i<Space>
-nnoremap <Delete>    i<Delete>
+nmap <Backspace> i<Backspace>
+nmap <Space>     i<Space>
+nmap <Delete>    i<Delete>
+au FileType cpp au BufEnter * :nmap <buffer> <Return> i<Return>
 
-vnoremap <Backspace> <Delete>i
-vnoremap <Space>     <Delete>i<Space>
-vnoremap <Delete>    <Delete>i
+vmap <Backspace> <Delete>i
+vmap <Space>     <Delete>i<Space>
+vmap <Delete>    <Delete>i
+au FileType cpp au BufEnter * :vmap <buffer> <Return> <Delete>i<Return>
 
 nnoremap yx          vy
 nnoremap dx          x
