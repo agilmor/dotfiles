@@ -197,18 +197,18 @@ Plugin 'tpope/vim-fugitive'                  " version control git
 " Plugin 'tracwiki'                            " used by vitra
 
 " Auto completion
-Plugin 'vim-scripts/OmniCppComplete'         " simpler, it uses ctags (not works in auto mode for unscoped vars)
-Plugin 'mbbill/code_complete'                " for arguments and snippets (CodeComplete)
+Plugin 'Valloric/YouCompleteMe'              " A complete autocomplete plugin (based on compilation databases for clang)
 Plugin 'SirVer/ultisnips'                    " to get snippet feature
 Plugin 'honza/vim-snippets'                  " standard snippets? (my own on .vim/snippets)
 Plugin 'matchit.zip'                         " improves surroundings with more than simple characters
                                              " maybe we should use 'runtime macros/matchit.vim' instead of a plugin?
-Plugin 'jiangmiao/auto-pairs'                " to autoclose pairs
-" Plugin 'Valloric/YouCompleteMe'              " too requirements to be build?
+" Plugin 'jiangmiao/auto-pairs'                " (annoying and snippets and surroundings is a better higher level approach) to autoclose pairs
+" Plugin 'vim-scripts/OmniCppComplete'         " (moving to YCM) simpler, it uses ctags (not works in auto mode for unscoped vars)
+" Plugin 'mbbill/code_complete'                " (moving to YCM) for arguments and snippets (CodeComplete)
 " Plugin 'Shougo/neocomplete.vim'              " not semantics -> use clan_complete (see fix in advanced setup)
-" Plugin 'Rip-Rip/clang_complete'              " only works for C/C++... but works great!
-" Plugin 'vim-scripts/AutoComplPop'            " used for unescoped vars (works in automode forunscoped
-" Plugin 'ervandew/supertab'                   " to complex, homade function is simpler and enough
+" Plugin 'Rip-Rip/clang_complete'              " (moving to YCM) only works for C/C++... but works great!
+" Plugin 'vim-scripts/AutoComplPop'            " (moving to YCM) used for unescoped vars (works in automode forunscoped
+" Plugin 'ervandew/supertab'                   " (moving to YCM) to complex, homade function is simpler and enough
 " Plugin 'AutoClose'                           " autoclosing the surroundings (not necessary with code_complete?)
                                                " it closes the preview if line 162 (pclose) is not commented
 " Plugin 'Raimondi/delimitMate'                " the expanding with <Return> fails because of the not miving cursor when InsertLeave
@@ -447,17 +447,48 @@ let g:auto_save_events            = ["CursorHold"]                  " other poss
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
+" YouCompleteMe
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py' " to avoid waring message
+let g:ycm_always_populate_location_list                 = 1                        " to always fill up location list with diagnosis
+let g:ycm_max_num_candidates                            = 50                       " 0 is no limit, but >100 could be bad for performance?
+let g:ycm_min_num_of_chars_for_completion               = 1                        " autocomplete as soon as possible (a big number is a 'disable' of non-semantic completions
+let g:ycm_auto_trigger                                  = 1                        " no need to press any key to receive suggestions
+let g:ycm_filetype_whitelist                            = { '*': 1 }               " always enabled (using also the default 'ycm_filetype_blacklist' and 'ycm_filetype_specific_completion_to_disable'
+let g:ycm_error_symbol                                  = '>'
+let g:ycm_warning_symbol                                = '>'
+let g:ycm_enable_diagnostic_signs                       = 0                        " not adding gutter by default, but falling back into g:syntastic_enable_signs (no syntastic installed!)
+let g:ycm_enable_diagnostic_highlighting                = 1                        " highlight diagnostics (not in gutter)
+let g:ycm_echo_current_diagnostic                       = 1                        " show the diagnostic in the menu
+let g:ycm_open_loclist_on_ycm_diags                     = 1                        " open locationlist after run :YcmDiags
+let g:ycm_complete_in_comments                          = 1                        " yeah! complete also in comments...
+let g:ycm_complete_in_strings                           = 1                        " useful for filenames
+let g:ycm_use_ultisnips_completer                       = 1                        " ultisnips integration
+let g:ycm_goto_buffer_command                           = 'same-buffer'            " open GoTo results in the same buffer ('same-buffer', 'horizontal-split', 'vertical-split', 'new-tab', 'new-or-existing-tab')
+let g:ycm_key_list_select_completion                    = ['<Tab>'  , '<Down>' ]
+let g:ycm_key_list_previous_completion                  = ['<S-Tab>', '<Up>'   ]
+let g:ycm_key_list_stop_completion                      = ['<C-y>'  , '<Return>' ] " Return used to trigger ultisnips... could be nice to used for both?
+let g:ycm_collect_identifiers_from_comments_and_strings = 0                        " too crazy to enable it..
+let g:ycm_collect_identifiers_from_tags_files           = 0                        " maybe is useful to work again with ctags?
+let g:ycm_add_preview_to_completeopt                    = 0                        " preview is too annoying...
+let g:ycm_autoclose_preview_window_after_insertion      = 1                        " ...but at least close it when leaving the insertion mode
+let g:ycm_autoclose_preview_window_after_completion     = 0                        " ...but keep it after completion is done?
+
+" TODO add more mapping for GoTo functions!
+nmap <Leader><Leader> :YcmCompleter FixIt<cr>
+
 " UltiSnips
 set rtp^=~/.vim/snippets/                                             " my own snippets should be preened in runtime paths
 let g:UltiSnipsSnippetsDir              = '~/.vim/snippets/UltiSnips' " my own snippets
 let g:UltiSnipsSnippetDirectories       = ['UltiSnips']               " just the default to be able to use standard packages
 let g:UltiSnipsEnableSnipMate           = 0                           " too many unknown snippets? maybe I should give them a try?
-let g:UltiSnipsExpandTrigger            = "<F10>"                     " to avoid overwriting my Tab completion (but <Tab> is actually the one I'm using!)
+let g:UltiSnipsExpandTrigger            = "<Insert>"                  " <Tab> is used by YCM
 let g:UltiSnipsListSnippets             = "<F11>"                     " to avoid conflicts with CodeComplete... but <S-Tab> is actually the one I'm using!)
 let g:UltiSnipsJumpForwardTrigger       = "<Tab>"
 let g:UltiSnipsJumpBackwardTrigger      = "<S-Tab>"
 let g:UltiSnipsEditSplit                = "vertical"                  " it should be nice if I can do it as svim or sprj....
 let g:UltiSnipsRemoveSelectModeMappings = 1                           " yes, printable characters shouldn't be mapped in select mode...
+
+nmap <Insert> O<F11>
 
 " AutoPairs in insert mode
 let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
@@ -512,7 +543,7 @@ nnoremap ;; A;<Esc>^
 set completeopt=menuone,longest    " preview discarded, menuone to keep as much as possible menu (to read params)
 
 " Automands: select the correct omnifunc
-au BufNewFile,BufRead,BufEnter *.cpp,*.hpp,*.test set omnifunc=omni#cpp#complete#Main
+" au BufNewFile,BufRead,BufEnter *.cpp,*.hpp,*.test set omnifunc=omni#cpp#complete#Main " (moving to YCM)
 
 " OmniCpp Options
 let OmniCpp_NamespaceSearch     = 1
@@ -545,55 +576,56 @@ let g:re = ' >'
 "   - Snippets if none of the above
 "   - Normal complete if no snippets
 "
-xnoremap <Tab>   :call UltiSnips#SaveLastVisualSelection()<CR>gvs
-inoremap <Tab>   <C-r>=TabComplete()<CR>
-nmap     <Tab>   i<C-r>=TabComplete()<CR>
-nmap     <S-Tab> :call UltiSnips#ListSnippets()<CR>
+" Moving to YCM
+" xnoremap <Tab>   :call UltiSnips#SaveLastVisualSelection()<CR>gvs
+" inoremap <Tab>   <C-r>=TabComplete()<CR>
+" nmap     <Tab>   i<C-r>=TabComplete()<CR>
+" nmap     <S-Tab> :call UltiSnips#ListSnippets()<CR>
 
 " * <Esc>:call UltiSnips#ListSnippets()<CR>
 
 " Functions
-function! TabComplete()
-
-    let line = getline('.')                       " current line
-    let substr = strpart(line, -1, col('.'))      " from the start of the current
-    " line to one character right
-    " of the cursor
-    "  return substr
-    let substr = matchstr(substr, "[^ \t]*$")     " word till cursor
-    if (strlen(substr)==0)                        " nothing to match on empty string
-        return "\<tab>"
-    endif
-    let has_word   = strlen(substr)      !=  0
-    let has_period = match(substr, '\.') != -1    " position of period, if any
-    let has_arrow  = match(substr, '->') != -1    " position of arrow, if any
-    let has_slash  = match(substr, '\/') != -1    " position of slash, if any
-    let has_parent = match(substr, '(')  != -1    " position of open parenthesis, if any
-    if (has_word)
-        if     ( has_slash )
-            return "\<C-X>\<C-F>"                 " file completion
-        elseif ( has_period || has_arrow )
-            return "\<C-X>\<C-O>"                 " omni-complete
-        elseif ( has_parent )
-"             return g:completekey         " arguments completion (not working?)
-"             let code_comp = CodeComplete() . "\<C-r>=".SwitchRegion()
-"             let code_comp = CodeComplete() . SwitchRegion()
-            let code_comp = CodeComplete()
-            return code_comp
-        else
-            let g:ulti_expand_or_jump_res = 0
-            call UltiSnips#ExpandSnippetOrJump()
-            if ( g:ulti_expand_or_jump_res == 0 )
-"                 return "\<C-X>\<C-P>"                 " existing text completion
-                return "\<C-P>"                  " existing text completion (not using <c-x> to be able to use spell completion when spell is enabled)
-            else
-                return ""                           " if not a character is added to the the snipet?
-            endif
-        endif
-    else
-        return "\<tab>"                           " no-completion, just a tab
-    endif
-endfunction
+" function! TabComplete()
+"
+"     let line = getline('.')                       " current line
+"     let substr = strpart(line, -1, col('.'))      " from the start of the current
+"     " line to one character right
+"     " of the cursor
+"     "  return substr
+"     let substr = matchstr(substr, "[^ \t]*$")     " word till cursor
+"     if (strlen(substr)==0)                        " nothing to match on empty string
+"         return "\<tab>"
+"     endif
+"     let has_word   = strlen(substr)      !=  0
+"     let has_period = match(substr, '\.') != -1    " position of period, if any
+"     let has_arrow  = match(substr, '->') != -1    " position of arrow, if any
+"     let has_slash  = match(substr, '\/') != -1    " position of slash, if any
+"     let has_parent = match(substr, '(')  != -1    " position of open parenthesis, if any
+"     if (has_word)
+"         if     ( has_slash )
+"             return "\<C-X>\<C-F>"                 " file completion
+"         elseif ( has_period || has_arrow )
+"             return "\<C-X>\<C-O>"                 " omni-complete
+"         elseif ( has_parent )
+" "             return g:completekey         " arguments completion (not working?)
+" "             let code_comp = CodeComplete() . "\<C-r>=".SwitchRegion()
+" "             let code_comp = CodeComplete() . SwitchRegion()
+"             let code_comp = CodeComplete()
+"             return code_comp
+"         else
+"             let g:ulti_expand_or_jump_res = 0
+"             call UltiSnips#ExpandSnippetOrJump()
+"             if ( g:ulti_expand_or_jump_res == 0 )
+" "                 return "\<C-X>\<C-P>"                 " existing text completion
+"                 return "\<C-P>"                  " existing text completion (not using <c-x> to be able to use spell completion when spell is enabled)
+"             else
+"                 return ""                           " if not a character is added to the the snipet?
+"             endif
+"         endif
+"     else
+"         return "\<tab>"                           " no-completion, just a tab
+"     endif
+" endfunction
 
 "
 " Deprecated
@@ -1428,8 +1460,8 @@ let g:maximizer_restore_on_winleave = 1     " to autorestore if moving out of wi
 
 nnoremap ww :MaximizerToggle!<CR>
 vnoremap ww :MaximizerToggle!<CR>gv
-nnoremap we :MaximizerToggle!<CR>
-vnoremap we :MaximizerToggle!<CR>gv
+" nnoremap we :MaximizerToggle!<CR>
+" vnoremap we :MaximizerToggle!<CR>gv
 
 nnoremap wt          <C-w>T
 vnoremap wt          <C-w>Tgv
@@ -1574,6 +1606,7 @@ function! SwitchDecorations()
 "         let g:better_whitespace_enabled = 0
         exe "SignifyToggleHighlight"
         exe "SignifyDisable"
+        let g:ycm_enable_diagnostic_signs = 0 " it doesn't update?
         let g:mydecoration=0
     else
         set list
@@ -1584,6 +1617,7 @@ function! SwitchDecorations()
         exe "EnableWhitespace"
         exe "SignifyToggleHighlight"
         exe "SignifyEnable"
+        let g:ycm_enable_diagnostic_signs = 1 " it doesn't update?
         let g:mydecoration=1
     endif
 endfunction
