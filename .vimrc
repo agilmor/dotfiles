@@ -1326,6 +1326,14 @@ au InsertEnter  * let CursorColumnI = col('.')                                  
 au CursorMovedI * let CursorColumnI = col('.')                                      " leaving the insert mode
 au InsertLeave  * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif "
 
+" leave insert mode after a couple of secconds
+au CursorHoldI * stopinsert
+au InsertEnter * let updaterestore=&updatetime | set updatetime=3000
+au InsertLeave * let &updatetime=updaterestore
+
+" to reduce the return of normal mode faster
+set timeoutlen=1000 ttimeoutlen=0
+
 " sudo write (never used!? I should use it more!)
 cmap W!! w !sudo tee % >/dev/null
 
@@ -1597,7 +1605,7 @@ nmap <silent> wj :call DoWindowJoin()<CR>
 
 "here is a more exotic version of my original Kwbd script
 "delete the buffer; keep windows; create a scratch buffer if no buffers left
-function s:Kwbd(kwbdStage)
+function! s:Kwbd(kwbdStage)
   if(a:kwbdStage == 1)
     if(!buflisted(winbufnr(0)))
       bd!
