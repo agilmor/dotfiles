@@ -36,6 +36,7 @@
 " aa/ia : funtion Arguments, with or without argument separator (auto-seek and [count]+ai+nN+obj)
 " at/it : object in a <Tag>obj</Tag> (auto-seek and [count]+ai+nN+obj)
 " a,/i, : elements in a list, with or separators (auto-seek and [count]+ai+nN+obj)
+" aq/iq : a comment segment
 " au/iu : URIs as textobj
 " al/il : whole Line, with or without trailing and leading white spaces
 " ae/ie : Entire file, with or without trailing and leading empty lines
@@ -711,11 +712,11 @@ let g:EasyOperator_phrase_do_mapping          =   0 " to be able to have fuzzyse
 let g:exchange_no_mappings = 1 " to avoid cx auto mappings
 " let g:exchange_indent = '=='   " to exchange indentation?
 
-nmap e      <Plug>(Exchange)
-xmap e      <Plug>(Exchange)
-nmap ee     <Plug>(ExchangeLine)
-nmap ec     <Plug>(ExchangeClear)
-nmap e<Esc> <Plug>(ExchangeClear)
+nmap e  <Plug>(Exchange)
+xmap e  <Plug>(Exchange)
+nmap ee <Plug>(ExchangeLine)
+nmap ec <Plug>(ExchangeClear)
+nmap eq <Plug>(ExchangeClear)
 
 "
 " EasyClip - Maps
