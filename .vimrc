@@ -264,6 +264,7 @@ Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (<+<a
 
 " File plugins
 Plugin 'ekalinin/Dockerfile.vim'             " dockerfile syntax
+Plugin 'martinda/Jenkinsfile-vim-syntax'     " jenkinsfile syntax
 " Plugin 'rhysd/open-pdf.vim'                  " pdfs (not very useful, but...)
 
 call vundle#end()                            " required
