@@ -1,22 +1,12 @@
 #!/bin/bash
+#
+# Generic bashrc to be sourced from main .bashrc
+#
 
-# Colored prompt
 
-if [ -z "$DOCKER" ] && [ -z "$SINGULARITY_NAME" ]; then
-    if [ "$UID" == 0 ]; then
-        _PS1='\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]>> '
-    else
-        _PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]>> '
-    fi
-else
-    _PS1='\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]>> '
-fi
-
-export PS1=$_PS1 # see git prompt below
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+#
+# Enable bash completion
+#
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -25,20 +15,28 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# to change caps lock
-#xmodmap ~/.xmodmap
-
-# -ixon -ixoff: remove XON/OFF to release Ctrl-s and Ctrl-q
-# -ctlecho:     to remove echo of Ctrl-c (^C)
+#
+# stty
+#
+# -ixon -ixoff: to remove XON/OFF to release Ctrl-s and Ctrl-q
+# -ctlecho    : to remove echo of Ctrl-c (^C)
+#
 if [ -t 0 ]; then # If not running interactively, don't do anything
     stty -ixon -ixoff -ctlecho
 fi
 
-# vman instead of man
-vman() {
-vim -c "Man $*" -c "silent only" -c "nmap q :q!<cr>"
+#
+# Using vim to read man pages (vman command)
+# Use vman command insted of normal man
+#
+vman()
+{
+    vim -c "Man $*" -c "silent only" -c "nmap q :q!<cr>"
 }
 
+#
+# Add paths of the home sdk
+#
 os_codename=`lsb_release -a 2>/dev/null | grep Codename | awk '{print $2}'`
 export PATH=$HOME/usr-$os_codename/bin:$PATH
 export GOPATH=$HOME/usr-$os_codename
@@ -52,8 +50,12 @@ alias la='ls -lha'
 alias eduroam='sudo wpa_supplicant -Dwext -iwlp2s0 -c /home/agil/.cat_installer/cat_installer.conf'
 
 #
-# Git Prompt
-# from http://blog.deadlypenguin.com/blog/2013/10/24/adding-git-status-to-bash/
+# Colored Prompt Command
+#
+# Git - from http://blog.deadlypenguin.com/blog/2013/10/24/adding-git-status-to-bash/
+# Venv
+# return code
+# colors based on userid and docker or singularity
 #
 
 export ENABLE_PROMPT_GIT=1  # set it to 0 in the terminal to disable the git prompt
@@ -77,10 +79,9 @@ cyan='\e[0;36m'
 CYAN='\e[1;36m'
 NC='\e[0m'              # No Color
 
-
 # Taken from http://www.opinionatedprogrammer.com/2011/01/colorful-bash-prompt-reflecting-git-status/
-function _git_prompt() {
-
+function _git_prompt()
+{
   if [[ "$ENABLE_PROMPT_GIT" == 1 ]]; then
       local git_status="`git status -unormal 2>&1`"
       if ! [[ "$git_status" =~ ot\ a\ git\ repo ]]; then
@@ -103,7 +104,9 @@ function _git_prompt() {
       fi
   fi
 }
-function _virtualenv_prompt() {
+
+function _virtualenv_prompt()
+{
   if [[ "$ENABLE_PROMPT_VENV" == 1 ]]; then
     if [[ $VIRTUAL_ENV ]] ; then
         BASE_VENV=`basename $VIRTUAL_ENV`
@@ -112,7 +115,8 @@ function _virtualenv_prompt() {
   fi
 }
 
-function report_status() {
+function report_errcode()
+{
   if [[ "$ENABLE_PROMPT_ERR" == 1 ]]; then
      RET_CODE=$?
      COLOR=$NC
@@ -123,14 +127,30 @@ function report_status() {
  fi
 }
 
-# export PS2="\[$NC\]> "
-export PROMPT_COMMAND='_status=$(report_status);export PS1="${_status}$(_virtualenv_prompt)$(_git_prompt)${_PS1}";unset _status;'
+function report_location()
+{
+    if [ -z "$DOCKER" ] && [ -z "$SINGULARITY_NAME" ]; then
+        if [ "$UID" == 0 ]; then
+            echo -ne "\[$RED\]\u@\h\[$NC\]:\[$BLUE\]\w\[$NC\]"
+        else
+            echo -ne "\[$GREEN\]\u@\h\[$NC\]:\[$BLUE\]\w\[$NC\]"
+        fi
+    else
+        echo -ne "\[$YELLOW\]\u@\h\[$NC\]:\[$MAGENTA\]\w\[$NC\]"
+    fi
 
+}
+
+# export PS2="\[$NC\]> "
+export _PS1=">> "
+export  PS1=$_PS1
+export PROMPT_COMMAND='_errcode=$(report_errcode);export PS1="${_errcode}$(_virtualenv_prompt)$(_git_prompt)$(report_location)${_PS1}";unset _errcode;'
 
 #
 # Rclone helpers
 #
-rclone-pull() {
+rclone-pull()
+{
     rclone_filter="";
     local_path=`realpath "./${1}"`
     rclone_path="${local_path}"
@@ -174,7 +194,8 @@ rclone-pull() {
     fi;
 }
 
-rclone-push() {
+rclone-push()
+{
     rclone_filter="";
     local_path=`realpath "./${1}"`
     rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
@@ -204,7 +225,8 @@ rclone-push() {
     fi;
 }
 
-rclone-status() {
+rclone-status()
+{
     rclone_filter="";
     local_path=`realpath "./${1}"`
     rclone_remote=`echo ${PWD/#$HOME/} | cut -d "/" -f2`;
