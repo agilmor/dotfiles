@@ -255,12 +255,18 @@ Plugin 'kopischke/vim-fetch'                 " to open files with :line:col suff
 Plugin 'vim-scripts/DfrankUtil'              " needed by vimprj
 Plugin 'vim-scripts/vimprj'                  " .vimprj directory is source
 Plugin 'dkprice/vim-easygrep'                " to search and replace for the whole project
-Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
+" Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
+Plugin 'romainl/vim-qf'                      " improving quickfix list: toggle, :Keep :Reject
+Plugin 'yssl/QFEnter'                        " improving quickfix list: selecting where the results are open
 Plugin 'vcscommand.vim'                      " version control git+svn together
 Plugin 'mhinz/vim-signify'                   " decorations for git+svn together
 Plugin 'xolox/vim-misc'                      " needed by vim-session
 Plugin 'xolox/vim-session'                   " save / restore sessions
 Plugin 'tpope/vim-fugitive'                  " version control git
+
+Plugin 'Shougo/vimproc.vim'                  " dependency for vim-vebugger
+Plugin 'idanarye/vim-vebugger'               " GDB integration
+
 " Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
 " Plugin 'vim-scripts/ConflictMotions'         " never tried! maybe its a good option!
 " Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
@@ -478,7 +484,7 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "
 nmap <F7> :AutoSaveToggle<CR>
 nmap ñs   :AutoSaveToggle<CR>
-let g:auto_save                   = 0                               " enable AutoSave on Vim startup
+let g:auto_save                   = 1                               " enable AutoSave on Vim startup
 let g:auto_save_silent            = 0                               " display the auto-save notification
 let g:auto_save_write_all_buffers = 1                               " write all open buffers as if you would use :wa
 " let g:auto_save_postsave_hook     = 'TagsGenerate'                  " this will run :TagsGenerate after each save
@@ -1257,11 +1263,11 @@ endfunction
 " z<left/right> : normal selection
 
 " z and expand
-nmap     z     v
-nmap     Z     V
-nnoremap <C-z> <C-v>
-map      zz    <Plug>(expand_region_expand)
-map      ZZ    <Plug>(expand_region_shrink)
+" nmap     z     v
+" nmap     Z     V
+" nnoremap <C-z> <C-v>
+" map      zz    <Plug>(expand_region_expand)
+" map      ZZ    <Plug>(expand_region_shrink)
 
 let g:expand_region_use_select_mode = 0 " 1: Select mode 0: Visual mode
 
@@ -1429,6 +1435,12 @@ noremap    <F6>       :source ~/.vimrc<cr>
 
 " move between brackets
 nmap  b   %
+
+"
+" autoreload files
+"
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 " spell (see dictionary) (disabled as not used)
 " nnoremap sa z=
@@ -2065,12 +2077,34 @@ endfunction
 " forcing quickfix to be full width
 au FileType qf   wincmd J
 
-" let g:toggle_list_copen_command = 'Copen'    " to use Copen instead of copen when toggling...
-let g:toggle_list_copen_command   = 'copen'  " ...or keep using :copen to avoid overwriting :grep results
-let g:toggle_list_no_mappings     = 1        " to be able to use ',q' (I want MY mappings! ;-)
+" let g:qf_statusline = {}
+" let g:qf_statusline.before = '%<\ '
+" let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
+let g:qf_auto_open_quickfix = 1
+let g:qf_window_bottom      = 1  " quickfix at the bottom
+let g:qf_auto_quit          = 1  " when qf is the last window
+let g:qf_save_win_view      = 1  " Save the view of the current window when toggling location/quickfix window.
+let g:qf_nowrap             = 1  " no wrapping in qf
+let g:qf_auto_resize        = 0  " no resizing less than qf size
+let g:qf_mapping_ack_style  = 1  " s - open entry in a new horizontal window
+                                 " v - open entry in a new vertical window
+                                 " t - open entry in a new tab
+                                 " o - open entry and come back
+                                 " O - open entry and close the location/quickfix window
+                                 " p - open entry in a preview window
 
-nnoremap sq   :call ToggleQuickfixList()<cr>
-nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
+let g:qfenter_keymap = {}
+let g:qfenter_keymap.open  = ['<CR>', '<2-LeftMouse>']
+let g:qfenter_keymap.vopen = ['<Space>']
+let g:qfenter_keymap.hopen = ['<Leader><CR>']
+let g:qfenter_keymap.topen = ['<Leader><Tab>']
+
+" let g:toggle_list_copen_command = 'Copen'    " to use Copen instead of copen when toggling...
+" let g:toggle_list_copen_command   = 'copen'  " ...or keep using :copen to avoid overwriting :grep results
+" let g:toggle_list_no_mappings     = 1        " to be able to use ',q' (I want MY mappings! ;-)
+"
+" nnoremap sq   :call ToggleQuickfixList()<cr>
+" nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
 " nnoremap ,sq  :colder<cr>
 " nnoremap .sq  :cnewer<cr>
 " to remove warings entries
@@ -2094,12 +2128,16 @@ nnoremap sq<PageDown> :10cnext<cr>
 nnoremap sq<Left>     :colder<cr>
 nnoremap sq<Right>    :cnewer<cr>
 
-nnoremap z<Up>       :cprev<cr>
+" nnoremap z<Up>       :cprev<cr>
+nmap     z<Up>       <Plug>(qf_qf_previous)
 nnoremap z<PageUp>   :10cprev<cr>
-nnoremap z<Down>     :cnext<cr>
+" nnoremap z<Down>     :cnext<cr>
+nnoremap z<Down>     <Plug>(qf_qf_next)
 nnoremap z<PageDown> :10cnext<cr>
 nnoremap z<Left>     :colder<cr>
 nnoremap z<Right>    :cnewer<cr>
+
+nmap zz <Plug>(qf_qf_toggle)
 
 " this automand is not called...? not sure way...
 " autocmd QuickfixCmdPost make call setqflist(filter(getqflist(), 'v:val.type == "E"'), 'r')
