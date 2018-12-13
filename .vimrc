@@ -68,8 +68,72 @@
 " ; : special previous
 " _ : special next
 "
-" Browsing
-" --------
+" Project
+" -------
+"
+" vim --servername sessionname : to open a saved session (vim-session)
+"
+" Browsing (s)
+" ------------
+"
+" - sh           : see header
+" - st           : see test
+" - sq           : see quickfixlist
+" - sqq          : see quickfixlist
+" - sq<Up>       : see prev line in the quickfixlist
+" - sq<Down>     : see next line in the quickfixlist
+" - sq<PageUp>   : see prev quickfixlist
+" - sq<PageDown> : see next quickfixlist
+" -  z<Up>       : see prev line in the quickfixlist
+" -  z<Down>     : see next line in the quickfixlist
+" -  z<PageUp>   : see prev quickfixlist
+" -  z<PageDown> : see next quickfixlist
+" - sqe          : see quickfixlist filtering only errors
+"
+" - se           : see exploring window (NerdTree)
+" - so           : see outline (ctag)
+" - sr           : see registers
+" - sm           : see marks
+" - sc           : see changes
+" - sj           : see jumps
+" - sy           : see yanks
+" - su           : see undo-tree
+"
+" - s<Up>        : see prev jump
+" - s<Down>      : see next jump
+" - s<Left>      : see prev change
+" - s<Right>     : see next change
+"
+" - sb           : see buffers (list)
+" - sab          : see buffers (open all)
+"
+" - sf           : see file
+" - svf          : see file (vertical split)
+" - stf          : see file (tab split)
+"
+" - swm          : see windom marks
+"
+" - sss          : lists symbol occurrences to quicklist (cscope)
+" - ss<Left>     : lists symbol occurrences to quicklist (cscope)
+" - ssg          : goes to symbol definition (global) (cscope)
+" - ss<Right>    : goes to symbol definition (global) (cscope)
+" - ssc          : lists who calls this function to quicklist (cscope)
+" - ss<Up>       : lists who calls this function to quicklist (cscope)
+" - ssd          : lists function called by me to quicklist (cscope)
+" - ss<Down>     : lists function called by me to quicklist (cscope)
+" - ssi          : lists files including this to quicklist (cscope)
+" - ssh          : lists files including this to quicklist (cscope)
+" - ss<PageUp>   : lists files including this to quicklist (cscope)
+" - sst          : lists text occurrences to quicklist (cscope)
+" - ss<PageDown> : lists text occurrences to quicklist (cscope)
+" - ssf          : lists file occurrences to quicklist (cscope)
+"
+" - s<RePag> : go to begin of file
+" - s<AvPag> : go to the end of file
+"
+" - svim : see ~/.vimrc
+" - sprj : see $PWD/.vimprj
+"
 " - FO : fold open all
 " - FC : fold close all
 " - FF : fold toogle current
@@ -86,6 +150,12 @@
 " - F7 / ñs       : toggle autosave            (AutoSaveToggle)
 " - F8 / ñ<Space> : toggle whitestaces         (ToggleWhitespace)
 " - F10/11        : to disable default maps of UltiSnips (ExpandTrigger / ListSnippets)
+"
+" More
+" ----
+"
+" - [Visual Select Column]+ : Increment selected column
+" - [Visual Select Column]- : Decrement selected column
 "
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -185,12 +255,18 @@ Plugin 'kopischke/vim-fetch'                 " to open files with :line:col suff
 Plugin 'vim-scripts/DfrankUtil'              " needed by vimprj
 Plugin 'vim-scripts/vimprj'                  " .vimprj directory is source
 Plugin 'dkprice/vim-easygrep'                " to search and replace for the whole project
-Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
+" Plugin 'milkypostman/vim-togglelist'         " toggle quickfix list (see ToggleQuickfixList) (ql with Copen for disapth)
+Plugin 'romainl/vim-qf'                      " improving quickfix list: toggle, :Keep :Reject
+Plugin 'yssl/QFEnter'                        " improving quickfix list: selecting where the results are open
 Plugin 'vcscommand.vim'                      " version control git+svn together
 Plugin 'mhinz/vim-signify'                   " decorations for git+svn together
 Plugin 'xolox/vim-misc'                      " needed by vim-session
 Plugin 'xolox/vim-session'                   " save / restore sessions
 Plugin 'tpope/vim-fugitive'                  " version control git
+
+Plugin 'Shougo/vimproc.vim'                  " dependency for vim-vebugger
+Plugin 'idanarye/vim-vebugger'               " GDB integration
+
 " Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
 " Plugin 'vim-scripts/ConflictMotions'         " never tried! maybe its a good option!
 " Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
@@ -408,7 +484,7 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "
 nmap <F7> :AutoSaveToggle<CR>
 nmap ñs   :AutoSaveToggle<CR>
-let g:auto_save                   = 0                               " enable AutoSave on Vim startup
+let g:auto_save                   = 1                               " enable AutoSave on Vim startup
 let g:auto_save_silent            = 0                               " display the auto-save notification
 let g:auto_save_write_all_buffers = 1                               " write all open buffers as if you would use :wa
 " let g:auto_save_postsave_hook     = 'TagsGenerate'                  " this will run :TagsGenerate after each save
@@ -1149,12 +1225,18 @@ nmap     DD          dd<Up>
 nmap <Backspace> i<Backspace>
 nmap <Space>     i<Space>
 nmap <Delete>    i<Delete>
-au FileType cpp au BufEnter * :nmap <buffer> <Return> i<Return>
+" au FileType cpp au BufEnter * :nmap     <buffer> <Return> i<Return>
+" au FileType cpp au BufEnter * :nmap     <Return> i<Return>
+" au FileType cpp au BufLeave * :nunmap   <Return>
+" au FileType cpp au BufLeave * :nunmap <buffer> <Return>
 
 vmap <Backspace> <Delete>i
 vmap <Space>     <Delete>i<Space>
 vmap <Delete>    <Delete>i
-au FileType cpp au BufEnter * :vmap <buffer> <Return> <Delete>i<Return>
+" au FileType cpp au BufEnter * :vmap   <buffer> <Return> <Delete>i<Return>
+" au FileType cpp au BufEnter * :vmap     <Return> <Delete>i<Return>
+" au FileType cpp au BufLeave * :vunmap   <Return>
+" au FileType cpp au BufLeave * :vunmap <buffer> <Return>
 
 nnoremap yx          vy
 nnoremap dx          x
@@ -1181,11 +1263,11 @@ endfunction
 " z<left/right> : normal selection
 
 " z and expand
-nmap     z     v
-nmap     Z     V
-nnoremap <C-z> <C-v>
-map      zz    <Plug>(expand_region_expand)
-map      ZZ    <Plug>(expand_region_shrink)
+" nmap     z     v
+" nmap     Z     V
+" nnoremap <C-z> <C-v>
+" map      zz    <Plug>(expand_region_expand)
+" map      ZZ    <Plug>(expand_region_shrink)
 
 let g:expand_region_use_select_mode = 0 " 1: Select mode 0: Visual mode
 
@@ -1329,12 +1411,17 @@ au CursorMovedI * let CursorColumnI = col('.')                                  
 au InsertLeave  * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif "
 
 " leave insert mode after a couple of secconds
-au CursorHoldI * stopinsert
-au InsertEnter * let updaterestore=&updatetime | set updatetime=3000
-au InsertLeave * let &updatetime=updaterestore
+" au CursorHoldI * stopinsert
+" au InsertEnter * let updaterestore=&updatetime | set updatetime=3000
+" au InsertLeave * let &updatetime=updaterestore
 
 " to reduce the return of normal mode faster
 set timeoutlen=1000 ttimeoutlen=0
+
+" for column incrementing
+set nrformats=bin,octal,hex,alpha
+vmap + g<C-a>
+vmap - g<C-x>
 
 " sudo write (never used!? I should use it more!)
 cmap W!! w !sudo tee % >/dev/null
@@ -1349,10 +1436,16 @@ noremap    <F6>       :source ~/.vimrc<cr>
 " move between brackets
 nmap  b   %
 
-" spell (see dictionary)
-nnoremap sa z=
-nnoremap ,a [s
-nnoremap -a ]s
+"
+" autoreload files
+"
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+
+" spell (see dictionary) (disabled as not used)
+" nnoremap sa z=
+" nnoremap ,a [s
+" nnoremap -a ]s
 
 "
 " ge
@@ -1811,6 +1904,11 @@ noremap  sc   :changes<cr>
 noremap  ,c   g;
 noremap  -c   g,
 
+nnoremap s<Up>    <C-o>
+nnoremap s<Down>  <C-i>
+nnoremap s<Left>  g;
+nnoremap s<Right> g,
+
 " marks
 nnoremap  sm   :SignatureListMarks<cr>
 nmap      swm  :SignatureToggleSigns<cr>
@@ -1824,7 +1922,7 @@ nnoremap  mm   'M
 nnoremap se   :NERDTreeToggle<cr>
 
 " vimproj and vimrc
-noremap  sp   :wincmd l<CR>:e .vimprj<cr>
+" noremap  sp   :wincmd l<CR>:e .vimprj<cr>
 noremap  sprj :wincmd l<CR>:e .vimprj<cr>
 noremap  svim :wincmd l<CR>:e ~/.vimrc<cr>
 
@@ -1878,7 +1976,7 @@ nnoremap so   :TagbarToggle<cr>
 
 " cscope
 " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-" set cscopetag
+set cscopetag
 
 " check cscope for definition of a symbol before checking ctags: set to 1
 " if you want the reverse search order.
@@ -1896,16 +1994,32 @@ nmap lf :cs find f  <C-R>=expand("<cfile>")<CR><CR>sq
 nmap li :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>sq
 nmap ld :cs find d  <C-R>=expand("<cword>")<CR><CR>sq
 
-" tags/links
-noremap    sl         :tjump /<C-r><C-w><cr>
-noremap    sll        <C-]>
-noremap    swl        :vert :stjump /<C-r><C-w><cr>
-noremap    swll       :vsplit<cr><C-]>
+nmap sss          :cs find s  <C-R>=expand("<cword>")<CR><CR>
+nmap ss<Left>     :cs find s  <C-R>=expand("<cword>")<CR><CR>
+nmap ssg          :cs find g  <C-R>=expand("<cword>")<CR><CR>
+nmap ss<Right>    :cs find g  <C-R>=expand("<cword>")<CR><CR>
+nmap ssc          :cs find c  <C-R>=expand("<cword>")<CR><CR>
+nmap ss<Up>       :cs find c  <C-R>=expand("<cword>")<CR><CR>
+nmap ssd          :cs find d  <C-R>=expand("<cword>")<CR><CR>
+nmap ss<Down>     :cs find d  <C-R>=expand("<cword>")<CR><CR>
+nmap ssi          :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap ssh          :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap ss<PageUp>   :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap sst          :cs find t  <C-R>=expand("<cword>")<CR><CR>
+nmap ss<PageDown> :cs find t  <C-R>=expand("<cword>")<CR><CR>
+nmap sse          :cs find e  <C-R>=expand("<cword>")<CR><CR>
+nmap ssf          :cs find f  <C-R>=expand("<cfile>")<CR><CR>
+
+" tags/links (moved to cscope)
+" noremap    sl         :tjump /<C-r><C-w><cr>
+" noremap    sll        <C-]>
+" noremap    swl        :vert :stjump /<C-r><C-w><cr>
+" noremap    swll       :vsplit<cr><C-]>
 "noremap    stt        g<C-]>
-noremap    ,l         :tprev<cr>
-noremap    -l         :tnext<cr>
-noremap    l           <C-]>
-noremap    ll          <C-]>
+" noremap    ,l         :tprev<cr>
+" noremap    -l         :tnext<cr>
+" noremap    l           <C-]>
+" noremap    ll          <C-]>
 
 " show in preview (list option if necessary)
 noremap    lp          <C-w>g}
@@ -1963,12 +2077,34 @@ endfunction
 " forcing quickfix to be full width
 au FileType qf   wincmd J
 
-" let g:toggle_list_copen_command = 'Copen'    " to use Copen instead of copen when toggling...
-let g:toggle_list_copen_command   = 'copen'  " ...or keep using :copen to avoid overwriting :grep results
-let g:toggle_list_no_mappings     = 1        " to be able to use ',q' (I want MY mappings! ;-)
+" let g:qf_statusline = {}
+" let g:qf_statusline.before = '%<\ '
+" let g:qf_statusline.after = '\ %f%=%l\/%-6L\ \ \ \ \ '
+let g:qf_auto_open_quickfix = 1
+let g:qf_window_bottom      = 1  " quickfix at the bottom
+let g:qf_auto_quit          = 1  " when qf is the last window
+let g:qf_save_win_view      = 1  " Save the view of the current window when toggling location/quickfix window.
+let g:qf_nowrap             = 1  " no wrapping in qf
+let g:qf_auto_resize        = 0  " no resizing less than qf size
+let g:qf_mapping_ack_style  = 1  " s - open entry in a new horizontal window
+                                 " v - open entry in a new vertical window
+                                 " t - open entry in a new tab
+                                 " o - open entry and come back
+                                 " O - open entry and close the location/quickfix window
+                                 " p - open entry in a preview window
 
-nnoremap sq   :call ToggleQuickfixList()<cr>
-nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
+let g:qfenter_keymap = {}
+let g:qfenter_keymap.open  = ['<CR>', '<2-LeftMouse>']
+let g:qfenter_keymap.vopen = ['<Space>']
+let g:qfenter_keymap.hopen = ['<Leader><CR>']
+let g:qfenter_keymap.topen = ['<Leader><Tab>']
+
+" let g:toggle_list_copen_command = 'Copen'    " to use Copen instead of copen when toggling...
+" let g:toggle_list_copen_command   = 'copen'  " ...or keep using :copen to avoid overwriting :grep results
+" let g:toggle_list_no_mappings     = 1        " to be able to use ',q' (I want MY mappings! ;-)
+"
+" nnoremap sq   :call ToggleQuickfixList()<cr>
+" nnoremap sqq  :call ToggleQuickfixList()<cr><C-w><Down>
 " nnoremap ,sq  :colder<cr>
 " nnoremap .sq  :cnewer<cr>
 " to remove warings entries
@@ -1984,6 +2120,24 @@ nnoremap ;Q   :colder<cr>
 nnoremap _Q   :cnewer<cr>
 " nnoremap q,   :cprev<cr>
 " nnoremap q-   :cnext<cr>
+
+nnoremap sq<Up>       :cprev<cr>
+nnoremap sq<PageUp>   :10cprev<cr>
+nnoremap sq<Down>     :cnext<cr>
+nnoremap sq<PageDown> :10cnext<cr>
+nnoremap sq<Left>     :colder<cr>
+nnoremap sq<Right>    :cnewer<cr>
+
+" nnoremap z<Up>       :cprev<cr>
+nmap     z<Up>       <Plug>(qf_qf_previous)
+nnoremap z<PageUp>   :10cprev<cr>
+" nnoremap z<Down>     :cnext<cr>
+nnoremap z<Down>     <Plug>(qf_qf_next)
+nnoremap z<PageDown> :10cnext<cr>
+nnoremap z<Left>     :colder<cr>
+nnoremap z<Right>    :cnewer<cr>
+
+nmap zz <Plug>(qf_qf_toggle)
 
 " this automand is not called...? not sure way...
 " autocmd QuickfixCmdPost make call setqflist(filter(getqflist(), 'v:val.type == "E"'), 'r')
