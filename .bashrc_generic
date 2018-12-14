@@ -257,23 +257,71 @@ rclone-status()
 #
 tmux-slurm()
 {
-	if [ "$1" == "" ]; then
-		echo "Please specify the version as argument."
+    if [ "$1" == "" ] && [ "$SLURM_SETUP_VER" == "" ]; then
+        echo "Please specify the version as argument."
         return 1
-	fi
+    fi
 
-	version=$1
-    tmuxinator start slurm -n slurm-$version $version
+    if [ "$SLURM_SETUP_VER" == "" ] || [ "$1" != "" ]; then
+        export SLURM_SETUP_VER=$1
+    fi
+
+    tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
+    tmux set-environment SLURM_SETUP_VER $SLURM_SETUP_VER
+    tmux attach -t slurm-$SLURM_SETUP_VER
 }
 
 tmux-slurm-run()
 {
-	if [ "$1" == "" ]; then
-		echo "Please specify the version as argument."
-		return 1
-	fi
+    if [ "$1" == "" ] && [ "$SLURM_SETUP_VER" == "" ]; then
+        echo "Please specify the version as argument."
+        return 1
+    fi
 
-	version=$1
-	tmux new-session -t "slurm-$version" -s slurm-$version-run || tmux attach -t slurm-$version-run
+    if [ "$SLURM_SETUP_VER" == "" ] || [ "$1" != "" ]; then
+        export SLURM_SETUP_VER=$1
+    fi
+
+	tmux new-session -t "slurm-$SLURM_SETUP_VER" -s slurm-$SLURM_SETUP_VER-run || tmux attach -t slurm-$SLURM_SETUP_VER-run
 }
 
+#
+# Slurm helpers
+#
+# ToDo: Use EnvModules?
+#
+slurm-setup()
+{
+    if [ "$1" == "" ] && [ "$SLURM_SETUP_VER" == "" ]; then
+        echo "Please specify the version as argument."
+        return 1
+    fi
+
+    if [ "$SLURM_SETUP_VER" == "" ] || [ "$1" != "" ]; then
+        export SLURM_SETUP_VER=$1
+    fi
+
+    dirname=~agil/workspace/slurm/$SLURM_SETUP_VER
+    # echo $dirname
+
+    export SLURM_LOCAL_DIR=${dirname}/local
+    export SLURM_BUILD_DIR=${dirname}/build
+    export SLURM_SLURM_DIR=${dirname}/slurm
+
+    export SLURM_LOCAL_GLOBALS_FILE=${SLURM_LOCAL_DIR}/etc/globals.local
+
+    export    PATH=${SLURM_LOCAL_DIR}/bin:$PATH
+    export    PATH=${SLURM_LOCAL_DIR}/sbin:$PATH
+    export MANPATH=${SLURM_LOCAL_DIR}/share/man:$MANPATH
+
+
+    mkdir -p ${SLURM_LOCAL_DIR}/var/log
+    mkdir -p ${SLURM_LOCAL_DIR}/var/run
+    mkdir -p ${SLURM_LOCAL_DIR}/var/spool
+    mkdir -p ${SLURM_LOCAL_DIR}/tmp
+}
+
+
+if [ "$SLURM_SETUP_VER" != "" ]; then
+    slurm-setup
+fi
