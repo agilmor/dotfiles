@@ -34,7 +34,7 @@ attach: false
 
 windows:
   - dev:
-      layout: even-vertical
+      layout: main-horizontal
       panes:
         - vim:
           - cd ~/workspace/slurm/<%= @args[0] %>/slurm
