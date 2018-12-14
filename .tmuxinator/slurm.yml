@@ -1,0 +1,86 @@
+# ~/.tmuxinator/slurm.yml
+
+name: slurm
+root: ~/workspace/slurm/<%= @args[0] %>
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: 18.08-dev
+
+# Specitifes (by index) which pane of the specified window will be selected on project startup. If not set, the first pane is used.
+# startup_pane: 1
+
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t local
+
+windows:
+  - dev:
+      layout: even-vertical
+      panes:
+        - vim:
+          - cd ~/workspace/slurm/<%= @args[0] %>/slurm
+          - source ../setup
+          - vim --servername slurm-<%= @args[0] %>
+        - git:
+          - cd ~/workspace/slurm/<%= @args[0] %>/slurm
+          - source ../setup
+          - git status
+  - run:
+      layout: a959,274x81,0,0[274x2,0,0,11,274x31,0,3{137x31,0,3,12,136x31,138,3,18},274x31,0,35{68x31,0,35,14,68x31,69,35,17,68x31,138,35,15,67x31,207,35,16},274x14,0,67,13]
+      panes:
+        - cmd:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - source setup
+        - dbd:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - source setup
+          - slurmdbd -Dvvv
+        - ctld:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - source setup
+          - sleep 3
+          - slurmctld -Dvvv
+        - c1:
+          - sudo -i
+          - cd /home/agil/workspace/slurm/<%= @args[0] %>
+          - source setup
+          - sleep 5
+          - slurmd -DvvvN c1
+        - c2:
+          - sudo -i
+          - cd /home/agil/workspace/slurm/<%= @args[0] %>
+          - source setup
+          - sleep 5
+          - slurmd -DvvvN c2
+        - c3:
+          - sudo -i
+          - cd /home/agil/workspace/slurm/<%= @args[0] %>
+          - source setup
+          - sleep 5
+          - slurmd -DvvvN c3
+        - c4:
+          - sudo -i
+          - cd /home/agil/workspace/slurm/<%= @args[0] %>
+          - source setup
+          - sleep 5
+          - slurmd -DvvvN c4
+        - cmd:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - source setup

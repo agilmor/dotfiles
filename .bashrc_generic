@@ -252,3 +252,28 @@ rclone-status()
     rclone           check  "${local_path}"   "${rclone_remote}:${rclone_path}"  --ignore-size --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2};
 }
 
+#
+# Tmux(inator) helper
+#
+tmux-slurm()
+{
+	if [ "$1" == "" ]; then
+		echo "Please specify the version as argument."
+        return 1
+	fi
+
+	version=$1
+    tmuxinator start slurm -n slurm-$version $version
+}
+
+tmux-slurm-run()
+{
+	if [ "$1" == "" ]; then
+		echo "Please specify the version as argument."
+		return 1
+	fi
+
+	version=$1
+	tmux new-session -t "slurm-$version" -s slurm-$version-run || tmux attach -t slurm-$version-run
+}
+
