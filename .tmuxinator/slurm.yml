@@ -8,6 +8,7 @@ root: ~/workspace/slurm/<%= @args[0] %>
 
 # Runs before everything. Use it to start daemons etc.
 # pre: sudo /etc/rc.d/mysqld start
+# pre: export SLURM_SETUP_VER=<%= @args[0] %>
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247
@@ -17,6 +18,7 @@ root: ~/workspace/slurm/<%= @args[0] %>
 
 # Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
 # tmux_command: byobu
+# tmux_command: SLURM_SETUP_VER=<%= @args[0] %> tmux
 
 # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
 # startup_window: 18.08-dev
@@ -25,7 +27,7 @@ root: ~/workspace/slurm/<%= @args[0] %>
 # startup_pane: 1
 
 # Controls whether the tmux session should be attached to automatically. Defaults to true.
-# attach: false
+attach: false
 
 # Runs after everything. Use it to attach to tmux with custom options etc.
 # post: tmux -CC attach -t local
@@ -36,51 +38,58 @@ windows:
       panes:
         - vim:
           - cd ~/workspace/slurm/<%= @args[0] %>/slurm
-          - source ../setup
+          - slurm-setup <%= @args[0] %>
           - vim --servername slurm-<%= @args[0] %>
         - git:
           - cd ~/workspace/slurm/<%= @args[0] %>/slurm
-          - source ../setup
+          - slurm-setup <%= @args[0] %>
           - git status
   - run:
-      layout: a959,274x81,0,0[274x2,0,0,11,274x31,0,3{137x31,0,3,12,136x31,138,3,18},274x31,0,35{68x31,0,35,14,68x31,69,35,17,68x31,138,35,15,67x31,207,35,16},274x14,0,67,13]
+      layout: 3d15,274x81,0,0[274x14,0,0,129,274x15,0,15{68x15,0,15,131,68x15,69,15,138,68x15,138,15,132,67x15,207,15,139},274x24,0,31{137x24,0,31,133,136x24,138,31,135},274x25,0,56{137x25,0,56,137,136x25,138,56,140}]
       panes:
-        - cmd:
+        - admin:
           - cd ~/workspace/slurm/<%= @args[0] %>
-          - source setup
-        - dbd:
-          - cd ~/workspace/slurm/<%= @args[0] %>
-          - source setup
-          - slurmdbd -Dvvv
-        - ctld:
-          - cd ~/workspace/slurm/<%= @args[0] %>
-          - source setup
-          - sleep 3
-          - slurmctld -Dvvv
+          - slurm-setup <%= @args[0] %>
         - c1:
           - sudo -i
           - cd /home/agil/workspace/slurm/<%= @args[0] %>
-          - source setup
+          - slurm-setup <%= @args[0] %>
           - sleep 5
           - slurmd -DvvvN c1
         - c2:
           - sudo -i
           - cd /home/agil/workspace/slurm/<%= @args[0] %>
-          - source setup
+          - slurm-setup <%= @args[0] %>
           - sleep 5
           - slurmd -DvvvN c2
         - c3:
           - sudo -i
           - cd /home/agil/workspace/slurm/<%= @args[0] %>
-          - source setup
+          - slurm-setup <%= @args[0] %>
           - sleep 5
           - slurmd -DvvvN c3
         - c4:
           - sudo -i
           - cd /home/agil/workspace/slurm/<%= @args[0] %>
-          - source setup
+          - slurm-setup <%= @args[0] %>
           - sleep 5
           - slurmd -DvvvN c4
-        - cmd:
+        - dbd:
           - cd ~/workspace/slurm/<%= @args[0] %>
-          - source setup
+          - slurm-setup <%= @args[0] %>
+          - slurmdbd -Dvvv
+        - ctld:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - slurm-setup <%= @args[0] %>
+          - sleep 3
+          - slurmctld -Dvvv
+        - user:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - slurm-setup <%= @args[0] %>
+          - sleep 5
+          - sinfo
+        - monitor:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - slurm-setup <%= @args[0] %>
+          - sleep 5
+          - smap -i 2
