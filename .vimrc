@@ -914,8 +914,10 @@ nmap Ok              viwy<Plug>(easymotion-sn)<C-v><cr><Esc><Plug>(easymotion-p
 
 " map  <C-Right>         <Plug>(easymotion-lineforward)
 " map  <C-Left>          <Plug>(easymotion-linebackward)
-map  <C-Up>            <Plug>(easymotion-k)
-map  <C-Down>          <Plug>(easymotion-j)
+" map  <C-Up>            <Plug>(easymotion-k)
+" map  <C-Down>          <Plug>(easymotion-j)
+noremap  <C-Up>        <C-y>
+noremap  <C-Down>      <C-e>
 
 omap <Right>           <Plug>(easymotion-lineforward)
 omap <Left>            <Plug>(easymotion-linebackward)
@@ -2132,7 +2134,7 @@ nnoremap sq<Right>    :cnewer<cr>
 nmap     z<Up>       <Plug>(qf_qf_previous)
 nnoremap z<PageUp>   :10cprev<cr>
 " nnoremap z<Down>     :cnext<cr>
-nnoremap z<Down>     <Plug>(qf_qf_next)
+nmap     z<Down>     <Plug>(qf_qf_next)
 nnoremap z<PageDown> :10cnext<cr>
 nnoremap z<Left>     :colder<cr>
 nnoremap z<Right>    :cnewer<cr>
