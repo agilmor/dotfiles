@@ -38,6 +38,9 @@ vman()
 # Add paths of the home sdk
 #
 os_codename=`lsb_release -a 2>/dev/null | grep Codename | awk '{print $2}'`
+if [ "${os_codename}" ==  "" ]; then
+    os_codename=`cat /etc/fedora-release | awk '{print $1$3}'`
+fi
 export PATH=$HOME/usr-$os_codename/bin:$PATH
 export GOPATH=$HOME/usr-$os_codename
 
