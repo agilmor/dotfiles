@@ -851,7 +851,7 @@
     </keybind>
     <keybind key="W-KP_4">
       <action name="MoveResizeTo">
-        <width client="no">50%</width>
+        <width client="no">60%</width>
         <height client="no">50%</height>
         <y>-0</y>
         <x>0</x>
@@ -861,7 +861,7 @@
     </keybind>
     <keybind key="W-KP_5">
       <action name="MoveResizeTo">
-        <width client="no">50%</width>
+        <width client="no">40%</width>
         <height client="no">50%</height>
         <y>-0</y>
         <x>-0</x>
@@ -882,7 +882,7 @@
     </keybind>
     <keybind key="W-KP_7">
       <action name="MoveResizeTo">
-        <width client="no">50%</width>
+        <width client="no">60%</width>
         <height client="no">50%</height>
         <y>0</y>
         <x>0</x>
@@ -892,7 +892,7 @@
     </keybind>
     <keybind key="W-KP_8">
         <action name="MoveResizeTo">
-            <width client="no">50%</width>
+            <width client="no">40%</width>
             <height client="no">50%</height>
             <y>0</y>
             <x>-0</x>
