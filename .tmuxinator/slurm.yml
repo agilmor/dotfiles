@@ -50,6 +50,7 @@ windows:
         - admin:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
+          - vim --servername slurm-<%= @args[0] %>-conf
         - c1:
           - sudo -i
           - cd /home/agil/workspace/slurm/<%= @args[0] %>
