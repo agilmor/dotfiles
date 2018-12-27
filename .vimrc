@@ -175,6 +175,7 @@ set incsearch                      " show first match while typing the pattern
 set mouse=a                        " use mouse
 set ttymouse=sgr                   " to be able to use mouse on vim borders when vim is run over tmux
 set nowrap                         " avoid wrapping
+set diffopt+=vertical              " to force vertical difffs by default
 set virtualedit=onemore            " really go to EOL (see "Cursor Position" to avoid moving left when leaving insert mode)
 set splitright                     " vsplit on right
 set splitbelow                     " split below
