@@ -37,6 +37,7 @@ windows:
       layout: main-horizontal
       panes:
         - vim:
+          - tmux link-window -s notes:notes -t slurm-<%= @args[0] %>
           - cd ~/workspace/slurm/<%= @args[0] %>/slurm
           - slurm-setup <%= @args[0] %>
           - vim --servername slurm-<%= @args[0] %>
