@@ -473,7 +473,15 @@ let g:tcommentOptions      = {'col': 1}  " line comments on the first column
 "
 " NERDTree
 "
+let g:NERDTreeCaseSensitiveSort=0       " don't use case to sort
+let g:NERDTreeChDirMode=0               " never change CWD
+let g:NERDTreeHighlightCursorline=1     " to highlight the current cursor line
 let g:NERDTreeHijackNetrw=0             " to avoid conflicts between VCSStatus and NeerdTree
+let g:NERDTreeQuitOnOpen=1              " quit after open a file
+let g:NERDTreeShowHidden=1              " show hidden files by default
+let g:NERDTreeShowLineNumbers=0         " don't show lines
+let g:NERDTreeWinPos="left"             " show files explorer at the left
+let g:NERDTreeWinSize=31                " window size
 
 "
 " Signature
