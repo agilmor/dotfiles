@@ -61,9 +61,10 @@ alias eduroam='sudo wpa_supplicant -Dwext -iwlp2s0 -c /home/agil/.cat_installer/
 # colors based on userid and docker or singularity
 #
 
-export ENABLE_PROMPT_GIT=1  # set it to 0 in the terminal to disable the git prompt
-export ENABLE_PROMPT_ERR=1  # set it to 0 in the terminal to disable the return code error prompt
-export ENABLE_PROMPT_VENV=1 # set it to 0 in the terminal to disable the venv prompt
+export ENABLE_PROMPT_GIT=1   # set it to 0 in the terminal to disable the git prompt
+export ENABLE_PROMPT_ERR=1   # set it to 0 in the terminal to disable the return code error prompt
+export ENABLE_PROMPT_VENV=1  # set it to 0 in the terminal to disable the venv prompt
+export ENABLE_PROMPT_SLURM=1 # set it to 0 in the terminal to disable the slurm prompt
 
 #
 # Define some colors first: Capitals denote bold
@@ -117,6 +118,16 @@ function _virtualenv_prompt()
     fi
   fi
 }
+
+function _slurm_prompt()
+{
+    if [[ "$ENABLE_PROMPT_SLURM" == 1 ]]; then
+        if [[ $SLURM_SETUP_VER ]] ; then
+            echo -ne "{\[$CYAN\]$SLURM_SETUP_VER\[$NC\]} "
+        fi
+    fi
+}
+
 
 function report_errcode()
 {
@@ -267,7 +278,7 @@ tmux-slurm()
     fi
 
     tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
-    tmux set-environment SLURM_SETUP_VER $SLURM_SETUP_VER
+    tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER
     tmux attach -t slurm-$SLURM_SETUP_VER
 }
 
