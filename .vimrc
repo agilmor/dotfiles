@@ -336,6 +336,7 @@ Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
 
 " Extras
 Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (<+<arrows>)
+Plugin 'szw/vim-g'                           " :Google (gs)
 " Plugin 'm42e/vim-gcov-marker'                " test coverage
 " Plugin 'vim-scripts/gcov.vim'                " test coverage
 
@@ -1457,6 +1458,8 @@ autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. B
 " nnoremap sa z=
 " nnoremap ,a [s
 " nnoremap -a ]s
+
+map gs :Google<cr>
 
 "
 " ge
