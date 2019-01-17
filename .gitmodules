@@ -244,3 +244,6 @@
 [submodule ".vim/bundle/QFEnter"]
 	path = .vim/bundle/QFEnter
 	url = https://github.com/yssl/QFEnter.git
+[submodule ".tmux/plugins/tmux-open"]
+	path = .tmux/plugins/tmux-open
+	url = https://github.com/tmux-plugins/tmux-open
