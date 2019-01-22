@@ -238,7 +238,6 @@ Plugin 'tpope/vim-dispatch.git'              " background/async builds (how to u
 Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easy-clip)
 Plugin 'vim-scripts/visualrepeat'            " used by easy-align
 Plugin '907th/vim-auto-save'                 " auto save
-" Plugin 'tmux-plugins/vim-tmux-focus-events'  " it fires some error...?
 " Plugin 'AsyncCommand'                        " background/async builds (needs vim --servername)
 
 " Browsing
@@ -302,8 +301,9 @@ Plugin 'haya14busa/incsearch-fuzzy.vim'      " fuzzy motion
 " Window decorations
 Plugin 'kshenoy/vim-signature'               " to visualize marks (smm)
 Plugin 'Yggdroot/indentLine'                 " to visualize indentation lines (wl)
-Plugin 'blueyed/vim-diminactive'             " to dim the inactive window
 Plugin 'ntpeters/vim-better-whitespace'      " visualize and remove (ToggleWhitespace and StripWhitespace) trailing whitespace
+Plugin 'tmux-plugins/vim-tmux-focus-events'  " to be able to have FocusLost and FocusGained in terminal (on tmux with set-g focus-event on) (it fires some errors?)
+" Plugin 'blueyed/vim-diminactive'             " to dim the inactive window
 " Plugin 'nathanaelkane/vim-indent-guides'     " visualize vertical indent lines (Yggdroot/indentLine seems better?)
 " Plugin 'bling/vim-airline'                   " too fancy for me? I'll give it a second chance in a while...
 
@@ -394,6 +394,7 @@ if &t_Co > 2 || has("gui_running")
 
     set term=xterm-256color                                 " must be also set in tmux!
     set t_ut=''                                             " avoid conflict in with BackgroundColorErase tmux (does it force bg color?)
+    set fillchars+=vert:\                                   " avoid the | character on vertical split bars
     colorscheme ron                                         " other alternatives I liked: koehler delek
     highlight clear Search                                  " Search: matched results
     highlight Search term=reverse cterm=reverse gui=reverse
@@ -420,17 +421,22 @@ if &t_Co > 2 || has("gui_running")
     highlight DiffText        cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
     highlight ExtraWhitespace ctermbg=Red
 
+    " Status: White for non-focus, Green for focus, Red when inserting.
     au InsertEnter * hi StatusLine  term=reverse ctermbg=Black ctermfg=Red
     au InsertEnter * hi VertSplit   term=reverse ctermbg=Black ctermfg=Red
     au InsertEnter * hi TabLineFill term=reverse ctermbg=Black ctermfg=Red
     au InsertEnter * hi TabLineSel  term=reverse ctermbg=Black ctermfg=Red
     au InsertEnter * hi Title       term=reverse ctermbg=Black ctermfg=Red
-    au InsertLeave * hi StatusLine  term=reverse ctermbg=Black ctermfg=White
+    au InsertLeave * hi StatusLine  term=reverse ctermbg=Black ctermfg=Green
     au InsertLeave * hi VertSplit   term=reverse ctermbg=Black ctermfg=White
     au InsertLeave * hi TabLineFill term=reverse ctermbg=Black ctermfg=White
     au InsertLeave * hi TabLineSel  term=reverse ctermbg=Black ctermfg=White
     au InsertLeave * hi Title       term=reverse ctermbg=Black ctermfg=White
 
+    au BufEnter    * hi StatusLine  term=reverse ctermbg=Black ctermfg=Green
+    au BufLeave    * hi StatusLine  term=reverse ctermbg=Black ctermfg=White
+    au FocusGained * hi StatusLine  term=reverse ctermbg=Black ctermfg=Green
+    au FocusLost   * hi StatusLine  term=reverse ctermbg=Black ctermfg=White
 
     hi link EasyMotionTarget        EasyMotionIncSearchDefault
 "    hi link EasyMotionShade         Comment
