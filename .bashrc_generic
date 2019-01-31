@@ -298,6 +298,24 @@ tmux-slurm-run()
 	tmux new-session -t "slurm-$SLURM_SETUP_VER" -s slurm-$SLURM_SETUP_VER-run || tmux attach -t slurm-$SLURM_SETUP_VER-run
 }
 
+tmux-slurm-bug()
+{
+    bug=$1
+    tmux new-window -n "$bug" -c $SLURM_SLURM_DIR -a -t "run"
+    tmux swap-window -t -1
+    tmux split-window
+    tmux split-window
+    tmux split-window
+    tmux select-layout "7e02,274x81,0,0{161x81,0,0[161x71,0,0,56,161x9,0,72,79],112x81,162,0[112x18,162,0,77,112x62,162,19,78]}"
+    tmux select-pane -t 1
+    # tmux send-keys -t 1 "vim --servername bug-$bug" Enter
+    tmux send-keys -t 1 "vim NEWS" Enter ":OpenSession bug-$bug" Tab Enter
+    tmux send-keys -t 2 "git status" Enter
+    tmux send-keys -t 3 "smap -i2" Enter
+    tmux send-keys -t 4 "sinfo" Enter
+    tmux send-keys -t 4 "sinfo" Enter
+}
+
 #
 # Slurm helpers
 #
