@@ -68,12 +68,12 @@ windows:
   - cgroups:
       layout: even-horizontal
       panes:
-        - tasks:
+        - admin:
           - sudo -i
           - cd
-          - echo 4G > /sys/fs/cgroup/memory/chrome/agil/memory.limit_in_bytes
+          - killall cgrulesengd
+          - cgrulesengd
+          - echo 6G > /sys/fs/cgroup/memory/chrome/agil/memory.limit_in_bytes
         - echo:
-          - sudo su
-          - cd
-          - watch -n 10 --no-title "cat /sys/fs/cgroup/memory/chrome/agil/tasks | wc -l; cat /sys/fs/cgroup/memory/chrome/agil/memory.limit_in_bytes; cat /sys/fs/cgroup/memory/chrome/agil/memory.usage_in_bytes"
+          - watch -n 10 --no-title $HOME/.dotfiles/cgroups/monitor-cgroups.sh
 
