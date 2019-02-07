@@ -266,6 +266,16 @@ rclone-status()
 #
 # Tmux(inator) helper
 #
+tmux-gpi-monitor()
+{
+    autossh agil@imatge.upc.edu -t "ssh root@s1 -t tmux attach -t monitor"
+}
+
+tmux-gpi-mail()
+{
+    autossh agil@imatge.upc.edu -t "DISPLAY=:1067 tmux attach -t mail"
+}
+
 tmux-slurm()
 {
     if [ "$1" == "" ] && [ "$SLURM_SETUP_VER" == "" ]; then
