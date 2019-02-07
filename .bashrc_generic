@@ -264,6 +264,60 @@ rclone-status()
 }
 
 #
+# Scan helpers
+#
+scan-tiff()
+{
+    if [ "$1" == "" ]; then
+        echo "Please specfy the filename of the tiff file (without extension)"
+        return 1
+    fi
+
+    scanimage --format tiff -p --mode Gray --resolution 300 > $1.tiff
+}
+
+scan-tiff2pdf()
+{
+    if [ "$3" == "" ]; then
+        echo "Usage: $0 lang output.pdf file-01.tiff file-02.tiff... (lang: spa, cat, eng..)"
+        return 1
+    fi
+
+    lang=$1
+    outfile=$2
+
+    echo "lang    =" $lang
+    echo "outfile =" $outfile
+    shift
+    shift
+    pdfs=()
+    for file in $*; do
+        echo OCR+PDF on $file...
+
+        basename=`echo "$file" | cut -d'.' -f1`
+        extension=`echo "$file" | cut -d'.' -f2`
+#         echo filename = $basename
+#         echo extension = $extension
+
+        tesseract -psm 1 -l $lang $file $basename pdf
+
+        pdf=$basename.pdf
+        echo pdf  = $pdf
+        pdfs+=($pdf)
+        echo pdfs = ${pdfs[@]}
+    done
+
+#     for pdf in ${pdfs[@]}; do
+#         echo $pdf
+#     done
+
+    echo Generating $outfile from ${pdfs[@]}
+    pdftk ${pdfs[@]} cat output $outfile
+
+    acroread $outfile
+}
+
+#
 # Tmux(inator) helper
 #
 tmux-gpi-monitor()
