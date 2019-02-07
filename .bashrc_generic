@@ -313,9 +313,9 @@ tmux-slurm-bug()
     bug=$1
     tmux new-window -n "$bug" -c $SLURM_SLURM_DIR -a -t "run"
     tmux swap-window -t -1
-    tmux split-window
-    tmux split-window
-    tmux split-window
+    tmux split-window -c $SLURM_SLURM_DIR
+    tmux split-window -c $SLURM_SLURM_DIR
+    tmux split-window -c $SLURM_SLURM_DIR
     tmux select-layout "7e02,274x81,0,0{161x81,0,0[161x71,0,0,56,161x9,0,72,79],112x81,162,0[112x18,162,0,77,112x62,162,19,78]}"
     tmux select-pane -t 1
     # tmux send-keys -t 1 "vim --servername bug-$bug" Enter
