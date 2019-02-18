@@ -46,12 +46,35 @@ windows:
           - slurm-setup <%= @args[0] %>
           - git status
   - run:
-      layout: 3d15,274x81,0,0[274x14,0,0,129,274x15,0,15{68x15,0,15,131,68x15,69,15,138,68x15,138,15,132,67x15,207,15,139},274x24,0,31{137x24,0,31,133,136x24,138,31,135},274x25,0,56{137x25,0,56,137,136x25,138,56,140}]
+      layout: b0e7,274x81,0,0{137x81,0,0[137x63,0,0,17,137x17,0,64,25],136x81,138,0[136x18,138,0{85x18,138,0,26,50x18,224,0,105},136x22,138,19,23,136x21,138,42,24,136x8,138,64{68x8,138,64,19,67x8,207,64,21},136x8,138,73{68x8,138,73,20,67x8,207,73,22}]}
       panes:
-        - admin:
+        - conf:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
           - vim --servername slurm-<%= @args[0] %>-conf
+        - user:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - slurm-setup <%= @args[0] %>
+          - ll local/etc/
+        - smap:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - slurm-setup <%= @args[0] %>
+          - sleep 5
+          - smap -i 2
+        - sinfo:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - slurm-setup <%= @args[0] %>
+          - sleep 5
+          - sinfo -i 5
+        - dbd:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - slurm-setup <%= @args[0] %>
+          - slurmdbd -Dvvv
+        - ctld:
+          - cd ~/workspace/slurm/<%= @args[0] %>
+          - slurm-setup <%= @args[0] %>
+          - sleep 3
+          - slurmctld -Dvvv
         - c1:
           - sudo -i
           - cd /home/agil/workspace/slurm/<%= @args[0] %>
@@ -76,22 +99,3 @@ windows:
           - slurm-setup <%= @args[0] %>
           - sleep 5
           - slurmd -DvvvN c4
-        - dbd:
-          - cd ~/workspace/slurm/<%= @args[0] %>
-          - slurm-setup <%= @args[0] %>
-          - slurmdbd -Dvvv
-        - ctld:
-          - cd ~/workspace/slurm/<%= @args[0] %>
-          - slurm-setup <%= @args[0] %>
-          - sleep 3
-          - slurmctld -Dvvv
-        - user:
-          - cd ~/workspace/slurm/<%= @args[0] %>
-          - slurm-setup <%= @args[0] %>
-          - sleep 5
-          - sinfo
-        - monitor:
-          - cd ~/workspace/slurm/<%= @args[0] %>
-          - slurm-setup <%= @args[0] %>
-          - sleep 5
-          - smap -i 2
