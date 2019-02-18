@@ -366,7 +366,7 @@ tmux-slurm-bug()
 {
     bug=$1
     tmux new-window -n "$bug" -c $SLURM_SLURM_DIR -a -t "run"
-    tmux swap-window -t -1
+#     tmux swap-window -t -1
     tmux split-window -c $SLURM_SLURM_DIR
     tmux split-window -c $SLURM_SLURM_DIR
     tmux split-window -c $SLURM_SLURM_DIR
