@@ -1943,9 +1943,15 @@ nnoremap  sm   :SignatureListMarks<cr>
 nmap      swm  :SignatureToggleSigns<cr>
 nnoremap  M    m
 nnoremap  m    '
+onoremap  m    '
+vnoremap  m    '
 nnoremap  dM   :delmarks
+nnoremap  dm   d'
+nnoremap  dmm  d'M
 nnoremap  MM   mM
 nnoremap  mm   'M
+onoremap  mm   'M
+vnoremap  mm   'M
 
 " exploring file
 nnoremap se   :NERDTreeToggle<cr>
