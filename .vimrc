@@ -312,6 +312,7 @@ Plugin 'kshenoy/vim-signature'               " to visualize marks (smm)
 Plugin 'Yggdroot/indentLine'                 " to visualize indentation lines (wl)
 Plugin 'ntpeters/vim-better-whitespace'      " visualize and remove (ToggleWhitespace and StripWhitespace) trailing whitespace
 Plugin 'tmux-plugins/vim-tmux-focus-events'  " to be able to have FocusLost and FocusGained in terminal (on tmux with set-g focus-event on) (it fires some errors?)
+Plugin 'chrisbra/Colorizer'                  " to read terminal colors :ColorsHighlight : ColorToggle
 " Plugin 'blueyed/vim-diminactive'             " to dim the inactive window
 " Plugin 'nathanaelkane/vim-indent-guides'     " visualize vertical indent lines (Yggdroot/indentLine seems better?)
 " Plugin 'bling/vim-airline'                   " too fancy for me? I'll give it a second chance in a while...
@@ -457,6 +458,9 @@ if &t_Co > 2 || has("gui_running")
     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=darkgrey
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=lightgrey
 endif
+
+let g:colorizer_disable_bufleave = 1 " keep terminal coloring when leaving the buffer
+let g:colorizer_auto_map         = 0 " no automapping for :ColorToogle and :ColorHighlight
 
 "}}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

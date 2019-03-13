@@ -247,3 +247,6 @@
 [submodule ".vim/bundle/vim-g"]
 	path = .vim/bundle/vim-g
 	url = https://github.com/szw/vim-g.git
+[submodule ".vim/bundle/Colorizer"]
+	path = .vim/bundle/Colorizer
+	url = https://github.com/chrisbra/Colorizer.git
