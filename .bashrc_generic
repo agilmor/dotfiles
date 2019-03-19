@@ -396,7 +396,7 @@ slurm-setup()
         export SLURM_SETUP_VER=$1
     fi
 
-    dirname=~agil/workspace/slurm/$SLURM_SETUP_VER
+    dirname=$HOME/workspace/slurm/$SLURM_SETUP_VER
     # echo $dirname
 
     export SLURM_LOCAL_DIR=${dirname}/local
