@@ -41,7 +41,6 @@ os_filename="/etc/os-release"
 if [ -f $os_filename ]; then
     source $os_filename
     os_codename=$ID-$VERSION_ID
-    os_codename=`lsb_release -a 2>/dev/null | grep Codename | awk '{print $2}'`
     export PATH=$HOME/usr-$os_codename/bin:$PATH
     export GOPATH=$HOME/usr-$os_codename
 else
