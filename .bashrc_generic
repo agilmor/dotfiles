@@ -37,9 +37,15 @@ vman()
 #
 # Add paths of the home sdk
 #
-os_codename=`lsb_release -a 2>/dev/null | grep Codename | awk '{print $2}'`
-export PATH=$HOME/usr-$os_codename/bin:$PATH
-export GOPATH=$HOME/usr-$os_codename
+os_filename="/etc/os-release"
+if [ -f $os_filename ]; then
+    source $os_filename
+    os_codename=$ID-$VERSION_ID
+    export PATH=$HOME/usr-$os_codename/bin:$PATH
+    export GOPATH=$HOME/usr-$os_codename
+else
+    echo "$os_filename not found"
+fi
 
 export EDITOR='vim -X'
 
@@ -58,9 +64,10 @@ alias eduroam='sudo wpa_supplicant -Dwext -iwlp2s0 -c /home/agil/.cat_installer/
 # colors based on userid and docker or singularity
 #
 
-export ENABLE_PROMPT_GIT=1  # set it to 0 in the terminal to disable the git prompt
-export ENABLE_PROMPT_ERR=1  # set it to 0 in the terminal to disable the return code error prompt
-export ENABLE_PROMPT_VENV=1 # set it to 0 in the terminal to disable the venv prompt
+export ENABLE_PROMPT_GIT=1   # set it to 0 in the terminal to disable the git prompt
+export ENABLE_PROMPT_ERR=1   # set it to 0 in the terminal to disable the return code error prompt
+export ENABLE_PROMPT_VENV=1  # set it to 0 in the terminal to disable the venv prompt
+export ENABLE_PROMPT_SLURM=1 # set it to 0 in the terminal to disable the slurm prompt
 
 #
 # Define some colors first: Capitals denote bold
@@ -115,6 +122,16 @@ function _virtualenv_prompt()
   fi
 }
 
+function _slurm_prompt()
+{
+    if [[ "$ENABLE_PROMPT_SLURM" == 1 ]]; then
+        if [[ $SLURM_SETUP_VER ]] ; then
+            echo -ne "{\[$CYAN\]$SLURM_SETUP_VER\[$NC\]} "
+        fi
+    fi
+}
+
+
 function report_errcode()
 {
   if [[ "$ENABLE_PROMPT_ERR" == 1 ]]; then
@@ -144,7 +161,7 @@ function report_location()
 # export PS2="\[$NC\]> "
 export _PS1=">> "
 export  PS1=$_PS1
-export PROMPT_COMMAND='_errcode=$(report_errcode);export PS1="${_errcode}$(_virtualenv_prompt)$(_git_prompt)$(report_location)${_PS1}";unset _errcode;'
+export PROMPT_COMMAND='_errcode=$(report_errcode);export PS1="${_errcode}$(_virtualenv_prompt)$(_slurm_prompt)$(_git_prompt)$(report_location)${_PS1}";unset _errcode;'
 
 #
 # Rclone helpers
@@ -249,3 +266,160 @@ rclone-status()
     rclone           check  "${local_path}"   "${rclone_remote}:${rclone_path}"  --ignore-size --drive-skip-gdocs --track-renames ${rclone_filter} ${@:2};
 }
 
+#
+# Scan helpers
+#
+scan-tiff()
+{
+    if [ "$1" == "" ]; then
+        echo "Please specfy the filename of the tiff file (without extension)"
+        return 1
+    fi
+
+    scanimage --format tiff -p --mode Gray --resolution 300 > $1.tiff
+}
+
+scan-tiff2pdf()
+{
+    if [ "$3" == "" ]; then
+        echo "Usage: $0 lang output.pdf file-01.tiff file-02.tiff... (lang: spa, cat, eng..)"
+        return 1
+    fi
+
+    lang=$1
+    outfile=$2
+
+    echo "lang    =" $lang
+    echo "outfile =" $outfile
+    shift
+    shift
+    pdfs=()
+    for file in $*; do
+        echo OCR+PDF on $file...
+
+        basename=`echo "$file" | cut -d'.' -f1`
+        extension=`echo "$file" | cut -d'.' -f2`
+#         echo filename = $basename
+#         echo extension = $extension
+
+        tesseract -psm 1 -l $lang $file $basename pdf
+
+        pdf=$basename.pdf
+        echo pdf  = $pdf
+        pdfs+=($pdf)
+        echo pdfs = ${pdfs[@]}
+    done
+
+#     for pdf in ${pdfs[@]}; do
+#         echo $pdf
+#     done
+
+    echo Generating $outfile from ${pdfs[@]}
+    pdftk ${pdfs[@]} cat output $outfile
+
+    acroread $outfile
+}
+
+#
+# Tmux(inator) helper
+#
+tmux-gpi-monitor()
+{
+    autossh agil@imatge.upc.edu -t "ssh root@s1 -t tmux attach -t monitor"
+}
+
+tmux-gpi-mail()
+{
+    autossh agil@imatge.upc.edu -t "DISPLAY=:1067 tmux attach -t mail"
+}
+
+tmux-slurm()
+{
+    if [ "$1" == "" ] && [ "$SLURM_SETUP_VER" == "" ]; then
+        echo "Please specify the version as argument."
+        return 1
+    fi
+
+    if [ "$SLURM_SETUP_VER" == "" ] || [ "$1" != "" ]; then
+        export SLURM_SETUP_VER=$1
+    fi
+
+#     tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
+#     tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER
+#     tmux attach -t slurm-$SLURM_SETUP_VER
+    tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER || tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
+    tmux attach -t slurm-$SLURM_SETUP_VER
+}
+
+tmux-slurm-run()
+{
+    if [ "$1" == "" ] && [ "$SLURM_SETUP_VER" == "" ]; then
+        echo "Please specify the version as argument."
+        return 1
+    fi
+
+    if [ "$SLURM_SETUP_VER" == "" ] || [ "$1" != "" ]; then
+        export SLURM_SETUP_VER=$1
+    fi
+
+	tmux new-session -t "slurm-$SLURM_SETUP_VER" -s slurm-$SLURM_SETUP_VER-run || tmux attach -t slurm-$SLURM_SETUP_VER-run
+}
+
+tmux-slurm-bug()
+{
+    bug=$1
+    tmux new-window -n "$bug" -c $SLURM_SLURM_DIR -a -t "run"
+#     tmux swap-window -t -1
+    tmux split-window -c $SLURM_SLURM_DIR
+    tmux split-window -c $SLURM_SLURM_DIR
+    tmux split-window -c $SLURM_SLURM_DIR
+    tmux select-layout "7e02,274x81,0,0{161x81,0,0[161x71,0,0,56,161x9,0,72,79],112x81,162,0[112x18,162,0,77,112x62,162,19,78]}"
+    tmux select-pane -t 1
+    # tmux send-keys -t 1 "vim --servername bug-$bug" Enter
+    tmux send-keys -t 1 "vim NEWS" Enter ":OpenSession bug-$bug" Tab Enter
+    tmux send-keys -t 2 "git status" Enter
+    tmux send-keys -t 3 "smap -i2" Enter
+    tmux send-keys -t 4 "sinfo" Enter
+    tmux send-keys -t 4 "sinfo" Enter
+}
+
+#
+# Slurm helpers
+#
+# ToDo: Use EnvModules?
+#
+slurm-setup()
+{
+    if [ "$1" == "" ] && [ "$SLURM_SETUP_VER" == "" ]; then
+        echo "Please specify the version as argument."
+        return 1
+    fi
+
+    if [ "$SLURM_SETUP_VER" == "" ] || [ "$1" != "" ]; then
+        export SLURM_SETUP_VER=$1
+    fi
+
+    dirname=$HOME/workspace/slurm/$SLURM_SETUP_VER
+    # echo $dirname
+
+    export SLURM_LOCAL_DIR=${dirname}/local
+    export SLURM_BUILD_DIR=${dirname}/build
+    export SLURM_SLURM_DIR=${dirname}/slurm
+
+    export SLURM_LOCAL_GLOBALS_FILE=${SLURM_LOCAL_DIR}/etc/globals.local
+
+    export    PATH=${SLURM_LOCAL_DIR}/bin:$PATH
+    export    PATH=${SLURM_LOCAL_DIR}/sbin:$PATH
+    export MANPATH=${SLURM_LOCAL_DIR}/share/man:$MANPATH
+
+
+    mkdir -p ${SLURM_LOCAL_DIR}/var/log
+    mkdir -p ${SLURM_LOCAL_DIR}/var/run
+    mkdir -p ${SLURM_LOCAL_DIR}/var/spool
+    mkdir -p ${SLURM_LOCAL_DIR}/tmp
+}
+
+
+if [ "$SLURM_SETUP_VER" != "" ]; then
+    slurm-setup
+fi

@@ -77,9 +77,6 @@
 [submodule "src/libevent"]
 	path = src/libevent
 	url = https://github.com/libevent/libevent.git
-[submodule ".vim/bundle/vim-diminactive"]
-	path = .vim/bundle/vim-diminactive
-	url = https://github.com/blueyed/vim-diminactive.git
 [submodule ".vim/bundle/ZoomWin"]
 	path = .vim/bundle/ZoomWin
 	url = https://github.com/vim-scripts/ZoomWin.git
@@ -238,3 +235,18 @@
 [submodule ".vim/bundle/Jenkinsfile-vim-syntax"]
 	path = .vim/bundle/Jenkinsfile-vim-syntax
 	url = https://github.com/martinda/Jenkinsfile-vim-syntax.git
+[submodule ".vim/bundle/vim-qf"]
+	path = .vim/bundle/vim-qf
+	url = https://github.com/romainl/vim-qf.git
+[submodule ".vim/bundle/QFEnter"]
+	path = .vim/bundle/QFEnter
+	url = https://github.com/yssl/QFEnter.git
+[submodule ".tmux/plugins/tmux-open"]
+	path = .tmux/plugins/tmux-open
+	url = https://github.com/tmux-plugins/tmux-open
+[submodule ".vim/bundle/vim-g"]
+	path = .vim/bundle/vim-g
+	url = https://github.com/szw/vim-g.git
+[submodule ".vim/bundle/Colorizer"]
+	path = .vim/bundle/Colorizer
+	url = https://github.com/chrisbra/Colorizer.git

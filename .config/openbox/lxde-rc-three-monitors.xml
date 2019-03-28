@@ -247,7 +247,15 @@
         <command>amixer set Master toggle</command>
       </action>
     </keybind>
-    <keybind key="W-F5">
+    <keybind key="W-F9">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+          <name>amixer</name>
+        </startupnotify>
+        <command>amixer set Capture toggle</command>
+      </action>
+    </keybind><keybind key="W-F5">
       <action name="Reconfigure"/>
     </keybind>
     <keybind key="W-q">
@@ -833,7 +841,7 @@
     </keybind>
     <keybind key="W-KP_3">
       <action name="MoveResizeTo">
-        <width client="no">100%</width>
+        <width client="no">60%</width>
         <height client="no">90%</height>
         <y>-10%</y>
         <x>0</x>
@@ -843,7 +851,7 @@
     </keybind>
     <keybind key="W-KP_4">
       <action name="MoveResizeTo">
-        <width client="no">50%</width>
+        <width client="no">60%</width>
         <height client="no">50%</height>
         <y>-0</y>
         <x>0</x>
@@ -853,8 +861,8 @@
     </keybind>
     <keybind key="W-KP_5">
       <action name="MoveResizeTo">
-        <width client="no">50%</width>
-        <height client="no">40%</height>
+        <width client="no">40%</width>
+        <height client="no">50%</height>
         <y>-0</y>
         <x>-0</x>
         <monitor>1</monitor>
@@ -864,17 +872,17 @@
     </keybind>
     <keybind key="W-KP_6">
       <action name="MoveResizeTo">
-        <width client="no">50%</width>
+        <width client="no">40%</width>
         <height client="no">40%</height>
-        <y>-0</y>
+        <y>-10%</y>
         <x>-0</x>
-        <monitor>1</monitor>
+        <monitor>3</monitor>
       </action>
       <action name="Raise"/>
     </keybind>
     <keybind key="W-KP_7">
       <action name="MoveResizeTo">
-        <width client="no">50%</width>
+        <width client="no">60%</width>
         <height client="no">50%</height>
         <y>0</y>
         <x>0</x>
@@ -884,8 +892,8 @@
     </keybind>
     <keybind key="W-KP_8">
         <action name="MoveResizeTo">
-            <width client="no">50%</width>
-            <height client="no">100%</height>
+            <width client="no">40%</width>
+            <height client="no">50%</height>
             <y>0</y>
             <x>-0</x>
             <monitor>1</monitor>
@@ -895,11 +903,11 @@
     </keybind>
     <keybind key="W-KP_9">
       <action name="MoveResizeTo">
-        <width client="no">50%</width>
-        <height client="no">60%</height>
+        <width client="no">40%</width>
+        <height client="no">50%</height>
         <y>0</y>
         <x>-0</x>
-        <monitor>1</monitor>
+        <monitor>3</monitor>
       </action>
       <action name="Raise"/>
     </keybind>

@@ -53,7 +53,8 @@ windows:
   - xpra:
       layout: even-horizontal
       panes:
-        - while true; do xpra attach ssh:agil@imatge.upc.edu:2221:1067; sleep 5; done
+#         - while true; do xpra attach ssh:agil@imatge.upc.edu:2221:1067; sleep 5; done
+        - xpra attach ssh:agil@imatge.upc.edu:2221:1067
         - autossh -p 2221 agil@imatge.upc.edu -t "tail -f /run/user/1067/xpra/:1067.log"
   - xpra-imatge:
       layout: even-horizontal
@@ -63,16 +64,16 @@ windows:
   - vpn:
       layout: even-horizontal
       panes:
-          - sudo openvpn --config ~/.vpn/tsc.ovpn
+          - echo sudo openvpn --config ~/.vpn/tsc.ovpn
   - cgroups:
       layout: even-horizontal
       panes:
-        - tasks:
+        - admin:
           - sudo -i
           - cd
-          - echo 4G > /sys/fs/cgroup/memory/chrome/agil/memory.limit_in_bytes
+          - killall cgrulesengd
+          - cgrulesengd
+          - echo 6G > /sys/fs/cgroup/memory/chrome/agil/memory.limit_in_bytes
         - echo:
-          - sudo su
-          - cd
-          - watch -n 10 --no-title "cat /sys/fs/cgroup/memory/chrome/agil/tasks | wc -l; cat /sys/fs/cgroup/memory/chrome/agil/memory.limit_in_bytes; cat /sys/fs/cgroup/memory/chrome/agil/memory.usage_in_bytes"
+          - watch -n 10 --no-title $HOME/.dotfiles/cgroups/monitor-cgroups.sh
 
