@@ -25,6 +25,9 @@ if [ -t 0 ]; then # If not running interactively, don't do anything
     stty -ixon -ixoff -ctlecho
 fi
 
+# recommended from tmux-continium for a better bash-history
+HISTCONTROL=ignoreboth
+
 #
 # Using vim to read man pages (vman command)
 # Use vman command insted of normal man
