@@ -350,7 +350,9 @@ tmux-slurm()
 #     tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
 #     tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER
 #     tmux attach -t slurm-$SLURM_SETUP_VER
-    tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER || tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
+#     tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER || tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
+    tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
+    tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER
     tmux attach -t slurm-$SLURM_SETUP_VER
 }
 
@@ -426,3 +428,18 @@ slurm-setup()
 if [ "$SLURM_SETUP_VER" != "" ]; then
     slurm-setup
 fi
+
+
+
+gpi-monitor()
+{
+    autossh imatge.upc.edu -t "ssh root@s1 -t tmux attach -t monitor"
+}
+gpi-tasks()
+{
+    autossh imatge.upc.edu -t "tmux attach -t tasks"
+}
+gpi-calcula()
+{
+    autossh calcula.tsc.upc.edu -p2225 -t "module load tmux; tmux attach -t calcula"
+}
