@@ -8,7 +8,7 @@ set completion-ignore-case on
 "\e[15~":   re-read-init-file
 "\C-x\C-r": re-read-init-file
 
-"\C-e": edit-and-execute-command
+# "\C-e": edit-and-execute-command # removed because is not compatible with tmux-resurrect (save history)
 "\ee":  edit-and-execute-command
 "\ev":  edit-and-execute-command
 #"\M-a": "\C-x\C-e" # \M not working?
