@@ -423,3 +423,9 @@ slurm-setup()
 if [ "$SLURM_SETUP_VER" != "" ]; then
     slurm-setup
 fi
+
+audio-restart()
+{
+    pulseaudio --kill
+    pulseaudio --start 
+}
