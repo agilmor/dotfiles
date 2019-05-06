@@ -839,17 +839,21 @@ nmap ,y    <Plug>EasyClipSwapPasteForward
 nmap -y    <Plug>EasyClipSwapPasteBackwards
 nmap ,p    <Plug>EasyClipSwapPasteForward
 nmap -p    <Plug>EasyClipSwapPasteBackwards
+nmap ñp    <Plug>EasyClipSwapPasteForward
+nmap ÑP    <Plug>EasyClipSwapPasteBackwards
 
 nmap ,,y   <Plug>EasyClipRotateYanksForward
 nmap --y   <Plug>EasyClipRotateYanksBackward
 nmap ;y    <Plug>EasyClipRotateYanksForward
 nmap _y    <Plug>EasyClipRotateYanksBackward
+nmap ñy    <Plug>EasyClipRotateYanksForward
+nmap ÑY    <Plug>EasyClipRotateYanksBackward
 
 nmap yp    :IPaste<cr>
 nmap YP    :IPasteBefore<cr>
 
 nmap <F2>  <Plug>EasyClipToggleFormattedPaste<cr>
-nmap ñp  <Plug>EasyClipToggleFormattedPaste<cr>
+nmap ñfp  <Plug>EasyClipToggleFormattedPaste<cr>
 " nmap ,yf   <Plug>EasyClipToggleFormattedPaste<cr>
 
 function! ToggleAutoFormat()
@@ -1115,6 +1119,8 @@ function! <SID>SetMainDefaults()
         autocmd! myvimprj BufWritePost *
         unlet g:myvimprj
     endif
+
+    cscope kill -1
 
 endfunction
 
