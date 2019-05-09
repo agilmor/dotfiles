@@ -208,13 +208,12 @@ set undodir=~/.vim/tmp/            " location of the undo directory
 set grepprg=grep\ -n\ --exclude-dir=.svn\ $*\ /dev/null " to exclude svn/git results from search results
 
 set statusline=
-set statusline+=\[%{strlen(&ft)?&ft:'none'}] " file type
-set statusline+=%f\                          " filename
-set statusline+=%h%m%r%w                     " status flags
+set statusline+=%y%h%q%w                     " file and buffer type
+set statusline+=%m%r                         " status flags
+set statusline+=\[%f\:%l\:%c%V\]             " filename:line:column
+set statusline+=\ \[%p%%\ of\ %L\]           " file position
 set statusline+=%=                           " right align remainder
-set statusline+=%(%l,%c%V%)                  " line, column
-set statusline+=(0x%B)                       " character value
-set statusline+=%<%P                         " file position
+set statusline+=\[char\=0x%B\]               " character value
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
