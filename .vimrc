@@ -272,8 +272,8 @@ Plugin 'xolox/vim-misc'                      " needed by vim-session
 Plugin 'xolox/vim-session'                   " save / restore sessions
 Plugin 'tpope/vim-fugitive'                  " version control git
 
-Plugin 'Shougo/vimproc.vim'                  " dependency for vim-vebugger
-Plugin 'idanarye/vim-vebugger'               " GDB integration
+" Plugin 'Shougo/vimproc.vim'                  " dependency for vim-vebugger
+" Plugin 'idanarye/vim-vebugger'               " GDB integration (replaced by :Termdebug on vim 8.1)
 
 " Plugin 'vim-scripts/indexer.tar.gz'          " to generate ctags (needs servername -> done manually with .vimprj + vim-dispatch)
 " Plugin 'vim-scripts/ConflictMotions'         " never tried! maybe its a good option!
@@ -1426,9 +1426,12 @@ let g:pastedtext_select_key = 'ip' " using ip instead of gb as last pasted text-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Terminal and Debug
 "
-" <Leader>t       : open a terminal (also in visual mode to run the selected text as a command) 
-" <Leader><Leader>: to enter to normalmode
-" <Leader><Arrows>: to leave the terminal and move to other windows
+" <Leader>t                     : Open a terminal (also in visual mode to run the selected text as a command)
+" <Leader><Leader>              : Enter to Terminal-Normal mode
+" <Leader><Arrows> o <M-Arrows> : Leave the terminal and move to other windows
+"
+" :Termdebug command [pid]      : Start debug
+" (gdb) quit                    : Quit debug
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
@@ -1437,11 +1440,20 @@ set termwinkey=º " should be the <Leader>
 nnoremap <Leader>t        :terminal ++noclose<cr>
 vnoremap <Leader>t        :terminal ++noclose<cr>
 tnoremap <Leader><Leader> <Leader>N
-tnoremap <M-Left>         <Leader><Left>
-tnoremap <M-Right>        <Leader><Right>
-tnoremap <M-Up>           <Leader><Up>
-tnoremap <M-Down>         <Leader><Down>
 
+packadd termdebug " enable TerminalDebug
+
+nnoremap <Leader><Del>        :Clear<cr>
+nnoremap <Leader><Left>       :Break<cr>
+nnoremap <Leader><Right>      :Step<cr>
+nnoremap <Leader><Down>       :Over<cr>
+nnoremap <Leader><Up>         :Finish<cr>
+nnoremap <Leader><CR>         :Continue<cr>
+nnoremap <Leader><End>        :Continue<cr>
+nnoremap <Leader><Home>       :Stop<cr>
+nnoremap <Leader><BS>         :Stop<cr>
+nnoremap <Leader><Space>      :Eval<cr>
+vnoremap <Leader><Space>      :Eval<cr>
 
 " }}}
 
@@ -1606,10 +1618,10 @@ inoremap <silent> <M-Left>  <c-o>:TmuxNavigateLeft<cr>
 inoremap <silent> <M-Down>  <c-o>:TmuxNavigateDown<cr>
 inoremap <silent> <M-Up>    <c-o>:TmuxNavigateUp<cr>
 inoremap <silent> <M-Right> <c-o>:TmuxNavigateRight<cr>
-tmap     <silent> <M-Left>  <Leader><Leader>:TmuxNavigateLeft<cr>
-tmap     <silent> <M-Down>  <Leader><Leader>:TmuxNavigateDown<cr>
-tmap     <silent> <M-Up>    <Leader><Leader>:TmuxNavigateUp<cr>
-tmap     <silent> <M-Right> <Leader><Leader>:TmuxNavigateRight<cr>
+tmap     <silent> <M-Left>  <Leader>:TmuxNavigateLeft<cr>
+tmap     <silent> <M-Down>  <Leader>:TmuxNavigateDown<cr>
+tmap     <silent> <M-Up>    <Leader>:TmuxNavigateUp<cr>
+tmap     <silent> <M-Right> <Leader>:TmuxNavigateRight<cr>
 " nnoremap <silent> <M-Left> :TmuxNavigatePrevious<cr>
 
 " Leader: w is the leader key for all windows and tabs (is <C-w>)
@@ -1631,7 +1643,6 @@ set wmh=0                                   " to fully maximize in height
 set wmw=0                                   " to fully maximize in width
 let g:maximizer_restore_on_winleave = 1     " to force restore when leaving maximized window (tmux like)
 let g:maximizer_set_default_mapping = 0     " to be able to use <F3> for other usage
-let g:maximizer_restore_on_winleave = 1     " to autorestore if moving out of windows (good if not using too much tabs?)
 
 nnoremap ww :MaximizerToggle!<CR>
 vnoremap ww :MaximizerToggle!<CR>gv
