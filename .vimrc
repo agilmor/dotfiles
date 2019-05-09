@@ -580,7 +580,7 @@ let g:ycm_autoclose_preview_window_after_insertion      = 1                     
 let g:ycm_autoclose_preview_window_after_completion     = 0                        " ...but keep it after completion is done?
 
 " TODO add more mapping for GoTo functions!
-nmap <Leader><Leader> :YcmCompleter FixIt<cr>
+" nmap <Leader><Leader> :YcmCompleter FixIt<cr>
 
 " UltiSnips
 set rtp^=~/.vim/snippets/                                             " my own snippets should be preened in runtime paths
@@ -1085,7 +1085,7 @@ let g:cpp_header_ext='hpp'                  " each project can define its header
 "
 autocmd BufWritePost .vimprj source .vimprj
 
-set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize " save everything
+set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize,terminal " save everything
 let g:session_directory         = '~/.vim-sessions'                         " to save sessions locally, out of dotfiles
 let g:session_autoload          = 'prompt'                                  " used when starting vim without anyfile
 let g:session_autosave          = 'yes'                                     " is a session is open and vim closes
@@ -1422,6 +1422,29 @@ let g:pastedtext_select_key = 'ip' " using ip instead of gb as last pasted text-
 " endfunction
 
 " }}}
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                           Terminal and Debug
+"
+" <Leader>t       : open a terminal (also in visual mode to run the selected text as a command) 
+" <Leader><Leader>: to enter to normalmode
+" <Leader><Arrows>: to leave the terminal and move to other windows
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{
+
+set termwinkey=º " should be the <Leader>
+nnoremap <Leader>t        :terminal ++noclose<cr>
+vnoremap <Leader>t        :terminal ++noclose<cr>
+tnoremap <Leader><Leader> <Leader>N
+tnoremap <M-Left>         <Leader><Left>
+tnoremap <M-Right>        <Leader><Right>
+tnoremap <M-Up>           <Leader><Up>
+tnoremap <M-Down>         <Leader><Down>
+
+
+" }}}
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                           Miscellaneous and Annoyances
 "
@@ -1575,10 +1598,18 @@ nnoremap <C-PageDown>  <C-E>
 
 let g:tmux_navigator_no_mappings = 1
 
-nnoremap <silent> <M-Left> :TmuxNavigateLeft<cr>
-nnoremap <silent> <M-Down> :TmuxNavigateDown<cr>
-nnoremap <silent> <M-Up> :TmuxNavigateUp<cr>
+nnoremap <silent> <M-Left>  :TmuxNavigateLeft<cr>
+nnoremap <silent> <M-Down>  :TmuxNavigateDown<cr>
+nnoremap <silent> <M-Up>    :TmuxNavigateUp<cr>
 nnoremap <silent> <M-Right> :TmuxNavigateRight<cr>
+inoremap <silent> <M-Left>  <c-o>:TmuxNavigateLeft<cr>
+inoremap <silent> <M-Down>  <c-o>:TmuxNavigateDown<cr>
+inoremap <silent> <M-Up>    <c-o>:TmuxNavigateUp<cr>
+inoremap <silent> <M-Right> <c-o>:TmuxNavigateRight<cr>
+tmap     <silent> <M-Left>  <Leader><Leader>:TmuxNavigateLeft<cr>
+tmap     <silent> <M-Down>  <Leader><Leader>:TmuxNavigateDown<cr>
+tmap     <silent> <M-Up>    <Leader><Leader>:TmuxNavigateUp<cr>
+tmap     <silent> <M-Right> <Leader><Leader>:TmuxNavigateRight<cr>
 " nnoremap <silent> <M-Left> :TmuxNavigatePrevious<cr>
 
 " Leader: w is the leader key for all windows and tabs (is <C-w>)
@@ -1607,9 +1638,13 @@ vnoremap ww :MaximizerToggle!<CR>gv
 " nnoremap we :MaximizerToggle!<CR>
 " vnoremap we :MaximizerToggle!<CR>gv
 
-nnoremap wt          <C-w>T
-vnoremap wt          <C-w>Tgv
+" Breaking or Adding into a Tab
+noremap wt           :tab split<cr>
+" vnoremap wt          :tab split<cr>
 " inoremap wt     <C-o><C-w>T<CR>
+nnoremap wb          <C-w>T
+vnoremap wb          <C-w>Tgv
+
 
 " Resizes
 " nnoremap we          <C-w>=
@@ -1800,9 +1835,6 @@ nnoremap <silent> <Plug>Kwbd :<C-u>Kwbd<CR>
 
 " Create a mapping (e.g. in your .vimrc) like this:
 nmap bd <Plug>Kwbd
-
-nnoremap wb          <C-w>T
-vnoremap wb          <C-w>Tgv
 
 " Function to enable disable decorations (they should be disabled by default)
 let g:mydecoration=0
