@@ -1994,16 +1994,29 @@ nnoremap s<Right> g,
 nnoremap  sm   :SignatureListMarks<cr>
 nmap      swm  :SignatureToggleSigns<cr>
 nnoremap  M    m
-nnoremap  m    '
-onoremap  m    '
-vnoremap  m    '
+nnoremap  m    `
+onoremap  m    `
+vnoremap  m    `
 nnoremap  dM   :delmarks
-nnoremap  dm   d'
-nnoremap  dmm  d'M
+nnoremap  dm   d`
+nnoremap  dmm  d`M
 nnoremap  MM   mM
-nnoremap  mm   'M
-onoremap  mm   'M
-vnoremap  mm   'M
+nnoremap  mm   `M
+onoremap  mm   `M
+vnoremap  mm   `M
+
+nnoremap  m<Left>   `[
+onoremap  m<Left>   `[
+vnoremap  m<Left>   `[
+nnoremap  m<Right>  `]
+onoremap  m<Right>  `]
+vnoremap  m<Right>  `]
+nnoremap  S<Left>   `[
+onoremap  S<Left>   `[
+vnoremap  S<Left>   `[
+nnoremap  S<Right>  `]
+onoremap  S<Right>  `]
+vnoremap  S<Right>  `]
 
 " exploring file
 nnoremap se   :NERDTreeToggle<cr>
