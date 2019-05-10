@@ -344,8 +344,8 @@ Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
 " Plugin 'tommcdo/vim-lion'                    " cannot right-align the first column?
 
 " Extras
-Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (<+<arrows>)
 Plugin 'szw/vim-g'                           " :Google (gs)
+" Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (<+<arrows>) (unavailable and unused)
 " Plugin 'm42e/vim-gcov-marker'                " test coverage
 " Plugin 'vim-scripts/gcov.vim'                " test coverage
 
@@ -2342,11 +2342,11 @@ vnoremap <C-b>           <Esc>:Make<cr>
 " {{{
 
 " Drag visual blocs
-vmap  <expr>  z<left>   DVB_Drag('left')
-vmap  <expr>  z<right>  DVB_Drag('right')
-vmap  <expr>  z<down>   DVB_Drag('down')
-vmap  <expr>  z<up>     DVB_Drag('up')
-vmap  <expr>  zp        DVB_Duplicate()
+" vmap  <expr>  z<left>   DVB_Drag('left')
+" vmap  <expr>  z<right>  DVB_Drag('right')
+" vmap  <expr>  z<down>   DVB_Drag('down')
+" vmap  <expr>  z<up>     DVB_Drag('up')
+" vmap  <expr>  zp        DVB_Duplicate()
 
 " passwds
 if filereadable(glob('~/.vimrc.pass'))
