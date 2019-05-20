@@ -2237,8 +2237,23 @@ nmap     z<Down>     <Plug>(qf_qf_next)
 nnoremap z<PageDown> :10cnext<cr>
 nnoremap z<Left>     :colder<cr>
 nnoremap z<Right>    :cnewer<cr>
+nmap     zz          <Plug>(qf_qf_toggle)
 
-nmap zz <Plug>(qf_qf_toggle)
+" When using `dd` in the quickfix list, remove the item from the quickfix list.
+function! RemoveQFItem()
+  let curqfidx = line('.') - 1
+  let qfall = getqflist()
+  call remove(qfall, curqfidx)
+  call setqflist(qfall, 'r')
+  execute curqfidx + 1 . "cfirst"
+  :copen
+endfunction
+:command! RemoveQFItem :call RemoveQFItem()
+" Use map <buffer> to only map dd in the quickfix window. Requires +localmap
+autocmd FileType qf map <buffer> dd :RemoveQFItem<cr>
+" autocmd FileType qf map <buffer> z<Del> :RemoveQFItem<cr>
+" let ftToIgnore = ['qf']
+" autocmd FileType * if index(ftToIgnore, &ft) < 0 | map <buffer> z<Del> <Plug>(qf_qf_switch):RemoveQFItem<cr>
 
 " this automand is not called...? not sure way...
 " autocmd QuickfixCmdPost make call setqflist(filter(getqflist(), 'v:val.type == "E"'), 'r')
