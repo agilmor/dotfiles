@@ -418,6 +418,7 @@ slurm-setup()
     export MANPATH=${SLURM_LOCAL_DIR}/share/man:$MANPATH
 
 
+    mkdir -p ${SLURM_LOCAL_DIR}/lib/security
     mkdir -p ${SLURM_LOCAL_DIR}/var/log
     mkdir -p ${SLURM_LOCAL_DIR}/var/run
     mkdir -p ${SLURM_LOCAL_DIR}/var/spool
