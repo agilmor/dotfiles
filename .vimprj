@@ -6,7 +6,9 @@
 "set makeprg=scons\ all
 
 " each project can define its headers extension (.h or .hpp)
-" let g:cpp_header_ext='hpp'
+" let g:header_ext='hpp'
+" let g:source_ext='cpp'
+" let g:test_ext='test'
 
 " Tags and CScope: used autocomplete and code search
 "set tags =.vimprj.tag

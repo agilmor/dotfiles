@@ -1079,7 +1079,9 @@ let g:signify_sign_change        = 'M'
 
 
 let g:vimprj_changeCurDirIfVimprjFound = 1  " always change the current dir to the dir where the .vimprj file is
-let g:cpp_header_ext='hpp'                  " each project can define its headers extension (.h or .hpp)
+let g:header_ext='hpp'                      " each project should define its headers extension (.h or .hpp)
+let g:source_ext='cpp'                      " each project should define its source extension (.c or .cpp)
+let g:test_ext='test'                       " each project should define its test extension (eg .test)
 
 "
 " Reload .vimprj just after writing it
@@ -2066,7 +2068,7 @@ endfunction
 " - (ld) lists function called by me to quicklist (cscope)
 "
 " - (sh) and (st) to switch header and test files
-"   - use g:cpp_header_ext in vimprj to specify header extension
+"   - use g:header_ext, g:source_ext and g:test_ext in vimprj to specify header, source and test extensions
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
@@ -2139,15 +2141,17 @@ noremap    lp          <C-w>g}
 " au BufRead,BufNewFile *.cpp 		nmap  st :find %:t:r.test<cr>
 " au BufRead,BufNewFile *.test 		nmap  st :find %:t:r.hpp<cr>
 
-au BufRead,BufNewFile,WinEnter *.h    nmap sh :call SeeHeader( 'cpp', 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.hpp  nmap sh :call SeeHeader( 'cpp', 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.cpp  nmap sh :call SeeHeader( g:cpp_header_ext, 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.test nmap sh :call SeeHeader( g:cpp_header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.h    nmap sh :call SeeHeader( g:source_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.hpp  nmap sh :call SeeHeader( g:source_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.c    nmap sh :call SeeHeader( g:header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.cpp  nmap sh :call SeeHeader( g:header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.test nmap sh :call SeeHeader( g:header_ext, 'l')<cr>
 
-au BufRead,BufNewFile,WinEnter *.h    nmap st :call SeeHeader( 'test', 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.hpp  nmap st :call SeeHeader( 'test', 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.cpp  nmap st :call SeeHeader( 'test', 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.test nmap st :call SeeHeader( g:cpp_header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.h    nmap st :call SeeHeader( g:test_ext  , 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.hpp  nmap st :call SeeHeader( g:test_ext  , 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.c    nmap st :call SeeHeader( g:test_ext  , 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.cpp  nmap st :call SeeHeader( g:test_ext  , 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.test nmap st :call SeeHeader( g:header_ext, 'l')<cr>
 
 function! SeeHeader( ext, dir )
 "     let var = input( "ext: ".a:ext." dir: ".a:dir )
