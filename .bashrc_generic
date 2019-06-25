@@ -420,7 +420,6 @@ slurm-setup()
     export    PATH=${SLURM_LOCAL_DIR}/sbin:$PATH
     export MANPATH=${SLURM_LOCAL_DIR}/share/man:$MANPATH
 
-
     mkdir -p ${SLURM_LOCAL_DIR}/lib/security
     mkdir -p ${SLURM_LOCAL_DIR}/var/log
     mkdir -p ${SLURM_LOCAL_DIR}/var/run
@@ -428,6 +427,20 @@ slurm-setup()
     mkdir -p ${SLURM_LOCAL_DIR}/tmp
 }
 
+slurm-dbd()
+{
+    $SLURM_LOCAL_DIR/sbin/slurmdbd -Dvvv
+}
+
+slurm-ctld()
+{
+    $SLURM_LOCAL_DIR/sbin/slurmctld -Dvvv
+}
+
+slurm-d()
+{
+    $SLURM_LOCAL_DIR/sbin/slurmd -DvvvN $1
+}
 
 if [ "$SLURM_SETUP_VER" != "" ]; then
     slurm-setup
