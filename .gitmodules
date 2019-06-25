@@ -1,30 +1,12 @@
 [submodule ".vim/bundle/Vundle.vim"]
 	path = .vim/bundle/Vundle.vim
 	url = https://github.com/VundleVim/Vundle.vim.git
-[submodule ".vim/bundle/Align"]
-	path = .vim/bundle/Align
-	url = https://github.com/vim-scripts/Align.git
-    ignore = untracked
 [submodule ".vim/bundle/DfrankUtil"]
 	path = .vim/bundle/DfrankUtil
 	url = https://github.com/vim-scripts/DfrankUtil.git
-[submodule ".vim/bundle/OmniCppComplete"]
-	path = .vim/bundle/OmniCppComplete
-	url = https://github.com/vim-scripts/OmniCppComplete.git
-    ignore = untracked
-[submodule ".vim/bundle/YankRing.vim"]
-	path = .vim/bundle/YankRing.vim
-	url = https://github.com/vim-scripts/YankRing.vim.git
 [submodule ".vim/bundle/bufexplorer.zip"]
 	path = .vim/bundle/bufexplorer.zip
 	url = https://github.com/vim-scripts/bufexplorer.zip.git
-    ignore = untracked
-[submodule ".vim/bundle/code_complete"]
-	path = .vim/bundle/code_complete
-	url = https://github.com/mbbill/code_complete.git
-[submodule ".vim/bundle/ctrlp.vim"]
-	path = .vim/bundle/ctrlp.vim
-	url = https://github.com/vim-scripts/ctrlp.vim.git
     ignore = untracked
 [submodule ".vim/bundle/matchit.zip"]
 	path = .vim/bundle/matchit.zip
@@ -33,15 +15,9 @@
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule ".vim/bundle/open-pdf.vim"]
-	path = .vim/bundle/open-pdf.vim
-	url = https://github.com/rhysd/open-pdf.vim.git
 [submodule ".vim/bundle/tagbar"]
 	path = .vim/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar.git
-[submodule ".vim/bundle/tracwiki"]
-	path = .vim/bundle/tracwiki
-	url = https://github.com/vim-scripts/tracwiki.git
 [submodule ".vim/bundle/undotree"]
 	path = .vim/bundle/undotree
 	url = https://github.com/mbbill/undotree.git
@@ -58,16 +34,10 @@
 [submodule ".vim/bundle/vim-signature"]
 	path = .vim/bundle/vim-signature
 	url = https://github.com/kshenoy/vim-signature.git
-[submodule ".vim/bundle/vim-togglelist"]
-	path = .vim/bundle/vim-togglelist
-	url = https://github.com/milkypostman/vim-togglelist.git
 [submodule ".vim/bundle/vimprj"]
 	path = .vim/bundle/vimprj
 	url = https://github.com/vim-scripts/vimprj.git
     ignore = untracked
-[submodule ".vim/bundle/vitra"]
-	path = .vim/bundle/vitra
-	url = https://github.com/vim-scripts/vitra.git
 [submodule "src/vim"]
 	path = src/vim
 	url = https://github.com/vim/vim.git
@@ -77,9 +47,6 @@
 [submodule "src/libevent"]
 	path = src/libevent
 	url = https://github.com/libevent/libevent.git
-[submodule ".vim/bundle/ZoomWin"]
-	path = .vim/bundle/ZoomWin
-	url = https://github.com/vim-scripts/ZoomWin.git
 [submodule ".vim/bundle/Dockerfile.vim"]
 	path = .vim/bundle/Dockerfile.vim
 	url = https://github.com/ekalinin/Dockerfile.vim.git
@@ -131,9 +98,6 @@
 [submodule ".vim/bundle/vim-maximizer"]
 	path = .vim/bundle/vim-maximizer
 	url = https://github.com/szw/vim-maximizer.git
-[submodule ".vim/bundle/auto-pairs"]
-	path = .vim/bundle/auto-pairs
-	url = https://github.com/jiangmiao/auto-pairs.git
 [submodule ".vim/bundle/vim-easygrep"]
 	path = .vim/bundle/vim-easygrep
 	url = https://github.com/dkprice/vim-easygrep.git
@@ -209,10 +173,6 @@
 [submodule ".vim/bundle/vim-textobj-indent"]
 	path = .vim/bundle/vim-textobj-indent
 	url = https://github.com/kana/vim-textobj-indent.git
-    ignore = untracked
-[submodule ".vim/bundle/vim-textobj-lastpat"]
-	path = .vim/bundle/vim-textobj-lastpat
-	url = https://github.com/kana/vim-textobj-lastpat.git
     ignore = untracked
 [submodule ".vim/bundle/vim-textobj-pastedtext"]
 	path = .vim/bundle/vim-textobj-pastedtext
