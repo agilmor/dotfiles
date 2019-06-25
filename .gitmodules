@@ -253,3 +253,6 @@
 [submodule ".tmux/plugins/tmux-continuum"]
 	path = .tmux/plugins/tmux-continuum
 	url = https://git::@github.com/tmux-plugins/tmux-continuum
+[submodule ".vim/bundle/smarttab.vim"]
+	path = .vim/bundle/smarttab.vim
+	url = https://github.com/Soares/smarttab.vim.git

@@ -11,6 +11,20 @@ set noexpandtab
 set softtabstop=8
 set tabstop=8
 set shiftwidth=8
+set textwidth=80
+set cinoptions=t0         " don't outdent function return types
+set cinoptions+=:0        " no extra indentation for case labels
+set cinoptions+=g0        " no extra indentation for "public", "protected", "private" labels
+set cinoptions+=(0        " line up function args
+set formatoptions=croqlnt " c: autowrap comments on textwidth
+                          " r: autoinsert comment leader on <Enter>
+                          " o: autoinsert comment leader on <o> or <O>
+                          " q: allow formatting of comments with gq
+                          " l: long lines are not broken in insert mode
+                          " n: recognize numbered lists
+                          " t: autowrap using textwidth
+set copyindent            " use previous indent
+
 
 " Tags and CScope: used autocomplete and code search
 "set tags =.vimprj.tag
