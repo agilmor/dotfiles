@@ -20,10 +20,13 @@ fi
 #
 # -ixon -ixoff: to remove XON/OFF to release Ctrl-s and Ctrl-q
 # -ctlecho    : to remove echo of Ctrl-c (^C)
+# globstar    : to use ** for recursive pattern
 #
 if [ -t 0 ]; then # If not running interactively, don't do anything
     stty -ixon -ixoff -ctlecho
 fi
+shopt -s globstar
+
 
 # recommended from tmux-continium for a better bash-history
 HISTCONTROL=ignoreboth
