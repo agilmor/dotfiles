@@ -160,6 +160,8 @@
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                       General options (set)
+"
+" See SetMainDefaults for more default options
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
@@ -182,7 +184,6 @@ set splitbelow                     " split below
 set autowrite                      " automatically save changes (build without save)
 set laststatus=2                   " always see the status bar (see "Coloring" to use the bar to highlight the current mode)
 set showtabline=2                  " always see the tab bar (see "Coloring" to use the bar to highlight the current mode)
-set textwidth=120                  " desired width limit
 set colorcolumn=0                  " to see a line to the text limit (see "Coloring", SwitchDecorations) (disabled)
 set nocursorline nocursorcolumn    " cursor column and line non visible by default
 set autoindent                     " autoindent
@@ -247,6 +248,8 @@ Plugin 'tpope/vim-dispatch.git'              " background/async builds (how to u
 Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easy-clip)
 Plugin 'vim-scripts/visualrepeat'            " used by easy-align
 Plugin '907th/vim-auto-save'                 " auto save
+Plugin 'Soares/smarttab.vim'                 " tabs for indent and spaces for align (very old)
+" Plugin 'dpc/vim-smarttabs'                   " tabs for indent and spaces for align (not working)
 " Plugin 'AsyncCommand'                        " background/async builds (needs vim --servername)
 
 " Browsing
@@ -1107,7 +1110,16 @@ function! <SID>SetMainDefaults()
     set shiftwidth=4
     set expandtab               " using spaces instead of tabs
     set smarttab                " doesn't do anything...?
-    set formatoptions=ronj      " auto create comment characters/leaders
+    set textwidth=120           " desired width limit
+    set formatoptions=ronj      " c: autowrap comments on textwidth
+                                " r: autoinsert comment leader on <Enter>
+			                    " o: autoinsert comment leader on <o> or <O>
+			                    " q: allow formatting of comments with gq
+			                    " l: long lines are not broken in insert mode
+			                    " n: recognize numbered lists
+			                    " t: autowrap using textwidth
+    set cinoptions=             " no cinoptions
+    set copyindent              " keep indent of previous line
 
     set path=.,/usr/local/include,/usr/include
     compiler gcc
@@ -1629,6 +1641,7 @@ tmap     <silent> <M-Right> <Leader>:TmuxNavigateRight<cr>
 
 " Leader: w is the leader key for all windows and tabs (is <C-w>)
 nnoremap w           <C-w>
+nnoremap w<Bar>      :vsplit<cr>
 
 " To restore the previous 'view' of the buffer (keep cursor position)
 " Very-very useful (with sh)!
@@ -2112,6 +2125,8 @@ nmap sst          :cs find t  <C-R>=expand("<cword>")<CR><CR>
 nmap ss<PageDown> :cs find t  <C-R>=expand("<cword>")<CR><CR>
 nmap sse          :cs find e  <C-R>=expand("<cword>")<CR><CR>
 nmap ssf          :cs find f  <C-R>=expand("<cfile>")<CR><CR>
+nnoremap ss<Return>   gd
+nnoremap ss{      [[
 
 " tags/links (moved to cscope)
 " noremap    sl         :tjump /<C-r><C-w><cr>
