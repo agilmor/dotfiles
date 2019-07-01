@@ -1093,6 +1093,7 @@ autocmd BufWritePost .vimprj source .vimprj
 
 set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize,terminal " save everything
 let g:session_directory         = '~/.vim-sessions'                         " to save sessions locally, out of dotfiles
+let g:session_lock_enabled      = 0                                         " to avoid annoying locked sessions
 let g:session_autoload          = 'prompt'                                  " used when starting vim without anyfile
 let g:session_autosave          = 'yes'                                     " is a session is open and vim closes
 let g:session_autosave_periodic = 1                                         " save the session every minute (only if one is open, right?)
