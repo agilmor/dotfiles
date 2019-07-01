@@ -425,21 +425,25 @@ slurm-setup()
     mkdir -p ${SLURM_LOCAL_DIR}/var/run
     mkdir -p ${SLURM_LOCAL_DIR}/var/spool
     mkdir -p ${SLURM_LOCAL_DIR}/tmp
+
+    if [ ! -L ${SLURM_LOCAL_DIR}/etc ]; then
+        ln -s ../etc ${SLURM_LOCAL_DIR}/etc
+    fi
 }
 
 slurm-dbd()
 {
-    $SLURM_LOCAL_DIR/sbin/slurmdbd -Dvvv
+    $SLURM_LOCAL_DIR/sbin/slurmdbd -Dvvv $*
 }
 
 slurm-ctld()
 {
-    $SLURM_LOCAL_DIR/sbin/slurmctld -Dvvv
+    $SLURM_LOCAL_DIR/sbin/slurmctld -Dvvv $*
 }
 
 slurm-d()
 {
-    $SLURM_LOCAL_DIR/sbin/slurmd -DvvvN $1
+    $SLURM_LOCAL_DIR/sbin/slurmd -DvvvN $*
 }
 
 if [ "$SLURM_SETUP_VER" != "" ]; then
