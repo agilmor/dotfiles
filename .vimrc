@@ -590,7 +590,7 @@ let g:ycm_autoclose_preview_window_after_completion     = 0                     
 set rtp^=~/.vim/snippets/                                             " my own snippets should be preened in runtime paths
 let g:UltiSnipsSnippetsDir              = '~/.vim/snippets/UltiSnips' " my own snippets
 let g:UltiSnipsSnippetDirectories       = ['UltiSnips']               " just the default to be able to use standard packages
-let g:UltiSnipsEnableSnipMate           = 0                           " too many unknown snippets? maybe I should give them a try?
+let g:UltiSnipsEnableSnipMate           = 1                           " too many unknown snippets? maybe I should give them a try?
 let g:UltiSnipsExpandTrigger            = "<Insert>"                  " <Tab> is used by YCM
 let g:UltiSnipsListSnippets             = "<F11>"                     " to avoid conflicts with CodeComplete... but <S-Tab> is actually the one I'm using!)
 let g:UltiSnipsJumpForwardTrigger       = "<Tab>"
@@ -598,7 +598,9 @@ let g:UltiSnipsJumpBackwardTrigger      = "<S-Tab>"
 let g:UltiSnipsEditSplit                = "vertical"                  " it should be nice if I can do it as svim or sprj....
 let g:UltiSnipsRemoveSelectModeMappings = 1                           " yes, printable characters shouldn't be mapped in select mode...
 
-nmap <Insert> O<F11>
+nmap <Insert>   O<F11>
+nmap <Leader>{  <Up><End><Right>v<End><Down><Left><Insert>sl2mlbr<Insert><Esc>dd
+nmap <Leader>d{ }dd{<Left>d<End>
 
 let delimitMate_autoclose            = 1 " basic functionality
 let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
