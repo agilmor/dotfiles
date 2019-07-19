@@ -446,6 +446,11 @@ slurm-d()
     $SLURM_LOCAL_DIR/sbin/slurmd -DvvvN $*
 }
 
+slurm-tail-d()
+{
+    sudo tail -n 300 -f $SLURM_LOCAL_DIR/var/log/slurmd-$1.log
+}
+
 if [ "$SLURM_SETUP_VER" != "" ]; then
     slurm-setup
 fi
