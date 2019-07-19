@@ -33,14 +33,14 @@ attach: false
 # post: tmux -CC attach -t local
 
 windows:
-  - dev:
+  - cfg:
       layout: main-horizontal
       panes:
         - vim:
           - tmux link-window -s notes:notes -t slurm-<%= @args[0] %>
           - cd ~/workspace/slurm/<%= @args[0] %>/slurm
           - slurm-setup <%= @args[0] %>
-          - vim --servername slurm-<%= @args[0] %>
+          - vim --servername slurm-<%= @args[0] %>-conf
         - git:
           - cd ~/workspace/slurm/<%= @args[0] %>/slurm
           - slurm-setup <%= @args[0] %>
@@ -48,14 +48,17 @@ windows:
   - run:
       layout: b0e7,274x81,0,0{137x81,0,0[137x63,0,0,17,137x17,0,64,25],136x81,138,0[136x18,138,0{85x18,138,0,26,50x18,224,0,105},136x22,138,19,23,136x21,138,42,24,136x8,138,64{68x8,138,64,19,67x8,207,64,21},136x8,138,73{68x8,138,73,20,67x8,207,73,22}]}
       panes:
-        - conf:
+        - sql:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
-          - vim --servername slurm-<%= @args[0] %>-conf
-        - user:
+          - sudo mysql -u root
+          - use slurm_acct_db_<%= @args[0] %>
+          - show tables;
+        - admin:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
           - ll local/etc/
+          - echo tmux-slurm-bug dev
         - smap:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
@@ -69,33 +72,33 @@ windows:
         - dbd:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
-          - slurmdbd -Dvvv
+          - slurm-dbd
         - ctld:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
           - sleep 3
-          - slurmctld -Dvvv
+          - slurm-ctld
         - c1:
           - sudo -i
           - cd /home/agil/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
           - sleep 5
-          - slurmd -DvvvN c1
+          - slurm-d c1
         - c2:
           - sudo -i
           - cd /home/agil/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
           - sleep 5
-          - slurmd -DvvvN c2
+          - slurm-d c2
         - c3:
           - sudo -i
           - cd /home/agil/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
           - sleep 5
-          - slurmd -DvvvN c3
+          - slurm-d c3
         - c4:
           - sudo -i
           - cd /home/agil/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
           - sleep 5
-          - slurmd -DvvvN c4
+          - slurm-d c4
