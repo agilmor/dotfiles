@@ -2311,8 +2311,11 @@ autocmd FileType qf map <buffer> dd :RemoveQFItem<cr>
 
 " open/close win-diff
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
-nnoremap <silent> wd     :tabnew %<CR>:VCSVimDiff<cr><C-w><Left>]c
-nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff" -c "tabdo wincmd h"<cr>
+" nnoremap <silent> wd     :tabnew %<CR>:VCSVimDiff<cr><C-w><Left>]c
+nnoremap <silent> wd     :tabnew %<CR>:Gdiff<cr><C-w><Left>]c
+nnoremap <silent> wad    :! vim -p $(git diff --name-only) -c "tabdo Gdiff" -c "tabdo wincmd h"<cr>
+" nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff" -c "tabdo wincmd h"<cr>
+nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo Gdiff" -c "tabdo wincmd h"<cr>
 nnoremap <silent> wsd    :! vim -p $(svn st <Bar> grep "M " <Bar> awk '{print $2}') -c "tabdo VCSVimDiff"<cr>
 nnoremap <silent> wdq     <C-w><Right>:bd<cr>:wq<cr>
 
