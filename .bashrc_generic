@@ -465,5 +465,5 @@ gpi-calcula()
 }
 i2cat-ibpm()
 {
-    autossh ubuntu@ibpm -t "tmux attach -i ibpm"
+    autossh ubuntu@ibpm -t "tmux attach -t ibpm"
 }
