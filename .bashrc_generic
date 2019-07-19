@@ -473,3 +473,7 @@ gpi-calcula()
 {
     autossh calcula.tsc.upc.edu -p2225 -t "module load tmux; tmux attach -t calcula"
 }
+i2cat-ibpm()
+{
+    autossh ubuntu@ibpm -t "tmux attach -i ibpm"
+}
