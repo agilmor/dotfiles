@@ -206,7 +206,7 @@ set nobackup                       " no backup files, we should use git/svn alwa
 set noswapfile                     " no swap files, we should use git/svn always, and we have the persistent undo
 set undodir=~/.vim/tmp/            " location of the undo directory
 " set keywordprg=                    " used by 'K' (man -s),
-set grepprg=grep\ -n\ --exclude-dir=.svn\ $*\ /dev/null " to exclude svn/git results from search results
+set grepprg=grep\ -n\ --exclude-dir=.svn\ --exclude=.vimprj.cscope\ $*\ /dev/null " to exclude svn/git results from search results
 
 set statusline=
 set statusline+=%y%h%q%w                          " file and buffer type
