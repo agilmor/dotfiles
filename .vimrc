@@ -223,6 +223,7 @@ set statusline+=\ \[%p%%\ of\ %L\]                " file position
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
+let g:netrw_dirhistmax=0           " to avoid .netrwhist creation
 let mapleader='º'                  " maybe, because the remaps, I can just use the default...?
 runtime ftplugin/man.vim           " to be able to render man pages
 runtime ftplugin/vim.vim           " to use the vim help
