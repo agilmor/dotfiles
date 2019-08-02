@@ -419,6 +419,8 @@ slurm-setup()
     if [ ! -L ${SLURM_LOCAL_DIR}/etc ]; then
         ln -s ../etc ${SLURM_LOCAL_DIR}/etc
     fi
+
+    source ${SLURM_SLURM_DIR}/contribs/slurm_completion_help/slurm_completion.sh
 }
 
 slurm-dbd()
