@@ -58,7 +58,7 @@ windows:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
           - ll local/etc/
-          - echo tmux-slurm-bug dev
+          - echo tmux-slurm-bug <%= @args[0] %>-dev
         - smap:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
