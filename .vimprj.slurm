@@ -3,7 +3,7 @@
 "
 
 " Build: command to be run
-set makeprg=make\ -C\ ../build\ -j\ cscope\ install\ install-contrib
+set makeprg=bear\ --append\ -o\ ./compile_commands.json\ make\ -C\ ../build\ -j2\ cscope\ install\ install-contrib
 
 " each project can define its headers extension (.h or .hpp)
 let g:cpp_header_ext='h'
@@ -52,7 +52,7 @@ augroup myvimprj
   "
 "  autocmd BufWritePost * :Start! ctags-exuberant -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ --tag-relative=no -f .vimprj.tag include/
 
-  " 
+  "
   " Add cscope db
   "
   autocmd ShellCmdPost * :cscope reset
