@@ -374,7 +374,7 @@ tmux-slurm-bug()
     tmux select-layout "7e02,274x81,0,0{161x81,0,0[161x71,0,0,56,161x9,0,72,79],112x81,162,0[112x18,162,0,77,112x62,162,19,78]}"
     tmux select-pane -t 1
     # tmux send-keys -t 1 "vim --servername bug-$bug" Enter
-    tmux send-keys -t 1 "vim NEWS" Enter ":OpenSession bug-$bug" Tab Enter ":SaveSession bug-$bug" Tab Enter
+    tmux send-keys -t 1 "vim NEWS" Enter ":OpenSession bug-$bug-$SLURM_SETUP_VER" Tab Enter ":SaveSession bug-$bug-$SLURM_SETUP_VER" Tab Enter
     tmux send-keys -t 2 "git status -uno" Enter
     tmux send-keys -t 3 "squeue; echo smap -i2" Enter
     tmux send-keys -t 4 "sinfo" Enter
