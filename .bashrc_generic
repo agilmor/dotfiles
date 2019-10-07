@@ -375,6 +375,7 @@ tmux-slurm-bug()
     tmux select-pane -t 1
     # tmux send-keys -t 1 "vim --servername bug-$bug" Enter
     tmux send-keys -t 1 "vim NEWS" Enter ":OpenSession bug-$bug-$SLURM_SETUP_VER" Tab Enter ":SaveSession bug-$bug-$SLURM_SETUP_VER" Tab Enter
+    tmux send-keys -t 2 "mkdir -p ~/workspace/slurm/bugs/$bug" Enter
     tmux send-keys -t 2 "git status -uno" Enter
     tmux send-keys -t 3 "squeue; echo smap -i2" Enter
     tmux send-keys -t 4 "sinfo" Enter
