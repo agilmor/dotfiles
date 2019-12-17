@@ -366,20 +366,35 @@ tmux-slurm-run()
 tmux-slurm-bug()
 {
     bug=$1
+    export SLURM_BUG_PATH=~/workspace/slurm/bugs/$bug
+    mkdir -p $SLURM_BUG_PATH
+
     tmux new-window -n "$bug" -c $SLURM_SLURM_DIR -a -t "run"
 #     tmux swap-window -t -1
     tmux split-window -c $SLURM_SLURM_DIR
     tmux split-window -c $SLURM_SLURM_DIR
     tmux split-window -c $SLURM_SLURM_DIR
-    tmux select-layout "7e02,274x81,0,0{161x81,0,0[161x71,0,0,56,161x9,0,72,79],112x81,162,0[112x18,162,0,77,112x62,162,19,78]}"
+    tmux split-window -c $SLURM_SLURM_DIR
+#     tmux select-layout "7e02,274x81,0,0{161x81,0,0[161x71,0,0,56,161x9,0,72,79],112x81,162,0[112x18,162,0,77,112x62,162,19,78]}"
+    tmux select-layout "d241,274x76,0,0{161x76,0,0[161x68,0,0,370,161x7,0,69,371],112x76,162,0[112x15,162,0,372,112x30,162,16,373,112x29,162,47,375]}"
     tmux select-pane -t 1
+
     # tmux send-keys -t 1 "vim --servername bug-$bug" Enter
+    tmux send-keys -t 1 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
     tmux send-keys -t 1 "vim NEWS" Enter ":OpenSession bug-$bug-$SLURM_SETUP_VER" Tab Enter ":SaveSession bug-$bug-$SLURM_SETUP_VER" Tab Enter
-    tmux send-keys -t 2 "mkdir -p ~/workspace/slurm/bugs/$bug" Enter
+
+    tmux send-keys -t 2 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
     tmux send-keys -t 2 "git status -uno" Enter
+
+    tmux send-keys -t 3 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
     tmux send-keys -t 3 "squeue; echo smap -i2" Enter
+
+    tmux send-keys -t 4 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
     tmux send-keys -t 4 "sinfo" Enter
-    tmux send-keys -t 4 "sinfo" Enter
+
+    tmux send-keys -t 5 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
+    tmux send-keys -t 5 "cd $SLURM_BUG_PATH" Enter
+    tmux send-keys -t 5 "ls -lha" Enter
 }
 
 #
