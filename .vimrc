@@ -191,7 +191,7 @@ set foldmethod=syntax              " use the syntax to decide folding
 set nofoldenable                   " disable folding by default (using tagbar is much better)
 set pastetoggle=<F1>               " remove all auto* features when pasting from X
 set scrolloff=10                   " to scroll before first/last line
-set sidescrolloff=10               " to scroll before first/last character in a line
+set sidescrolloff=0                " to scroll before first/last character in a line (0 to work with exactly 80 cols)
 set sidescroll=1                   " to scroll a single character horizontally
 set wildmode=longest:list          " use cmdline completion (tab) as a normal shell completion
 set complete+=kspell               " to be able to use autocomplete with the spell dictionary, only when set spell is enabled
