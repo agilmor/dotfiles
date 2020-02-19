@@ -44,3 +44,5 @@ xinput disable "ELAN Touchscreen" # due hwd problems... :-(
 #
 unclutter -idle 1 -jitter 2 -root & # To hide the mouse
 compton &                           # To dimm the unfocus windows
+
+numlockx on                         # To ensure numlock is enabled
