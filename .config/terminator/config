@@ -1,78 +1,77 @@
 [global_config]
-  close_button_on_tab = False
-  tab_position = bottom
-  inactive_color_offset = 0.49
   borderless = True
+  close_button_on_tab = False
+  inactive_color_offset = 0.49
+  tab_position = bottom
 [keybindings]
-  cycle_prev = Disabled
-  close_window = Disabled
-  group_tab = Disabled
-  move_tab_right = Disabled
-  resize_left = Disabled
-  rotate_ccw = Disabled
-  reset_clear = Disabled
-  go_right = Disabled
-  new_tab = Disabled
-  resize_right = Disabled
-  resize_down = Disabled
-  toggle_zoom = Disabled
-  scaled_zoom = Disabled
-  zoom_in = Disabled
-  group_all = Disabled
-  full_screen = Disabled
-  prev_tab = Disabled
-  split_vert = Disabled
-  ungroup_all = Disabled
-  ungroup_tab = Disabled
-  cycle_next = Disabled
-  zoom_out = Disabled
-  go_prev = Disabled
-  close_term = Disabled
-  new_terminator = Disabled
-  go_left = Disabled
-  hide_window = Disabled
-  reset = Disabled
-  search = Disabled
-  go_up = Disabled
-  resize_up = Disabled
-  next_tab = Disabled
-  split_horiz = Disabled
-  zoom_normal = Disabled
-  go_down = Disabled
-  new_window = Disabled
-  move_tab_left = Disabled
-  toggle_scrollbar = Disabled
   broadcast_all = Disabled
   broadcast_group = Disabled
   broadcast_off = Disabled
+  close_term = Disabled
+  close_window = Disabled
   copy = Disabled
+  cycle_next = Disabled
+  cycle_prev = Disabled
   edit_tab_title = Disabled
   edit_terminal_title = Disabled
   edit_window_title = Disabled
+  full_screen = Disabled
+  go_down = Disabled
+  go_left = Disabled
   go_next = Disabled
+  go_prev = Disabled
+  go_right = Disabled
+  go_up = Disabled
+  group_all = Disabled
+  group_tab = Disabled
   help = Disabled
+  hide_window = Disabled
   insert_number = Disabled
   insert_padded = Disabled
   layout_launcher = Disabled
-[profiles]
-  [[default]]
-    scrollbar_position = hidden
-    palette = "#000000:#aa0000:#00aa00:#aa5500:#0000aa:#aa00aa:#00aaaa:#aaaaaa:#555555:#ff5555:#55ff55:#ffff55:#5555ff:#ff55ff:#55ffff:#ffffff"
-    background_image = None
-    custom_command = env TERM=xterm-256color bash
-    scrollback_lines = 1000
-    use_system_font = False
-    foreground_color = "#ffffff"
-    use_custom_command = True
-    scroll_on_output = False
-    show_titlebar = False
-    font = DejaVu Sans Mono 8
+  move_tab_left = Disabled
+  move_tab_right = Disabled
+  new_tab = Disabled
+  new_terminator = Disabled
+  new_window = Disabled
+  next_tab = Disabled
+  prev_tab = Disabled
+  reset = Disabled
+  reset_clear = Disabled
+  resize_down = Disabled
+  resize_left = Disabled
+  resize_right = Disabled
+  resize_up = Disabled
+  rotate_ccw = Disabled
+  scaled_zoom = Disabled
+  search = Disabled
+  split_horiz = Disabled
+  split_vert = Disabled
+  toggle_scrollbar = Disabled
+  toggle_zoom = Disabled
+  ungroup_all = Disabled
+  ungroup_tab = Disabled
+  zoom_in = Disabled
+  zoom_normal = Disabled
+  zoom_out = Disabled
 [layouts]
   [[default]]
     [[[child1]]]
-      type = Terminal
       parent = window0
+      type = Terminal
     [[[window0]]]
-      type = Window
       parent = ""
+      type = Window
 [plugins]
+[profiles]
+  [[default]]
+    cursor_color = "#ffffff"
+    custom_command = env TERM=xterm-256color bash
+    font = Monospace 9
+    foreground_color = "#ffffff"
+    palette = "#000000:#aa0000:#00aa00:#aa5500:#0000aa:#aa00aa:#00aaaa:#aaaaaa:#555555:#ff5555:#55ff55:#ffff55:#5555ff:#ff55ff:#55ffff:#ffffff"
+    scrollback_lines = 1000
+    scrollbar_position = hidden
+    show_titlebar = False
+    use_custom_command = True
+    use_system_font = False
