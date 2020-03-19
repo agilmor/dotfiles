@@ -43,6 +43,8 @@
 " a,/i, : in/a elements between , or separators (auto-seek and [count]+ai+nN+obj)
 " aq/iq : in/a Qomment segment
 " au/iu : in/a URIs as textobj
+" an/in : in/a Next serach match (gn) (works as motion in visual mode)
+" aN/iN : in/a prev serach match (gN) (works as motion in visual mode)
 " al/il : in/a Line, with or without trailing and leading white spaces
 " ae/ie : in/a Entire file, with or without trailing and leading empty lines
 " ip    : in the last Pasted
@@ -1454,9 +1456,17 @@ omap aQ <Plug>(textobj-comment-big-a)
 
 " tagets.vin config
 let g:targets_aiAI = 'aIAi' " to ignore whitespaces with 'i' and add them with 'I'
-let g:targets_nl   = 'nN'   " to be able to use il/al for 'lines'
+let g:targets_nl   = 'Ññ'   " to be able to use il/al for 'lines' and in/an/iN/aN for next serch match
 
 let g:pastedtext_select_key = 'ip' " using ip instead of gb as last pasted text-obj
+xnoremap an gn
+onoremap an gn
+xnoremap in gn
+onoremap in gn
+xnoremap aN gN
+onoremap aN gN
+xnoremap iN gN
+onoremap iN gN
 
 " lastpat config:  removed as not used and forces with targets.vim to use (,-) instead of nN
 " let g:textobj_lastpat_no_default_key_mappings = 1
