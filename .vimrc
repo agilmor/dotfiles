@@ -183,7 +183,7 @@
 " --------------------
 "
 " wd / wdd    : WimDiff current file in a new tab (:Gdiff)
-" wad         : WimDiff All files in the repo in a new vim with a tab per file
+" wda         : WimDiff All files in the repo in a new vim with a tab per file
 " wdu         : WimDff (:diffupdate)
 " wds         : git Status (:Gstatus (D: diff, -: add/reset, U: checkout, cc/ca: commit/amend, r: reload)
 " wdb         : git Blame (:Gblame)
@@ -2419,7 +2419,9 @@ autocmd FileType qf map <buffer> dd :RemoveQFItem<cr>
 " nnoremap <silent> wd     :tabnew %<CR>:VCSVimDiff<cr><C-w><Left>]c
 nnoremap <silent> wd     :tabnew %<CR>:Gdiff<cr><C-w><Right>]c
 nnoremap <silent> wdd    :tabnew %<CR>:Gdiff<cr><C-w><Right>]c
-nnoremap <silent> wad    :! vim -p $(git diff --name-only) -c "tabdo Gdiff" -c "tabdo wincmd h"<cr>
+nnoremap <silent> wda    :! vim -p $(git diff --name-only) -c "tabdo Gdiff" -c "tabdo wincmd h"<cr>
+" :Git difftool is not really Gdiff: read-only and not able to stage
+" nnoremap <silent> wad    :Git difftool
 " nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff" -c "tabdo wincmd h"<cr>
 nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo Gdiff" -c "tabdo wincmd h"<cr>
 nnoremap <silent> wsd    :! vim -p $(svn st <Bar> grep "M " <Bar> awk '{print $2}') -c "tabdo VCSVimDiff"<cr>
