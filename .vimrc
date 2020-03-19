@@ -146,6 +146,8 @@
 " fun<Insert> : function
 " fund<Insert>: function declaration
 "
+" ñycm / <F4> : toggle autocomplete (SwitchYCM)
+"
 " Windows (w) and Buffers (b)
 " ---------------------------
 "
@@ -221,8 +223,8 @@
 " F1            : paste mode for new pastes  (pastetoggle)
 " F2  / ñp      : paste mode for just pasted (EasyClipToggleFormattedPaste)
 " F12 / ÑP      : toggle paste autoformat    (g:EasyClipAutoFormat)
-" F3  / ñw      : window decorations         (SwitchDecorations)
-"
+" F3  / ñw      : toggle window decorations  (SwitchDecorations)
+" F4  / ñycm    : toggle autocomplete        (SwitchYCM)
 " F5            : reload file (:e)
 " F6            : reload vimrc
 " F7 / ñs       : toggle autosave            (AutoSaveToggle)
@@ -238,6 +240,8 @@
 " :W!! sudo write
 " <C-k> : normal mode in command line (cedit)
 "
+" TODO:
+" - test https://github.com/Olical/vim-enmasse
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                       General options (set)
@@ -649,7 +653,7 @@ let g:auto_save_events            = ["CursorHold"]                  " other poss
 " let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py' " to avoid waring message
 let g:ycm_always_populate_location_list                 = 1                        " to always fill up location list with diagnosis
 let g:ycm_max_num_candidates                            = 50                       " 0 is no limit, but >100 could be bad for performance?
-let g:ycm_min_num_of_chars_for_completion               = 1                        " autocomplete as soon as possible (a big number is a 'disable' of non-semantic completions
+let g:ycm_min_num_of_chars_for_completion               = 3                        " autocomplete as soon as possible (a big number is a 'disable' of non-semantic completions
 let g:ycm_auto_trigger                                  = 1                        " no need to press any key to receive suggestions
 let g:ycm_filetype_whitelist                            = { '*': 1 }               " always enabled (using also the default 'ycm_filetype_blacklist' and 'ycm_filetype_specific_completion_to_disable'
 let g:ycm_error_symbol                                  = '>'
@@ -1765,6 +1769,9 @@ noremap    <F3>       :call SwitchDecorations()<cr>
 noremap    ñw         :call SwitchDecorations()<cr>
 nnoremap   wn         :call NumberToggle()<cr>
 
+noremap    <F4>       :call SwitchYCM()<cr>
+noremap    ñycm       :call SwitchYCM()<cr>
+
 " Maximize (ww) and 'Tabize' (wt)
 set wmh=0                                   " to fully maximize in height
 set wmw=0                                   " to fully maximize in width
@@ -1975,6 +1982,15 @@ nnoremap <silent> <Plug>Kwbd :<C-u>Kwbd<CR>
 
 " Create a mapping (e.g. in your .vimrc) like this:
 nmap bd <Plug>Kwbd
+
+" Function to toggle autocomplete for YCM
+function! SwitchYCM()
+    if g:ycm_auto_trigger == 1
+        let g:ycm_auto_trigger=0
+    else
+        let g:ycm_auto_trigger=1
+    endif
+endfunction
 
 " Function to enable disable decorations (they should be disabled by default)
 let g:mydecoration=0
