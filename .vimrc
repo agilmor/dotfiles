@@ -6,156 +6,228 @@
 " Full Operators
 " --------------
 "
-" y                : yank
-" d                : delete
+" y                : Yank
+" d                : Delete
 " x                : cut
-" r                : replace
-" c                : change
-" e                : exchange
-" q                : comment
+" r                : Replace
+" c                : Change
+" e                : Exchange (eq to quit current exchange)
+" q                : Qomment
 "
-" > / >>           : align (C-x for generic separator)
-" < <Left>/<Right> : indent left / right
+" >                : Align (C-x for generic separator) (EasyAlign)
+" < <Left>/<Right> : Indent left / right
 "
-" (y,d,c)s         : surrounding operators
+" Pseudo Operators
+" ----------------
 "
+" ys<obj><brç>     : Add open/close <brç> surrounding <obj>
+" ds<brç>          : Delete open/close surrounding <brç>
+" cs<brç1><brç2>   : Change open/close surrounding <brç1> by <brç2>
 "
-" Semi Operators
-" --------------
-"
-" g(c)w / g(c)* : grep (and change) current word / only current word
-" C(u,s,c,m)    : case naming convention UPPER_STYLE, snake_style, CamelStyle, mixedStyle
-" d<Space>      : remove trailing whitespaces on current line or the visual selected lines (:StripWhitespace)
-" z<Arrows>     : in Visual moves/drags the selection following the arrows (dragvisuals)
+" C(u,s,c,m)       : Change-Case style of current word to UPPER_STYLE, snake_style, CamelStyle, mixedStyle (Abolish)
+" d<Space>         : Delete trailing whitespaces on current line or the visual selected lines (:StripWhitespace)
+" yp / YP          : cpen Yanked list and paste the selected one
+" <p / >P          : Rotate last Pasted
+" <y / >Y          : Rotate Yanked list
+" ñp / <F2>        : Toggle autoformat of last pasted
+" [Vis Sel Col]+   : Increment selected column
+" [Vis Sel Col]-   : Decrement selected column
 "
 " Text Objects
 " ------------
 "
-" av/iv : a segment of a Variable name in UPPER_STYLE, snake_style, CamelStyle or mixedStyle
-" af/if : a Function (doesn't work in functions inside a class?)
-" aa/ia : funtion Arguments, with or without argument separator (auto-seek and [count]+ai+nN+obj)
-" at/it : object in a <Tag>obj</Tag> (auto-seek and [count]+ai+nN+obj)
-" a,/i, : elements in a list, with or separators (auto-seek and [count]+ai+nN+obj)
-" aq/iq : a comment segment
-" au/iu : URIs as textobj
-" al/il : whole Line, with or without trailing and leading white spaces
-" ae/ie : Entire file, with or without trailing and leading empty lines
-" ip    : Last pasted as text-obj
+" av/iv : in/a Variable-Segment based on UPPER_STYLE, snake_style, CamelStyle or mixedStyle
+" af/if : in/a Function (doesn't work in functions inside a class?)
+" aa/ia : in/a Argument of a function, with or without argument separator (auto-seek and [count]+ai+nN+obj)
+" at/it : in/a <Tag>obj</Tag> (auto-seek and [count]+ai+nN+obj)
+" a,/i, : in/a elements between , or separators (auto-seek and [count]+ai+nN+obj)
+" aq/iq : in/a Qomment segment
+" au/iu : in/a URIs as textobj
+" al/il : in/a Line, with or without trailing and leading white spaces
+" ae/ie : in/a Entire file, with or without trailing and leading empty lines
+" ip    : in the last Pasted
 "
-" Semi Text Objects
-" -----------------
+" Pseudo Text Objects
+" -------------------
 "
-" x                          : single letter/character
-" b<Up/Down>                 : between two lines (easy motions) (only yank, change and delete)
-" b<Left/Right>(char1 char2) : between two chars at any line (easy motions) (only yank, change and delete)
+" x                           : single Xaracter
+" b<Up/Down>                  : Between two lines (easy motions) (only yank, change and delete)
+" b<Left/Right><char1><char2> : Between two chars at any line (easy motions) (only yank, change and delete)
+" <Arrow><target char>        : easymotions
+" m<char>                     : from current position to Mark<char>
+" <S-Arrows>                  : direct visual-block selection
 "
-" Switching Modes
-" ---------------
+" Nav/See (s), Search (ss) and Quickfix (z)
+" -----------------------------------------
 "
-" ax(char/arros) : add single 'char' before cursor, add a single line up or down, or add space before or after current pos
-" a<Arrows>      : go insert mode in line above, below, and begin and end of the line
+" s<Up>           : See prev jump (<C-o>)
+" s<Down>         : See next jump (<C-i>)
+" s<Left>         : See prev change (g;)
+" s<Right>        : See next change (g,)
+" s<S-Up/Left>    : See beging last changed or pasted (`[)
+" s<S-Down/Right> : See end    last changed or pasted (`])
 "
-" <S-Arrows>     : block selection
-" zz             : expand selection
-" z<Up/Down>     : line selection
-" z<left/Right>  : normal selection
+" ç               : see matching braÇet and others (matchit.zip)
+" M<char>         : Mark current position as <char>
+" m<char>         : Move to position Marked as <char>
+" MM / mm         : quick Mark and see
+" dM<char><cr>    : Delete Mark <char>
 "
-" Navigation
-" ----------
+" se              : See Explorer window (NerdTree)
+" so              : See Outline (ctag)
+" sm              : See Marks
+" swm             : See Windom marks
+" sc              : See Changes
+" sj              : See Jumps
+" su              : See Undo-tree
+" sy              : See Yanks
+" sr              : See Registers (unused because of yanks list / easyclip)
 "
-" , : previous
-" - : next
-" ; : special previous
-" _ : special next
+" sb              : See Buffers
+" sab             : See (and open) All Buffers
+" bb              : open last Buffer
+"
+" sf              : See File under cursor
+" svf             : See File under cursor in a Vertical split
+" stf             : See File under cursor in a Tab split
+"
+" svim            : See ~/.vimrc
+" sprj            : See $PWD/.vimprj
+"
+" In general search results go to quickfix:
+"
+" ss<Left>        : Search symbol occurrences (cscope)
+" ss<S-Left>      : Search symbol occurrences (easygrep)
+" ss<Right>       : Search symbol definition (cscope)
+" ss<S-Right>     : Search symbol declaration (YCM)
+" ss<Up>          : Search function callers (cscope)
+" ss<S-Up>        : Search functions called (cscope)
+" ss<Down>        : Search text occurrences (cscope)
+" ss<PageUp>      : Search files including this (cscope)
+" ssh             : Search Header
+" sst             : Search Test
+"
+" zz              : show / hide current quickfix
+" z<Up>           : open prev line in the quickfix
+" z<Down>         : open next line in the quickfix
+" z<PageUp>       : open prev 10 line in the quickfix
+" z<PageDown>     : open next 10 line in the quickfix
+" z<Left>         : open prev quickfix
+" z<Right>        : open next quickfix
+"
+" Edit, Autocomplete and Snippets (<Insert>)
+" ------------------------------------------
+"
+" In Normal Mode:
+"
+" a<Arrows>   : add a line above or below, or go to begin and end of line insert mode
+" ax<Arrow>   : add a single line up or down, or space before or after cursor
+" ax(char)    : add single 'char' on/before cursor
+" ;;          : add ending ;
+"
+" <Insert><Insert> : list and inserts snippet (Ultisnips)
+" <Insert>{   : Add pairs {} at the of end of the line above and on the line below
+" d<Insert>{  : Delete pairs {} at the of end of the line above and on the line below
+"
+" TODO: Search/Replace :Replace (grw: Grep and Replace Word (for all PWD, not option for current file only)
+"
+" In Insert Mode:
+"
+" <C-v>       : paste (also works on command mode)
+" <C-u>       : next key will be inserted as raw (with escape characters)
+" <Insert>    : launch/list snippets in insert/normal modes (Ultisnips)
+" if<Insert>  : if
+" el<Insert>  : else
+" ife<Insert> : if/else
+" for<Insert> : for
+" wh<Insert>  : while
+" fun<Insert> : function
+" fund<Insert>: function declaration
+"
+" Windows (w) and Buffers (b)
+" ---------------------------
+"
+" <S-PageUp>  : Move   Up   to the begin of file
+" <S-PageDown>: Move   Down to the end   of file
+" <C-PageUp>  : Scroll Up
+" <C-PageDown>: Scroll Down
+"
+" w<Arrow>    : Select neighbour window (also <A-Arrow> if tmux on correct tmux)
+" w<PageUp>   : Select prev tab
+" w<PageDown> : Select next tab
+" w<S-Left>   : Move current tab to the left
+" w<S-Right>  : Move current tab to the right
+" w|          : :vsplit
+" wt          : Open new tab with current buffer (keeping prev tab untouched)
+" wb          : Break in a new tab
+" wq          : Quit current window
+"
+" ww          : Maximize / Restore window
+" w=          : Resize all windows to the same size
+" wm          : Mark Window
+" ws          : Swap with marked window
+" wj          : Join with marked window
+" wn          : toggle line Numbers on window
+" ñw / <F3>   : toggle window decorations
+"
+" tt          : Select last Tab
+" bb          : Select last Buffer
+" b<Up>       : See next Buffer in buffers list
+" b<Down>     : See prev Buffer in buffers list
+" sb          : See Buffers
+" sab         : See (and open) All Buffers
+"
+" TODO: Folding
+"
+" Version Control (wd)
+" --------------------
+"
+" wd / wdd    : WimDiff current file in a new tab (:Gdiff)
+" wad         : WimDiff All files in the repo in a new vim with a tab per file
+" wdu         : WimDff (:diffupdate)
+" wds         : git Status (:Gstatus (D: diff, -: add/reset, U: checkout, cc/ca: commit/amend, r: reload)
+" wdb         : git Blame (:Gblame)
+" wde         : Edit last repo version (:Gedit)
+" wd<Up>      : WimDiff prev change
+" wd<Down>    : WimDiff next change
+" wd<Right>   : Diff get (assuming being in right-pane of vimdiff)
+" wd<Right>   : Diff put (assuming being in right-pane of vimdiff)
+" dp          : Diff Put
+" dg          : Diff Get
+" do / dl     : Diff Obtain Line Only
+"
+" TODO: :Glog
 "
 " Project
 " -------
 "
+" .vimprj /srpj     : in the root directory of a project to set custom options
+" <C-b>             : builds the project async (:Make)
+" :OpenSession<tab> : list and open sessions
 " vim --servername sessionname : to open a saved session (vim-session)
 "
-" Browsing (s)
-" ------------
+" Options/Toggles and <F>Keys
+" ----------------------------
+"     / ñg      : EasyGrep options
+" F1            : paste mode for new pastes  (pastetoggle)
+" F2  / ñp      : paste mode for just pasted (EasyClipToggleFormattedPaste)
+" F12 / ÑP      : toggle paste autoformat    (g:EasyClipAutoFormat)
+" F3  / ñw      : window decorations         (SwitchDecorations)
 "
-" - sh           : see header
-" - st           : see test
-" - sq           : see quickfixlist
-" - sqq          : see quickfixlist
-" - sq<Up>       : see prev line in the quickfixlist
-" - sq<Down>     : see next line in the quickfixlist
-" - sq<PageUp>   : see prev quickfixlist
-" - sq<PageDown> : see next quickfixlist
-" -  z<Up>       : see prev line in the quickfixlist
-" -  z<Down>     : see next line in the quickfixlist
-" -  z<PageUp>   : see prev quickfixlist
-" -  z<PageDown> : see next quickfixlist
-" - sqe          : see quickfixlist filtering only errors
-"
-" - se           : see exploring window (NerdTree)
-" - so           : see outline (ctag)
-" - sr           : see registers
-" - sm           : see marks
-" - sc           : see changes
-" - sj           : see jumps
-" - sy           : see yanks
-" - su           : see undo-tree
-"
-" - s<Up>        : see prev jump
-" - s<Down>      : see next jump
-" - s<Left>      : see prev change
-" - s<Right>     : see next change
-"
-" - sb           : see buffers (list)
-" - sab          : see buffers (open all)
-"
-" - sf           : see file
-" - svf          : see file (vertical split)
-" - stf          : see file (tab split)
-"
-" - swm          : see windom marks
-"
-" - sss          : lists symbol occurrences to quicklist (cscope)
-" - ss<Left>     : lists symbol occurrences to quicklist (cscope)
-" - ssg          : goes to symbol definition (global) (cscope)
-" - ss<Right>    : goes to symbol definition (global) (cscope)
-" - ssc          : lists who calls this function to quicklist (cscope)
-" - ss<Up>       : lists who calls this function to quicklist (cscope)
-" - ssd          : lists function called by me to quicklist (cscope)
-" - ss<Down>     : lists function called by me to quicklist (cscope)
-" - ssi          : lists files including this to quicklist (cscope)
-" - ssh          : lists files including this to quicklist (cscope)
-" - ss<PageUp>   : lists files including this to quicklist (cscope)
-" - sst          : lists text occurrences to quicklist (cscope)
-" - ss<PageDown> : lists text occurrences to quicklist (cscope)
-" - ssf          : lists file occurrences to quicklist (cscope)
-"
-" - s<RePag> : go to begin of file
-" - s<AvPag> : go to the end of file
-"
-" - svim : see ~/.vimrc
-" - sprj : see $PWD/.vimprj
-"
-" - FO : fold open all
-" - FC : fold close all
-" - FF : fold toogle current
-"
-" <F> Keys
-" --------
-" - F1            : paste mode for new pastes  (pastetoggle)
-" - F2  / ñp      : paste mode for just pasted (EasyClipToggleFormattedPaste)
-" - F12 / ÑP      : toggle paste autoformat    (g:EasyClipAutoFormat)
-" - F3  / ñd      : window decorations         (SwitchDecorations)
-" - F4            : toggle autopairs           (AutoPairsToggle)
-" - F5            : refresh file
-" - F6            : refresh vimrc
-" - F7 / ñs       : toggle autosave            (AutoSaveToggle)
-" - F8 / ñ<Space> : toggle whitestaces         (ToggleWhitespace)
-" - F10/11        : to disable default maps of UltiSnips (ExpandTrigger / ListSnippets)
+" F5            : reload file (:e)
+" F6            : reload vimrc
+" F7 / ñs       : toggle autosave            (AutoSaveToggle)
+" F8 / ñ<Space> : toggle whitestaces         (ToggleWhitespace)
+" F10/11        : to disable default maps of UltiSnips (ExpandTrigger / ListSnippets)
 "
 " More
 " ----
 "
-" - [Visual Select Column]+ : Increment selected column
-" - [Visual Select Column]- : Decrement selected column
+" Mapleader is º
+" :PluginInstall to regenerate tags
+" <C-s> saves the file
+" :W!! sudo write
+" <C-k> : normal mode in command line (cedit)
 "
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -249,7 +321,7 @@ Plugin 'tpope/vim-dispatch.git'              " background/async builds (how to u
 Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easyclip)
 Plugin 'vim-scripts/visualrepeat'            " used by easy-align
 Plugin '907th/vim-auto-save'                 " auto save
-Plugin 'Soares/smarttab.vim'                 " tabs for indent and spaces for align (very old)
+" Plugin 'Soares/smarttab.vim'                 " tabs for indent and spaces for align (very old, using keepindent, conflicts with ycm_key_list_stop_completion)
 " Plugin 'dpc/vim-smarttabs'                   " tabs for indent and spaces for align (not working)
 " Plugin 'AsyncCommand'                        " background/async builds (needs vim --servername)
 
@@ -290,7 +362,8 @@ Plugin 'tpope/vim-fugitive'                  " version control git
 Plugin 'Valloric/YouCompleteMe'              " A complete autocomplete plugin (based on compilation databases for clang)
 Plugin 'SirVer/ultisnips'                    " to get snippet feature
 Plugin 'honza/vim-snippets'                  " standard snippets? (my own on .vim/snippets)
-Plugin 'agilmor/delimitMate'                 " better autoclose of pairs (fork to aviod problems with the non-default cursor position when leaving insert mode)
+" Plugin 'agilmor/delimitMate'                 " better autoclose of pairs (fork to aviod problems with the non-default cursor position when leaving insert mode)
+"                                              " conflicts with YCM and smarttab.vim
 Plugin 'matchit.zip'                         " improves surroundings with more than simple characters
                                              " maybe we should use 'runtime macros/matchit.vim' instead of a plugin?
 " Plugin 'jiangmiao/auto-pairs'                " (annoying and snippets and surroundings is a better higher level approach) to autoclose pairs
@@ -339,7 +412,7 @@ Plugin 'jceb/vim-textobj-uri'                " (u)RIs as textobj
 " Operators
 Plugin 'svermeulen/vim-easyclip'             " much better yank, cut, delete and rotating paste operators
 Plugin 'tpope/vim-surround'                  " defines surroundings as text objects (yank surroundings mean 'add' them)
-Plugin 'tpope/vim-abolish'                   " adding snake/camel/mixed/upper case control in the iw and with :S
+Plugin 'tpope/vim-abolish'                   " edit snake/camel/mixed/upper case control in the iw and with :S
 Plugin 'tommcdo/vim-exchange'                " to add the (e)xchange operator
 Plugin 'tomtom/tcomment_vim'                 " add the comment action (q) for motions and text objects
 Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
@@ -349,7 +422,7 @@ Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
 " Plugin 'tommcdo/vim-lion'                    " cannot right-align the first column?
 
 " Extras
-Plugin 'szw/vim-g'                           " :Google (gs)
+" Plugin 'szw/vim-g'                           " :Google (gs) (unused and with easyclip copy&paste is easy)
 " Plugin 'shinokada/dragvisuals.vim'           " drag visually selected code (<+<arrows>) (unavailable and unused)
 " Plugin 'm42e/vim-gcov-marker'                " test coverage
 " Plugin 'vim-scripts/gcov.vim'                " test coverage
@@ -428,6 +501,11 @@ if &t_Co > 2 || has("gui_running")
     highlight clear ColorColumn
     highlight ColorColumn term=reverse ctermbg=242 guibg=Grey40
 
+    highlight clear YcmErrorSection                         " YcmErrorSection: errors detected by YCM
+    highlight YcmErrorSection term=reverse cterm=reverse gui=reverse
+    highlight clear YcmWarningSection                       " YcmWarningSection: warnings detected by YCM
+    highlight YcmWarningSection term=reverse cterm=reverse gui=reverse
+
     " Diff windows (from http://stackoverflow.com/a/17183382/5349914)
     highlight DiffAdd         cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
     highlight DiffDelete      cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
@@ -481,12 +559,12 @@ nmap d<Space> :.StripWhitespace<CR>
 nmap <F8>     :ToggleWhitespace<CR>
 nmap ñ<Space> :ToggleWhitespace<CR>
 
-" indent guides
-let g:indent_guides_guide_size            = 1
-let g:indent_guides_space_guides          = 1
-let g:indent_guides_tab_guides            = 0
-let g:indent_guides_enable_on_vim_startup = 0
-let g:indent_guides_default_mapping       = 0
+" indent guides (unused)
+" let g:indent_guides_guide_size            = 1
+" let g:indent_guides_space_guides          = 1
+" let g:indent_guides_tab_guides            = 0
+" let g:indent_guides_enable_on_vim_startup = 0
+" let g:indent_guides_default_mapping       = 0
 
 "
 " tcomment
@@ -584,6 +662,13 @@ let g:ycm_add_preview_to_completeopt                    = 0                     
 let g:ycm_autoclose_preview_window_after_insertion      = 1                        " ...but at least close it when leaving the insertion mode
 let g:ycm_autoclose_preview_window_after_completion     = 0                        " ...but keep it after completion is done?
 
+" Fixing integration between YCM and smarttab.vim (align+indent) (unnecessary?)
+" let ft_smart_indent = ['c', 'cpp', 'py']
+" autocmd FileType *      if index(ft_smart_indent, &ft) < 0 | autocmd BufEnter <buffer> inoremap <CR> <CR>
+" autocmd FileType c,cpp  inoremap <buffer> <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-R>=CSmartIndent()<CR>"
+" autocmd FileType python inoremap <buffer> <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-R>=PySmartIndent()<CR>"
+
+
 " TODO add more mapping for GoTo functions!
 " nmap <Leader><Leader> :YcmCompleter FixIt<cr>
 
@@ -599,17 +684,17 @@ let g:UltiSnipsJumpBackwardTrigger      = "<S-Tab>"
 let g:UltiSnipsEditSplit                = "vertical"                  " it should be nice if I can do it as svim or sprj....
 let g:UltiSnipsRemoveSelectModeMappings = 1                           " yes, printable characters shouldn't be mapped in select mode...
 
-nmap <Insert>   O<F11>
-nmap <Leader>{  <Up><End><Right>v<End><Down><Left><Insert>sl2mlbr<Insert><Esc>dd
-nmap <Leader>d{ }dd{<Left>d<End>
+nmap <Insert><Insert>   O<F11>
+nmap <Insert>{  <Up><End><Right>v<End><Down><Left><Insert>sl2mlbr<Insert><Esc>dd
+nmap d<Insert>{ }dd{<Left>d<End>
 
-let delimitMate_autoclose            = 1 " basic functionality
-let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
-let delimitMate_expand_space         = 1 " expand with <Space>
-let delimitMate_expand_inside_quotes = 1 " also expand in quotes
-let delimitMate_jump_expansion       = 0 " better use my JumpBracket
-let delimitMate_balance_matchpairs   = 1 " non-sense if autoclose if disabled
-let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
+" let delimitMate_autoclose            = 1 " basic functionality
+" let delimitMate_expand_cr            = 1 " expand with <Return>, but keep current text if any
+" let delimitMate_expand_space         = 1 " expand with <Space>
+" let delimitMate_expand_inside_quotes = 1 " also expand in quotes
+" let delimitMate_jump_expansion       = 0 " better use my JumpBracket
+" let delimitMate_balance_matchpairs   = 1 " non-sense if autoclose if disabled
+" let delimitMate_excluded_regions     = "" " always auto close, event in Comments or String
 " au FileType c,cpp,perl let b:delimitMate_eol_marker = ";"       " not smart enought..
 " au FileType c,cpp,perl let b:delimitMate_insert_eol_marker = 1
 
@@ -841,25 +926,27 @@ nmap r     <Plug>SubstituteOverMotionMap
 xmap r     <Plug>XEasyClipPaste
 nmap rr    <Plug>SubstituteLine
 
-nmap ,y    <Plug>EasyClipSwapPasteForward
-nmap -y    <Plug>EasyClipSwapPasteBackwards
-nmap ,p    <Plug>EasyClipSwapPasteForward
-nmap -p    <Plug>EasyClipSwapPasteBackwards
-nmap ñp    <Plug>EasyClipSwapPasteForward
-nmap ÑP    <Plug>EasyClipSwapPasteBackwards
+" nmap ,y    <Plug>EasyClipSwapPasteForward
+" nmap -y    <Plug>EasyClipSwapPasteBackwards
+" nmap ,p    <Plug>EasyClipSwapPasteForward
+" nmap -p    <Plug>EasyClipSwapPasteBackwards
+nmap <p    <Plug>EasyClipSwapPasteForward
+nmap >p    <Plug>EasyClipSwapPasteBackwards
+nmap >P    <Plug>EasyClipSwapPasteBackwards
 
-nmap ,,y   <Plug>EasyClipRotateYanksForward
-nmap --y   <Plug>EasyClipRotateYanksBackward
-nmap ;y    <Plug>EasyClipRotateYanksForward
-nmap _y    <Plug>EasyClipRotateYanksBackward
-nmap ñy    <Plug>EasyClipRotateYanksForward
-nmap ÑY    <Plug>EasyClipRotateYanksBackward
+" nmap ,,y   <Plug>EasyClipRotateYanksForward
+" nmap --y   <Plug>EasyClipRotateYanksBackward
+" nmap ;y    <Plug>EasyClipRotateYanksForward
+" nmap _y    <Plug>EasyClipRotateYanksBackward
+nmap <y    <Plug>EasyClipRotateYanksForward
+nmap >y    <Plug>EasyClipRotateYanksBackward
+nmap >Y    <Plug>EasyClipRotateYanksBackward
 
 nmap yp    :IPaste<cr>
 nmap YP    :IPasteBefore<cr>
 
 nmap <F2>  <Plug>EasyClipToggleFormattedPaste<cr>
-nmap ñfp  <Plug>EasyClipToggleFormattedPaste<cr>
+nmap ñp    <Plug>EasyClipToggleFormattedPaste<cr>
 " nmap ,yf   <Plug>EasyClipToggleFormattedPaste<cr>
 
 function! ToggleAutoFormat()
@@ -881,8 +968,8 @@ inoremap <C-u> <C-v>
 
 nmap sy    :Yanks<cr>
 
-" visual selected pasted
-noremap vp `[v`]
+" visual selected pasted (deprecated by ip text object)
+" noremap vp `[v`]
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1220,8 +1307,8 @@ nmap <S-Left>         <C-v><Left>
 nmap <S-Right>        <C-v><Right>
 nmap <S-Home>         <C-v><Home>
 nmap <S-End>          <C-v><End>
-nmap <S-PageUp>       <C-v><PageUp>
-nmap <S-PageDown>     <C-v><PageDown>
+" nmap <S-PageUp>       <C-v><PageUp>
+" nmap <S-PageDown>     <C-v><PageDown>
 
 vmap <S-Up>                <Up>
 vmap <S-Down>              <Down>
@@ -1324,20 +1411,20 @@ endfunction
 " map      zz    <Plug>(expand_region_expand)
 " map      ZZ    <Plug>(expand_region_shrink)
 
-let g:expand_region_use_select_mode = 0 " 1: Select mode 0: Visual mode
+" let g:expand_region_use_select_mode = 0 " 1: Select mode 0: Visual mode
 
 " adding the (ia) text object
-let g:expand_region_text_objects = { 'ie' : 0,
-                                 \   'ip' : 0,
-                                 \   'iw' : 0,
-                                 \   'iB' : 1,
-                                 \   'il' : 0,
-                                 \   'iW' : 0,
-                                 \   'i''': 0,
-                                 \   'ib' : 1,
-                                 \   'i]' : 1,
-                                 \   'ia' : 0,
-                                 \   'i"' : 0}
+" let g:expand_region_text_objects = { 'ie' : 0,
+"                                  \   'ip' : 0,
+"                                  \   'iw' : 0,
+"                                  \   'iB' : 1,
+"                                  \   'il' : 0,
+"                                  \   'iW' : 0,
+"                                  \   'i''': 0,
+"                                  \   'ib' : 1,
+"                                  \   'i]' : 1,
+"                                  \   'ia' : 0,
+"                                  \   'i"' : 0}
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1524,7 +1611,7 @@ noremap    <F5>       :e<cr>
 noremap    <F6>       :source ~/.vimrc<cr>
 
 " move between brackets
-nmap  b   %
+nmap  ç   %
 
 "
 " autoreload files
@@ -1537,7 +1624,7 @@ autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. B
 " nnoremap ,a [s
 " nnoremap -a ]s
 
-map gs :Google<cr>
+" map gs :Google<cr>
 
 "
 " ge
@@ -1551,8 +1638,10 @@ onoremap ge :<c-u><c-r>=MyCustomGE()<cr><cr>
 " Key bindings
 "
 " See movements
-noremap    s<PageUp>   gg
-noremap    s<PageDown> G
+noremap    <S-PageUp>   gg
+noremap    <S-PageDown> G
+" noremap    s<PageUp>   gg
+" noremap    s<PageDown> G
 
 " Undos (I'm very lazy and I never use the original U concept (line undo))
 nnoremap   U          <C-r>
@@ -1591,8 +1680,8 @@ noremap ñ: q:
 "
 " scrolling
 "
-nnoremap <C-PageUp>    <C-Y>
-nnoremap <C-PageDown>  <C-E>
+nnoremap <C-PageUp>    <C-y>
+nnoremap <C-PageDown>  <C-e>
 
 "
 " Deprecated
@@ -1653,9 +1742,9 @@ au BufLeave * let b:winview = winsaveview()
 au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
 
 " Decoretions
-map        wh         :set hls!<cr>
+" map        wh         :set hls!<cr>
 noremap    <F3>       :call SwitchDecorations()<cr>
-noremap    ñd         :call SwitchDecorations()<cr>
+noremap    ñw         :call SwitchDecorations()<cr>
 nnoremap   wn         :call NumberToggle()<cr>
 
 " Maximize (ww) and 'Tabize' (wt)
@@ -1683,41 +1772,43 @@ nnoremap w<c-right>  :vertical resize +20<cr>
 nnoremap w<c-left>   :vertical resize -20<cr>
 nnoremap w<c-up>     :resize          +10<cr>
 nnoremap w<c-down>   :resize          -10<cr>
-nnoremap w<s-right>  <c-w>L<c-p>
-nnoremap w<s-left>   <c-w>H<c-p>
-nnoremap w<s-up>     <c-w>K<c-p>
-nnoremap w<s-down>   <c-w>J<c-p>
+" nnoremap w<s-right>  <c-w>L<c-p>
+" nnoremap w<s-left>   <c-w>H<c-p>
+" nnoremap w<s-up>     <c-w>K<c-p>
+" nnoremap w<s-down>   <c-w>J<c-p>
 
 " Last/Previous Window / Tab
-nnoremap ,w          <c-w>p
-nnoremap ,t          :exe "tabn ".g:lasttab<CR>
-nnoremap wp          <c-w>p
+" nnoremap ,w          <c-w>p
+" nnoremap ,t          :exe "tabn ".g:lasttab<CR>
+" nnoremap wp          <c-w>p
 nnoremap tt          :exe "tabn ".g:lasttab<CR>
 
 " Tabs
-nnoremap wo          :tabnew<cr>
-nnoremap wc          :tabclose<cr>
-nnoremap wto         :tabnew<cr>
-nnoremap wtq         :tabclose<cr>
+" nnoremap wo          :tabnew<cr>
+" nnoremap wc          :tabclose<cr>
+" nnoremap wto         :tabnew<cr>
+" nnoremap wtq         :tabclose<cr>
 
 nnoremap w<pagedown> :tabnext<cr>
 nnoremap w<pageup>   :tabprevious<cr>
-nnoremap w-          :tabnext<cr>
-nnoremap w,          :tabprevious<cr>
-nnoremap w;          :-tabmove<cr>
-nnoremap w_          :+tabmove<cr>
-nnoremap W;          :-tabmove<cr>
-nnoremap W_          :+tabmove<cr>
+" nnoremap w-          :tabnext<cr>
+" nnoremap w,          :tabprevious<cr>
+" nnoremap w;          :-tabmove<cr>
+" nnoremap w_          :+tabmove<cr>
+" nnoremap W;          :-tabmove<cr>
+" nnoremap W_          :+tabmove<cr>
+nnoremap w<s-right>  :+tabmove<cr>
+nnoremap w<s-left>   :-tabmove<cr>
 
 " buffer exploring
 nnoremap sb   :BufExplorer<cr>
 " nnoremap sbb  :b#<cr>
 nnoremap bb   :b#<cr>
 nnoremap sab  :vertical ba<cr>
-nnoremap ,b   :bprevious<cr>
-nnoremap -b   :bnext<cr>
-nnoremap b,   :bprevious<cr>
-nnoremap b-   :bnext<cr>
+" nnoremap ,b   :bprevious<cr>
+" nnoremap -b   :bnext<cr>
+nnoremap b<Down> :bprevious<cr>
+nnoremap b<Up>   :bnext<cr>
 " nnoremap bd   :bdelete<cr> " Using a function to keep the windows layout
 
 let g:bufExplorerDefaultHelp=1              " Show default help.
@@ -1995,20 +2086,32 @@ noremap  svf  :vertical wincmd f<cr>
 
 " nnoremap sj   :jumps<cr>
 nmap     sj  :call GotoJump()<CR>
-nnoremap ,j  <C-o>
-nnoremap -j  <C-i>
-nnoremap ,s  <C-o>
-nnoremap -s  <C-i>
+" nnoremap ,j  <C-o>
+" nnoremap -j  <C-i>
+" nnoremap ,s  <C-o>
+" nnoremap -s  <C-i>
 
 " changes
 noremap  sc   :changes<cr>
-noremap  ,c   g;
-noremap  -c   g,
+" noremap  ,c   g;
+" noremap  -c   g,
 
-nnoremap s<Up>    <C-o>
-nnoremap s<Down>  <C-i>
-nnoremap s<Left>  g;
-nnoremap s<Right> g,
+nnoremap s<Up>      <C-o>
+nnoremap s<Down>    <C-i>
+nnoremap s<Left>    g;
+nnoremap s<Right>   g,
+nnoremap s<S-Up>    `[
+onoremap s<S-Up>    `[
+vnoremap s<S-Up>    `[
+nnoremap s<S-Down>  `]
+onoremap s<S-Down>  `]
+vnoremap s<S-Down>  `]
+nnoremap s<S-Left>  `[
+onoremap s<S-Left>  `[
+vnoremap s<S-Left>  `[
+nnoremap s<S-Right> `]
+onoremap s<S-Right> `]
+vnoremap s<S-Right> `]
 
 " marks
 nnoremap  sm   :SignatureListMarks<cr>
@@ -2025,18 +2128,19 @@ nnoremap  mm   `M
 onoremap  mm   `M
 vnoremap  mm   `M
 
-nnoremap  m<Left>   `[
-onoremap  m<Left>   `[
-vnoremap  m<Left>   `[
-nnoremap  m<Right>  `]
-onoremap  m<Right>  `]
-vnoremap  m<Right>  `]
-nnoremap  S<Left>   `[
-onoremap  S<Left>   `[
-vnoremap  S<Left>   `[
-nnoremap  S<Right>  `]
-onoremap  S<Right>  `]
-vnoremap  S<Right>  `]
+
+" nnoremap  m<Left>   `[
+" onoremap  m<Left>   `[
+" vnoremap  m<Left>   `[
+" nnoremap  m<Right>  `]
+" onoremap  m<Right>  `]
+" vnoremap  m<Right>  `]
+" nnoremap  S<Left>   `[
+" onoremap  S<Left>   `[
+" vnoremap  S<Left>   `[
+" nnoremap  S<Right>  `]
+" onoremap  S<Right>  `]
+" vnoremap  S<Right>  `]
 
 " exploring file
 nnoremap se   :NERDTreeToggle<cr>
@@ -2105,32 +2209,32 @@ set csto=0
 " all cscope results are placed in quickfix
 set cscopequickfix=s-,g-,c-,d-,i-,t-,e-
 
-nmap ls :cs find s  <C-R>=expand("<cword>")<CR><CR>sq
-nmap lg :cs find g  <C-R>=expand("<cword>")<CR><CR>
-nmap lc :cs find c  <C-R>=expand("<cword>")<CR><CR>sq
-nmap lt :cs find t  <C-R>=expand("<cword>")<CR><CR>sq
-nmap le :cs find e  <C-R>=expand("<cword>")<CR><CR>sq
-nmap lf :cs find f  <C-R>=expand("<cfile>")<CR><CR>sq
-nmap li :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>sq
-nmap ld :cs find d  <C-R>=expand("<cword>")<CR><CR>sq
+" nmap ls :cs find s  <C-R>=expand("<cword>")<CR><CR>sq
+" nmap lg :cs find g  <C-R>=expand("<cword>")<CR><CR>
+" nmap lc :cs find c  <C-R>=expand("<cword>")<CR><CR>sq
+" nmap lt :cs find t  <C-R>=expand("<cword>")<CR><CR>sq
+" nmap le :cs find e  <C-R>=expand("<cword>")<CR><CR>sq
+" nmap lf :cs find f  <C-R>=expand("<cfile>")<CR><CR>sq
+" nmap li :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>sq
+" nmap ld :cs find d  <C-R>=expand("<cword>")<CR><CR>sq
 
-nmap sss          :cs find s  <C-R>=expand("<cword>")<CR><CR>
 nmap ss<Left>     :cs find s  <C-R>=expand("<cword>")<CR><CR>
-nmap ssg          :cs find g  <C-R>=expand("<cword>")<CR><CR>
+" easygrep
+nmap ss<S-Left>   <leader>vv
+nmap ssr          <leader>vr
 nmap ss<Right>    :cs find g  <C-R>=expand("<cword>")<CR><CR>
-nmap ssc          :cs find c  <C-R>=expand("<cword>")<CR><CR>
+nmap ss<S-Right>  :YcmCompleter GoToDeclaration<cr>
 nmap ss<Up>       :cs find c  <C-R>=expand("<cword>")<CR><CR>
-nmap ssd          :cs find d  <C-R>=expand("<cword>")<CR><CR>
-nmap ss<Down>     :cs find d  <C-R>=expand("<cword>")<CR><CR>
-nmap ssi          :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap ssh          :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap ss<S-Up>     :cs find d  <C-R>=expand("<cword>")<CR><CR>
+nmap ss<Down>     :cs find t  <C-R>=expand("<cword>")<CR><CR>
 nmap ss<PageUp>   :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap sst          :cs find t  <C-R>=expand("<cword>")<CR><CR>
-nmap ss<PageDown> :cs find t  <C-R>=expand("<cword>")<CR><CR>
 nmap sse          :cs find e  <C-R>=expand("<cword>")<CR><CR>
 nmap ssf          :cs find f  <C-R>=expand("<cfile>")<CR><CR>
-nnoremap ss<Return>   gd
-nnoremap ss{      [[
+" nnoremap ss<Return>   gd
+" nnoremap ss{      [[
+" nnoremap ss}      [m
+
+" nmap ss<Down>     :YcmCompleter GoToDeclaration<cr>
 
 " tags/links (moved to cscope)
 " noremap    sl         :tjump /<C-r><C-w><cr>
@@ -2144,7 +2248,7 @@ nnoremap ss{      [[
 " noremap    ll          <C-]>
 
 " show in preview (list option if necessary)
-noremap    lp          <C-w>g}
+" noremap    lp          <C-w>g}
 " noremap    wl         :vsplit<cr><C-]>
 
 "
@@ -2160,17 +2264,17 @@ noremap    lp          <C-w>g}
 " au BufRead,BufNewFile *.cpp 		nmap  st :find %:t:r.test<cr>
 " au BufRead,BufNewFile *.test 		nmap  st :find %:t:r.hpp<cr>
 
-au BufRead,BufNewFile,WinEnter *.h    nmap sh :call SeeHeader( g:source_ext, 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.hpp  nmap sh :call SeeHeader( g:source_ext, 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.c    nmap sh :call SeeHeader( g:header_ext, 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.cpp  nmap sh :call SeeHeader( g:header_ext, 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.test nmap sh :call SeeHeader( g:header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.h    nmap ssh :call SeeHeader( g:source_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.hpp  nmap ssh :call SeeHeader( g:source_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.c    nmap ssh :call SeeHeader( g:header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.cpp  nmap ssh :call SeeHeader( g:header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.test nmap ssh :call SeeHeader( g:header_ext, 'l')<cr>
 
-au BufRead,BufNewFile,WinEnter *.h    nmap st :call SeeHeader( g:test_ext  , 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.hpp  nmap st :call SeeHeader( g:test_ext  , 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.c    nmap st :call SeeHeader( g:test_ext  , 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.cpp  nmap st :call SeeHeader( g:test_ext  , 'l')<cr>
-au BufRead,BufNewFile,WinEnter *.test nmap st :call SeeHeader( g:header_ext, 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.h    nmap sst :call SeeHeader( g:test_ext  , 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.hpp  nmap sst :call SeeHeader( g:test_ext  , 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.c    nmap sst :call SeeHeader( g:test_ext  , 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.cpp  nmap sst :call SeeHeader( g:test_ext  , 'l')<cr>
+au BufRead,BufNewFile,WinEnter *.test nmap sst :call SeeHeader( g:header_ext, 'l')<cr>
 
 function! SeeHeader( ext, dir )
 "     let var = input( "ext: ".a:ext." dir: ".a:dir )
@@ -2235,22 +2339,22 @@ let g:qfenter_keymap.topen = ['<Leader><Tab>']
 " info/text lines are kept, but ,q and .q will loop on no-warning entries
 nnoremap sqe  :call setqflist(filter(getqflist(), 'v:val.type != "W"'), ' ')<cr>
 
-nnoremap ,,q  :cc<cr>
-nnoremap ,q   :cprev<cr>
-nnoremap -q   :cnext<cr>
-nnoremap ;q   :colder<cr>
-nnoremap _q   :cnewer<cr>
-nnoremap ;Q   :colder<cr>
-nnoremap _Q   :cnewer<cr>
+" nnoremap ,,q  :cc<cr>
+" nnoremap ,q   :cprev<cr>
+" nnoremap -q   :cnext<cr>
+" nnoremap ;q   :colder<cr>
+" nnoremap _q   :cnewer<cr>
+" nnoremap ;Q   :colder<cr>
+" nnoremap _Q   :cnewer<cr>
 " nnoremap q,   :cprev<cr>
 " nnoremap q-   :cnext<cr>
 
-nnoremap sq<Up>       :cprev<cr>
-nnoremap sq<PageUp>   :10cprev<cr>
-nnoremap sq<Down>     :cnext<cr>
-nnoremap sq<PageDown> :10cnext<cr>
-nnoremap sq<Left>     :colder<cr>
-nnoremap sq<Right>    :cnewer<cr>
+" nnoremap sq<Up>       :cprev<cr>
+" nnoremap sq<PageUp>   :10cprev<cr>
+" nnoremap sq<Down>     :cnext<cr>
+" nnoremap sq<PageDown> :10cnext<cr>
+" nnoremap sq<Left>     :colder<cr>
+" nnoremap sq<Right>    :cnewer<cr>
 
 " nnoremap z<Up>       :cprev<cr>
 nmap     z<Up>       <Plug>(qf_qf_previous)
@@ -2313,7 +2417,8 @@ autocmd FileType qf map <buffer> dd :RemoveQFItem<cr>
 " open/close win-diff
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
 " nnoremap <silent> wd     :tabnew %<CR>:VCSVimDiff<cr><C-w><Left>]c
-nnoremap <silent> wd     :tabnew %<CR>:Gdiff<cr><C-w><Left>]c
+nnoremap <silent> wd     :tabnew %<CR>:Gdiff<cr><C-w><Right>]c
+nnoremap <silent> wdd    :tabnew %<CR>:Gdiff<cr><C-w><Right>]c
 nnoremap <silent> wad    :! vim -p $(git diff --name-only) -c "tabdo Gdiff" -c "tabdo wincmd h"<cr>
 " nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo VCSVimDiff" -c "tabdo wincmd h"<cr>
 nnoremap <silent> wgd    :! vim -p $(git diff --name-only) -c "tabdo Gdiff" -c "tabdo wincmd h"<cr>
@@ -2321,17 +2426,23 @@ nnoremap <silent> wsd    :! vim -p $(svn st <Bar> grep "M " <Bar> awk '{print $2
 nnoremap <silent> wdq     <C-w><Right>:bd<cr>:wq<cr>
 
 " win-diff commands: status, revert, add, commit
-nnoremap <silent> wds     :VCSStatus .<cr>
-nnoremap          wdr     :VCSRevert<cr>
-nnoremap          wda     :VCSAdd<cr>
-nnoremap          wdc     :tabnew .<cr>:VCSCommit<cr>i
+" nnoremap <silent> wds     :VCSStatus .<cr>
+" nnoremap          wdr     :VCSRevert<cr>
+" nnoremap          wda     :VCSAdd<cr>
+" nnoremap          wdc     :tabnew .<cr>:VCSCommit<cr>i
 
 " get: all current diff
 " get-line:
 nnoremap <silent> do     V:diffget<cr>
+nnoremap <silent> dl     V:diffget<cr>
 nnoremap <silent> dg     :diffget<cr>
-nnoremap          ,d     [c
-nnoremap          -d     ]c
+" nnoremap          ,d     [c
+" nnoremap          -d     ]c
+
+nmap wds :Gstatus<cr>
+nmap wdb :Gblame<cr>
+nmap wde :Gedit<cr>
+nmap wdu :diffupdate<cr>
 
 "
 " Up    : Previous change (up)
@@ -2339,10 +2450,11 @@ nnoremap          -d     ]c
 " Left  : Restoring original version (also works on line just under the diff)
 " Right : Restoring original version, only 1 line
 "
-nnoremap          wd<Up>    [c
-nnoremap          wd<Down>  ]c
-nnoremap <silent> wd<Right> V:diffget<cr>
-nnoremap <silent> wd<Left>  :diffget<cr>
+nnoremap          wd<Up>      [c
+nnoremap          wd<Down>    ]c
+nnoremap <silent> wd<Left>    :diffput<cr>
+nnoremap <silent> wd<Right>   :diffget<cr>
+nnoremap <silent> wd<S-Right> V:diffget<cr>
 
 " nnoremap <silent> swd    :VCSVimDiff<cr><C-w><Left>]c
 " nnoremap <silent> wd     :VCSVimDiff<cr><C-w><Left>]c
@@ -2391,10 +2503,10 @@ vnoremap <C-b>           <Esc>:Make<cr>
 " vmap  <expr>  zp        DVB_Duplicate()
 
 " passwds
-if filereadable(glob('~/.vimrc.pass'))
-    source ~/.vimrc.pass
+" if filereadable(glob('~/.vimrc.pass'))
+"     source ~/.vimrc.pass
 "else
 "    echo "Not loading vimrc.pass"
-endif
+" endif
 
 " }}}
