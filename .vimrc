@@ -159,6 +159,7 @@
 " w<PageDown> : Select next tab
 " w<S-Left>   : Move current tab to the left
 " w<S-Right>  : Move current tab to the right
+" w<Tab>      : :vsplit
 " w|          : :vsplit
 " wt          : Open new tab with current buffer (keeping prev tab untouched)
 " wb          : Break in a new tab
@@ -202,6 +203,7 @@
 " do / dl     : Diff Obtain Line Only
 "
 " TODO: :Glog
+" TODO: :Git rebase
 "
 " Project
 " -------
@@ -210,6 +212,8 @@
 " <C-b>             : builds the project async (:Make)
 " :OpenSession<tab> : list and open sessions
 " vim --servername sessionname : to open a saved session (vim-session)
+"
+" TODO: Debug
 "
 " Options/Toggles and <F>Keys
 " ----------------------------
@@ -1748,6 +1752,7 @@ tmap     <silent> <M-Right> <Leader>:TmuxNavigateRight<cr>
 " Leader: w is the leader key for all windows and tabs (is <C-w>)
 nnoremap w           <C-w>
 nnoremap w<Bar>      :vsplit<cr>
+nnoremap w<Tab>      :vsplit<cr>
 
 " To restore the previous 'view' of the buffer (keep cursor position)
 " Very-very useful (with sh)!
