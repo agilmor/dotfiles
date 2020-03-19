@@ -189,7 +189,7 @@
 " wdc         : git Commit in new tab (:Gstatus and cc)
 " wdb         : git Blame in new tab (:Gblame)
 " wdp         : git Push (:Gpush)
-" wdb         : git Blame (:Gblame)
+" wdo         : git One (:Git one)
 " wde         : Edit last repo version (:Gedit)
 " wd<Up>      : WimDiff prev change
 " wd<Down>    : WimDiff next change
@@ -2450,6 +2450,7 @@ nmap wdb :tabnew %<CR>:Gblame<cr>
 nmap wdp :Gpush<cr>
 nmap wde :Gedit<cr>
 nmap wdu :diffupdate<cr>
+nmap wdo :Git log --oneline --decorate --graph<cr>
 
 "
 " Up    : Previous change (up)
