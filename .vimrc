@@ -1228,7 +1228,6 @@ function! <SID>SetMainDefaults()
 
     set path=.,/usr/local/include,/usr/include
     compiler gcc
-    let g:cpp_header_ext='hpp'
 
     if exists("b:dispatch")
         unlet b:dispatch
