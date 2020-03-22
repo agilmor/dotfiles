@@ -335,7 +335,7 @@ Plugin '907th/vim-auto-save'                 " auto save
 Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easyclip)
 Plugin 'vim-scripts/visualrepeat'            " used by easy-align
 Plugin 'inkarkat/vim-ingo-library'           " dependency for visualrepeat (visual block)
-" Plugin 'Soares/smarttab.vim'                 " tabs for indent and spaces for align (very old, using keepindent, conflicts with ycm_key_list_stop_completion)
+Plugin 'agilmor/smarttab.vim'                " tabs for indent and spaces for align (very old, copyindent, forked to avoid conflicts with ycm_key_list_stop_completion)
 " Plugin 'dpc/vim-smarttabs'                   " tabs for indent and spaces for align (not working)
 " Plugin 'AsyncCommand'                        " background/async builds (needs vim --servername)
 

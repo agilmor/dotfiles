@@ -215,7 +215,7 @@
 	url = https://git::@github.com/tmux-plugins/tmux-continuum
 [submodule ".vim/bundle/smarttab.vim"]
 	path = .vim/bundle/smarttab.vim
-	url = https://github.com/Soares/smarttab.vim.git
+	url = https://github.com/agilmor/smarttab.vim.git
     ignore = untracked
 [submodule ".vim/bundle/vim-ingo-library"]
 	path = .vim/bundle/vim-ingo-library
