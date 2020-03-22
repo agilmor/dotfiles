@@ -216,6 +216,8 @@
 [submodule ".vim/bundle/smarttab.vim"]
 	path = .vim/bundle/smarttab.vim
 	url = https://github.com/Soares/smarttab.vim.git
+    ignore = untracked
 [submodule ".vim/bundle/vim-ingo-library"]
 	path = .vim/bundle/vim-ingo-library
 	url = https://github.com/inkarkat/vim-ingo-library.git
+    ignore = untracked
