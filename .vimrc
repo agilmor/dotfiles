@@ -331,10 +331,11 @@ Plugin 'VundleVim/Vundle.vim'                " let Vundle manage Vundle, require
 
 " Core features
 Plugin 'tpope/vim-dispatch.git'              " background/async builds (how to use it for grep?)
+Plugin '907th/vim-auto-save'                 " auto save
 Plugin 'tpope/vim-repeat'                    " needed dependency (surround, abolish, and easyclip)
 Plugin 'vim-scripts/visualrepeat'            " used by easy-align
-Plugin '907th/vim-auto-save'                 " auto save
-" Plugin 'Soares/smarttab.vim'                 " tabs for indent and spaces for align (very old, using keepindent, conflicts with ycm_key_list_stop_completion)
+Plugin 'inkarkat/vim-ingo-library'           " dependency for visualrepeat (visual block)
+Plugin 'agilmor/smarttab.vim'                " tabs for indent and spaces for align (very old, copyindent, forked to avoid conflicts with ycm_key_list_stop_completion)
 " Plugin 'dpc/vim-smarttabs'                   " tabs for indent and spaces for align (not working)
 " Plugin 'AsyncCommand'                        " background/async builds (needs vim --servername)
 
@@ -1227,7 +1228,6 @@ function! <SID>SetMainDefaults()
 
     set path=.,/usr/local/include,/usr/include
     compiler gcc
-    let g:cpp_header_ext='hpp'
 
     if exists("b:dispatch")
         unlet b:dispatch
