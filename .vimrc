@@ -1210,19 +1210,33 @@ let g:session_command_aliases   = 1                                         " al
 "
 function! <SID>SetMainDefaults()
 
+    "
+    " Some format options are filetype based
+    "
+    " formatoptions help:
+    "
+    " c: autowrap comments on textwidth
+    " r: autoinsert comment leader on <Enter>
+    " o: autoinsert comment leader on <o> or <O>
+    " q: allow formatting of comments with gq
+    " l: long lines are not broken in insert mode
+    " n: recognize numbered lists
+    " t: autowrap using textwidth
+    " j: remove comment leader when joining comment lines
+    "
+    au FileType gitcommit
+        \ set textwidth=76 |
+        \ set formatoptions +=t
+
+    au FileType c,cpp
+        \ set textwidth=100      |
+        \ set formatoptions=ronj
+
     set softtabstop=4
     set tabstop=4
     set shiftwidth=4
     set expandtab               " using spaces instead of tabs
     set smarttab                " doesn't do anything...?
-    set textwidth=120           " desired width limit
-    set formatoptions=ronj      " c: autowrap comments on textwidth
-                                " r: autoinsert comment leader on <Enter>
-			                    " o: autoinsert comment leader on <o> or <O>
-			                    " q: allow formatting of comments with gq
-			                    " l: long lines are not broken in insert mode
-			                    " n: recognize numbered lists
-			                    " t: autowrap using textwidth
     set cinoptions=             " no cinoptions
     set copyindent              " keep indent of previous line
 
