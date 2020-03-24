@@ -25,6 +25,8 @@ cd vim
                                   &&                         \
                                   make -j$jobs install
 cd ..
+# To get the helptags
+vim --cmd 'helptags $VIMRUNTIME/doc' --cmd 'qall'
 
 cd ../.vim/bundle/YouCompleteMe
 ./install.py --clang-completer
