@@ -223,3 +223,6 @@
 	path = .vim/bundle/vim-ingo-library
 	url = https://github.com/inkarkat/vim-ingo-library.git
 	ignore = untracked
+[submodule ".vim/bundle/qt-support.vim"]
+	path = .vim/bundle/qt-support.vim
+	url = https://github.com/fedorenchik/qt-support.vim.git
