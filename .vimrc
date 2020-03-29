@@ -444,6 +444,7 @@ Plugin 'junegunn/vim-easy-align'             " adding the align operator (al)
 " File plugins
 Plugin 'ekalinin/Dockerfile.vim'             " dockerfile syntax
 Plugin 'martinda/Jenkinsfile-vim-syntax'     " jenkinsfile syntax
+Plugin 'fedorenchik/qt-support.vim'          " Qt files: qml, qmake/pro, qrc, ui..
 " Plugin 'rhysd/open-pdf.vim'                  " pdfs (not very useful, but...)
 
 call vundle#end()                            " required
