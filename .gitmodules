@@ -226,3 +226,6 @@
 [submodule ".vim/bundle/qt-support.vim"]
 	path = .vim/bundle/qt-support.vim
 	url = https://github.com/fedorenchik/qt-support.vim.git
+[submodule ".vim/bundle/vimwiki"]
+	path = .vim/bundle/vimwiki
+	url = https://github.com/vimwiki/vimwiki.git

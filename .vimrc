@@ -362,6 +362,8 @@ Plugin 'mhinz/vim-signify'                   " decorations for git+svn together
 Plugin 'xolox/vim-misc'                      " needed by vim-session
 Plugin 'xolox/vim-session'                   " save / restore sessions
 Plugin 'tpope/vim-fugitive'                  " version control git
+Plugin 'vimwiki/vimwiki'                     " vimwiki for markdown and task management directly on vim
+" Plugin 'itchyny/calendar.vim'                " calendar and todo list integrated with google
 
 " Plugin 'Shougo/vimproc.vim'                  " dependency for vim-vebugger
 " Plugin 'idanarye/vim-vebugger'               " GDB integration (replaced by :Termdebug on vim 8.1)
@@ -617,7 +619,60 @@ let g:auto_save_write_all_buffers = 1                               " write all 
 " let g:auto_save_presave_hook      = 'call AbortIfNotGitDirectory()' " this will run AbortIfNotGitDirectory function before each save
 let g:auto_save_events            = ["CursorHold"]                  " other possible events: InsertLeave, TextChanged, TextChangedI,
                                                                     "                        CursorHold, CursorHoldI, CompleteDone
+"
+" Vimwiki
+"
+let g:vimwiki_list = [{'path':     '~/vimwiki/',
+                     \ 'syntax':   'markdown',
+                     \ 'ext':      '.md',
+                     \ 'auto_toc': 1,
+                     \ 'auto_tags': 1}]
+let g:vimwiki_hl_headers          =  1 " highlight headers
+let g:vimwiki_hl_cb_checked       =  2 " highlight done/todo items
+let g:vimwiki_use_mouse           =  1 " enable mouse control
+let g:vimwiki_list_ignore_newline =  0 " multiline list items converted to <br />
+let g:vimwiki_text_ignore_newline =  0 " multiline text paragraph converted to <br />
+let g:vimwiki_use_calendar        =  0 " disable calendar
+let g:vimwiki_url_maxsave         = 30 " size of URL before being reduced
+let g:vimwiki_key_mappings =
+            \ {
+            \ 'table_format': 0,
+            \ }                        " disable mapping for tables to have <A-Left/Right>
 
+au FileType vimwiki nmap <silent><buffer> ss<Up>    :VimwikiBacklinks<CR>
+au FileType vimwiki vmap <silent><buffer> ss<Up>    :VimwikiBacklinks<CR>
+au FileType vimwiki nmap <silent><buffer> ss<Right> <Plug>VimwikiFollowLink
+au FileType vimwiki vmap <silent><buffer> ss<Right> <Plug>VimwikiFollowLink
+au FileType vimwiki nmap <silent><buffer> ss<Left>  yiw:VimwikiSearch /<C-v>/<CR>
+au FileType vimwiki vmap <silent><buffer> ss<Left>  y:VimwikiSearch /<C-v>/<CR>
+au FileType vimwiki nmap <silent><buffer> s<Up>     <Plug>VimwikiGoBackLink
+au FileType vimwiki vmap <silent><buffer> s<Up>     <Plug>VimwikiGoBackLink
+au FileType vimwiki nmap <silent><buffer> <C-Space>   <Plug>VimwikiToggleListItem
+au FileType vimwiki vmap <silent><buffer> <C-Space>   <Plug>VimwikiToggleListItem
+au FileType vimwiki nmap <silent><buffer> <Tab>     <Plug>VimwikiIncreaseLvlWholeItem
+au FileType vimwiki vmap <silent><buffer> <Tab>     <Plug>VimwikiIncreaseLvlWholeItem
+au FileType vimwiki nmap <silent><buffer> <S-Tab>   <Plug>VimwikiDecreaseLvlWholeItem
+au FileType vimwiki vmap <silent><buffer> <S-Tab>   <Plug>VimwikiDecreaseLvlWholeItem
+au FileType vimwiki nmap <silent><buffer> --        :VimwikiChangeSymbolTo *<CR>
+au FileType vimwiki vmap <silent><buffer> --        :VimwikiChangeSymbolTo *<CR>
+au FileType vimwiki nmap <silent><buffer> -3        :VimwikiChangeSymbolTo #<CR>
+au FileType vimwiki vmap <silent><buffer> -3        :VimwikiChangeSymbolTo #<CR>
+au FileType vimwiki nmap <silent><buffer> -1        :VimwikiChangeSymbolTo 1.<CR>
+au FileType vimwiki vmap <silent><buffer> -1        :VimwikiChangeSymbolTo 1.<CR>
+au FileType vimwiki nmap <silent><buffer> -a        :VimwikiChangeSymbolTo a)<CR>
+au FileType vimwiki vmap <silent><buffer> -a        :VimwikiChangeSymbolTo a)<CR>
+au FileType vimwiki nmap <silent><buffer> -A        :VimwikiChangeSymbolTo A)<CR>
+au FileType vimwiki vmap <silent><buffer> -A        :VimwikiChangeSymbolTo A)<CR>
+au FileType vimwiki nmap <silent><buffer> h         <Plug>VimwikiAddHeaderLevel
+au FileType vimwiki vmap <silent><buffer> h         <Plug>VimwikiAddHeaderLevel
+au FileType vimwiki nmap <silent><buffer> H         <Plug>VimwikiRemoveHeaderLevel
+au FileType vimwiki vmap <silent><buffer> H         <Plug>VimwikiRemoveHeaderLevel
+au FileType vimwiki nmap <silent><buffer> <Insert>l :VimwikiGenerateLinks<cr>
+au FileType vimwiki vmap <silent><buffer> <Insert>l :VimwikiGenerateLinks<cr>
+
+au FileType vimwiki nmap <silent><buffer> <C-b>     :VimwikiCheckLinks<cr>
+au FileType vimwiki imap <silent><buffer> <CR>      <esc>:VimwikiReturn 3 5<cr>
+au FileType vimwiki imap <silent><buffer> ç<CR>     <esc>:VimwikiReturn 4 2<cr>
 
 "
 " CtrlP
