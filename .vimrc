@@ -627,6 +627,13 @@ let g:vimwiki_list = [{'path':     '~/vimwiki/',
                      \ 'ext':      '.md',
                      \ 'auto_toc': 1,
                      \ 'auto_tags': 1}]
+let g:vimwiki_list += [{'path':     '$PWD/doc/wiki/',
+			         \ 'syntax':   'markdown',
+			         \ 'ext':      '.md',
+			         \ 'index':    'Home',
+			         \ 'auto_toc':  1,
+			         \ 'auto_tags': 1}]
+let g:vimwiki_global_ext          =  0 " avoid messing with registered wikis
 let g:vimwiki_hl_headers          =  1 " highlight headers
 let g:vimwiki_hl_cb_checked       =  2 " highlight done/todo items
 let g:vimwiki_use_mouse           =  1 " enable mouse control
