@@ -622,9 +622,12 @@ let g:auto_save_events            = ["CursorHold"]                  " other poss
 "
 " Vimwiki
 "
-let g:vimwiki_list = [{'path':     '~/vimwiki/',
+" See ~/.vim/after/ftplugin/vimwiki.vim for autocommands to auto pull/push vimwiki pages
+"
+let g:vimwiki_list = [{'path':     '~/workspace/wiki/',
                      \ 'syntax':   'markdown',
                      \ 'ext':      '.md',
+                     \ 'index':    'Home',
                      \ 'auto_toc': 1,
                      \ 'auto_tags': 1}]
 let g:vimwiki_list += [{'path':     '$PWD/doc/wiki/',
@@ -641,10 +644,10 @@ let g:vimwiki_list_ignore_newline =  0 " multiline list items converted to <br /
 let g:vimwiki_text_ignore_newline =  0 " multiline text paragraph converted to <br />
 let g:vimwiki_use_calendar        =  0 " disable calendar
 let g:vimwiki_url_maxsave         = 30 " size of URL before being reduced
-let g:vimwiki_key_mappings =
-            \ {
-            \ 'table_format': 0,
-            \ }                        " disable mapping for tables to have <A-Left/Right>
+let g:vimwiki_key_mappings        =
+                                 \ {
+                                 \ 'table_format': 0,
+                                 \ }   " disable mapping for tables to have <A-Left/Right>
 
 au FileType vimwiki nmap <silent><buffer> ss<Up>    :VimwikiBacklinks<CR>
 au FileType vimwiki vmap <silent><buffer> ss<Up>    :VimwikiBacklinks<CR>
