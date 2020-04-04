@@ -647,12 +647,13 @@ let g:vimwiki_url_maxsave         = 30 " size of URL before being reduced
 let g:vimwiki_key_mappings        =
                                  \ {
                                  \ 'table_format': 0,
-                                 \ }   " disable mapping for tables to have <A-Left/Right>
+                                 \ 'links'       : 0,
+                                 \ }   " to keep <A-Left/Right> and <BS>
 
 au FileType vimwiki nmap <silent><buffer> ss<Up>    :VimwikiBacklinks<CR>
 au FileType vimwiki vmap <silent><buffer> ss<Up>    :VimwikiBacklinks<CR>
 au FileType vimwiki nmap <silent><buffer> ss<Right> <Plug>VimwikiFollowLink
-au FileType vimwiki vmap <silent><buffer> ss<Right> <Plug>VimwikiFollowLink
+au FileType vimwiki vmap <silent><buffer> ss<Right> <Plug>VimwikiNormalizeLinkVisualCR
 au FileType vimwiki nmap <silent><buffer> ss<Left>  yiw:VimwikiSearch /<C-v>/<CR>
 au FileType vimwiki vmap <silent><buffer> ss<Left>  y:VimwikiSearch /<C-v>/<CR>
 au FileType vimwiki nmap <silent><buffer> s<Up>     <Plug>VimwikiGoBackLink
@@ -663,8 +664,8 @@ au FileType vimwiki nmap <silent><buffer> <Tab>     <Plug>VimwikiIncreaseLvlWhol
 au FileType vimwiki vmap <silent><buffer> <Tab>     <Plug>VimwikiIncreaseLvlWholeItem
 au FileType vimwiki nmap <silent><buffer> <S-Tab>   <Plug>VimwikiDecreaseLvlWholeItem
 au FileType vimwiki vmap <silent><buffer> <S-Tab>   <Plug>VimwikiDecreaseLvlWholeItem
-au FileType vimwiki nmap <silent><buffer> --        :VimwikiChangeSymbolTo *<CR>
-au FileType vimwiki vmap <silent><buffer> --        :VimwikiChangeSymbolTo *<CR>
+au FileType vimwiki nmap <silent><buffer> --        :VimwikiChangeSymbolTo -<CR>
+au FileType vimwiki vmap <silent><buffer> --        :VimwikiChangeSymbolTo -<CR>
 au FileType vimwiki nmap <silent><buffer> -3        :VimwikiChangeSymbolTo #<CR>
 au FileType vimwiki vmap <silent><buffer> -3        :VimwikiChangeSymbolTo #<CR>
 au FileType vimwiki nmap <silent><buffer> -1        :VimwikiChangeSymbolTo 1.<CR>
