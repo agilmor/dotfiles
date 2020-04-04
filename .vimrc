@@ -156,14 +156,15 @@
 " <C-PageUp>  : Scroll Up
 " <C-PageDown>: Scroll Down
 "
-" w<Arrow>    : Select neighbour window (also <A-Arrow> if tmux on correct tmux)
-" w<PageUp>   : Select prev tab
-" w<PageDown> : Select next tab
+" w<Arrow>    : Select neighbour window (also <M-Arrow> if tmux on correct tmux)
+" w<PageUp>   : Select prev tab (also <M-PageUp>)
+" w<PageDown> : Select next tab (also <M-PageDown>)
 " w<S-Left>   : Move current tab to the left
 " w<S-Right>  : Move current tab to the right
-" w<Tab>      : :vsplit
-" w|          : :vsplit
-" wt          : Open new tab with current buffer (keeping prev tab untouched)
+" w<Tab><Tab> : :vsplit (also w|)
+" w<Tab><L/R> : :vsplit current to (existing) Left/Right window
+" w<Tab><Up>  : Open new tab with current buffer (keeping prev tab untouched) (also wt)
+" w<Tab><Down>: Close tab
 " wb          : Break in a new tab
 " wq          : Quit current window
 "
@@ -648,7 +649,7 @@ let g:vimwiki_key_mappings        =
                                  \ {
                                  \ 'table_format': 0,
                                  \ 'links'       : 0,
-                                 \ }   " to keep <A-Left/Right> and <BS>
+                                 \ }   " to keep <M-Left/Right> and <BS>
 
 au FileType vimwiki nmap <silent><buffer> ss<Up>    :VimwikiBacklinks<CR>
 au FileType vimwiki vmap <silent><buffer> ss<Up>    :VimwikiBacklinks<CR>
@@ -1818,7 +1819,8 @@ nnoremap <C-PageDown>  <C-e>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
-let g:tmux_navigator_no_mappings = 1
+let g:tmux_navigator_no_mappings         = 1
+let g:tmux_navigator_disable_when_zoomed = 1 " Avoid vim to be unzoom
 
 nnoremap <silent> <M-Left>  :TmuxNavigateLeft<cr>
 nnoremap <silent> <M-Down>  :TmuxNavigateDown<cr>
@@ -1841,6 +1843,8 @@ nnoremap w<Tab>        :vsplit<cr>
 nnoremap w<Tab><Tab>   :vsplit<cr>
 nnoremap w<Tab><Right> :let splitBuf = bufnr("%")<cr><c-w>l:exe 'hide buf' splitBuf<cr>
 nnoremap w<Tab><Left>  :let splitBuf = bufnr("%")<cr><c-w>h:exe 'hide buf' splitBuf<cr>
+nnoremap w<Tab><Up>    :tab split<cr>
+nnoremap w<Tab><Down>  :tabclose<cr>
 
 " To restore the previous 'view' of the buffer (keep cursor position)
 " Very-very useful (with sh)!
@@ -1898,8 +1902,10 @@ nnoremap tt          :exe "tabn ".g:lasttab<CR>
 " nnoremap wto         :tabnew<cr>
 " nnoremap wtq         :tabclose<cr>
 
-nnoremap w<pagedown> :tabnext<cr>
-nnoremap w<pageup>   :tabprevious<cr>
+nnoremap <M-PageDown> :tabnext<cr>
+nnoremap <M-PageUp>   :tabprevious<cr>
+nnoremap w<PageDown> :tabnext<cr>
+nnoremap w<PageUp>   :tabprevious<cr>
 " nnoremap w-          :tabnext<cr>
 " nnoremap w,          :tabprevious<cr>
 " nnoremap w;          :-tabmove<cr>
