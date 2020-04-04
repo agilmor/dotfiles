@@ -1835,9 +1835,12 @@ tmap     <silent> <M-Right> <Leader>:TmuxNavigateRight<cr>
 " nnoremap <silent> <M-Left> :TmuxNavigatePrevious<cr>
 
 " Leader: w is the leader key for all windows and tabs (is <C-w>)
-nnoremap w           <C-w>
-nnoremap w<Bar>      :vsplit<cr>
-nnoremap w<Tab>      :vsplit<cr>
+nnoremap w             <C-w>
+nnoremap w<Bar>        :vsplit<cr>
+nnoremap w<Tab>        :vsplit<cr>
+nnoremap w<Tab><Tab>   :vsplit<cr>
+nnoremap w<Tab><Right> :let splitBuf = bufnr("%")<cr><c-w>l:exe 'hide buf' splitBuf<cr>
+nnoremap w<Tab><Left>  :let splitBuf = bufnr("%")<cr><c-w>h:exe 'hide buf' splitBuf<cr>
 
 " To restore the previous 'view' of the buffer (keep cursor position)
 " Very-very useful (with sh)!
