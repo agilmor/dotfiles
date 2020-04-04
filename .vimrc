@@ -2262,7 +2262,7 @@ nnoremap se   :NERDTreeToggle<cr>
 
 " vimproj and vimrc
 " noremap  sp   :wincmd l<CR>:e .vimprj<cr>
-noremap  sprj :wincmd l<CR>:e .vimprj<cr>
+noremap  sprj :let mypwd=$PWD<CR>:wincmd l<CR>:exe ':e '.mypwd.'/.vimprj'<cr>
 noremap  svim :wincmd l<CR>:e ~/.vimrc<cr>
 
 
