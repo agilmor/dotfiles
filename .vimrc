@@ -444,7 +444,7 @@ Plugin 'kshenoy/vim-signature'               " to visualize marks (smm)
 Plugin 'Yggdroot/indentLine'                 " to visualize indentation lines (with |)
 Plugin 'ntpeters/vim-better-whitespace'      " visualize and remove (ToggleWhitespace and StripWhitespace) trailing whitespace
 Plugin 'tmux-plugins/vim-tmux-focus-events'  " to be able to have FocusLost and FocusGained in terminal (on tmux with set-g focus-event on) (it fires some errors?)
-" Plugin 'chrisbra/Colorizer'                  " to read terminal colors :ColorsHighlight :ColorToggle (never used)
+Plugin 'chrisbra/Colorizer'                  " to read terminal colors :ColorsHighlight :ColorToggle
 " Plugin 'bling/vim-airline'                   " too fancy for me? I'll give it a second chance in a while...
 
 " Text objects
@@ -849,8 +849,8 @@ let g:qfenter_keymap.topen = ['<Leader><Tab>']
 "
 " chrisbra/Colorizer
 "
-" let g:colorizer_disable_bufleave = 1 " keep terminal coloring when leaving the buffer
-" let g:colorizer_auto_map         = 0 " no automapping for :ColorToogle and :ColorHighlight
+let g:colorizer_disable_bufleave = 1 " keep terminal coloring when leaving the buffer
+let g:colorizer_auto_map         = 0 " no automapping for :ColorToogle and :ColorHighlight
 
 " AutoPairs in insert mode
 " let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
@@ -1087,7 +1087,7 @@ nmap      wdb              :tabnew %<CR>:Gblame<cr>
 nmap      wdp              :Gpush<cr>
 nmap      wde              :Gedit<cr>
 nmap      wdu              :diffupdate<cr>
-nmap      wdo              :Git log --oneline --decorate --graph<cr>
+nmap      wdo              :Git log --oneline --decorate --graph --color<CR>:ColorToggle<CR>
 nnoremap  wd<Up>           [c
 nnoremap  wd<Down>         ]c
 nnoremap  wd<Left>         :diffput<cr>
