@@ -1013,8 +1013,10 @@ nnoremap  so               :TagbarToggle<CR>
 noremap   sr               :registers<CR>
 nnoremap  su               :UndotreeToggle<CR>
 nmap      sy               :Yanks<CR>
-noremap   sprj             :let mypwd=$PWD<CR>:wincmd l<CR>:exe ':e '.mypwd.'/.vimprj'<CR>
-noremap   svim             :wincmd l<CR>:e ~/.dotfiles/.vimrc<CR>
+noremap   sprj             :e ./.vimprj<CR>
+noremap   sdoc             :e ./doc/wiki/Home.md<CR>
+noremap   swiki            :e ~/workspace/wiki/Home.md<CR>
+noremap   svim             :e ~/.dotfiles/.vimrc<CR>
 nnoremap  s<Up>            <C-o>
 nnoremap  s<Down>          <C-i>
 nnoremap  s<Left>          g;
