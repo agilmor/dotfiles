@@ -11,7 +11,7 @@
 " x                : cut
 " r                : Replace
 " c                : Change
-" e                : Exchange (eq to quit current exchange)
+" e                : Exchange (eq to quit, . to apply to same textobj type)
 " q                : Qomment
 "
 " >                : Align (C-x for generic separator) (EasyAlign)
@@ -165,9 +165,10 @@
 " w<Tab><L/R> : :vsplit current to (existing) Left/Right window
 " w<S-L/R>    : Swap current window with the one in Left/Right
 " w<Tab><Up>  : Open new tab with current buffer (keeping prev tab untouched) (also wt)
-" w<Tab><Down>: Close tab
+" w<Tab><Down>: Quit current tab (WQ)
 " wb          : Break in a new tab
 " wq          : Quit current window
+" WQ          : Quit current tab
 "
 " ww          : Maximize / Restore window
 " w=          : Resize all windows to the same size
@@ -204,7 +205,7 @@
 "
 " wd / wdd    : WimDiff current file in a new tab (:Gdiff)
 " wda         : WimDiff All files in the repo in a new vim with a tab per file
-" wdu         : WimDff (:diffupdate)
+" wdr / wdu   : WimDff refresh (:diffupdate)
 " wds         : :GStatus in new tab - D: diff, -: add/reset, X: checkout/clean,
 "                                     cc/ca: commit/amend, r: reload
 " wdc         : git Commit in new tab (:Gstatus and cc)
@@ -1076,6 +1077,7 @@ nnoremap  w<Tab><Right>    :let splitBuf = bufnr("%")<CR><C-w>l:exe 'hide buf' s
 nnoremap  w<Tab><Left>     :let splitBuf = bufnr("%")<CR><C-w>h:exe 'hide buf' splitBuf<CR>
 nnoremap  w<Tab><Up>       :tab split<CR>
 nnoremap  w<Tab><Down>     :tabclose<CR>
+nnoremap  WQ               :tabclose<CR>
 nmap      w<Tab><S-Right>  wmw<Right>ws
 nmap      w<Tab><S-Left>   wmw<Left>ws
 nmap      w<Tab><S-Up>     wmw<Up>ws
@@ -1112,6 +1114,7 @@ nmap      wdb              :tabnew %<CR>:Gblame<CR>
 nmap      wdp              :Gpush<CR>
 nmap      wde              :Gedit<CR>
 nmap      wdu              :diffupdate<CR>
+nmap      wdr              :diffupdate<CR>
 nmap      wdo              :Git log --oneline --decorate --graph --color<CR>:ColorToggle<CR>
 nnoremap  wd<Up>           [c
 nnoremap  wd<Down>         ]c
