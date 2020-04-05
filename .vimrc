@@ -1638,7 +1638,7 @@ function! <SID>SetMainDefaults()
         \ set textwidth=76 |
         \ set formatoptions +=t
 
-    au FileType vim,c,cpp
+    au FileType vim,vimwiki,c,cpp
         \ set textwidth=90      |
         \ set formatoptions=ronj
 
