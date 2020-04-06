@@ -250,6 +250,7 @@
 " ----
 "
 " Mapleader is º
+" ap to <Space> and paste
 " :PluginInstall to regenerate tags
 " <C-s> saves the file
 " :W!! sudo write
@@ -887,6 +888,7 @@ let g:colorizer_auto_map         = 0 " no automapping for :ColorToogle and :Colo
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
+nmap     ap                <Space><Esc>p
 nnoremap a<Up>             O
 nnoremap a<Down>           o
 nnoremap a<Left>           I
