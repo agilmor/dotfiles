@@ -28,7 +28,7 @@
 "                    (C)amelStyle, (m)ixedStyle (Abolish)
 " d<Space>         : Delete trailing whitespaces on current line or the visual selected
 "                    lines (:StripWhitespace)
-" yp / YP          : cpen Yanked list and paste the selected one
+" yp / YP          : open Yanked list and paste the selected one
 " <p / >P          : Rotate last Pasted
 " <y / >Y          : Rotate Yanked list
 " ñp / <F2>        : Toggle autoformat of last pasted
@@ -45,8 +45,8 @@
 " a,/i, : in/a elements between , or separators (auto-seek and count)
 " aq/iq : in/a Qomment segment
 " au/iu : in/a URIs as textobj
-" an/in : in/a Next serach match (gn) (works as motion in visual mode)
-" aN/iN : in/a prev serach match (gN) (works as motion in visual mode)
+" an/in : in/a Next search match (gn) (works as motion in visual mode)
+" aN/iN : in/a prev search match (gN) (works as motion in visual mode)
 " al/il : in/a Line, with or without trailing and leading white spaces
 " ae/ie : in/a Entire file, with or without trailing and leading empty lines
 " ip    : in the last Pasted
@@ -68,8 +68,8 @@
 " s<Down>         : See next jump (<C-i>)
 " s<Left>         : See prev change (g;)
 " s<Right>        : See next change (g,)
-" s<S-Up/Left>    : See beging last changed or pasted (`[)
-" s<S-Down/Right> : See end    last changed or pasted (`])
+" s<S-Up/Left>    : See begin last changed or pasted (`[)
+" s<S-Down/Right> : See end   last changed or pasted (`])
 "
 " ç               : see matching braÇet and others (matchit.zip)
 " M<char>         : Mark current position as <char>
@@ -80,7 +80,7 @@
 " se              : See Explorer window (NerdTree)
 " so              : See Outline (ctag)
 " sm              : See Marks
-" swm             : See Windom marks
+" swm             : See Window marks
 " sc              : See Changes
 " sj              : See Jumps
 " su              : See Undo-tree
@@ -158,7 +158,7 @@
 " <C-PageUp>  : Scroll Up
 " <C-PageDown>: Scroll Down
 "
-" w<Arrow>    : Select neighbour window (also <M-Arrow> if tmux on correct tmux)
+" w<Arrow>    : Select neighbor window (also <M-Arrow> if tmux on correct tmux)
 " w<PageUp>   : Select prev tab (also <M-PageUp>)
 " w<PageDown> : Select next tab (also <M-PageDown>)
 " w<Tab><Tab> : :vsplit (also w|)
@@ -185,17 +185,17 @@
 " sb          : See Buffers
 " sab         : See (and open) All Buffers
 "
-" Folding
-" -------
+" Folding (fd)
+" ------------
 "
-" FF / ff     : Toggle current fold
-" FO          : Open all folds
-" FC          : Close all folds
-" Fo          : Open just one level of folding
-" Fc          : Close one level of folding
+" fd<CR> / fdfd : Toggle current fold
+" fd<Down>      : Open all folds
+" fd<Up>        : Close all folds
+" fd<Right>     : Open just one level of folding
+" fd<Left>      : Close one level of folding
 "
-" Grep & Replace
-" --------------
+" Grep & Replace (gr)
+" -------------------
 "
 " gr          : grep and replace iw in current file (:s or :S)
 " GR          : grep and replace iw in project (:Replace)
@@ -224,12 +224,20 @@
 " Project
 " -------
 "
-" .vimprj /srpj     : in the root directory of a project to set custom options
-" <C-b>             : builds the project async (:Make)
-" :OpenSession<tab> : list and open sessions
-" vim --servername sessionname : to open a saved session (vim-session)
+" sprj                     : set project options in project_path/.vimprj
+" <C-b>                    : builds the project async (:Make)
+" :OpenSession<tab>        : list and open sessions
+" vim --servername session : to open a saved session (vim-session)
 "
 " TODO: Term and Debug
+"
+" Spell (f)ix
+" -----------
+"
+" f<CR> / f : Toggle spell fix
+" f<Right>  : See suggestions
+" f<Left>   : Add word to the dictionary
+" f<Down>   : Mark word as wrong
 "
 " Options/Toggles and <F>Keys
 " ----------------------------
@@ -310,7 +318,7 @@ set incsearch                      " show first match while typing the pattern
 set mouse=a                        " use mouse
 set ttymouse=sgr                   " to use mouse on vim borders when vim is run over tmux
 set nowrap                         " avoid wrapping
-set diffopt+=vertical              " to force vertical difffs by default
+set diffopt+=vertical              " to force vertical diffs by default
 set virtualedit=onemore            " really go to EOL. See CursorColumnI
 set splitright                     " vsplit on right
 set splitbelow                     " split below
@@ -328,6 +336,8 @@ set sidescrolloff=0                " no scroll before first/last char in a line,
 set sidescroll=10                  " to scroll 10 chars when reaching limit (hard limit)
 set wildmode=longest:list          " to cmdline completion (tab) as in bash
 set complete+=kspell               " to use spell dict on autocomplete
+set spelllang=en_us                " spell language
+set spellfile=~/.vim/spell/en.utf-8.add " own dictionary in dotfiles
 set autoread                       " file is reloaded if changed on fs
 set undofile                       " for persistent undo
 set ignorecase                     " to search case insensitive
@@ -943,12 +953,18 @@ nmap     ex                v<Plug>(Exchange)
 " map  e<Right>               <Plug>(easymotion-e)
 " map  e<Left>                <Plug>(easymotion-ge)
 
-nnoremap FF                za
-nnoremap ff                za
-nnoremap FO                zR
-nnoremap FC                zM
-nnoremap Fo                zr
-nnoremap Fc                zm
+nnoremap ff                :set spell!<CR>
+nnoremap f<Return>         :set spell!<CR>
+nnoremap f<Left>           zg
+nnoremap f<Right>          z=
+nnoremap f<Down>           zw
+
+nnoremap fdfd              za
+nnoremap fd<Return>        za
+nnoremap fd<Down>          zR
+nnoremap fd<Up>            zM
+nnoremap fd<Right>         zr
+nnoremap fd<Left>          zm
 
 nmap     gr                yiw:%S/<C-v>/<C-v>/Igc<Left><Left><Left><Left>
 nmap     GR                <Leader>vr
