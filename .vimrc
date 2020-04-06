@@ -1115,7 +1115,7 @@ nmap      wdp              :Gpush<CR>
 nmap      wde              :Gedit<CR>
 nmap      wdu              :diffupdate<CR>
 nmap      wdr              :diffupdate<CR>
-nmap      wdo              :Git log --oneline --decorate --graph --color<CR>:ColorToggle<CR>
+nmap      wdo              :Git log --oneline --decorate --graph --color -n 200<CR>:ColorToggle<CR>
 nnoremap  wd<Up>           [c
 nnoremap  wd<Down>         ]c
 nnoremap  wd<Left>         :diffput<CR>
