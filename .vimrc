@@ -1661,6 +1661,12 @@ function! <SID>SetMainDefaults()
         \ set textwidth=76 |
         \ set formatoptions +=t
 
+    au FileType gitsendmail
+        \ set softtabstop=8 |
+        \ set tabstop=8     |
+        \ set shiftwidth=8  |
+        \ set textwidth=80  |
+
     au FileType vim,vimwiki,c,cpp
         \ set textwidth=90      |
         \ set formatoptions=ronj
