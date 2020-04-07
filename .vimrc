@@ -253,8 +253,7 @@
 " F5            : reload file (:e)
 " F6            : reload vimrc
 " F7 / ñs       : toggle autosave            (AutoSaveToggle)
-" F8 / ñ<Space> : toggle whitestaces         (ToggleWhitespace)
-" F10/11        : to disable default maps of UltiSnips (ExpandTrigger / ListSnippets)
+" F11           : list snippets              (ListSnippets)
 "
 " More
 " ----
@@ -599,8 +598,6 @@ let g:SignatureEnabledAtStartup = 0  " not showing marks by default
 "
 " Auto Save (:AutoSaveToggle)
 "
-nmap <F7> :AutoSaveToggle<CR>
-nmap ñs   :AutoSaveToggle<CR>
 let g:auto_save                   = 1               " enable AutoSave on Vim startup
 let g:auto_save_silent            = 0               " display the auto-save notification
 let g:auto_save_write_all_buffers = 1               " write all open buffers (like :wa)
@@ -1199,6 +1196,7 @@ nmap      >>               <Plug>(EasyAlign)
 xmap      >                <Plug>(LiveEasyAlign)
 nmap      >                <Plug>(LiveEasyAlign)
 
+"         <F1>             :set pastetoggle (see General Options)
 nmap      <F2>             <Plug>EasyClipToggleFormattedPaste<CR>
 nmap      ñp               <Plug>EasyClipToggleFormattedPaste<CR>
 nmap      <F12>            :call ToggleAutoFormat()<CR>
@@ -1212,6 +1210,9 @@ noremap   <F5>             :e<CR>
 noremap   <F6>             :source ~/.vimrc<CR>
 nmap      ñg               :GrepOptions<CR>
 nmap      ñgi              <Leader>vyi
+nmap      <F7>             :AutoSaveToggle<CR>
+nmap      ñs               :AutoSaveToggle<CR>
+"         <F11>            let g:UltiSnipsListSnippets=<F11>
 
 "shift+arrow selection
 nmap      <S-Up>           <C-v><Up>
