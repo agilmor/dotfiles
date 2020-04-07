@@ -218,6 +218,8 @@
 " wd<Right>   : Diff get (assuming being in right-pane of vimdiff)
 " wd<Right>   : Diff put (assuming being in right-pane of vimdiff)
 "
+" See Merge Conflicts section for more info.
+"
 " TODO: :Glog
 " TODO: :Git rebase
 "
@@ -264,8 +266,6 @@
 " :W!! sudo write
 " <C-S-t>: restore just closed window by accident
 " <C-k> : normal mode in command line (cedit)
-"
-" TODO: test https://github.com/Olical/vim-enmasse
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EasyAlign Details
