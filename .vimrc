@@ -615,6 +615,13 @@ let g:auto_save_events            = ["CursorHold"]  " other possible events:
 "
 " See ~/.vim/after/ftplugin/vimwiki.vim for autocommands to auto pull/push vimwiki pages
 "
+" See https://github.com/vimwiki/vimwiki/issues/843#issuecomment-608601395 to register
+" vimwikis updating the vimwiki_list:
+"
+" > You should be able to directly call vimwiki#vars#add_temporary_wiki() similar to
+" > what is done for some of the Vader tests. You can also take a look at how temporary
+" > wikis are registered in plugin/vimwiki.vim.
+"
 let g:vimwiki_list = [{'path':      '~/workspace/wiki/',
                      \ 'syntax':    'markdown',
                      \ 'ext':       '.md',
