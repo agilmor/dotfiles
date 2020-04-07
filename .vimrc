@@ -220,9 +220,6 @@
 "
 " See Merge Conflicts section for more info.
 "
-" TODO: :Glog
-" TODO: :Git rebase
-"
 " Project
 " -------
 "
@@ -230,8 +227,6 @@
 " <C-b>                    : builds the project async (:Make)
 " :OpenSession<tab>        : list and open sessions
 " vim --servername session : to open a saved session (vim-session)
-"
-" TODO: Term and Debug
 "
 " Spell (f)ix
 " -----------
@@ -297,6 +292,10 @@
 " :diffg BA  " get from BASE
 " :diffg LO  " get from LOCAL
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO: Term and Debug
+" TODO: :Glog
+" TODO: :Git rebase
+"
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -360,10 +359,12 @@ set wmh=0                          " to fully maximize in height
 set wmw=0                          " to fully maximize in width
 set cscopetag                      " use both cscope and ctag as tags
 set csto=0                         " use cscope before ctags
-set cscopequickfix=s-,g-,c-,d-,i-,t-,e- " All cscope results are placed in quickfix
-
-set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize,terminal " save everything on a session
-set grepprg=grep\ -n\ --exclude-dir=.svn\ --exclude=.vimprj.cscope\ $*\ /dev/null    " to exclude svn/git results from search results
+set cscopequickfix=s-,g-,c-,d-,i-,t-,e-
+                                   " All cscope results are placed in quickfix
+set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize,terminal
+                                   " save everything on a session
+set grepprg=grep\ -n\ --exclude-dir=.svn\ --exclude=.vimprj.cscope\ $*\ /dev/null
+                                   " to exclude svn/git results from search results
 " set keywordprg=                    " used by 'K' (man -s),
 
 set statusline=
@@ -387,8 +388,7 @@ runtime ftplugin/man.vim           " to be able to render man pages
 runtime ftplugin/vim.vim           " to use the vim help
 packadd termdebug                  " enable TerminalDebug
 
-" source $VIMRUNTIME/menu.vim        " just to have some fancy (useless?) menus with (:emenu<space><tab>)
-"let &colorcolumn=join(range(91,999),",") " all the columns from the textwidth are colored as the limiting column (how to use textwidth var?) (see SwitchDecorations)
+" source $VIMRUNTIME/menu.vim        " fancy / useless menus with (:emenu<space><tab>)
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -409,7 +409,6 @@ Plugin '907th/vim-auto-save'                 " auto save
 Plugin 'tpope/vim-repeat'                    " dependency: surround, abolish, easyclip
 Plugin 'vim-scripts/visualrepeat'            " dependency: easy-align
 Plugin 'inkarkat/vim-ingo-library'           " dependency: visualrepeat
-" Plugin 'agilmor/smarttab.vim'                " tabs for indent and spaces for align (very old, copyindent, forked to avoid conflicts with ycm_key_list_stop_completion)
 
 " Browsing
 Plugin 'szw/vim-maximizer'                   " :MaximizerToggle window
@@ -419,8 +418,6 @@ Plugin 'mbbill/undotree'                     " undotree browser
 Plugin 'bufexplorer.zip'                     " buffer browser
 Plugin 'christoomey/vim-tmux-navigator'      " <M-Arrows> from/to vim/tmux (local)
 Plugin 'kopischke/vim-fetch'                 " to open files with :line:col suffix
-" Plugin 'ctrlp.vim'                           " I'm just not using it...?
-" Plugin 'derekwyatt/vim-fswitch'              " (not tested, using manual setup with sh+st)
 
 " Version Control and Project Management
 Plugin 'vim-scripts/DfrankUtil'              " dependency: vimprj
@@ -433,23 +430,13 @@ Plugin 'xolox/vim-misc'                      " dependency: vim-session
 Plugin 'xolox/vim-session'                   " save / restore sessions
 Plugin 'tpope/vim-fugitive'                  " git
 Plugin 'vimwiki/vimwiki'                     " markdown and task management
-" Plugin 'vcscommand.vim'                      " version control git+svn together
-" Plugin 'itchyny/calendar.vim'                " calendar and todo list integrated with google
-" Plugin 'vitra'                               " trac integration (TTOpen) (removed to avoid loading problems with EMCommand)
-" Plugin 'Align'                               " used by vitra
-" Plugin 'tracwiki'                            " used by vitra
 
 " Auto completion
 Plugin 'Valloric/YouCompleteMe'              " autocomplete using compilation databases
 Plugin 'SirVer/ultisnips'                    " autoinsert snippets
 Plugin 'honza/vim-snippets'                  " standard snippets (mine on .vim/snippets)
-" Plugin 'agilmor/delimitMate'                 " better autoclose of pairs (fork to aviod problems with the non-default cursor position when leaving insert mode)
-"                                              " conflicts with YCM and smarttab.vim
 Plugin 'matchit.zip'                         " improve braçet detection
                                              " use 'runtime macros/matchit.vim' instead?
-" Plugin 'jiangmiao/auto-pairs'                " (annoying and snippets and surroundings is a better higher level approach) to autoclose pairs
-" Plugin 'AutoClose'                           " autoclosing the surroundings (not necessary with code_complete?)
-                                               " it closes the preview if line 162 (pclose) is not commented
 
 " Easy motions
 Plugin 'easymotion/vim-easymotion'           " no count lines or chars, point to them
@@ -466,7 +453,6 @@ Plugin 'ntpeters/vim-better-whitespace'      " see/remove trailing whitespaces
 Plugin 'tmux-plugins/vim-tmux-focus-events'  " FocusLost & FocusGained events
                                              " tmux.conf: set-g focus-event on
 Plugin 'chrisbra/Colorizer'                  " read terminal colors :ColorToggle
-" Plugin 'bling/vim-airline'                   " too fancy for me?
 
 " Text objects
 Plugin 'kana/vim-textobj-user'               " to create custom text objects
@@ -480,8 +466,6 @@ Plugin 'Julian/vim-textobj-variable-segment' " a (v)ariable segment in snake_cas
 Plugin 'glts/vim-textobj-comment'            " a (q)omment block
 Plugin 'saaguero/vim-textobj-pastedtext'     " a last (p)asted
 Plugin 'jceb/vim-textobj-uri'                " a (u)RIs
-" Plugin 'deathlyfrantic/vim-textobj-blanklines' " a group of blank lines
-" Plugin 'kana/vim-textobj-lastpat'            " the obj that matches (n) and (N) searches (last pattern searched)
 
 " Operators
 Plugin 'svermeulen/vim-easyclip'             " basic y, x, d with yanked list
@@ -491,16 +475,36 @@ Plugin 'tommcdo/vim-exchange'                " (e)xchange
 Plugin 'tomtom/tcomment_vim'                 " un/(q)omment
 Plugin 'junegunn/vim-easy-align'             " easy alisgn (>)
 
-" Extras
-" Plugin 'm42e/vim-gcov-marker'                " test coverage
-" Plugin 'vim-scripts/gcov.vim'                " test coverage
-
 " File plugins
 Plugin 'ekalinin/Dockerfile.vim'             " dockerfile syntax
 Plugin 'martinda/Jenkinsfile-vim-syntax'     " jenkinsfile syntax
 Plugin 'fedorenchik/qt-support.vim'          " Qt files: qml, qmake/pro, qrc, ui..
 
+"
+" Deprecated
+"
+" Plugin 'agilmor/smarttab.vim'                " tabs for indent and spaces for align
+                                               " (forked to avoid map conflicts)
+                                               " (still conflicts some times, discarded)
+                                               " (use copyindent, vim should support it)
+" Plugin 'vcscommand.vim'                      " version control git+svn together
+" Plugin 'itchyny/calendar.vim'                " calendar integrated with google
+" Plugin 'vitra'                               " trac integration
+" Plugin 'Align'                               " used by vitra
+" Plugin 'tracwiki'                            " used by vitra
+" Plugin 'agilmor/delimitMate'                 " autoclose of pairs
+                                               " (fork due conflicts leaving insert mode)
+                                               " (conflicts with YCM)
+" Plugin 'jiangmiao/auto-pairs'                " autoclos of pairs
+                                               " (annoying, better snippets and surroundings)
+" Plugin 'bling/vim-airline'                   " too fancy for me?
+" Plugin 'm42e/vim-gcov-marker'                " test coverage
+" Plugin 'vim-scripts/gcov.vim'                " test coverage
+" Plugin 'kana/vim-textobj-lastpat'            " last pattern searched (n/N)
+" Plugin 'deathlyfrantic/vim-textobj-blanklines' " a group of blank lines
+
 call vundle#end()                            " required
+
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "           Basic FileType Configs
@@ -553,6 +557,9 @@ au BufRead,BufNewFile,WinEnter *.c    nmap sst :call SeeHeader( g:test_ext  , 'l
 au BufRead,BufNewFile,WinEnter *.cpp  nmap sst :call SeeHeader( g:test_ext  , 'l')<CR>
 au BufRead,BufNewFile,WinEnter *.test nmap sst :call SeeHeader( g:header_ext, 'l')<CR>
 
+"
+" Deprecated
+"
 " Fixing integration between YCM and smarttab.vim (align+indent) (unnecessary?)
 " let ft_smart_indent = ['c', 'cpp', 'py']
 " autocmd FileType *      if index(ft_smart_indent, &ft) < 0 | autocmd BufEnter <buffer> inoremap <CR> <CR>
@@ -604,8 +611,10 @@ let g:auto_save_write_all_buffers = 1               " write all open buffers (li
 let g:auto_save_events            = ["CursorHold"]  " other possible events:
                                                     " InsertLeave, TextChanged, TextChangedI,
                                                     " CursorHold, CursorHoldI, CompleteDone
-" let g:auto_save_postsave_hook     = 'TagsGenerate'                  " this will run :TagsGenerate after each save
-" let g:auto_save_presave_hook      = 'call AbortIfNotGitDirectory()' " this will run AbortIfNotGitDirectory function before each save
+" let g:auto_save_postsave_hook     = 'TagsGenerate'
+"                                                     " :TagsGenerate on save
+" let g:auto_save_presave_hook      = 'call AbortIfNotGitDirectory()'
+"                                                     " :AbortIfNotGitDirectory on save
 
 "
 " Vimwiki
@@ -648,7 +657,8 @@ let g:vimwiki_key_mappings        =
 "
 " YouCompleteMe
 "
-" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py' " to avoid waring message
+" let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+"                                                               " to avoid waring message
 let g:ycm_always_populate_location_list       = 1
 let g:ycm_max_num_candidates                  = 50            " 0 no limit, >100 bad performance
 let g:ycm_min_num_of_chars_for_completion     = 3             " complete soon
@@ -667,8 +677,8 @@ let g:ycm_use_ultisnips_completer             = 1             " ultisnips integr
 let g:ycm_goto_buffer_command                 = 'same-buffer' " 'same-buffer', 'horizontal-split',
                                                               " 'vertical-split', 'new-tab',
                                                               " 'new-or-existing-tab'
-let g:ycm_key_list_select_completion          = ['<Down>'   ]
-let g:ycm_key_list_previous_completion        = ['<Up>'     ]
+let g:ycm_key_list_select_completion          = ['<Down>'   ] " no <Tab> bc not works as
+let g:ycm_key_list_previous_completion        = ['<Up>'     ] " a normal bash complete
 let g:ycm_key_list_stop_completion            = ['<Return>' ] " should use <Esc>, but...
 let g:ycm_collect_identifiers_from_tags_files = 0             " not working with ctags
 let g:ycm_add_preview_to_completeopt          = 0             " preview is too annoying
@@ -727,7 +737,8 @@ let g:EasyMotion_space_jump_first = 0                          " use space as ta
 let g:EasyMotion_use_upper        = 1                          " better readability
 let g:EasyMotion_keys             = 'asdfqwertzxcvbglokijmnp ' " 1st left hand keys
 let g:EasyMotion_startofline      = 0                          " to move to EOL and SOL
-" let g:EasyMotion_smartcase = 1                               " case insensitive (using normal ignorecase+smartcase)
+" let g:EasyMotion_smartcase = 1                                 " case insensitive
+"                                                                " (use ignorecase+smartcase)
 
 "
 " junegunn/vim-easy-align
@@ -870,6 +881,10 @@ let g:qfenter_keymap.topen = ['<Leader><Tab>']
 let g:colorizer_disable_bufleave = 1 " keep terminal coloring when leaving the buffer
 let g:colorizer_auto_map         = 0 " no automapping for :ColorToogle and :ColorHighlight
 
+"
+" Deprecated
+"
+
 " OmniCpp Options
 " let OmniCpp_NamespaceSearch     = 1
 " let OmniCpp_GlobalScopeSearch   = 1
@@ -881,14 +896,14 @@ let g:colorizer_auto_map         = 0 " no automapping for :ColorToogle and :Colo
 " let OmniCpp_DefaultNamespaces   = ["std", "_GLIBCXX_STD"]
 
 " CodeComplete
-" let g:completekey = '<C-q>'             " code_complete: to avoid conflicts with normal omnicomplete with tab
-" let g:completekey = '<S-Tab>'           " code_complete: to avoid conflicts with normal omnicomplete with tab
+" let g:completekey = '<C-q>'             " avoid conflicts with normal omnicomplete
+" let g:completekey = '<S-Tab>'           " avoid conflicts with normal omnicomplete
 
 " AutoPairs in insert mode
 " let g:AutoPairsShortcutToggle     = '<F4>'  " Enable/Disable AutoPairs
-" let g:AutoPairsFlyMode            = 0       " to fly several brackets when pressing the closing bracket
-" let g:AutoPairsShortcutBackInsert = '<C-l>' " to disable just pressed fly bracket (alternative: <C-v> in imode forces direct input)
-" let g:AutoPairsShortcutJump       = '<C-j>' " jump to next closed pair (pressing closing pair in insert also jumps)
+" let g:AutoPairsFlyMode            = 0       " fly several brackets when closing bracket
+" let g:AutoPairsShortcutBackInsert = '<C-l>' " disable just pressed fly bracket
+" let g:AutoPairsShortcutJump       = '<C-j>' " jump to next closed pair (annoying)
 " let g:AutoPairsMapBS              = 1       " map <Backspace> to remove in pairs
 " let g:AutoPairsMapCh              = 1       " to remove brackets in pairs
 " let g:AutoPairsMapCR              = 1       " to map <Return>
@@ -920,10 +935,10 @@ nnoremap bb                :b#<CR>
 nmap     bd                <Plug>Kwbd
 nnoremap b<Up>             :bnext<CR>
 nnoremap b<Down>           :bprevious<CR>
-" map  b                       <Plug>(easymotion-bd-w)
-" map  bb                      <Plug>(easymotion-bd-w)
-" map  b<Right>                <Plug>(easymotion-w)
-" map  b<Left>                 <Plug>(easymotion-b)
+" map  b                     <Plug>(easymotion-bd-w)
+" map  bb                    <Plug>(easymotion-bd-w)
+" map  b<Right>              <Plug>(easymotion-w)
+" map  b<Left>               <Plug>(easymotion-b)
 
 nnoremap cx                s
 nnoremap Cx                ~
@@ -952,10 +967,10 @@ nmap     ee                <Plug>(ExchangeLine)
 nmap     ec                <Plug>(ExchangeClear)
 nmap     eq                <Plug>(ExchangeClear)
 nmap     ex                v<Plug>(Exchange)
-" map  e                      <Plug>(easymotion-bd-e)
-" map  ee                     <Plug>(easymotion-bd-e)
-" map  e<Right>               <Plug>(easymotion-e)
-" map  e<Left>                <Plug>(easymotion-ge)
+" map  e                     <Plug>(easymotion-bd-e)
+" map  ee                    <Plug>(easymotion-bd-e)
+" map  e<Right>              <Plug>(easymotion-e)
+" map  e<Left>               <Plug>(easymotion-ge)
 
 nnoremap ff                :set spell!<CR>
 nnoremap f<Return>         :set spell!<CR>
@@ -1443,6 +1458,7 @@ tmap     <silent> <M-Right>    <Leader>:TmuxNavigateRight<CR>
 nnoremap          <M-PageDown> :tabnext<CR>
 nnoremap          <M-PageUp>   :tabprevious<CR>
 " }}}
+
 " {{{
 " Deprecated keys
 "
@@ -1502,7 +1518,8 @@ au FileType qf   map <buffer> dd :RemoveQFItem<CR>
 " Autoreload files
 "
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-autocmd FileChangedShellPost                        * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+autocmd FileChangedShellPost                        * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." |
+                                                    \ echohl None
 
 "
 " To restore the previous 'view' of the buffer (keep cursor position)
