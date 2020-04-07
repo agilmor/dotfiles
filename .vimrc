@@ -522,8 +522,8 @@ au BufRead,BufNewFile *.launch  set filetype=xml
 "
 " FileType Configs
 "
-au FileType help wincmd L              " forcing help to be vertical splitted
-au FileType man  wincmd L              " forcing man to be vertical splitted
+" au FileType help wincmd L              " forcing help to be vertical splitted
+" au FileType man  wincmd L              " forcing man to be vertical splitted
 au FileType qf   wincmd J              " forcing quickfix to be full width
 au FileType vim  set foldmethod=marker " using markers in vim files
 
