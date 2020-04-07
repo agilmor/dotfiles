@@ -1683,8 +1683,9 @@ function! <SID>SetMainDefaults()
     " j: remove comment leader when joining comment lines
     "
     au FileType gitcommit
-        \ set textwidth=76 |
-        \ set formatoptions +=t
+        \ set textwidth=76      |
+        \ set formatoptions +=t |
+        \ set spell
 
     au FileType gitsendmail
         \ set softtabstop=8 |
