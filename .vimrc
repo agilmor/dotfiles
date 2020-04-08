@@ -382,8 +382,9 @@ set statusline+=\ \[%p%%\ of\ %L\]                " file position
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " {{{
 
+let mapleader='º'                  " I like this one, but I barely use it
+let g:markdown_folding=1           " allow folding for markdown (see also vimwiki_folding)
 let g:netrw_dirhistmax=0           " to avoid .netrwhist creation
-let mapleader='º'                  " i like this one, but I barely use it
 runtime ftplugin/man.vim           " to be able to render man pages
 runtime ftplugin/vim.vim           " to use the vim help
 packadd termdebug                  " enable TerminalDebug
@@ -640,19 +641,20 @@ let g:vimwiki_list += [{'path':     '$PWD/doc/wiki/',
                       \ 'index':    'Home',
                       \ 'auto_toc':  1,
                       \ 'auto_tags': 1}]
-let g:vimwiki_global_ext          =  0 " avoid messing with registered wikis
-let g:vimwiki_hl_headers          =  1 " highlight headers
-let g:vimwiki_hl_cb_checked       =  2 " highlight done/todo items
-let g:vimwiki_use_mouse           =  1 " enable mouse control
-let g:vimwiki_list_ignore_newline =  0 " multiline list items converted to <br />
-let g:vimwiki_text_ignore_newline =  0 " multiline text paragraph converted to <br />
-let g:vimwiki_use_calendar        =  0 " disable calendar
-let g:vimwiki_url_maxsave         = 30 " size of URL before being reduced
+let g:vimwiki_global_ext          =  0     " avoid messing with registered wikis
+let g:vimwiki_hl_headers          =  1     " highlight headers
+let g:vimwiki_hl_cb_checked       =  2     " highlight done/todo items
+let g:vimwiki_use_mouse           =  1     " enable mouse control
+let g:vimwiki_list_ignore_newline =  0     " multiline list items converted to <br />
+let g:vimwiki_text_ignore_newline =  0     " multiline text paragraph converted to <br />
+let g:vimwiki_use_calendar        =  0     " disable calendar
+let g:vimwiki_url_maxsave         = 30     " size of URL before being reduced
+let g:vimwiki_folding             = 'expr' " the only one that works
 let g:vimwiki_key_mappings        =
                                   \ {
                                   \ 'table_format': 0,
                                   \ 'links'       : 0,
-                                  \ }   " to keep <M-Left/Right> and <BS>
+                                  \ }      " to keep <M-Left/Right> and <BS>
 
 "
 " YouCompleteMe
