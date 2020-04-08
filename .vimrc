@@ -581,8 +581,8 @@ let g:better_whitespace_verbosity=1
 "
 " tomtom/tcomment_vim
 "
-let g:tcommentMapLeaderOp1 = 'q'         " use 'q' for the comment action
-let g:tcommentOptions      = {'col': 1}  " line comments on the first column
+let g:tcomment_opleader1  = 'q'         " use 'q' for the comment action
+let g:tcomment#options    = {'col': 1}  " line comments on the first column
 
 "
 " scrooloose/nerdtree.git
