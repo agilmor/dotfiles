@@ -1686,6 +1686,8 @@ function! <SID>SetMainDefaults()
         \ set textwidth=76      |
         \ set formatoptions +=t |
         \ set spell
+    au FileType gitconfig
+        \ set noexpandtab
 
     au FileType gitsendmail
         \ set softtabstop=8 |
@@ -1700,7 +1702,6 @@ function! <SID>SetMainDefaults()
     set softtabstop=4
     set tabstop=4
     set shiftwidth=4
-    set expandtab               " using spaces instead of tabs
     set smarttab                " doesn't do anything...?
     set cinoptions=             " no cinoptions
     set copyindent              " keep indent of previous line
