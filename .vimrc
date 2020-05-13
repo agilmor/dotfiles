@@ -1686,6 +1686,7 @@ function! <SID>SetMainDefaults()
         \ set textwidth=76      |
         \ set formatoptions +=t |
         \ set spell
+
     au FileType gitconfig
         \ set noexpandtab
 
@@ -1694,6 +1695,10 @@ function! <SID>SetMainDefaults()
         \ set tabstop=8     |
         \ set shiftwidth=8  |
         \ set textwidth=80  |
+
+    au FileType nroff,vimwiki
+        \ set formatoptions +=t |
+        \ set spell
 
     au FileType vim,vimwiki,c,cpp
         \ set textwidth=90      |
