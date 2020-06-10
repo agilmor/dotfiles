@@ -308,7 +308,7 @@ scan-tiff2pdf()
 #         echo filename = $basename
 #         echo extension = $extension
 
-        tesseract -psm 1 -l $lang $file $basename pdf
+        tesseract --psm 1 -l $lang $file $basename pdf
 
         pdf=$basename.pdf
         echo pdf  = $pdf
@@ -321,7 +321,7 @@ scan-tiff2pdf()
 #     done
 
     echo Generating $outfile from ${pdfs[@]}
-    pdftk ${pdfs[@]} cat output $outfile
+    pdfunite ${pdfs[@]} $outfile
 
     acroread $outfile
 }
