@@ -35,11 +35,11 @@ attach: false
 
 windows:
   - run:
-      layout: 1cbe,274x81,0,0{137x81,0,0[137x41,0,0,146,137x21,0,42,147,137x17,0,64,148],136x81,138,0[136x18,138,0{85x18,138,0,149,50x18,224,0,150},136x22,138,19,151,136x21,138,42,152,136x8,138,64{68x8,138,64,153,67x8,207,64,154},136x8,138,73{68x8,138,73,155,67x8,207,73,156}]}
+      layout: d256,274x70,0,0{137x70,0,0[137x29,0,0,569,137x26,0,30,570,137x13,0,57,571],136x70,138,0[136x29,138,0,574,136x26,138,30,575,136x6,138,57{68x6,138,57,576,67x6,207,57,577},136x6,138,64{68x6,138,64,578,67x6,207,64,579}]}
       panes:
         - cfg:
           - tmux link-window -s notes:notes -t slurm-<%= @args[0] %>
-          - cd ~/workspace/slurm/<%= @args[0] %>/slurm/etc
+          - cd ~/workspace/slurm/<%= @args[0] %>/etc
           - slurm-setup <%= @args[0] %>
           - vim
           - ":OpenSession slurm-<%= @args[0] %>-conf"
@@ -55,16 +55,6 @@ windows:
           - slurm-setup <%= @args[0] %>
           - ll local/etc/
           - echo tmux-slurm-bug <%= @args[0] %>-dev
-        - smap:
-          - cd ~/workspace/slurm/<%= @args[0] %>
-          - slurm-setup <%= @args[0] %>
-          - sleep 5
-          - smap -i 2
-        - sinfo:
-          - cd ~/workspace/slurm/<%= @args[0] %>
-          - slurm-setup <%= @args[0] %>
-          - sleep 5
-          - sinfo -i 5
         - dbd:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
