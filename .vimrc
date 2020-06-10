@@ -363,7 +363,7 @@ set cscopequickfix=s-,g-,c-,d-,i-,t-,e-
                                    " All cscope results are placed in quickfix
 set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize,terminal
                                    " save everything on a session
-set grepprg=grep\ -n\ --exclude-dir=.svn\ --exclude=.vimprj.cscope\ $*\ /dev/null
+set grepprg=grep\ -n\ --exclude-dir=.svn\ --exclude-dir=./build\ --exclude=.vimprj.cscope\ $*\ /dev/null
                                    " to exclude svn/git results from search results
 " set keywordprg=                    " used by 'K' (man -s),
 
