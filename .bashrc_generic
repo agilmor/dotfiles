@@ -282,7 +282,7 @@ scan-tiff()
         return 1
     fi
 
-    scanimage --format tiff -p --mode Gray --resolution 300 > $1.tiff
+    scanimage --format tiff -p --mode Color --resolution 400 > $1.tiff
 }
 
 scan-tiff2pdf()
