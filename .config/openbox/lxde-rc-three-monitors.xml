@@ -180,7 +180,7 @@
     <!--AGIL's Keybindings -->
     <keybind key="W-s">
       <action name="Execute">
-        <command>sudo pm-suspend</command>
+        <command>systemctl suspend</command>
       </action>
     </keybind>
     <!--     <keybind key="XF86PowerDown"> -->
@@ -190,7 +190,7 @@
     <!--     </keybind> -->
     <keybind key="XF86PowerOff">
       <action name="Execute">
-        <command>sudo pm-suspend</command>
+        <command>systemctl suspend</command>
       </action>
     </keybind>
     <keybind key="XF86AudioLowerVolume">
