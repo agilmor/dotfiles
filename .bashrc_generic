@@ -140,8 +140,8 @@ function _slurm_prompt()
 
 function report_errcode()
 {
+  RET_CODE=$?
   if [[ "$ENABLE_PROMPT_ERR" == 1 ]]; then
-     RET_CODE=$?
      COLOR=$NC
      if [[ $RET_CODE -ne 0 ]] ; then
          COLOR=$RED
