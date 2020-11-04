@@ -430,6 +430,10 @@ slurm-setup()
     mkdir -p ${SLURM_LOCAL_DIR}/var/run
     mkdir -p ${SLURM_LOCAL_DIR}/var/spool
     mkdir -p ${SLURM_LOCAL_DIR}/tmp
+	mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c1
+	mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c2
+	mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c3
+	mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c4
 
     if [ ! -L ${SLURM_LOCAL_DIR}/etc ]; then
         ln -s ../etc ${SLURM_LOCAL_DIR}/etc
