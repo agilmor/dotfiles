@@ -389,7 +389,7 @@ tmux-slurm-bug()
     tmux send-keys -t 2 "git status -uno" Enter
 
     tmux send-keys -t 3 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
-    tmux send-keys -t 3 "unset PROMPT_COMMAND" Enter
+	tmux send-keys -t 3 "cd testsuite/expect" Enter
 
     tmux send-keys -t 4 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
     tmux send-keys -t 4 "cd $SLURM_BUG_PATH" Enter
