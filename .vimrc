@@ -349,7 +349,8 @@ set nobackup                       " no backup files, use git/svn (and persisten
 set noswapfile                     " no swap files, use git/svn (and persistent undo)
 set undodir=~/.vim/tmp/            " location of the undo directory
 set completeopt=menuone,longest    " preview discarded, menuone to read params
-set clipboard^=unnamedplus         " unamedplus is more keyboard-centric (<C-c>)
+set clipboard^=unnamed             " unamedplus is more keyboard-centric (forces <C-c>)
+                                   " unamed is more practical with mouse from other apps
                                    " the important part is that we should match tmux:
                                    " unnamed     -> xclip -selection primary (VS EasyClip)
                                    " unnamedplus -> xclip -selection clipboard
