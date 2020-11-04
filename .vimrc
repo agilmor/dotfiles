@@ -194,10 +194,12 @@
 " fd<Right>     : Open just one level of folding
 " fd<Left>      : Close one level of folding
 "
-" Grep & Replace (gr)
-" -------------------
+" Grep: Find or Replace (gf,gr)
+" --------------------------
 "
+" gf          : grep and find    iw in current file
 " gr          : grep and replace iw in current file (:s or :S)
+" GF          : grep and find    iw in project (:Replace)
 " GR          : grep and replace iw in project (:Replace)
 "
 " Version Control (wd)
@@ -363,7 +365,7 @@ set cscopequickfix=s-,g-,c-,d-,i-,t-,e-
                                    " All cscope results are placed in quickfix
 set sessionoptions=blank,buffers,curdir,folds,help,options,tabpages,winsize,terminal
                                    " save everything on a session
-set grepprg=grep\ -n\ --exclude-dir=.svn\ --exclude-dir=./build\ --exclude=.vimprj.cscope\ $*\ /dev/null
+set grepprg=grep\ -n\ --exclude-dir=.svn\ --exclude-dir=.git\ --exclude-dir=build\ --exclude=.vimprj.cscope\ --exclude=*.orig\ --exclude=compile_commands.json\ $*\ /dev/null
                                    " to exclude svn/git results from search results
 " set keywordprg=                    " used by 'K' (man -s),
 
@@ -984,6 +986,13 @@ nnoremap fd<Down>          zR
 nnoremap fd<Up>            zM
 nnoremap fd<Right>         zr
 nnoremap fd<Left>          zm
+
+nmap     gf                yiw:grep <C-v> %
+nmap     GF                yiw:grep -R <C-v> ./
+vmap     gf                y:grep  <C-v> %
+vmap     GF                y:grep -R <C-v> ./
+" nmap     GF                <Leader>vv
+" vmap     GF                <Leader>vv
 
 nmap     gr                yiw:%S/<C-v>/<C-v>/Igc<Left><Left><Left><Left>
 nmap     GR                <Leader>vr
