@@ -75,7 +75,7 @@
 	ignore = untracked
 [submodule ".vim/bundle/vim-easyclip"]
 	path = .vim/bundle/vim-easyclip
-	url = https://github.com/svermeulen/vim-easyclip.git
+	url = https://github.com/agilmor/vim-easyclip.git
 [submodule ".vim/bundle/vim-repeat"]
 	path = .vim/bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git

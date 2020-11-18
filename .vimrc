@@ -471,7 +471,7 @@ Plugin 'saaguero/vim-textobj-pastedtext'     " a last (p)asted
 Plugin 'jceb/vim-textobj-uri'                " a (u)RIs
 
 " Operators
-Plugin 'svermeulen/vim-easyclip'             " basic y, x, d with yanked list
+Plugin 'agilmor/vim-easyclip'                " basic y, x, d with yanked list (fork to improve end of paste)
 Plugin 'tpope/vim-surround'                  " surroundings braçets
 Plugin 'tpope/vim-abolish'                   " change (C)ase style snake/camel/mixed/upper
 Plugin 'tommcdo/vim-exchange'                " (e)xchange
@@ -1036,6 +1036,12 @@ vnoremap  mm               `M
 
 map       n                <Plug>(easymotion-next)
 map       N                <Plug>(easymotion-prev)
+
+" Mapping p braks the yank history (easyclip forked to do this)
+" nmap      p                p<Right>
+" xmap      p                p<Right>
+" nmap      P                P<Right>
+" xmap      P                P<Right>
 
 nmap      qq               qc
 
