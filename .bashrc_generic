@@ -442,6 +442,11 @@ slurm-setup()
     source ${SLURM_SLURM_DIR}/contribs/slurm_completion_help/slurm_completion.sh
 }
 
+slurm-check()
+{
+	make check -C $SLURM_BUILD_DIR/testsuite/slurm_unit $*
+}
+
 slurm-dbd()
 {
     $SLURM_LOCAL_DIR/sbin/slurmdbd -Dvvv $*
