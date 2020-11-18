@@ -493,3 +493,8 @@ i2cat-ibpm()
 {
     autossh ubuntu@ibpm -t "tmux attach -t ibpm"
 }
+
+epic-vim()
+{
+	QT_SDK_GCC_DIR=/opt/Qt/5.14.1/gcc_64 vim --servername epic
+}
