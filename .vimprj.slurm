@@ -25,6 +25,9 @@ set formatoptions=croqlnt " c: autowrap comments on textwidth
                           " t: autowrap using textwidth
 set copyindent            " use previous indent
 
+au FileType vim,vimwiki,c,cpp
+        \ set textwidth=80      |
+        \ set formatoptions=ronj
 
 " Tags and CScope: used autocomplete and code search
 "set tags =.vimprj.tag
