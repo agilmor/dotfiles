@@ -349,8 +349,11 @@ set nobackup                       " no backup files, use git/svn (and persisten
 set noswapfile                     " no swap files, use git/svn (and persistent undo)
 set undodir=~/.vim/tmp/            " location of the undo directory
 set completeopt=menuone,longest    " preview discarded, menuone to read params
-set clipboard^=unnamed             " unamedplus is more keyboard-centric (forces <C-c>)
-                                   " unamed is more practical with mouse from other apps
+set clipboard^=unnamedplus         " unamedplus is more keyboard-centric (forces <C-c>)
+                                   " unamed could be more practical with mouse from other
+                                   " apps, BUT breaks r in visual mode because the
+                                   " visual selection is copied to primary
+                                   " also, in seems that middle paste magiacally works
                                    " the important part is that we should match tmux:
                                    " unnamed     -> xclip -selection primary (VS EasyClip)
                                    " unnamedplus -> xclip -selection clipboard
