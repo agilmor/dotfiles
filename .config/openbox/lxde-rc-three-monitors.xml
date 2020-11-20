@@ -345,63 +345,6 @@
         <menu>client-list-combined-menu</menu>
       </action>
     </keybind>
-    <!--
-    <keybind key="W-0">
-      <action name="Desktop">
-        <desktop>last</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_1">
-      <action name="Desktop">
-        <desktop>1</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_2">
-      <action name="Desktop">
-        <desktop>2</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_3">
-      <action name="Desktop">
-        <desktop>3</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_4">
-      <action name="Desktop">
-        <desktop>4</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_5">
-      <action name="Desktop">
-        <desktop>5</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_6">
-      <action name="Desktop">
-        <desktop>6</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_7">
-      <action name="Desktop">
-        <desktop>7</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_8">
-      <action name="Desktop">
-        <desktop>8</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_9">
-      <action name="Desktop">
-        <desktop>9</desktop>
-      </action>
-    </keybind>
-    <keybind key="W-KP_0">
-      <action name="ShowMenu">
-        <menu>client-list-combined-menu</menu>
-      </action>
-    </keybind>
--->
     <keybind key="W-n">
       <action name="AddDesktop">
         <where>last</where>
@@ -814,8 +757,31 @@
       <action name="Iconify"/>
     </keybind>
     <keybind key="W-KP_0">
-      <action name="Maximize"/>
       <action name="MoveResizeTo">
+        <width client="no">70%</width>
+        <height client="no">10%</height>
+        <y>-0</y>
+        <x>0</x>
+        <monitor>3</monitor>
+      </action>
+      <action name="Raise"/>
+    </keybind>
+	<keybind key="W-KP_Delete"> <!-- Same as W-KP_Decimal -->
+      <action name="MoveResizeTo">
+        <width client="no">30%</width>
+        <height client="no">10%</height>
+        <y>-0</y>
+        <x>-0</x>
+        <monitor>3</monitor>
+      </action>
+      <action name="Raise"/>
+    </keybind>
+	<keybind key="W-KP_Decimal"> <!-- Same as W-KP_Delete -->
+      <action name="MoveResizeTo">
+        <width client="no">30%</width>
+        <height client="no">10%</height>
+        <y>-0</y>
+        <x>-0</x>
         <monitor>3</monitor>
       </action>
       <action name="Raise"/>
@@ -832,9 +798,9 @@
     </keybind>
     <keybind key="W-KP_2">
       <action name="MoveResizeTo">
-        <width client="no">100%</width>
-        <height client="no">10%</height>
-        <y>-0</y>
+        <width client="no">60%</width>
+        <height client="no">90%</height>
+        <y>-10%</y>
         <x>0</x>
         <monitor>3</monitor>
       </action>
@@ -842,10 +808,10 @@
     </keybind>
     <keybind key="W-KP_3">
       <action name="MoveResizeTo">
-        <width client="no">60%</width>
-        <height client="no">90%</height>
+        <width client="no">40%</width>
+        <height client="no">40%</height>
         <y>-10%</y>
-        <x>0</x>
+        <x>-0</x>
         <monitor>3</monitor>
       </action>
       <action name="Raise"/>
@@ -874,8 +840,8 @@
     <keybind key="W-KP_6">
       <action name="MoveResizeTo">
         <width client="no">40%</width>
-        <height client="no">40%</height>
-        <y>-10%</y>
+        <height client="no">50%</height>
+        <y>0</y>
         <x>-0</x>
         <monitor>3</monitor>
       </action>
@@ -902,23 +868,43 @@
       <action name="ToggleOmnipresent"/>
       <action name="Raise"/>
     </keybind>
-    <keybind key="W-KP_9">
+    <keybind key="W-KP_9"> <!-- Same as KP_Multiply -->
       <action name="MoveResizeTo">
-        <width client="no">40%</width>
-        <height client="no">50%</height>
+        <width client="no">60%</width>
+        <height client="no">100%</height>
         <y>0</y>
-        <x>-0</x>
-        <monitor>3</monitor>
+        <x>0</x>
+        <monitor>2</monitor>
       </action>
       <action name="Raise"/>
     </keybind>
-    <keybind key="W-KP_Delete">
+	<keybind key="W-KP_Multiply"> <!-- Same as KP_9 -->
       <action name="MoveResizeTo">
-        <width client="no">100%</width>
+        <width client="no">60%</width>
         <height client="no">100%</height>
-        <y>-0</y>
+        <y>0</y>
         <x>0</x>
-        <monitor>1</monitor>
+        <monitor>2</monitor>
+      </action>
+      <action name="Raise"/>
+    </keybind>
+    <keybind key="W-KP_Subtract">
+      <action name="MoveResizeTo">
+        <width client="no">40%</width>
+        <height client="no">100%</height>
+        <y>0</y>
+        <x>-0</x>
+        <monitor>2</monitor>
+      </action>
+      <action name="Raise"/>
+    </keybind>
+    <keybind key="W-KP_Add">
+      <action name="MoveResizeTo">
+        <width client="no">40%</width>
+        <height client="no">90%</height>
+        <y>0</y>
+        <x>-0</x>
+        <monitor>3</monitor>
       </action>
       <action name="Raise"/>
     </keybind>
