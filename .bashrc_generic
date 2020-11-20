@@ -444,7 +444,74 @@ slurm-setup()
 
 slurm-check()
 {
-	make check -C $SLURM_BUILD_DIR/testsuite/slurm_unit $*
+	# Get parameters
+	if [ $# -eq 0 ]; then
+		echo "Usage: ${FUNCNAME[0]} test_name|all [silent|minimal|normal|verbose] [fork|nofork]"
+		return 1
+	fi
+	if [ "$1" == "all" ]; then
+		SLURM_CHECK_LOG=*
+	else
+		SLURM_CHECK_LOG=$1
+	fi
+	if [ $# -gt 1 ]; then
+		CK_VERBOSITY=$2
+	fi
+	if [ $# -gt 2 ]; then
+		CK_VERBOSITY=$3
+		if [ "$2" == "fork" ]; then
+			CK_FORK=yes
+		else
+			CK_FORK=no
+		fi
+	fi
+
+	# Remove old logs to be sure that we are seeing something that run
+	rm -f $SLURM_BUILD_DIR/testsuite/slurm_unit/**/*-test.log
+
+	# Export dafault environmanet variables for check
+	# CK_VERBOSITY: "silent", "minimal", "normal", "verbose"
+	# CK_FORK     : Yes or No
+	if [ -z "$CK_VERBOSITY" ]; then
+		export CK_VERBOSITY=verbose
+	else
+		export CK_VERBOSITY=$CK_VERBOSITY
+	fi
+	if [ -z "$CK_FORK" ]; then
+		CK_FORK=yes
+	else
+		export CK_FORK=$CK_FORK
+	fi
+
+	# Run make check and save the result
+	make check -C $SLURM_BUILD_DIR/testsuite/slurm_unit --no-print-directory
+	rc=$?
+
+	# Print the log of the desired check test, or none
+	if [ ! -z "$SLURM_CHECK_LOG" ]; then
+		files=`ls $SLURM_BUILD_DIR/testsuite/slurm_unit/**/$SLURM_CHECK_LOG-test.log`
+		for file in $files; do
+			echo "==========================================================="
+			echo "Test Log: $file"
+			echo "==========================================================="
+			cat $file
+		done
+	fi
+
+	# Print a final failure / success message
+	if [ $rc != 0 ]; then
+		echo -ne "${RED}"
+		echo "==========================================================="
+		echo "CHECK FAILURE: $rc"
+		echo "==========================================================="
+		echo -ne "$NC"
+	else
+		echo -ne "${GREEN}"
+		echo "==========================================================="
+		echo "CHECK SUCCESS"
+		echo "==========================================================="
+		echo -ne "$NC"
+	fi
 }
 
 slurm-dbd()
