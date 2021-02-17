@@ -429,7 +429,7 @@ Plugin 'kopischke/vim-fetch'                 " to open files with :line:col suff
 Plugin 'vim-scripts/DfrankUtil'              " dependency: vimprj
 Plugin 'vim-scripts/vimprj'                  " project option in .vimprj files
 Plugin 'dkprice/vim-easygrep'                " search and replace for the whole project
-Plugin 'romainl/vim-qf'                      " improve qf: Toggle, :Keepi, :Reject
+Plugin 'romainl/vim-qf'                      " improve qf: Toggle, :Keep, :Reject
 Plugin 'yssl/QFEnter'                        " improve qf: select where results are open
 Plugin 'mhinz/vim-signify'                   " decorations for git+svn together
 Plugin 'xolox/vim-misc'                      " dependency: vim-session
@@ -723,7 +723,7 @@ let g:EasyClipUseYankDefaults                 =   1 " default yanks are ok (y)
 let g:EasyClipUsePasteDefaults                =   1 " default paste are ok (p)
 let g:EasyClipAlwaysMoveCursorToEndOfPaste    =   1 " move to end of paste (,j to go back)
 let g:EasyClipAutoFormat                      =   1 " enable autoformat, see <F2>, <F12>
-let g:EasyClipShareYanks                      =   1 " sure?
+let g:EasyClipShareYanks                      =   0 " disabled to improve performance
 let g:EasyClipCopyExplicitRegisterToDefault   =   1 " paste last yanked, even if registered
 let g:EasyClipPreserveCursorPositionAfterYank =   1 " not move my cursor!
 let g:EasyClipShowYanksWidth                  = 100 " we have bigger screens
@@ -1542,9 +1542,10 @@ autocmd FileChangedShellPost                        * echohl WarningMsg | echo "
 
 "
 " To restore the previous 'view' of the buffer (keep cursor position)
+" (disabled to be able to use different positions on same file)
 "
-au BufLeave * let b:winview = winsaveview()
-au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+" au BufLeave * let b:winview = winsaveview()
+" au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
 
 "
 " Code to be able to go to (see tt)
