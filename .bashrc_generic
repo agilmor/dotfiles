@@ -368,6 +368,7 @@ tmux-slurm-bug()
     bug=$1
     export SLURM_BUG_PATH=~/workspace/slurm/bugs/$bug
     mkdir -p $SLURM_BUG_PATH
+    touch $SLURM_BUG_PATH/.vimprj
 
     tmux new-window -n "$bug" -c $SLURM_SLURM_DIR -a -t "run"
 #     tmux swap-window -t -1
@@ -413,7 +414,6 @@ slurm-setup()
     fi
 
     dirname=$HOME/workspace/slurm/$SLURM_SETUP_VER
-    # echo $dirname
 
     export SLURM_LOCAL_DIR=${dirname}/local
     export SLURM_BUILD_DIR=${dirname}/build
