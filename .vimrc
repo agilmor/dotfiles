@@ -1092,6 +1092,7 @@ onoremap  s<S-Right>       `]
 vnoremap  s<S-Right>       `]
 " nmap     swm             :SignatureToggleSigns<CR>
 
+nmap      ss<F5>           :cs add ../build/cscope.out<CR>
 nmap      ss<Left>         :cs find s  <C-R>=expand("<cword>")<CR><CR>
 nmap      ss<S-Left>       <leader>vv
 nmap      ssr              <leader>vr
