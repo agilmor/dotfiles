@@ -442,6 +442,27 @@ slurm-setup()
     source ${SLURM_SLURM_DIR}/contribs/slurm_completion_help/slurm_completion.sh
 }
 
+slurm-sacctmgr-config()
+{
+    cluster=`sacctmgr show cluster -nP format=cluster`
+    sacctmgr add Account acct Cluster=$cluster
+    sacctmgr add User $USER account=acct
+}
+
+slurm-configure()
+{
+    rm    -rf $SLURM_BUILD_DIR
+    mkdir -p  $SLURM_BUILD_DIR
+    cd        $SLURM_BUILD_DIR
+    $SLURM_SLURM_DIR/configure --prefix=$SLURM_LOCAL_DIR                          \
+                               --enable-developer                                 \
+                               --enable-multiple-slurmd                           \
+                               --with-hdf5                                        \
+                               --with-pam_dir=$SLURM_LOCAL_DIR/lib/security       \
+                               --with-pmix=/opt/openpmix-3.1.6-$SLURM_SETUP_VER
+    cd -
+}
+
 slurm-check()
 {
 	# Get parameters
