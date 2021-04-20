@@ -353,32 +353,34 @@ tmux-slurm()
     tmux attach -t slurm-$SLURM_SETUP_VER
 }
 
-tmux-slurm-docker()
+slurm-docker()
 {
 	if [ "$1" == "" ]; then
-		echo "Please specify the Slurm version as 1st argument (eg 2011)."
-		return 1
-	fi
-	if [ "$2" == "" ]; then
 		echo "Please specify the name of the OS/Docker image as 2nd argument (eg ubuntu)."
 		return 1
 	fi
-	if [ "$3" == "" ]; then
+	if [ "$2" == "" ]; then
 		echo "Please specify the version of the OS/Docker image as 2nd argument (eg 20.10)."
 		return 1
 	fi
 
-    docker build -t slurm-$2:$3 ~/workspace/dotfiles/docker/$2-$3 && \
-    docker run -it -v ~/workspace/docker/$2-$3-home:/home/$USER \
-                   -v ~/workspace/docker/$2-$3-sdk:/usr/local \
+    docker build -t slurm-$1:$2 ~/workspace/dotfiles/docker/$1-$2 && \
+    docker run -it -v ~/workspace/docker/$1-$2-home:/home/$USER \
+                   -v ~/workspace/docker/$1-$2-sdk:/usr/local \
 				   -v /home/$USER/workspace/slurm:/mnt/host \
                    -v /root:/root \
 				   -v /tmp/.X11-unix:/tmp/.X11-unix \
                    -e DISPLAY=$DISPLAY \
                    --privileged=true \
-                   slurm-$2:$3 \
-                   /bin/bash -ic "tmux-slurm $1 $4"
+                   slurm-$1:$2 \
+                   /bin/bash
 }
+
+slurm-docker-ubuntu-2010()
+{
+	slurm-docker ubuntu 20.10
+}
+
 tmux-slurm-run()
 {
     if [ "$1" == "" ] && [ "$SLURM_SETUP_VER" == "" ]; then
