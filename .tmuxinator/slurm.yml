@@ -33,6 +33,9 @@ attach: false
 # post: tmux -CC attach -t local
 #post: tmux swap-window -t slurm-<%= @args[0] %>:-1
 
+# arg[0] : slurm-ver
+# settings["bug"]
+
 windows:
   - run:
       layout: d256,274x70,0,0{137x70,0,0[137x29,0,0,569,137x26,0,30,570,137x13,0,57,571],136x70,138,0[136x29,138,0,574,136x26,138,30,575,136x6,138,57{68x6,138,57,576,67x6,207,57,577},136x6,138,64{68x6,138,64,578,67x6,207,64,579}]}
@@ -47,22 +50,27 @@ windows:
         - sql:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
+          - if [ -n "$DOCKER" ]; then sudo /etc/init.d/mysql restart; sudo /etc/init.d/munge restart; fi
+          - sleep 10
           - sudo mysql -u root
           - use slurm_acct_db_<%= @args[0] %>
           - show tables;
         - admin:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
+          - sleep 10
+          - slurm-sacctmgr-config
           - ll local/etc/
-          - echo tmux-slurm-bug <%= @args[0] %>-dev
+          - if [ "<%= @settings["bug"] %>" != "" ]; then tmux-slurm-bug <%= @settings["bug"] %>; else tmux-slurm-bug <%= @args[0] %>-dev; fi
         - dbd:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
+          - sleep 3
           - slurm-dbd
         - ctld:
           - cd ~/workspace/slurm/<%= @args[0] %>
           - slurm-setup <%= @args[0] %>
-          - sleep 3
+          - sleep 5
           - slurm-ctld
         - c1:
           - sudo -i

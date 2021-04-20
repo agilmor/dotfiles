@@ -340,11 +340,15 @@ tmux-slurm()
         export SLURM_SETUP_VER=$1
     fi
 
+	if [ "$2" != "" ]; then
+		BUG_NUM="bug=$2"
+	fi
+
 #     tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
 #     tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER
 #     tmux attach -t slurm-$SLURM_SETUP_VER
 #     tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER || tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
-    tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
+    tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $BUG_NUM $SLURM_SETUP_VER
     tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER
     tmux attach -t slurm-$SLURM_SETUP_VER
 }
@@ -445,8 +449,8 @@ slurm-setup()
 slurm-sacctmgr-config()
 {
     cluster=`sacctmgr show cluster -nP format=cluster`
-    sacctmgr add Account acct Cluster=$cluster
-    sacctmgr add User $USER account=acct
+    sacctmgr -i add Account acct Cluster=$cluster
+    sacctmgr -i add User $USER account=acct
 }
 
 slurm-configure()
@@ -459,7 +463,7 @@ slurm-configure()
                                --enable-multiple-slurmd                           \
                                --with-hdf5                                        \
                                --with-pam_dir=$SLURM_LOCAL_DIR/lib/security       \
-                               --with-pmix=/opt/openpmix-3.1.6-$SLURM_SETUP_VER
+                               --with-pmix=/usr/local/opt/openpmix-3.1.6
     cd -
 }
 
