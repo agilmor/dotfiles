@@ -1,5 +1,5 @@
 #  sudo apt-get build-dep vim-gtk
-#  sudo apt-get install python-dev gcc g++ make automake cmake scons build-essential libncurses5-dev libevent-dev libpango1.0-dev  golang cscope byacc libclang-12-dev
+#  sudo apt-get install python-dev gcc g++ make automake cmake scons bear build-essential libncurses5-dev libevent-dev libpango1.0-dev  golang cscope byacc libclang-12-dev
 #  sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev    libgtk2.0-dev libatk1.0-dev libbonoboui2-dev    libcairo2-dev libx11-dev libxpm-dev libxt-dev # for +clientserver of vim
 #  sudo apt-get install compton xclip unclutter numlockx
 #  sudo gem install tmuxinator
