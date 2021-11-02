@@ -255,13 +255,15 @@
 " More
 " ----
 "
-" Mapleader is º
-" ap to <Space> and paste
-" :PluginInstall to regenerate tags
-" <C-s> saves the file
-" :W!! sudo write
-" <C-S-t>: restore just closed window by accident
-" <C-k> : normal mode in command line (cedit)
+" º              : Mapleader
+" ap             : <Space> and paste
+" :PluginInstall : regenerates tags
+" <C-s>          : saves the file
+" :W!!           : sudo write
+" <C-S-t>        : restore just closed window by accident
+" <C-k>          : normal mode in command line (cedit)
+" J              : :join lines (not https://github.com/sk1418/Join)
+" <Tab><Arrows>  : EasyMotions
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EasyAlign Details
@@ -1251,7 +1253,7 @@ nmap      <F7>             :AutoSaveToggle<CR>
 nmap      ñs               :AutoSaveToggle<CR>
 "         <F11>            let g:UltiSnipsListSnippets=<F11>
 
-"shift+arrow selection
+" shift+arrow selection
 nmap      <S-Up>           <C-v><Up>
 nmap      <S-Down>         <C-v><Down>
 nmap      <S-Left>         <C-v><Left>
