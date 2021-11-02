@@ -978,6 +978,8 @@ nmap     ex                v<Plug>(Exchange)
 " map  e<Right>              <Plug>(easymotion-e)
 " map  e<Left>               <Plug>(easymotion-ge)
 
+nmap     E                 :e $SLURM_BUG_PATH/
+
 nnoremap ff                :set spell!<CR>
 nnoremap f<Return>         :set spell!<CR>
 nnoremap f<Left>           zg
