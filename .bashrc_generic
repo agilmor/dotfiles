@@ -508,6 +508,33 @@ slurm-setup()
     source ${SLURM_SLURM_DIR}/contribs/slurm_completion_help/slurm_completion.sh
 }
 
+slurm-slurmd-start()
+{
+	if [ "$1" == "" ] || [ "$2" == "" ] || [ "$3" == "" ]; then
+		echo "Please specify the prefix and range of nodes prefixN as argument. E.g. $0 c 5 8"
+		return 1
+	fi
+
+	prefix=$1
+	first=$2
+	last=$3
+
+	for node in $(seq $first $last); do echo ${prefix}${node}; $SLURM_LOCAL_DIR/sbin/slurmd -vvvN ${prefix}${node}; done
+}
+slurm-slurmd-stop()
+{
+	if [ "$1" == "" ] || [ "$2" == "" ] || [ "$3" == "" ]; then
+		echo "Please specify the prefix and range of nodes prefixN as argument. E.g. $0 c 5 8"
+		return 1
+	fi
+
+	prefix=$1
+	first=$2
+	last=$3
+
+	for node in $(seq $first $last); do echo ${prefix}${node}; kill `ps aux | grep $SLURM_LOCAL_DIR/sbin/slurmd | grep ${prefix}${node} | awk '{print $2}'`; done
+}
+
 slurm-sacctmgr-config()
 {
     cluster=`sacctmgr show cluster -nP format=cluster`
@@ -645,10 +672,27 @@ gpi-calcula()
 }
 i2cat-ibpm()
 {
-    autossh ubuntu@ibpm -t "tmux attach -t ibpm"
+#     autossh ubuntu@ibpm -t "tmux attach -t ibpm"
+    ssh -i azure.pem azureuser@ibpm.i2cat.net
 }
 
 epic-vim()
 {
 	QT_SDK_GCC_DIR=/opt/Qt/5.14.1/gcc_64 vim --servername epic
+}
+
+# ssh launchers
+slurm-snowflake()
+{
+	ssh -p 22253 albert@lehi.schedmd.com -t ssh snowflake $*
+}
+
+slurm-knl2()
+{
+	ssh -p 22253 albert@lehi.schedmd.com -t ssh knl2
+}
+
+agil-rdesktop()
+{
+	rdesktop -u "Albert Gil" -e -E -N -g 1920x1080 -D -z $*
 }
