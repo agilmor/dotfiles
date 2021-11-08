@@ -273,6 +273,29 @@ rclone-status()
 }
 
 #
+# Simpler gcloud downloader (public files only)
+#
+gcloud-download ()
+{
+	if [ "$2" == "" ]; then
+		echo "Usage: $0 doc_id outfile"
+		return 1
+	fi
+
+	id=$1
+	outfile=$2
+	cookiefile=/tmp/gloudcookie-${id}.txt
+	cmd="wget --quiet --save-cookies $cookiefile --keep-session-cookies --no-check-certificate \
+		'https://docs.google.com/uc?export=download&id=$id' -O- | \
+		sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p'"
+	confirm=`eval $cmd`
+	wget --load-cookies $cookiefile "https://docs.google.com/uc?export=download&confirm=${confirm}&id=${id}" \
+		-O ${outfile}
+	rm -rf $cookiefile
+}
+
+
+#
 # Scan helpers
 #
 scan-tiff()
