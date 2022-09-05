@@ -412,6 +412,7 @@ digipatics-docker-dev()
 		image=$1
 	fi
 
+	GID=`id -g`
     docker build --target $image -t digipatics-$image \
     	         ~/workspace/happy/digipatics/home/workspace/3DHistech && \
     	         \
@@ -423,7 +424,12 @@ digipatics-docker-dev()
                    -e DISPLAY=$DISPLAY \
                    --privileged=true \
                    digipatics-$image \
-                   /bin/bash
+                   /bin/bash -c "addgroup --gid $GID $USER && \
+                                 useradd --gid $GID --uid $UID --shell /bin/bash $USER && \
+                                 echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+								 echo 'DOCKER=1' >> /etc/environment && \
+                                 cd /home/$USER && \
+                                 sudo -u $USER /bin/bash"
 }
 
 digipatics-docker-prod()
