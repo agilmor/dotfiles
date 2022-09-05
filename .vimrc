@@ -1279,6 +1279,12 @@ imap      <S-Right>        <Esc><C-v><Right>
 imap      <S-Home>         <Esc><C-v><Home>
 imap      <S-End>          <Esc><C-v><End>
 
+" <Tab><Arrows> for EasyMotion
+nmap      <Tab><Up>        <Plug>(easymotion-k)
+nmap      <Tab><Down>      <Plug>(easymotion-j)
+nmap      <Tab><Right>     <Plug>(easymotion-lineforward)
+nmap      <Tab><Left>      <Plug>(easymotion-linebackward)
+
 " scroll in normal mode
 noremap   <C-Up>           <C-y>
 noremap   <C-Down>         <C-e>
