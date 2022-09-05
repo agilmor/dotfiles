@@ -462,35 +462,29 @@ tmux-slurm-run()
 tmux-slurm-bug()
 {
     bug=$1
-    export SLURM_BUG_PATH=~/workspace/slurm/bugs/$bug
+    SLURM_BUG_PATH=~/workspace/slurm/bugs/$bug
     mkdir -p $SLURM_BUG_PATH
     touch $SLURM_BUG_PATH/.vimprj
 
     tmux new-window -n "$bug" -c $SLURM_SLURM_DIR -a -t "run"
-#     tmux swap-window -t -1
     tmux split-window -c $SLURM_SLURM_DIR
     tmux split-window -c $SLURM_SLURM_DIR
     tmux split-window -c $SLURM_SLURM_DIR
-#     tmux split-window -c $SLURM_SLURM_DIR
-#     tmux select-layout "7e02,274x81,0,0{161x81,0,0[161x71,0,0,56,161x9,0,72,79],112x81,162,0[112x18,162,0,77,112x62,162,19,78]}"
-#     tmux select-layout "d241,274x76,0,0{161x76,0,0[161x68,0,0,370,161x7,0,69,371],112x76,162,0[112x15,162,0,372,112x30,162,16,373,112x29,162,47,375]}"
-#     tmux select-layout "bf1f,274x76,0,0{161x76,0,0[161x65,0,0,594,161x10,0,66,595],112x76,162,0[112x11,162,0,596,112x53,162,12,597,112x10,162,66,598]}"
-    tmux select-layout "7384,274x70,0,0{161x70,0,0[161x61,0,0,386,161x8,0,62,387],112x70,162,0[112x61,162,0,389,112x8,162,62,390]}"
+    tmux split-window -c $SLURM_SLURM_DIR
+#     tmux select-layout "7384,274x70,0,0{161x70,0,0[161x61,0,0,386,161x8,0,62,387],112x70,162,0[112x61,162,0,389,112x8,162,62,390]}"
+    tmux select-layout "42c3,274x70,0,0{161x70,0,0[161x61,0,0,288,161x8,0,62,289],112x70,162,0[112x30,162,0,290,112x30,162,31,292,112x8,162,62,291]}"
     tmux select-pane -t 1
 
-    # tmux send-keys -t 1 "vim --servername bug-$bug" Enter
-    tmux send-keys -t 1 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
+    tmux send-keys -t 1 "#vim --servername bug-$bug-$SLURM_SETUP_VER" Enter
     tmux send-keys -t 1 "vim NEWS" Enter ":OpenSession bug-$bug-$SLURM_SETUP_VER" Tab Enter ":SaveSession bug-$bug-$SLURM_SETUP_VER" Tab Enter
 
-    tmux send-keys -t 2 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
     tmux send-keys -t 2 "git status -uno" Enter
 
-    tmux send-keys -t 3 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
-	tmux send-keys -t 3 "cd testsuite/expect" Enter
+    tmux send-keys -t 3 "cd testsuite/expect" Enter
+    tmux send-keys -t 4 "cd testsuite/python" Enter
 
-    tmux send-keys -t 4 "export SLURM_BUG_PATH=$SLURM_BUG_PATH" Enter
-    tmux send-keys -t 4 "cd $SLURM_BUG_PATH" Enter
-    tmux send-keys -t 4 "ls -lha" Enter
+    tmux send-keys -t 5 "cd $SLURM_BUG_PATH" Enter
+    tmux send-keys -t 5 "ls -lha" Enter
 }
 
 #
@@ -510,10 +504,13 @@ slurm-setup()
     fi
 
     dirname=$HOME/workspace/slurm/$SLURM_SETUP_VER
+    bug=`tmux display-message -p '#W'`
 
     export SLURM_LOCAL_DIR=${dirname}/local
     export SLURM_BUILD_DIR=${dirname}/build
     export SLURM_SLURM_DIR=${dirname}/slurm
+
+    export SLURM_BUG_PATH=~/workspace/slurm/bugs/$bug
 
     export SLURM_LOCAL_GLOBALS_FILE=${SLURM_LOCAL_DIR}/etc/globals.local
 
@@ -526,10 +523,10 @@ slurm-setup()
     mkdir -p ${SLURM_LOCAL_DIR}/var/run
     mkdir -p ${SLURM_LOCAL_DIR}/var/spool
     mkdir -p ${SLURM_LOCAL_DIR}/tmp
-	mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c1
-	mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c2
-	mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c3
-	mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c4
+    mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c1
+    mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c2
+    mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c3
+    mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c4
 
     if [ ! -L ${SLURM_LOCAL_DIR}/etc ]; then
         ln -s ../etc ${SLURM_LOCAL_DIR}/etc
