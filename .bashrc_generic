@@ -273,6 +273,29 @@ rclone-status()
 }
 
 #
+# Simpler gcloud downloader (public files only)
+#
+gcloud-download ()
+{
+	if [ "$2" == "" ]; then
+		echo "Usage: $0 doc_id outfile"
+		return 1
+	fi
+
+	id=$1
+	outfile=$2
+	cookiefile=/tmp/gloudcookie-${id}.txt
+	cmd="wget --quiet --save-cookies $cookiefile --keep-session-cookies --no-check-certificate \
+		'https://docs.google.com/uc?export=download&id=$id' -O- | \
+		sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p'"
+	confirm=`eval $cmd`
+	wget --load-cookies $cookiefile "https://docs.google.com/uc?export=download&confirm=${confirm}&id=${id}" \
+		-O ${outfile}
+	rm -rf $cookiefile
+}
+
+
+#
 # Scan helpers
 #
 scan-tiff()
@@ -381,6 +404,40 @@ slurm-docker-ubuntu-2010()
 	slurm-docker ubuntu 20.10
 }
 
+digipatics-docker-dev()
+{
+	image=image-dev
+	if [ "$1" != "" ]; then
+		image=$1
+	fi
+
+    docker build --target $image -t digipatics-$image \
+    	         ~/workspace/happy/digipatics/home/workspace/3DHistech && \
+    	         \
+    docker run -it -v ~/workspace/happy/digipatics/home:/home/$USER \
+				   -v ~/workspace/happy/digipatics/home/shared:/mnt/digipatics \
+				   -v /home/$USER:/mnt/host \
+                   -v /root:/root \
+				   -v /tmp/.X11-unix:/tmp/.X11-unix \
+                   -e DISPLAY=$DISPLAY \
+                   --privileged=true \
+                   digipatics-$image \
+                   /bin/bash
+}
+
+digipatics-docker-prod()
+{
+	image=image-prod
+
+    docker build --target $image -t digipatics-$image \
+    	         ~/workspace/happy/digipatics/home/workspace/3DHistech && \
+    	         \
+    docker run --privileged=true \
+	           -v ~/workspace/happy/digipatics/home/shared:/mnt/digipatics \
+               digipatics-$image \
+               $*
+}
+
 tmux-slurm-run()
 {
     if [ "$1" == "" ] && [ "$SLURM_SETUP_VER" == "" ]; then
@@ -472,6 +529,33 @@ slurm-setup()
     fi
 
     source ${SLURM_SLURM_DIR}/contribs/slurm_completion_help/slurm_completion.sh
+}
+
+slurm-slurmd-start()
+{
+	if [ "$1" == "" ] || [ "$2" == "" ] || [ "$3" == "" ]; then
+		echo "Please specify the prefix and range of nodes prefixN as argument. E.g. $0 c 5 8"
+		return 1
+	fi
+
+	prefix=$1
+	first=$2
+	last=$3
+
+	for node in $(seq $first $last); do echo ${prefix}${node}; $SLURM_LOCAL_DIR/sbin/slurmd -vvvN ${prefix}${node}; done
+}
+slurm-slurmd-stop()
+{
+	if [ "$1" == "" ] || [ "$2" == "" ] || [ "$3" == "" ]; then
+		echo "Please specify the prefix and range of nodes prefixN as argument. E.g. $0 c 5 8"
+		return 1
+	fi
+
+	prefix=$1
+	first=$2
+	last=$3
+
+	for node in $(seq $first $last); do echo ${prefix}${node}; kill `ps aux | grep $SLURM_LOCAL_DIR/sbin/slurmd | grep ${prefix}${node} | awk '{print $2}'`; done
 }
 
 slurm-sacctmgr-config()
@@ -611,10 +695,27 @@ gpi-calcula()
 }
 i2cat-ibpm()
 {
-    autossh ubuntu@ibpm -t "tmux attach -t ibpm"
+#     autossh ubuntu@ibpm -t "tmux attach -t ibpm"
+    ssh -i azure.pem azureuser@ibpm.i2cat.net
 }
 
 epic-vim()
 {
 	QT_SDK_GCC_DIR=/opt/Qt/5.14.1/gcc_64 vim --servername epic
+}
+
+# ssh launchers
+slurm-snowflake()
+{
+	ssh -p 22253 albert@lehi.schedmd.com -t ssh snowflake $*
+}
+
+slurm-knl2()
+{
+	ssh -p 22253 albert@lehi.schedmd.com -t ssh knl2
+}
+
+agil-rdesktop()
+{
+	rdesktop -u "Albert Gil" -e -E -N -g 1920x1080 -D -z $*
 }
