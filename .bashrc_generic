@@ -43,6 +43,7 @@ vman()
 #
 # Add paths of the home sdk
 #
+export PATH=.:$PATH
 os_filename="/etc/os-release"
 if [ -f $os_filename ]; then
     source $os_filename
