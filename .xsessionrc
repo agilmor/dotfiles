@@ -46,3 +46,6 @@ unclutter -idle 1 -jitter 2 -root & # To hide the mouse
 compton &                           # To dimm the unfocus windows
 
 numlockx on                         # To ensure numlock is enabled
+
+# TODO: Workaround about bug with Alt+Arrow (https://askubuntu.com/questions/893964/altleft-key-locks-the-screen)
+# sudo kbd_mode -s
