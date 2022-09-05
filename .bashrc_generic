@@ -400,6 +400,35 @@ slurm-docker()
                    /bin/bash
 }
 
+slurm-atf()
+{
+	bug_id=bug`tmux display-message -p '#W'`-$SLURM_SETUP_VER
+	atf_path="$HOME/workspace/slurm/atf"
+	slurm_path=$SLURM_SLURM_DIR
+	slurm_repo_dir_atf="/home/slurm/software/slurm-git"
+
+# 	echo "Deleting previous container"
+# 	lxc delete ${bug_id}
+
+	echo "Removing /tmp/${bug_id}"
+	rm -rf /tmp/${bug_id}
+
+	# lxc info ${bug_id} > /dev/null 2>&1
+	status=`lxc info ${bug_id} 2>&1 | grep Status: | awk '{print $2}'`
+	if [ "$status" == "" ]; then
+		echo "Launching new container: ${bug_id}"
+		${atf_path}/bin/launch-testsuite -s $SLURM_SLURM_DIR -a $atf_path -ikn ${bug_id}
+	else
+		if [ "$status" != "Running" ]; then
+			echo "Starting existing container: ${bug_id} (${status})"
+			lxc start ${bug_id}
+		fi
+
+		echo "Attaching to a running container: ${bug_id}"
+		lxc exec ${bug_id} -- sudo su atf --login --pty --command "cd ${slurm_repo_dir_atf}/testsuite/python; export SLURM_TESTSUITE_CONF=/opt/slurm/etc/testsuite.conf; bash"
+	fi
+}
+
 slurm-docker-ubuntu-2010()
 {
 	slurm-docker ubuntu 20.10
@@ -513,6 +542,7 @@ slurm-setup()
     export SLURM_BUG_PATH=~/workspace/slurm/bugs/$bug
 
     export SLURM_LOCAL_GLOBALS_FILE=${SLURM_LOCAL_DIR}/etc/globals.local
+    export SLURM_TESTSUITE_CONF=${SLURM_LOCAL_DIR}/etc/testsuite.conf
 
     export    PATH=${SLURM_LOCAL_DIR}/bin:$PATH
     export    PATH=${SLURM_LOCAL_DIR}/sbin:$PATH
