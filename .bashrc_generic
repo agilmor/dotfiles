@@ -410,23 +410,24 @@ slurm-atf()
 # 	echo "Deleting previous container"
 # 	lxc delete ${bug_id}
 
-	echo "Removing /tmp/${bug_id}"
-	rm -rf /tmp/${bug_id}
-
-	# lxc info ${bug_id} > /dev/null 2>&1
 	status=`lxc info ${bug_id} 2>&1 | grep Status: | awk '{print $2}'`
 	if [ "$status" == "" ]; then
-		echo "Launching new container: ${bug_id}"
-		${atf_path}/bin/launch-testsuite -s $SLURM_SLURM_DIR -a $atf_path -ikn ${bug_id}
-	else
-		if [ "$status" != "Running" ]; then
-			echo "Starting existing container: ${bug_id} (${status})"
-			lxc start ${bug_id}
+		if [ -d "/tmp/${bug_id}" ]; then
+			echo "Removing /tmp/${bug_id}"
+			rm -rf /tmp/${bug_id}
 		fi
 
-		echo "Attaching to a running container: ${bug_id}"
-		lxc exec ${bug_id} -- sudo su atf --login --pty --command "cd ${slurm_repo_dir_atf}/testsuite/python; export SLURM_TESTSUITE_CONF=/opt/slurm/etc/testsuite.conf; bash"
+		echo "Launching new container: ${bug_id}"
+		${atf_path}/bin/launch-testsuite -s $SLURM_SLURM_DIR -a $atf_path -kn ${bug_id} -j6
 	fi
+
+	if [ "$status" != "Running" ]; then
+		echo "Starting existing container: ${bug_id} (${status})"
+		lxc start ${bug_id}
+	fi
+
+	echo "Attaching to a running container: ${bug_id}"
+	lxc exec ${bug_id} -- sudo su atf --login --pty --command "cd ${slurm_repo_dir_atf}/testsuite/python; export SLURM_TESTSUITE_CONF=/opt/slurm/etc/testsuite.conf; bash"
 }
 
 slurm-docker-ubuntu-2010()
