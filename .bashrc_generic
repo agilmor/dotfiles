@@ -402,32 +402,37 @@ slurm-docker()
 
 slurm-atf()
 {
-	bug_id=bug`tmux display-message -p '#W'`-$SLURM_SETUP_VER
-	atf_path="$HOME/workspace/slurm/atf"
-	slurm_path=$SLURM_SLURM_DIR
+	atf_user=atf
+	if [ "$1" != "" ]; then
+		atf_user=$1
+	fi
+	cmd=${@:2}
 	slurm_repo_dir_atf="/home/slurm/software/slurm-git"
+	tmp_dir="/tmp/${SLURM_BUG_ID}"
 
-# 	echo "Deleting previous container"
-# 	lxc delete ${bug_id}
-
-	status=`lxc info ${bug_id} 2>&1 | grep Status: | awk '{print $2}'`
+	# Check and ensure that the container exists and it's running
+	status=`lxc info ${SLURM_BUG_ID} 2>&1 | grep Status: | awk '{print $2}'`
 	if [ "$status" == "" ]; then
-		if [ -d "/tmp/${bug_id}" ]; then
-			echo "Removing /tmp/${bug_id}"
-			rm -rf /tmp/${bug_id}
+		if [ -d "${tmp_dir}" ]; then
+			echo "Removing ${tmp_dir}"
+			rm -rf ${tmp_dir}
 		fi
 
-		echo "Launching new container: ${bug_id}"
-		${atf_path}/bin/launch-testsuite -s $SLURM_SLURM_DIR -a $atf_path -kn ${bug_id} -j6
+		echo "Launching new container: ${SLURM_BUG_ID}"
+		${SLURM_ATF_PATH}/bin/launch-testsuite -s ${SLURM_SLURM_DIR} -a ${SLURM_ATF_PATH} -kn ${SLURM_BUG_ID} -j6
+	elif [ "$status" != "Running" ]; then
+		echo "Starting existing container: ${SLURM_BUG_ID} (${status})"
+		lxc start ${SLURM_BUG_ID}
 	fi
 
-	if [ "$status" != "Running" ]; then
-		echo "Starting existing container: ${bug_id} (${status})"
-		lxc start ${bug_id}
+	# Assuming the container is running from now on
+	if [ "$cmd" == "" ]; then
+		cmd=bash
+		echo "Attaching to a running container ${SLURM_BUG_ID} as user ${atf_user}"
+	else
+		echo "Running command in container ${SLURM_BUG_ID} as user ${atf_user}: $cmd"
 	fi
-
-	echo "Attaching to a running container: ${bug_id}"
-	lxc exec ${bug_id} -- sudo su atf --login --pty --command "cd ${slurm_repo_dir_atf}/testsuite/python; export SLURM_TESTSUITE_CONF=/opt/slurm/etc/testsuite.conf; bash"
+	lxc exec ${SLURM_BUG_ID} -- sudo su ${atf_user} --login --pty --command "cd ${slurm_repo_dir_atf}; export SLURM_TESTSUITE_CONF=/opt/slurm/etc/testsuite.conf; $cmd"
 }
 
 slurm-docker-ubuntu-2010()
