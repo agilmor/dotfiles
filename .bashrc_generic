@@ -533,17 +533,19 @@ slurm-setup()
         export SLURM_SETUP_VER=$1
     fi
 
-    dirname=$HOME/workspace/slurm/$SLURM_SETUP_VER
+    base_path=$HOME/workspace/slurm/$SLURM_SETUP_VER
     bug=`tmux display-message -p '#W'`
 
-    export SLURM_LOCAL_DIR=${dirname}/local
-    export SLURM_BUILD_DIR=${dirname}/build
-    export SLURM_SLURM_DIR=${dirname}/slurm
+    export SLURM_LOCAL_DIR=${base_path}/local
+    export SLURM_BUILD_DIR=${base_path}/build
+    export SLURM_SLURM_DIR=${base_path}/slurm
 
     export SLURM_BUG_PATH=~/workspace/slurm/bugs/$bug
+	export SLURM_BUG_ID=bug${bug}-${SLURM_SETUP_VER}
 
     export SLURM_LOCAL_GLOBALS_FILE=${SLURM_LOCAL_DIR}/etc/globals.local
     export SLURM_TESTSUITE_CONF=${SLURM_LOCAL_DIR}/etc/testsuite.conf
+	export SLURM_ATF_PATH="$HOME/workspace/slurm/atf"
 
     export    PATH=${SLURM_LOCAL_DIR}/bin:$PATH
     export    PATH=${SLURM_LOCAL_DIR}/sbin:$PATH
