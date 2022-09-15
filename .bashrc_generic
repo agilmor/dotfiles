@@ -435,6 +435,36 @@ slurm-atf()
 	lxc exec ${SLURM_BUG_ID} -- sudo su ${atf_user} --login --pty --command "cd ${slurm_repo_dir_atf}; export SLURM_TESTSUITE_CONF=/opt/slurm/etc/testsuite.conf; $cmd"
 }
 
+slurm-build-makeprg()
+{
+	use_container=false
+
+	if [ "$1" == "host" ]; then
+		use_container=false
+	else
+		if [ "$1" == "atf" ]; then
+			use_container=true
+		else
+			status=`lxc info ${SLURM_BUG_ID} 2>&1 | grep Status: | awk '{print $2}'`
+			if [ "$status" != "" ]; then
+				use_container=true
+			fi
+		fi
+	fi
+
+	if [ $use_container = true ]; then
+		echo "Building in a container"
+		make_launcher="slurm-atf slurm slurm-build-make"
+		# TODO: cscope
+	else
+		# No container
+		echo "Building in the host"
+		make_launcher="${SLURM_ATF_PATH}/slurm-build-make"
+	fi
+
+	bear --append -o ./compile_commands.json bash -ic "${make_launcher} $SLURM_SLURM_DIR"
+}
+
 slurm-docker-ubuntu-2010()
 {
 	slurm-docker ubuntu 20.10
