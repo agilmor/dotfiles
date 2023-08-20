@@ -396,6 +396,7 @@ slurm-docker()
 				   -v /tmp/.X11-unix:/tmp/.X11-unix \
                    -e DISPLAY=$DISPLAY \
                    --privileged=true \
+                   --network="host" \
                    slurm-$1:$2 \
                    /bin/bash
 }
