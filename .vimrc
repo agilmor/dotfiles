@@ -208,8 +208,7 @@
 " wd / wdd    : WimDiff current file in a new tab (:Gdiff)
 " wda         : WimDiff All files in the repo in a new vim with a tab per file
 " wdr / wdu   : WimDff refresh (:diffupdate)
-" wds         : :GStatus in new tab - D: diff, -: add/reset, X: checkout/clean,
-"                                     cc/ca: commit/amend, r: reload
+" wds         : :Git in new tab, options D: diff, -: add/reset, X: checkout/clean, cc/ca: commit/amend, r: reload
 " wdc         : git Commit in new tab (:Gstatus and cc)
 " wdb         : git Blame in new tab (:Gblame)
 " wdp         : git Push (:Gpush)
@@ -1169,8 +1168,8 @@ nnoremap  wd               :tabnew %<CR>:Gdiff<CR><C-w><Right>]c
 nnoremap  wdd              :tabnew %<CR>:Gdiff<CR><C-w><Right>]c
 nnoremap  wda              :! vim -p $(git diff --name-only) -c "tabdo Gdiff" -c "tabdo wincmd h"<CR>
 nnoremap  wdq              <C-w><Right>:bd<CR>:wq<CR>
-nmap      wds              :tabnew %<CR>:Gstatus<CR>
-nmap      wdc              :tabnew %<CR>:Gstatus<CR>cc
+nmap      wds              :tabnew %<CR>:Git<CR>
+nmap      wdc              :tabnew %<CR>:Git<CR>cc
 nmap      wdb              :tabnew %<CR>:Gblame<CR>
 nmap      wdp              :Gpush<CR>
 nmap      wde              :Gedit<CR>
