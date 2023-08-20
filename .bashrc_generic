@@ -591,6 +591,7 @@ slurm-setup()
     mkdir -p ${SLURM_LOCAL_DIR}/var/log
     mkdir -p ${SLURM_LOCAL_DIR}/var/run
     mkdir -p ${SLURM_LOCAL_DIR}/var/spool
+	mkdir -p ${SLURM_LOCAL_DIR}/var/state
     mkdir -p ${SLURM_LOCAL_DIR}/tmp
     mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c1
     mkdir -p ${SLURM_LOCAL_DIR}/tmp/slurmd-tmpfs-c2
@@ -600,6 +601,10 @@ slurm-setup()
     if [ ! -L ${SLURM_LOCAL_DIR}/etc ]; then
         ln -s ../etc ${SLURM_LOCAL_DIR}/etc
     fi
+
+	if [ ! -L ${SLURM_LOCAL_DIR}/var/state/jwt_hs256.key ]; then
+		ln -s ${SLURM_LOCAL_DIR}/etc/jwt_hs256.key ${SLURM_LOCAL_DIR}/var/state/jwt_hs256.key
+	fi
 
     source ${SLURM_SLURM_DIR}/contribs/slurm_completion_help/slurm_completion.sh
 }
