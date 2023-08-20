@@ -788,44 +788,12 @@ audio-restart()
     pulseaudio --start
 }
 
-gpi-monitor()
-{
-    autossh imatge.upc.edu -t "ssh root@s1 -t tmux attach -t monitor"
-}
-gpi-tasks()
-{
-    autossh imatge.upc.edu -t "tmux attach -t tasks"
-}
-gpi-calcula()
-{
-    autossh calcula.tsc.upc.edu -p2225 -t "module load tmux; tmux attach -t calcula"
-}
-i2cat-ibpm()
-{
-#     autossh ubuntu@ibpm -t "tmux attach -t ibpm"
-    ssh -i azure.pem azureuser@ibpm.i2cat.net
-}
 
 epic-vim()
 {
 	QT_SDK_GCC_DIR=/opt/Qt/5.14.1/gcc_64 vim --servername epic
 }
 
-# ssh launchers
-slurm-snowflake()
-{
-	ssh -p 22253 albert@lehi.schedmd.com -t ssh snowflake $*
-}
-
-slurm-knl2()
-{
-	ssh -p 22253 albert@lehi.schedmd.com -t ssh knl2
-}
-
-agil-rdesktop()
-{
-	rdesktop -u "Albert Gil" -e -E -N -g 1920x1080 -D -z $*
-}
 
 if [ -f ~/.bashrc_private ]; then
     source ~/.bashrc_private
