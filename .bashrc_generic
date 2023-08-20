@@ -463,7 +463,8 @@ slurm-build-makeprg()
 		make_launcher="${SLURM_ATF_PATH}/bin/slurm-build-make"
 	fi
 
-	bear --append -o ./compile_commands.json bash -ic "${make_launcher} $SLURM_SLURM_DIR"
+# 	bear --append -o ./compile_commands.json bash -ic "${make_launcher} $SLURM_SLURM_DIR"
+	bash -ic "${make_launcher} $SLURM_SLURM_DIR"
 }
 
 slurm-docker-ubuntu-2010()
