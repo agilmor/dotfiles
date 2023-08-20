@@ -511,6 +511,34 @@ digipatics-docker-prod()
                $*
 }
 
+ics-docker-dev()
+{
+	image=image-dev
+	if [ "$1" != "" ]; then
+		image=$1
+	fi
+
+	GID=`id -g`
+    docker build --target $image -t ics-$image \
+    	         ~/workspace/happy/ics/home/workspace/ics && \
+    	         \
+    docker run -it -v ~/workspace/happy/ics/home:/home/$USER \
+				   -v ~/workspace/happy/ics/home/shared:/mnt/ics \
+				   -v /home/$USER:/mnt/host \
+                   -v /root:/root \
+				   -v /tmp/.X11-unix:/tmp/.X11-unix \
+                   -e DISPLAY=$DISPLAY \
+                   --privileged=true \
+                   --gpus all \
+                   ics-$image \
+                   /bin/bash -c "addgroup --gid $GID $USER && \
+                                 useradd --gid $GID --uid $UID --shell /bin/bash $USER && \
+                                 echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+								 echo 'DOCKER=1' >> /etc/environment && \
+                                 cd /home/$USER && \
+                                 sudo -u $USER /bin/bash"
+}
+
 tmux-slurm-run()
 {
     if [ "$1" == "" ] && [ "$SLURM_SETUP_VER" == "" ]; then
