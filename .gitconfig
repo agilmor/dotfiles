@@ -26,5 +26,5 @@
 	abbreviatecommands = true
 [rerere]
 	enabled = 1
-[pull]
-	rebase = preserve
+# [pull]
+# 	rebase = preserve
