@@ -791,3 +791,7 @@ agil-rdesktop()
 {
 	rdesktop -u "Albert Gil" -e -E -N -g 1920x1080 -D -z $*
 }
+
+if [ -f ~/.bashrc_private ]; then
+    source ~/.bashrc_private
+fi
