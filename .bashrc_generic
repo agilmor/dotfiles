@@ -460,7 +460,7 @@ slurm-build-makeprg()
 	else
 		# No container
 		echo "Building in the host"
-		make_launcher="${SLURM_ATF_PATH}/slurm-build-make"
+		make_launcher="${SLURM_ATF_PATH}/bin/slurm-build-make"
 	fi
 
 	bear --append -o ./compile_commands.json bash -ic "${make_launcher} $SLURM_SLURM_DIR"
