@@ -298,7 +298,7 @@
 " TODO: Term and Debug
 " TODO: :Glog
 " TODO: :Git rebase
-"
+" TODO: Replace 'Julian/vim-textobj-variable-segment' with 'bkad/CamelCaseMotion'
 
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
