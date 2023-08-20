@@ -119,3 +119,16 @@ memset
 test12
 GPUs
 globals
+mpicc
+DefaultTime
+Makefile
+autoreconf
+testsuite
+aclocal
+automake
+gdocs
+autogen
+prepending
+prepend
+reconfiguring
+boolean
