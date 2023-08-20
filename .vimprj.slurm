@@ -3,7 +3,9 @@
 "
 
 " Build: command to be run
-set makeprg=bear\ --append\ -o\ ./compile_commands.json\ make\ -O\ -C\ ../build\ -j6\ cscope\ install\ install-contrib
+" set makeprg=bear\ --append\ -o\ ./compile_commands.json\ make\ -O\ -C\ ../build\ -j6\ cscope\ install\ install-contrib
+set makeprg=bash\ -ic\ \"slurm-build-makeprg\"
+" set makeprg=bash\ -ic\ \"slurm-build-makeprg\ host\"
 
 " each project can define its headers extension (.h or .hpp)
 let g:cpp_header_ext='h'
