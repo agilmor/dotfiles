@@ -420,7 +420,7 @@ slurm-atf()
 		fi
 
 		echo "Launching new container: ${SLURM_BUG_ID}"
-		${SLURM_ATF_PATH}/bin/launch-testsuite -s ${SLURM_SLURM_DIR} -a ${SLURM_ATF_PATH} -kn ${SLURM_BUG_ID} -j6
+		${SLURM_ATF_PATH}/bin/launch-testsuite -s ${SLURM_SLURM_DIR} -a ${SLURM_ATF_PATH} -vkn ${SLURM_BUG_ID} -j6
 	elif [ "$status" != "Running" ]; then
 		echo "Starting existing container: ${SLURM_BUG_ID} (${status})"
 		lxc start ${SLURM_BUG_ID}
