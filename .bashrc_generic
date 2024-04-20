@@ -56,9 +56,24 @@ fi
 
 export EDITOR='vim'
 
+# Helper Functions
+function areyousure()
+{
+	echo -n "Are you sure to run '$*'? (y/N) "
+	read reply
+
+	if [ "$reply" = y -o "$reply" = Y ]
+	then
+	   $*
+	else
+	   echo "cancelled"
+	fi
+}
+
 # Alias
 alias ll='ls -lh'
 alias la='ls -lha'
+alias sudo-reboot='areyousure sudo reboot'
 
 alias eduroam='sudo wpa_supplicant -Dwext -iwlp2s0 -c /home/agil/.cat_installer/cat_installer.conf'
 
