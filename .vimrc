@@ -210,7 +210,7 @@
 " wdr / wdu   : WimDff refresh (:diffupdate)
 " wds         : :Git in new tab, options D: diff, -: add/reset, X: checkout/clean, cc/ca: commit/amend, r: reload
 " wdc         : git Commit in new tab (:Gstatus and cc)
-" wdb         : git Blame in new tab (:Gblame)
+" wdb         : git Blame in new tab (:Git blame)
 " wdp         : git Push (:Gpush)
 " wdo         : git One (:Git log --oneline --graph)
 " wde         : Edit last repo version (:Gedit)
@@ -1170,7 +1170,7 @@ nnoremap  wda              :! vim -p $(git diff --name-only) -c "tabdo Gdiff" -c
 nnoremap  wdq              <C-w><Right>:bd<CR>:wq<CR>
 nmap      wds              :tabnew %<CR>:Git<CR>
 nmap      wdc              :tabnew %<CR>:Git<CR>cc
-nmap      wdb              :tabnew %<CR>:Gblame<CR>
+nmap      wdb              :tabnew %<CR>:Git blame<CR>
 nmap      wdp              :Gpush<CR>
 nmap      wde              :Gedit<CR>
 nmap      wdu              :diffupdate<CR>
