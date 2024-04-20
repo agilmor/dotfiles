@@ -529,6 +529,7 @@ au BufRead,BufNewFile *onstruct set filetype=python
 au BufRead,BufNewFile *.hpp     set filetype=cpp.doxygen
 au BufRead,BufNewFile *.test    set filetype=cpp.doxygen
 au BufRead,BufNewFile *.launch  set filetype=xml
+au BufRead,BufNewFile *.jenkins set filetype=Jenkinsfile
 
 "
 " FileType Configs
