@@ -392,6 +392,19 @@ tmux-slurm()
     tmux attach -t slurm-$SLURM_SETUP_VER
 }
 
+tmux-clean()
+{
+	sessions=`tmux list-sessions | awk -F ":" '{print $1}'`
+	for session in $sessions; do
+		if [ "$session" = "happy" ] || [ "$session" = "notes" ]; then
+			echo "Ignoring session ${session}..."
+			continue
+		fi
+		echo "Killing session ${session}..."
+		tmux kill-session -t $session
+	done
+}
+
 slurm-docker()
 {
 	if [ "$1" == "" ]; then
