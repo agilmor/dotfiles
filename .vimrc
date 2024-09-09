@@ -952,9 +952,13 @@ nnoremap cx                s
 nnoremap Cx                ~
 nnoremap CX                ~
 nmap     Cs                crs
+nmap     CS                crs
 nmap     Cc                crm
+nmap     CC                crm
 nmap     Cm                crc
+nmap     CM                crc
 nmap     Cu                cru
+nmap     CU                cru
 xnoremap C                 ~
 
 nmap     d<Insert>{        }dd{<Left>d<End>
