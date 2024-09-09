@@ -736,7 +736,7 @@ slurm-configure()
                                --enable-multiple-slurmd                           \
                                --with-hdf5                                        \
                                --with-pam_dir=$SLURM_LOCAL_DIR/lib/security       \
-                               --with-pmix=/usr/local/opt/openpmix-3.1.6
+                               --with-pmix=/opt/ompi
     cd -
 }
 
