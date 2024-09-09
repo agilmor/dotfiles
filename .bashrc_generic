@@ -447,9 +447,12 @@ slurm-atf()
 			rm -rf ${tmp_dir}
 		fi
 
+		if [ -z "${SLURM_CONFIG_VARIANT}" ]; then
+			SLURM_CONFIG_VARIANT="${SLURM_BASE_BRANCH}-cons_tres"
+		fi
 		echo "Launching new container: ${SLURM_BUG_ID}"
-		${SLURM_ATF_PATH}/bin/launch-testsuite -s ${SLURM_SLURM_DIR} -a ${SLURM_ATF_PATH} -vkn ${SLURM_BUG_ID} -j6
-	elif [ "$status" != "Running" ]; then
+		${SLURM_ATF_PATH}/bin/launch-testsuite -s ${SLURM_SLURM_DIR} -a ${SLURM_ATF_PATH} -vkn ${SLURM_BUG_ID} -j6 --config ${SLURM_CONFIG_VARIANT}
+	elif [ "${status,,}" != "running" ]; then
 		echo "Starting existing container: ${SLURM_BUG_ID} (${status})"
 		lxc start ${SLURM_BUG_ID}
 	fi
@@ -461,7 +464,27 @@ slurm-atf()
 	else
 		echo "Running command in container ${SLURM_BUG_ID} as user ${atf_user}: $cmd"
 	fi
-	lxc exec ${SLURM_BUG_ID} -- sudo su ${atf_user} --login --pty --command "cd ${slurm_repo_dir_atf}; export SLURM_TESTSUITE_CONF=/opt/slurm/etc/testsuite.conf; $cmd"
+	# Using testsuite dir to be able to run python tests easier
+	lxc exec ${SLURM_BUG_ID} -- sudo su ${atf_user} --login --pty --command "cd ${slurm_repo_dir_atf}/testsuite/python; export SLURM_TESTSUITE_CONF=/opt/slurm/etc/testsuite.conf; $cmd"
+}
+
+slurm-atf-sl()
+{
+	echo "Running launch-testsuite with --config select_linear..."
+	SLURM_CONFIG_VARIANT="${SLURM_BASE_BRANCH}-select_linear" slurm-atf $*
+}
+
+slurm-atf-clean()
+{
+	tmp_dir="/tmp/${SLURM_BUG_ID}"
+
+	lxc delete ${SLURM_BUG_ID} --force
+	rm -rf ${tmp_dir}
+}
+
+slurm-atf-test()
+{
+	slurm-atf atf ./run-tests-python --auto-config $*
 }
 
 slurm-build-makeprg()
@@ -628,6 +651,8 @@ slurm-setup()
 
     base_path=$HOME/workspace/slurm/$SLURM_SETUP_VER
     bug=`tmux display-message -p '#W'`
+
+	export SLURM_BASE_BRANCH=slurm-${SLURM_SETUP_VER:0:2}.${SLURM_SETUP_VER:2:2}
 
     export SLURM_LOCAL_DIR=${base_path}/local
     export SLURM_BUILD_DIR=${base_path}/build
