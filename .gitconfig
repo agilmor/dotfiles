@@ -2,7 +2,7 @@
 	email = albert.gil@happycomputing.cat
 	name = Albert Gil
 [format]
-	pretty = full
+	pretty = fuller
 [color]
 	status = auto
 	branch = auto
