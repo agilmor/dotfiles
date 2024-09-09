@@ -831,6 +831,36 @@ slurm-tail-d()
     sudo tail -n 300 -f $SLURM_LOCAL_DIR/var/log/slurmd-$1.log
 }
 
+
+run-until-fails()
+{
+	run-until-fails-usage() { echo "Usage: run-until-fails [-m max_iterations] command" 1>&2; exit; }
+
+	rc=0
+	iter=0
+	max_iter=10
+	local OPTIND opt
+
+	while getopts ":m:" opt; do
+        case "${opt}" in
+            m)
+                max_iter="${OPTARG}"
+                ;;
+            *)
+                run-until-fails-usage
+                ;;
+        esac
+    done
+    shift $((OPTIND-1))
+
+	while [ $rc == 0 ] && [ $iter -lt $max_iter ]; do
+		$*
+		rc=$?
+		iter=$((iter+1))
+		printf "\n${FUNCNAME[0]}: Iteration ${iter}/${max_iter} ($rc) ($*)\n\n"
+	done
+}
+
 if [ "$SLURM_SETUP_VER" != "" ]; then
     slurm-setup
 fi
