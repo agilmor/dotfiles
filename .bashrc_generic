@@ -506,16 +506,16 @@ slurm-build-makeprg()
 
 	if [ $use_container = true ]; then
 		echo "Building in a container"
-		make_launcher="slurm-atf slurm slurm-build-make"
+		make_launcher="slurm-atf slurm slurm-build-make $SLURM_SLURM_DIR /home/slurm/software/build"
 		# TODO: cscope
 	else
 		# No container
 		echo "Building in the host"
-		make_launcher="${SLURM_ATF_PATH}/bin/slurm-build-make"
+		make_launcher="${SLURM_ATF_PATH}/bin/slurm-build-make $SLURM_SLURM_DIR $SLURM_BUILD_DIR"
 	fi
 
 # 	bear --append -o ./compile_commands.json bash -ic "${make_launcher} $SLURM_SLURM_DIR"
-	bash -ic "${make_launcher} $SLURM_SLURM_DIR"
+	bash -ic "${make_launcher}"
 }
 
 slurm-docker-ubuntu-2010()
