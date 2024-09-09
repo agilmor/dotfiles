@@ -700,7 +700,7 @@
     </keybind>
     <keybind key="W-KP_0">
       <action name="MoveResizeTo">
-        <width client="no">70%</width>
+        <width client="no">60%</width>
         <height client="no">10%</height>
         <y>-0</y>
         <x>0</x>
@@ -711,7 +711,7 @@
     <keybind key="W-KP_Delete">
       <!-- Same as W-KP_Decimal -->
       <action name="MoveResizeTo">
-        <width client="no">30%</width>
+        <width client="no">40%</width>
         <height client="no">10%</height>
         <y>-0</y>
         <x>-0</x>
@@ -722,7 +722,7 @@
     <keybind key="W-KP_Decimal">
       <!-- Same as W-KP_Delete -->
       <action name="MoveResizeTo">
-        <width client="no">30%</width>
+        <width client="no">40%</width>
         <height client="no">10%</height>
         <y>-0</y>
         <x>-0</x>
@@ -743,7 +743,7 @@
     <keybind key="W-KP_2">
       <action name="MoveResizeTo">
         <width client="no">60%</width>
-        <height client="no">90%</height>
+        <height client="no">100%</height>
         <y>-10%</y>
         <x>0</x>
         <monitor>3</monitor>
