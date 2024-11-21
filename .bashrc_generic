@@ -431,6 +431,18 @@ slurm-docker()
                    /bin/bash
 }
 
+slurm-ver()
+{
+	if [ "$1" == "" ]; then
+		echo "usage: slurm-ver version command_to_run"
+	fi
+
+	ver=$1
+	cmd=${@:2}
+
+	SLURM_LOCAL_DIR=${SLURM_LOCAL_DIR}.${ver} $cmd
+}
+
 slurm-atf()
 {
 	atf_user=atf
