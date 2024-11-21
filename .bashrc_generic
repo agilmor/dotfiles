@@ -837,7 +837,7 @@ slurm-tail-d()
 
 run-until-fails()
 {
-	run-until-fails-usage() { echo "Usage: run-until-fails [-m max_iterations] command" 1>&2; exit; }
+	run-until-fails-usage() { echo "Usage: run-until-fails [-m max_iterations] command" 1>&2; return; }
 
 	rc=0
 	iter=0
@@ -851,6 +851,7 @@ run-until-fails()
                 ;;
             *)
                 run-until-fails-usage
+                return
                 ;;
         esac
     done
