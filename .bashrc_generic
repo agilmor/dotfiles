@@ -741,9 +741,10 @@ slurm-slurmd-stop()
 
 slurm-sacctmgr-config()
 {
-    cluster=`sacctmgr show cluster -nP format=cluster`
-    sacctmgr -i add Account acct Cluster=$cluster
-    sacctmgr -i add User $USER account=acct
+	sacctmgr=${SLURM_LOCAL_DIR}/bin/sacctmgr
+    cluster=`$sacctmgr show cluster -nP format=cluster`
+    $sacctmgr -i add Account acct Cluster=$cluster
+    $sacctmgr -i add User $USER account=acct
 }
 
 slurm-configure()
