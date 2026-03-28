@@ -30,3 +30,5 @@
 # 	rebase = preserve
 [http]
 	postBuffer = 157286400
+[diff]
+	algorithm = histogram
