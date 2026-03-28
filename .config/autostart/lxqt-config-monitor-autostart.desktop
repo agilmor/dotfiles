@@ -1,0 +1,24 @@
+[Desktop Entry]
+Hidden=true
+Exec=lxqt-config-monitor -l
+Name=Monitor Settings
+Name[ar]=إعدادات الشاشة
+Name[bg]=Настройки на монитора
+Name[cs]=Nastavení monitoru
+Name[de]=Bildschirmeinstellungen
+Name[et]=Ekraani seadistused
+Name[fi]=Näytön asetukset
+Name[he]=הגדרות תצוגה
+Name[hr]=Postavke monitora
+Name[it]=Impostazioni del monitor
+Name[kk]=Монитор баптаулары
+Name[ko]=모니터 설정
+Name[lg]=Enteekateeka za Lutimbe
+Name[lt]=Monitoriaus nustatymai
+Name[nl]=Beeldscherminstellingen
+Name[oc]=Paramètres monitor
+Name[ru]=Настройки монитора
+NoDisplay=true
+OnlyShowIn=LXQt;
+Type=Application
+Version=1.0
