@@ -704,6 +704,12 @@ slurm-setup()
 	fi
 
     source ${SLURM_SLURM_DIR}/contribs/slurm_completion_help/slurm_completion.sh
+
+    # SQA config
+    source ${SLURM_AUTOREGRESSION_PATH}/sqa/sqa-activate
+	export SQA_TESTSUITE_PATH="${base_path}/../5555/slurm"
+	export SQA_HOME=${HOME}
+	export SQA_NAME=$SLURM_BUG_ID
 }
 
 slurm-slurmd-start()
