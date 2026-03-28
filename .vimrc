@@ -1587,28 +1587,30 @@ if &t_Co > 2 || has("gui_running")
     set t_ut=''                                             " no conflict with tmux BackgroundColorErase
     set fillchars+=vert:\                                   " no | on vertical split bars
     colorscheme ron                                         " alternatives: koehler delek
+
+	highlight EndOfBuffer ctermbg=NONE guibg=NONE           " EndOfBuffer: below the EOF (with ~)
     highlight clear Search                                  " Search: matched results
-    highlight Search term=reverse cterm=reverse gui=reverse
+    highlight Search term=NONE cterm=reverse gui=reverse
     highlight clear IncSearch                               " IncSearch: while typing a search pattern
     highlight IncSearch term=bold ctermbg=4 guibg=slateblue
     highlight clear Todo                                    " Todo: Special hi
-    highlight Todo term=reverse cterm=reverse gui=reverse
+    highlight Todo term=NONE cterm=reverse gui=reverse
     highlight clear Pmenu                                   " Pmenu: used by Neocomplete/YouCompleteMe
-"    highlight Pmenu term=reverse cterm=reverse gui=reverse
+"    highlight Pmenu term=NONE cterm=reverse gui=reverse
     highlight Pmenu term=bold    ctermfg=LightGreen ctermbg=DarkGrey
     highlight clear MatchParen                              " MatchParen: surroundings
     highlight MatchParen term=underline cterm=underline gui=underline
 
 "    highlight CursorColumn
     highlight clear CursorLine
-    highlight CursorLine term=reverse ctermbg=242 guibg=Grey40
+    highlight CursorLine term=NONE ctermbg=242 guibg=Grey40
     highlight clear ColorColumn
-    highlight ColorColumn term=reverse ctermbg=242 guibg=Grey40
+    highlight ColorColumn term=NONE ctermbg=242 guibg=Grey40
 
     highlight clear YcmErrorSection                         " YcmErrorSection: errors detected by YCM
-    highlight YcmErrorSection term=reverse cterm=reverse gui=reverse
+    highlight YcmErrorSection term=NONE cterm=reverse gui=reverse
     highlight clear YcmWarningSection                       " YcmWarningSection: warnings detected by YCM
-    highlight YcmWarningSection term=reverse cterm=reverse gui=reverse
+    highlight YcmWarningSection term=NONE cterm=reverse gui=reverse
 
     " Diff windows (from http://stackoverflow.com/a/17183382/5349914)
     highlight DiffAdd         cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
@@ -1618,21 +1620,54 @@ if &t_Co > 2 || has("gui_running")
     highlight ExtraWhitespace ctermbg=Red
 
     " Status: White for non-focus, Green for focus, Red when inserting.
-    au InsertEnter * hi StatusLine  term=reverse ctermbg=Black ctermfg=Red
-    au InsertEnter * hi VertSplit   term=reverse ctermbg=Black ctermfg=Red
-    au InsertEnter * hi TabLineFill term=reverse ctermbg=Black ctermfg=Red
-    au InsertEnter * hi TabLineSel  term=reverse ctermbg=Black ctermfg=Red
-    au InsertEnter * hi Title       term=reverse ctermbg=Black ctermfg=Red
-    au InsertLeave * hi StatusLine  term=reverse ctermbg=Black ctermfg=Green
-    au InsertLeave * hi VertSplit   term=reverse ctermbg=Black ctermfg=White
-    au InsertLeave * hi TabLineFill term=reverse ctermbg=Black ctermfg=White
-    au InsertLeave * hi TabLineSel  term=reverse ctermbg=Black ctermfg=White
-    au InsertLeave * hi Title       term=reverse ctermbg=Black ctermfg=White
+    au InsertEnter * hi StatusLine  term=NONE ctermfg=Black ctermbg=Red
+    au InsertEnter * hi VertSplit   term=NONE ctermfg=Black ctermbg=Red
+    au InsertEnter * hi TabLineFill term=NONE ctermfg=Black ctermbg=Red
+    au InsertEnter * hi TabLineSel  term=NONE ctermfg=Black ctermbg=Red
+    au InsertEnter * hi Title       term=NONE ctermfg=Black ctermbg=Red
 
-    au BufEnter    * hi StatusLine  term=reverse ctermbg=Black ctermfg=Green
-    au BufLeave    * hi StatusLine  term=reverse ctermbg=Black ctermfg=White
-    au FocusGained * hi StatusLine  term=reverse ctermbg=Black ctermfg=Green
-    au FocusLost   * hi StatusLine  term=reverse ctermbg=Black ctermfg=White
+    au InsertLeave * hi StatusLine  term=NONE ctermfg=Black ctermbg=Green
+    au InsertLeave * hi VertSplit   term=NONE ctermfg=Black ctermbg=White
+    au InsertLeave * hi TabLineFill term=NONE ctermfg=Black ctermbg=White
+    au InsertLeave * hi TabLineSel  term=NONE ctermfg=Black ctermbg=White
+    au InsertLeave * hi Title       term=NONE ctermfg=Black ctermbg=White
+
+    au FocusGained * hi StatusLine  term=NONE ctermfg=Black ctermbg=Green
+    au FocusGained * hi VertSplit   term=NONE ctermfg=Black ctermbg=Green
+    au FocusGained * hi TabLineFill term=NONE ctermfg=Black ctermbg=Green
+    au FocusGained * hi TabLineSel  term=NONE ctermfg=Black ctermbg=Green
+    au FocusGained * hi Title       term=NONE ctermfg=Black ctermbg=Green
+
+    au FocusLost   * hi StatusLine  term=NONE ctermfg=Black ctermbg=White
+    au FocusLost   * hi VertSplit   term=NONE ctermfg=Black ctermbg=White
+    au FocusLost   * hi TabLineFill term=NONE ctermfg=Black ctermbg=White
+    au FocusLost   * hi TabLineSel  term=NONE ctermfg=Black ctermbg=White
+    au FocusLost   * hi Title       term=NONE ctermfg=Black ctermbg=White
+
+    au BufLeave    * hi StatusLine  term=NONE ctermfg=Black ctermbg=White
+    au BufLeave    * hi VertSplit   term=NONE ctermfg=Black ctermbg=White
+    au BufLeave    * hi TabLineFill term=NONE ctermfg=Black ctermbg=White
+    au BufLeave    * hi TabLineSel  term=NONE ctermfg=Black ctermbg=White
+    au BufLeave    * hi Title       term=NONE ctermfg=Black ctermbg=White
+
+    au FocusLost   * hi StatusLine  term=NONE ctermfg=Black ctermbg=White
+    au FocusLost   * hi VertSplit   term=NONE ctermfg=Black ctermbg=White
+    au FocusLost   * hi TabLineFill term=NONE ctermfg=Black ctermbg=White
+    au FocusLost   * hi TabLineSel  term=NONE ctermfg=Black ctermbg=White
+    au FocusLost   * hi Title       term=NONE ctermfg=Black ctermbg=White
+
+	au BufEnter    * hi StatusLine  term=NONE ctermfg=Black ctermbg=Green
+    au BufEnter    * hi VertSplit   term=NONE ctermfg=Black ctermbg=Green
+    au BufEnter    * hi TabLineFill term=NONE ctermfg=Black ctermbg=Green
+    au BufEnter    * hi TabLineSel  term=NONE ctermfg=Black ctermbg=Green
+    au BufEnter    * hi Title       term=NONE ctermfg=Black ctermbg=Green
+
+    hi VertSplit   term=NONE ctermfg=Black ctermbg=White
+    hi TabLineFill term=NONE ctermfg=Black ctermbg=White
+    hi TabLineSel  term=NONE ctermfg=Black ctermbg=White
+    hi Title       term=NONE ctermfg=Black ctermbg=White
+
+	hi StatusLineNC term=NONE ctermfg=Black ctermbg=White
 
     hi link EasyMotionTarget        EasyMotionIncSearchDefault
 "    hi link EasyMotionShade         Comment
