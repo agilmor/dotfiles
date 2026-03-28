@@ -170,7 +170,7 @@ function report_errcode()
 
 function report_location()
 {
-    if [ -z "$DOCKER" ] && [ -z "$SINGULARITY_NAME" ]; then
+    if [ -z "$DOCKER" ] && [ -z "$SINGULARITY_NAME" ] && [ -z "$container" ]; then
         if [ "$UID" == 0 ]; then
             echo -ne "\[$RED\]\u@\h\[$NC\]:\[$BLUE\]\w\[$NC\]"
         else
