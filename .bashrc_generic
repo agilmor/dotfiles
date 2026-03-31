@@ -635,6 +635,7 @@ tmux-slurm-bug()
     tmux select-layout "42c3,274x70,0,0{161x70,0,0[161x61,0,0,288,161x8,0,62,289],112x70,162,0[112x30,162,0,290,112x30,162,31,292,112x8,162,62,291]}"
     tmux select-pane -t 1
 
+    sleep 1
     tmux send-keys -t 1 "#vim --servername bug-$bug-$SLURM_SETUP_VER" Enter
     tmux send-keys -t 1 "vim testsuite/README" Enter ":OpenSession bug-$bug-$SLURM_SETUP_VER" Tab Enter ":SaveSession bug-$bug-$SLURM_SETUP_VER" Tab Enter
 
