@@ -172,9 +172,9 @@ function report_location()
 {
     if [ -z "$DOCKER" ] && [ -z "$SINGULARITY_NAME" ] && [ -z "$container" ]; then
         if [ "$UID" == 0 ]; then
-            echo -ne "\[$RED\]\u@\h\[$NC\]:\[$BLUE\]\w\[$NC\]"
+            echo -ne "\[$RED\]\u@\h\[$NC\]:\[$CYAN\]\w\[$NC\]"
         else
-            echo -ne "\[$GREEN\]\u@\h\[$NC\]:\[$BLUE\]\w\[$NC\]"
+            echo -ne "\[$GREEN\]\u@\h\[$NC\]:\[$CYAN\]\w\[$NC\]"
         fi
     else
         echo -ne "\[$YELLOW\]\u@\h\[$NC\]:\[$MAGENTA\]\w\[$NC\]"
