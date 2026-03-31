@@ -381,17 +381,37 @@ tmux-slurm()
         export SLURM_SETUP_VER=$1
     fi
 
-	if [ "$2" != "" ]; then
-		BUG_NUM="bug=$2"
-	fi
+    local SESSION=slurm-$SLURM_SETUP_VER
 
-#     tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
-#     tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER
-#     tmux attach -t slurm-$SLURM_SETUP_VER
-#     tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER || tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $SLURM_SETUP_VER
-    tmuxinator start slurm -n slurm-$SLURM_SETUP_VER $BUG_NUM $SLURM_SETUP_VER
-    tmux set-environment -t slurm-$SLURM_SETUP_VER SLURM_SETUP_VER $SLURM_SETUP_VER
-    tmux attach -t slurm-$SLURM_SETUP_VER
+    local SLURM_QA_PATH="$HOME/workspace/slurm/gits/jenkins-software/auto-regressions-git"
+    local SLURM_SLURM_DIR="$HOME/workspace/slurm/$SLURM_SETUP_VER/slurm"
+    local SLURM_SQA_BUG_PATH="$HOME/workspace/slurm/bugs/sqa"
+
+    if ! tmux has-session -t "$SESSION" 2>/dev/null; then
+        mkdir -p "$SLURM_SLURM_DIR/testsuite/python"
+        mkdir -p "$SLURM_SQA_BUG_PATH"
+
+        tmux new-session -d -s "$SESSION" -n "sqa" -c "$SLURM_QA_PATH" -x 274 -y 70
+        tmux set-environment -t "$SESSION" SLURM_SETUP_VER $SLURM_SETUP_VER
+
+        local WIN="$SESSION:sqa"
+
+        tmux split-window -t "$WIN" -c "$SLURM_QA_PATH"
+        tmux split-window -t "$WIN" -c "$SLURM_SLURM_DIR/testsuite/python"
+        tmux split-window -t "$WIN" -c "$SLURM_SLURM_DIR/testsuite/python"
+        tmux split-window -t "$WIN" -c "$SLURM_SQA_BUG_PATH"
+        tmux select-layout -t "$WIN" "42c3,274x70,0,0{161x70,0,0[161x61,0,0,288,161x8,0,62,289],112x70,162,0[112x30,162,0,290,112x30,162,31,292,112x8,162,62,291]}"
+        tmux select-pane -t "$WIN.1"
+
+        sleep 1
+        tmux send-keys -t "$WIN.1" "vim" Enter ":OpenSession sqa-$SLURM_SETUP_VER" Tab Enter ":SaveSession sqa-$SLURM_SETUP_VER" Tab Enter
+
+        tmux send-keys -t "$WIN.2" "git status -uno" Enter
+
+        tmux link-window -s notes:notes -t "$SESSION"
+    fi
+
+    tmux attach -t "$SESSION"
 }
 
 tmux-clean()
@@ -674,7 +694,7 @@ tmux-slurm-issue()
 
     tmux send-keys -t "$WIN.2" "git status -uno" Enter
 
-    tmux send-keys -t "$WIN.3" "cd testsuite/expect" Enter
+    tmux send-keys -t "$WIN.3" "cd testsuite/python" Enter
     tmux send-keys -t "$WIN.4" "cd testsuite/python" Enter
 
     tmux send-keys -t "$WIN.5" "cd $SLURM_BUG_PATH" Enter
@@ -712,7 +732,7 @@ slurm-setup()
     export SLURM_LOCAL_GLOBALS_FILE=${SLURM_LOCAL_DIR}/etc/globals.local
     export SLURM_TESTSUITE_CONF=${SLURM_LOCAL_DIR}/etc/testsuite.conf
 	export SLURM_ATF_PATH="$HOME/workspace/slurm/atf"
-	export SLURM_AUTOREGRESSION_PATH="$HOME/workspace/slurm/gits/jenkins-software/auto-regressions-git"
+	export SLURM_QA_PATH="$HOME/workspace/slurm/gits/jenkins-software/auto-regressions-git"
 
     export    PATH=${SLURM_LOCAL_DIR}/bin:$PATH
     export    PATH=${SLURM_LOCAL_DIR}/sbin:$PATH
@@ -740,10 +760,11 @@ slurm-setup()
     source ${SLURM_SLURM_DIR}/contribs/slurm_completion_help/slurm_completion.sh
 
     # SQA config
-    source ${SLURM_AUTOREGRESSION_PATH}/sqa/sqa-activate
+    source ${SLURM_QA_PATH}/sqa/sqa-activate
 	export SQA_TESTSUITE_PATH="${base_path}/../5555/slurm"
 	export SQA_HOME=${HOME}
 	export SQA_NAME=$SLURM_BUG_ID
+	export SLURM_SQA_TMP=/tmp/$SLURM_BUG_ID
 }
 
 slurm-slurmd-start()
