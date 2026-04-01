@@ -1586,7 +1586,7 @@ if &t_Co > 2 || has("gui_running")
     set term=xterm-256color                                 " must be also set in tmux!
     set t_ut=''                                             " no conflict with tmux BackgroundColorErase
     set fillchars+=vert:\                                   " no | on vertical split bars
-    colorscheme ron                                         " alternatives: koehler delek
+"     colorscheme ron                                         " alternatives: koehler delek
 
 	highlight EndOfBuffer ctermbg=NONE guibg=NONE           " EndOfBuffer: below the EOF (with ~)
     highlight clear Search                                  " Search: matched results
@@ -1662,12 +1662,14 @@ if &t_Co > 2 || has("gui_running")
     au BufEnter    * hi TabLineSel  term=NONE ctermfg=Black ctermbg=Green
     au BufEnter    * hi Title       term=NONE ctermfg=Black ctermbg=Green
 
-    hi VertSplit   term=NONE ctermfg=Black ctermbg=White
-    hi TabLineFill term=NONE ctermfg=Black ctermbg=White
-    hi TabLineSel  term=NONE ctermfg=Black ctermbg=White
-    hi Title       term=NONE ctermfg=Black ctermbg=White
+    hi VertSplit   term=NONE cterm=NONE ctermfg=Black ctermbg=White
+    hi TabLineFill term=NONE cterm=NONE ctermfg=Black ctermbg=White
+    hi TabLineSel  term=NONE cterm=NONE ctermfg=Black ctermbg=White
+    hi Title       term=NONE cterm=NONE ctermfg=Black ctermbg=White
 
-	hi StatusLineNC term=NONE ctermfg=Black ctermbg=White
+
+	hi StatusLine   term=NONE cterm=NONE ctermfg=Black ctermbg=White
+	hi StatusLineNC term=NONE cterm=NONE ctermfg=Black ctermbg=White
 
     hi link EasyMotionTarget        EasyMotionIncSearchDefault
 "    hi link EasyMotionShade         Comment
