@@ -1081,7 +1081,7 @@ nmap      sy               :Yanks<CR>
 noremap   sprj             :e ./.vimprj<CR>
 noremap   sdoc             :e ./doc/wiki/Home.md<CR>
 noremap   swiki            :e ~/workspace/wiki/Home.md<CR>
-noremap   svim             :e ~/.dotfiles/.vimrc<CR>
+noremap   svim             :e ~/workspace/dotfiles/.vimrc<CR>
 nnoremap  s<Up>            <C-o>
 nnoremap  s<Down>          <C-i>
 nnoremap  s<Left>          g;
